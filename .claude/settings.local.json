@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(update-config)",
+      "WebSearch",
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(mkdir -p xgencode-annotator xgencode-round1-reviewer xgencode-round2-reviewer)",
+      "Bash(cp xgencode-annotator.md xgencode-annotator/SKILL.md)",
+      "Bash(cp xgencode-round1-reviewer.md xgencode-round1-reviewer/SKILL.md)",
+      "Bash(cp xgencode-round2-reviewer.md xgencode-round2-reviewer/SKILL.md)"
+    ]
+  }
+}

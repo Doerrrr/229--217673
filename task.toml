@@ -1,0 +1,20 @@
+[task]
+version = "1.0"
+
+[agent]
+timeout_sec = 900          # agent 解题的时间限制（秒），难题建议 900-1200
+
+[environment]
+timeout_sec = 900
+build_timeout_sec = 600
+cpus = 1
+memory_mb = 4096
+storage_mb = 10240
+
+[verifier]
+timeout_sec = 300
+
+[metadata]
+difficulty = "hard"        # easy / medium / hard
+category = "physics-coding"
+tags = ["physics", "quantum-mechanics", "python", "pde"]
