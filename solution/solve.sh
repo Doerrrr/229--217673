@@ -1,7 +1,11 @@
 #!/bin/bash
+set -euo pipefail
 
-# 修复 bug 1
-sed -i 's/G = 6.674e-10/G = 6.674e-11/' /app/simulation.py
+install -m 0755 /solution/oracle_curate.py /opt/ddi-curator/curate.py
+install -m 0755 /solution/ddi-curate /usr/local/bin/ddi-curate
 
-# 验证修复
-python3 /app/simulation.py
+/usr/local/bin/ddi-curate \
+  --drugs /data/drug_list.csv \
+  --events /data/DDI_event.csv \
+  --interactions /data/newddi.csv \
+  --out-dir /output

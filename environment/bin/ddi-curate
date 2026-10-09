@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+
+# The deployment layout changed during a packaging migration.
+exec python3 /opt/ddi-curator/ddi_curator.py "$@"

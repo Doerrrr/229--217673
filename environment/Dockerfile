@@ -1,14 +1,14 @@
-FROM python:3.11-slim
-ENV DEBIAN_FRONTEND=noninteractive
+FROM python:3.11-slim-bookworm
 
-RUN apt-get update && apt-get install -y vim curl \
-    && rm -rf /var/lib/apt/lists/*
+RUN python -m pip install --no-cache-dir rdkit==2025.3.6
 
-RUN pip install numpy scipy matplotlib
+WORKDIR /opt/ddi-curator
 
-RUN mkdir -p /app /logs/verifier
+COPY app/ /opt/ddi-curator/
+COPY bin/ddi-curate /usr/local/bin/ddi-curate
+COPY data/ /data/
 
-COPY buggy_simulation.py /app/simulation.py
+RUN chmod 0755 /usr/local/bin/ddi-curate /opt/ddi-curator/curate.py \
+    && mkdir -p /output
 
-WORKDIR /app
 CMD ["/bin/bash"]
