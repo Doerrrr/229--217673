@@ -16,10 +16,10 @@ Do not modify the source files in `/data`.
 
 ## Input contracts
 
-- `drug_list.csv` is UTF-8 CSV **without a header**. Each non-blank row is `drug_id,SMILES`.
-- `DDI_event.csv` is UTF-8 CSV **without a header**. Each non-blank row is `event_type,description`, where `event_type` is a non-negative integer.
-- `newddi.csv` is UTF-8 CSV with the header `d1,type,d2`.
-- Surrounding whitespace in fields is insignificant. Blank physical rows are ignored.
+- `drug_list.csv` is UTF-8 CSV **without a header**. Each non-blank row has exactly two non-empty fields, `drug_id,SMILES`. A row with the wrong number of fields or an empty field is `malformed`; a structurally valid row whose SMILES RDKit cannot parse and sanitize is `invalid_smiles`.
+- `DDI_event.csv` is UTF-8 CSV **without a header**. Each non-blank row has exactly two fields, `event_type,description`. A wrong field count is `malformed`; a type that is not one or more ASCII decimal digits (`0`–`9`) is `invalid_type`; a valid type with an empty description is `empty_description`. Convert valid types to non-negative base-10 integers, so `01` and `1` denote the same type.
+- `newddi.csv` is UTF-8 CSV with the header `d1,type,d2`. Each non-blank data row must have exactly three fields, non-empty `d1` and `d2`, and a `type` consisting of one or more ASCII decimal digits. A row failing any of these structural checks is `malformed`, before any drug or event lookup. Convert valid types to non-negative base-10 integers; an integer absent from the event dictionary is `unknown_type`.
+- Surrounding whitespace in fields is insignificant. Blank physical rows are ignored. Report line numbers refer to the 1-based last physical line occupied by the corresponding CSV record.
 - DDI records are directed. `(A, 7, B)` and `(B, 7, A)` are different records.
 
 ## Drug curation
@@ -118,4 +118,4 @@ Each invalid row entry must contain the 1-based physical `line`, the available i
 
 The SHA-256 values are lowercase hexadecimal digests of the exact bytes written to the two CSV files.
 
-The command must be deterministic and safe to rerun. Validate all input contracts before replacing existing output files. On a missing input or fatal CSV/header error, print a concise message to stderr, exit non-zero, and leave any existing output files unchanged.
+The command must be deterministic and safe to rerun. Validate all input contracts before replacing existing output files. On a missing input or fatal CSV syntax/header error (for example, an unterminated quoted field), print a concise message to stderr, exit non-zero, and leave any existing output files unchanged.

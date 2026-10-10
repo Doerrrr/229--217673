@@ -92,7 +92,7 @@ def gate_artifacts():
 
 
 # type: normal
-# weight: 0.10
+# weight: 0.05
 # maps_to: declared CSV dialects and required output schema
 # failure_effect: normal deduction
 # reason: basic parsing is necessary, but the harder domain rules carry more weight.
@@ -103,8 +103,8 @@ def check_basic_parsing():
         make_inputs(
             root,
             "\n A , CCO \nB,CC\n",
-            "\n 0 , changes exposure \n",
-            "\nd1, type, d2\n A ,0, B \n",
+            "\n 00 , changes exposure \n",
+            "\nd1, type, d2\n A ,00, B \n",
         )
         result = run_curator(root, out)
         require(result.returncode == 0, result.stderr)
@@ -120,6 +120,52 @@ def check_basic_parsing():
         )
         report = load_report(out)
         require(report["input"] == {"drug_rows": 2, "event_rows": 1, "interaction_rows": 1}, "input counts are incorrect")
+
+
+# type: normal
+# weight: 0.05
+# maps_to: malformed dictionary rows, physical line numbers and stable reasons
+# failure_effect: normal deduction
+# reason: rejected source rows must remain auditable without invalidating sound IDs.
+def check_malformed_reporting():
+    with tempfile.TemporaryDirectory() as temporary:
+        root = Path(temporary)
+        out = root / "out"
+        make_inputs(
+            root,
+            "\nA,CCO\n,CC\nB\nC,CC,extra\nD,not-smiles\nE,CC\n",
+            "\n0,zero\nbad,bad type\n1,\n2,two,extra\n3,three\n",
+            "d1,type,d2\nA,0,E\n",
+        )
+        result = run_curator(root, out)
+        require(result.returncode == 0, result.stderr)
+        report = load_report(out)
+        require(
+            report["input"] == {"drug_rows": 6, "event_rows": 5, "interaction_rows": 1},
+            "blank physical lines or row counts were handled incorrectly",
+        )
+        require(
+            report["drugs"]["invalid_rows"]
+            == [
+                {"line": 3, "drug_id": "", "reason": "malformed"},
+                {"line": 4, "drug_id": "B", "reason": "malformed"},
+                {"line": 5, "drug_id": "C", "reason": "malformed"},
+                {"line": 6, "drug_id": "D", "reason": "invalid_smiles"},
+            ],
+            "drug invalid-row evidence is incorrect",
+        )
+        require(report["drugs"]["invalid_only_ids"] == ["B", "C", "D"], "invalid-only drug IDs are incorrect")
+        require(report["drugs"]["valid_ids"] == 2, "malformed rows contaminated the valid drug set")
+        require(
+            report["events"]["invalid_rows"]
+            == [
+                {"line": 3, "event_type": "bad", "reason": "invalid_type"},
+                {"line": 4, "event_type": "1", "reason": "empty_description"},
+                {"line": 5, "event_type": "2", "reason": "malformed"},
+            ],
+            "event invalid-row evidence is incorrect",
+        )
+        require(report["events"]["valid_types"] == 2, "malformed events contaminated the valid type set")
 
 
 # type: core
@@ -218,9 +264,16 @@ def check_directed_filtering():
         out = root / "out"
         make_inputs(
             root,
-            "A,CCO\nA2,OCC\nB,CC\nC,CCC\nD,not-smiles\n",
-            "0,changes exposure\n",
-            "d1,type,d2\nA,0,B\nB,0,A\nA2,0,B\nA,0,A2\nC,0,C\nZ,0,B\nD,0,B\nA,9,B\nA,x,B\n",
+            "A,CCO\nA2,OCC\nB,CC\nC,CCC\nD,not-smiles\nQ,CCN\nQ,CCCC\n",
+            "0,changes exposure\n1,first meaning\n1,other meaning\n",
+            (
+                "d1,type,d2\n"
+                "A,0,B\nB,0,A\nA2,0,B\n"
+                "A,0,A2\nA2,0,A\nC,0,C\nA,0,A\n"
+                "Z,0,B\nZ,9,B\nD,0,B\nD,9,B\n"
+                "A,9,B\nA,x,B\nZ,x,B\nA,-1,B\nA,0,\nA,٣,B\n"
+                "Q,9,B\nQ,1,B\nQ,0,D\nA,1,A\nA,1,B\n"
+            ),
         )
         result = run_curator(root, out)
         require(result.returncode == 0, result.stderr)
@@ -232,16 +285,20 @@ def check_directed_filtering():
             ],
             "directed interactions were collapsed or sorted incorrectly",
         )
-        dropped = load_report(out)["interactions"]["dropped"]
+        report = load_report(out)
+        require(report["input"]["interaction_rows"] == 22, "interaction row count is incorrect")
+        require(report["drugs"]["conflicting_ids"] == ["Q"], "conflicting drug fixture did not apply")
+        require(report["events"]["conflicting_types"] == [1], "conflicting event fixture did not apply")
+        dropped = report["interactions"]["dropped"]
         expected = {
-            "malformed": 1,
-            "missing_drug": 1,
-            "conflicting_drug": 0,
-            "invalid_drug": 1,
+            "malformed": 5,
+            "missing_drug": 2,
+            "conflicting_drug": 3,
+            "invalid_drug": 2,
             "unknown_type": 1,
-            "conflicting_type": 0,
-            "self_interaction": 1,
-            "alias_self_interaction": 1,
+            "conflicting_type": 2,
+            "self_interaction": 2,
+            "alias_self_interaction": 2,
             "duplicate": 1,
         }
         require(dropped == expected, f"rejection precedence/counts differ: {dropped}")
@@ -259,13 +316,33 @@ def check_determinism_and_hashes():
         second = base / "second"
         first.mkdir()
         second.mkdir()
-        make_inputs(first, "B,CC\nA,CCO\nC,CCC\n", "2,two\n0,zero\n", "d1,type,d2\nC,2,A\nA,0,B\n")
-        make_inputs(second, "C,CCC\nA,CCO\nB,CC\n", "0,zero\n2,two\n", "d1,type,d2\nA,0,B\nC,2,A\n")
+        make_inputs(
+            first,
+            "B,CC\nA,CCO\nC,CCC\n",
+            "10,ten\n2,two\n0,zero\n",
+            "d1,type,d2\nB,10,A\nC,2,A\nA,0,B\nB,2,A\n",
+        )
+        make_inputs(
+            second,
+            "C,CCC\nA,CCO\nB,CC\n",
+            "0,zero\n2,two\n10,ten\n",
+            "d1,type,d2\nA,0,B\nB,2,A\nB,10,A\nC,2,A\n",
+        )
         out1, out2 = first / "out", second / "out"
         require(run_curator(first, out1).returncode == 0, "first deterministic run failed")
         require(run_curator(second, out2).returncode == 0, "second deterministic run failed")
         for name in ("drugs_clean.csv", "interactions_clean.csv"):
-            require((out1 / name).read_bytes() == (out2 / name).read_bytes(), f"{name} depends on input row order")
+            data = (out1 / name).read_bytes()
+            require(data == (out2 / name).read_bytes(), f"{name} depends on input row order")
+            require(data.endswith(b"\n") and b"\r" not in data, f"{name} is not LF-terminated")
+        require(
+            (out1 / "interactions_clean.csv").read_bytes()
+            == b"d1,type,d2\nA,0,B\nB,2,A\nB,10,A\nC,2,A\n",
+            "interactions are not sorted by ID and numeric event type",
+        )
+        report_bytes = (out1 / "report.json").read_bytes()
+        require(report_bytes == (out2 / "report.json").read_bytes(), "report depends on input row order")
+        require(report_bytes.endswith(b"\n") and b"\r" not in report_bytes, "report is not LF-terminated")
         report = load_report(out1)
         require(report["files"]["drugs_clean.csv"]["sha256"] == sha256(out1 / "drugs_clean.csv"), "drug output hash is wrong")
         require(report["files"]["interactions_clean.csv"]["sha256"] == sha256(out1 / "interactions_clean.csv"), "interaction output hash is wrong")
@@ -301,6 +378,14 @@ def check_failure_no_clobber():
         for name, data in sentinels.items():
             require((out / name).read_bytes() == data, f"{name} was clobbered after missing input")
 
+        write_text(root / "DDI_event.csv", "0,zero\n")
+        write_text(root / "newddi.csv", 'd1,type,d2\n"A,0,B\n')
+        result = run_curator(root, out)
+        require(result.returncode != 0, "fatal CSV syntax error returned success")
+        require("ERROR:" in result.stderr, "fatal CSV syntax error was not reported on stderr")
+        for name, data in sentinels.items():
+            require((out / name).read_bytes() == data, f"{name} was clobbered after invalid CSV")
+
 
 # type: boundary
 # weight: 0.05
@@ -331,14 +416,26 @@ def check_real_dataset_smoke():
         require(result.returncode == 0, result.stderr)
         report = load_report(out)
         require(report["input"] == {"drug_rows": 1700, "event_rows": 86, "interaction_rows": 191570}, "real input counts changed")
+        require(report["drugs"]["valid_ids"] == 1700 and report["drugs"]["unique_molecules"] == 1700, "real drug counts are wrong")
+        require(report["events"]["valid_types"] == 86, "real event count is wrong")
+        require(report["interactions"]["kept"] == 191570, "real interaction count is wrong")
         accounted = report["interactions"]["kept"] + sum(report["interactions"]["dropped"].values())
         require(accounted == 191570, "real interaction accounting is not conserved")
         require(report["files"]["drugs_clean.csv"]["sha256"] == sha256(out / "drugs_clean.csv"), "real drug hash mismatch")
         require(report["files"]["interactions_clean.csv"]["sha256"] == sha256(out / "interactions_clean.csv"), "real interaction hash mismatch")
+        require(
+            sha256(out / "drugs_clean.csv") == "688fa8cf824c06db44209b0a279fd72a9ba9d78f28001585de8c2a7aa933551f",
+            "real drug output differs from the pinned full-data result",
+        )
+        require(
+            sha256(out / "interactions_clean.csv") == "9c8e31e6fbc598939d61cfe74215d4b168eeb55a3d8d5b492d2573d51818f541",
+            "real interaction output differs from the pinned full-data result",
+        )
 
 
 CHECKS = [
-    ("basic_parsing", 0.10, check_basic_parsing),
+    ("basic_parsing", 0.05, check_basic_parsing),
+    ("malformed_reporting", 0.05, check_malformed_reporting),
     ("canonical_aliases", 0.20, check_canonical_aliases),
     ("drug_conflicts", 0.15, check_drug_conflicts),
     ("event_validation", 0.10, check_event_validation),

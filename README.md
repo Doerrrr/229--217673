@@ -12,7 +12,7 @@ This repository contains a bioinformatics coding task for Harbor 0.5.0. The agen
 
 ## Validation
 
-The GitHub Actions workflow runs Harbor 0.5.0 in a Linux Docker environment and checks both controls:
+Validate the task with Harbor 0.5.0 in a Linux Docker environment and check both controls:
 
 ```bash
 uvx --python 3.12 --from harbor==0.5.0 harbor trials start -p . -a oracle

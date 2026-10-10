@@ -106,7 +106,7 @@ def load_drugs(path: Path):
 
 def parse_event_type(value: str):
     value = value.strip()
-    if not value or not value.isdigit():
+    if not value or not value.isascii() or not value.isdigit():
         return None
     return int(value)
 
