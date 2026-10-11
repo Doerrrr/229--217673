@@ -1,12 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
-install -m 0755 /solution/oracle_release.py /opt/ddi-release/release.py
-install -m 0644 /solution/screen_optimizer.py /opt/ddi-release/screen_optimizer.py
+install -m 0755 /solution/oracle_curate.py /opt/ddi-curator/curate.py
+install -m 0755 /solution/ddi-curate /usr/local/bin/ddi-curate
 
-/usr/local/bin/ddi-release \
+/usr/local/bin/ddi-curate \
   --drugs /data/drug_list.csv \
   --events /data/DDI_event.csv \
   --interactions /data/newddi.csv \
-  --screen-plan /data/screen_plan.json \
+  --drug-changes /data/drug_changes.csv \
+  --event-changes /data/event_changes.csv \
+  --interaction-changes /data/interaction_changes.csv \
   --out-dir /output

@@ -1,14 +1,14 @@
 FROM python:3.11-slim-bookworm
 
-RUN python -m pip install --no-cache-dir rdkit==2025.3.6 ortools==9.14.6206 scipy==1.15.3
+RUN python -m pip install --no-cache-dir rdkit==2025.3.6
 
-WORKDIR /opt/ddi-release
+WORKDIR /opt/ddi-curator
 
-COPY app/release.py /opt/ddi-release/release.py
-COPY bin/ddi-release /usr/local/bin/ddi-release
+COPY app/ /opt/ddi-curator/
+COPY bin/ddi-curate /usr/local/bin/ddi-curate
 COPY data/ /data/
 
-RUN chmod 0755 /usr/local/bin/ddi-release /opt/ddi-release/release.py \
+RUN chmod 0755 /usr/local/bin/ddi-curate /opt/ddi-curator/curate.py \
     && mkdir -p /output
 
 CMD ["/bin/bash"]
