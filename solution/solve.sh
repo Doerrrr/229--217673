@@ -11,4 +11,5 @@ install -m 0755 /solution/ddi-curate /usr/local/bin/ddi-curate
   --drug-changes /data/drug_changes.csv \
   --event-changes /data/event_changes.csv \
   --interaction-changes /data/interaction_changes.csv \
+  --withdrawals /data/withdrawals.csv \
   --out-dir /output

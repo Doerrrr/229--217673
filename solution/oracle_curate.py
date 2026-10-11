@@ -33,7 +33,7 @@ def nonblank_rows(path: Path):
         try:
             reader = csv.reader(handle, strict=True)
             for row in reader:
-                if not row or all(not field.strip() for field in row):
+                if not row or (len(row) == 1 and not row[0].strip()):
                     continue
                 yield reader.line_num, [field.strip() for field in row]
         except csv.Error as exc:
@@ -289,28 +289,77 @@ def read_changes(path: Path, header: list[str], operations: set[str]):
     return changes
 
 
-def apply_dictionary_changes(records, changes, kind):
+def read_withdrawals(path: Path, drug_changes, event_changes, interaction_changes):
+    records = iter(nonblank_rows(path))
+    try:
+        _, header = next(records)
+    except StopIteration as exc:
+        raise CuratorError(f"missing withdrawal header in {path}") from exc
+    if header != ["feed", "seq"]:
+        raise CuratorError(f"invalid withdrawal header in {path}; expected feed,seq")
+    available = {
+        (feed, parse_event_type(row[0]))
+        for feed, changes in (
+            ("drug", drug_changes),
+            ("event", event_changes),
+            ("interaction", interaction_changes),
+        )
+        for _, row in changes
+    }
+    withdrawn = set()
+    for line, row in records:
+        if len(row) != 2:
+            raise CuratorError(f"invalid withdrawal field count in {path}:{line}")
+        feed, raw_seq = row
+        seq = parse_event_type(raw_seq)
+        if feed not in {"drug", "event", "interaction"} or seq is None or seq <= 0:
+            raise CuratorError(f"invalid withdrawal key in {path}:{line}")
+        key = (feed, seq)
+        if key not in available or key in withdrawn:
+            raise CuratorError(f"unknown or duplicate withdrawal in {path}:{line}")
+        withdrawn.add(key)
+    return withdrawn
+
+
+def apply_dictionary_changes(records, changes, kind, withdrawn):
     result = list(records)
+    audit = []
     for line, row in changes:
-        _, operation, key, value = row
+        raw_seq, operation, key, value = row
+        seq = parse_event_type(raw_seq)
+        if (kind, seq) in withdrawn:
+            audit.append((kind, seq, "WITHDRAWN", 0, 0))
+            continue
         if kind == "drug":
             matches = lambda candidate: bool(candidate) and candidate[0] == key
         else:
             matches = lambda candidate: bool(candidate) and parse_event_type(candidate[0]) == int(key)
+        before = len(result)
         result = [(old_line, old_row) for old_line, old_row in result if not matches(old_row)]
+        removed = before - len(result)
+        added = 0
         if operation == "UPSERT":
             result.append((line, [key, value]))
-    return result
+            added = 1
+        audit.append((kind, seq, "APPLIED", removed, added))
+    return result, audit
 
 
-def apply_interaction_changes(records, changes):
+def apply_interaction_changes(records, changes, withdrawn):
     result = list(records)
+    audit = []
     for line, row in changes:
-        _, operation, d1, raw_type, d2 = row
+        raw_seq, operation, d1, raw_type, d2 = row
+        seq = parse_event_type(raw_seq)
+        if ("interaction", seq) in withdrawn:
+            audit.append(("interaction", seq, "WITHDRAWN", 0, 0))
+            continue
         key = (d1, int(raw_type), d2)
         if operation == "ADD":
             result.append((line, [d1, raw_type, d2]))
+            audit.append(("interaction", seq, "APPLIED", 0, 1))
         else:
+            before = len(result)
             result = [
                 (old_line, old_row)
                 for old_line, old_row in result
@@ -321,7 +370,8 @@ def apply_interaction_changes(records, changes):
                     and old_row[2] == key[2]
                 )
             ]
-    return result
+            audit.append(("interaction", seq, "APPLIED", before - len(result), 0))
+    return result, audit
 
 
 def curate_snapshot(drug_records, event_records, interaction_records):
@@ -369,7 +419,8 @@ def curate(args):
     drug_change_path = Path(args.drug_changes)
     event_change_path = Path(args.event_changes)
     interaction_change_path = Path(args.interaction_changes)
-    for path in (drug_path, event_path, interaction_path, drug_change_path, event_change_path, interaction_change_path):
+    withdrawal_path = Path(args.withdrawals)
+    for path in (drug_path, event_path, interaction_path, drug_change_path, event_change_path, interaction_change_path, withdrawal_path):
         if not path.is_file():
             raise CuratorError(f"missing input file: {path}")
 
@@ -379,13 +430,15 @@ def curate(args):
     drug_changes = read_changes(drug_change_path, ["seq", "op", "drug_id", "SMILES"], {"UPSERT", "DELETE"})
     event_changes = read_changes(event_change_path, ["seq", "op", "event_type", "description"], {"UPSERT", "DELETE"})
     interaction_changes = read_changes(interaction_change_path, ["seq", "op", "d1", "type", "d2"], {"ADD", "DELETE"})
+    withdrawn = read_withdrawals(withdrawal_path, drug_changes, event_changes, interaction_changes)
 
     input_counts, baseline_drugs, baseline_interactions, _, _, _ = curate_snapshot(
         drug_records, event_records, interaction_records
     )
-    final_drug_records = apply_dictionary_changes(drug_records, drug_changes, "drug")
-    final_event_records = apply_dictionary_changes(event_records, event_changes, "event")
-    final_interaction_records = apply_interaction_changes(interaction_records, interaction_changes)
+    final_drug_records, drug_audit = apply_dictionary_changes(drug_records, drug_changes, "drug", withdrawn)
+    final_event_records, event_audit = apply_dictionary_changes(event_records, event_changes, "event", withdrawn)
+    final_interaction_records, interaction_audit = apply_interaction_changes(interaction_records, interaction_changes, withdrawn)
+    audit_rows = drug_audit + event_audit + interaction_audit
     final_counts, clean_drugs, clean_interactions, drug_report, event_report, interaction_report = curate_snapshot(
         final_drug_records, final_event_records, final_interaction_records
     )
@@ -407,6 +460,7 @@ def curate(args):
         ("d1", "type", "d2"), clean_interactions
     )
     delta_bytes = render_csv(("action", "d1", "type", "d2"), delta_rows)
+    audit_bytes = render_csv(("feed", "seq", "state", "removed_raw", "added_raw"), audit_rows)
     report = {
         "input": input_counts,
         "final_input": final_counts,
@@ -414,6 +468,8 @@ def curate(args):
             "drug_rows": len(drug_changes),
             "event_rows": len(event_changes),
             "interaction_rows": len(interaction_changes),
+            "applied_rows": len(audit_rows) - len(withdrawn),
+            "withdrawn_rows": len(withdrawn),
             "delta_added": len(added_keys),
             "delta_removed": len(removed_keys),
         },
@@ -424,6 +480,7 @@ def curate(args):
             "drugs_clean.csv": {"sha256": sha256(drugs_bytes)},
             "interactions_clean.csv": {"sha256": sha256(interactions_bytes)},
             "interaction_delta.csv": {"sha256": sha256(delta_bytes)},
+            "release_audit.csv": {"sha256": sha256(audit_bytes)},
         },
     }
     report_bytes = (
@@ -434,6 +491,7 @@ def curate(args):
     atomic_write(output / "drugs_clean.csv", drugs_bytes)
     atomic_write(output / "interactions_clean.csv", interactions_bytes)
     atomic_write(output / "interaction_delta.csv", delta_bytes)
+    atomic_write(output / "release_audit.csv", audit_bytes)
     atomic_write(output / "report.json", report_bytes)
 
 
@@ -445,6 +503,7 @@ def main():
     parser.add_argument("--drug-changes", required=True)
     parser.add_argument("--event-changes", required=True)
     parser.add_argument("--interaction-changes", required=True)
+    parser.add_argument("--withdrawals", required=True)
     parser.add_argument("--out-dir", required=True)
     args = parser.parse_args()
     try:

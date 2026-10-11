@@ -1,6 +1,6 @@
 # DDI curation repair task
 
-This repository contains a bioinformatics coding task for Harbor 0.5.0. The agent repairs a broken drug-drug interaction (DDI) curation command. The supplied inputs are drug structures, event descriptions, directed interactions, and three ordered change feeds from an existing research workspace. The task requires RDKit-based molecular identity, conflict quarantine, incremental replay, directed deduplication, a semantic interaction delta, deterministic output, and a failure-safe report.
+This repository contains a bioinformatics coding task for Harbor 0.5.0. The agent repairs a broken drug-drug interaction (DDI) curation command. The supplied inputs are drug structures, event descriptions, directed interactions, three ordered change feeds, and a selective-withdrawal manifest from an existing research workspace. The task requires RDKit-based molecular identity, conflict quarantine, incremental replay with withdrawal, a raw-row release audit, directed deduplication, a semantic interaction delta, deterministic output, and a failure-safe report.
 
 ## Task layout
 

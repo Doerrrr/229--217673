@@ -12,6 +12,7 @@ Repair the implementation and launcher already present in the container. The com
   --drug-changes /data/drug_changes.csv \
   --event-changes /data/event_changes.csv \
   --interaction-changes /data/interaction_changes.csv \
+  --withdrawals /data/withdrawals.csv \
   --out-dir /output
 ```
 
@@ -32,6 +33,10 @@ First curate the three original files as a **baseline**, using all rules below. 
 - `drug_changes.csv`: `seq,op,drug_id,SMILES`. `drug_id` must be non-empty. `UPSERT` requires a non-empty RDKit-parseable/sanitizable SMILES and replaces **all raw rows** for that exact ID with one new row. `DELETE` requires an empty SMILES field and removes all raw rows for that ID; a missing ID is a legal no-op.
 - `event_changes.csv`: `seq,op,event_type,description`. The type must be ASCII decimal digits; compare types numerically, so `01` and `1` are the same key. `UPSERT` requires a non-empty description and replaces all raw rows for that type with one new row. `DELETE` requires an empty description and removes all raw rows for that type; an absent type is a legal no-op.
 - `interaction_changes.csv`: `seq,op,d1,type,d2`. Both drug IDs must be non-empty and `type` must be ASCII decimal digits. `ADD` appends one directed raw row, including when an identical row already exists. `DELETE` removes **all raw rows** matching the directed `(d1, numeric type, d2)` key; an absent key is a legal no-op. Reverse-direction rows are unaffected. The referenced drugs or event type need not exist: ordinary final curation handles those cases.
+
+`withdrawals.csv` is UTF-8 CSV with header `feed,seq`, where `feed` is exactly `drug`, `event`, or `interaction`. Each `seq` is a positive ASCII decimal integer that identifies an existing operation in the corresponding change file; compare sequences numerically, so `010` identifies sequence `10`. Duplicate `(feed, numeric seq)` references, unknown references, wrong field counts, and invalid keys are fatal. Blank physical rows are ignored. Validate **all** change rows even if they are withdrawn. The order of withdrawal rows does not matter.
+
+To produce the final snapshot, start from the original raw files and replay each change file in its own order **while skipping withdrawn operations**. Do not execute all changes and then attempt to reverse withdrawn operations. For example, if the same drug ID is UPSERTed twice and the second UPSERT is withdrawn, the first UPSERT remains effective. No cross-file ordering is needed because each feed changes only its corresponding raw file.
 
 Structural/sequence/change-value errors must be found before replacing any old output. Invalid molecules and other bad rows in the three **original** files remain non-fatal and are reported by the curation rules below. Physical line numbers in invalid-row evidence refer to surviving original-file records; valid UPSERT rows use their physical line in the corresponding change file if ever needed.
 
@@ -85,6 +90,8 @@ Sort rows by `d1`, integer `type`, then `d2`.
 
 Write `/output/interaction_delta.csv` with UTF-8, LF line endings and header `action,d1,type,d2`. Compare baseline and final **kept** interactions by directed identity `(canonical isomeric SMILES of d1, numeric type, canonical isomeric SMILES of d2)`. Emit one `REMOVE` row for each identity present only at baseline, using its baseline representative IDs; emit one `ADD` row for each identity present only at final, using its final representative IDs. Sort all `REMOVE` rows first, then `ADD` rows, each by `d1`, numeric `type`, `d2`. A change of representative ID caused only by a new alias must not create a false delta. The delta is a set difference, not a count of raw ADD/DELETE operations.
 
+Write `/output/release_audit.csv` with UTF-8, LF line endings and header `feed,seq,state,removed_raw,added_raw`. Include one row for **every** original change operation, ordered by feed (`drug`, `event`, `interaction`) and then numeric sequence. Output `seq` as a normalized decimal integer. A withdrawn operation has state `WITHDRAWN` and both counts zero. A replayed operation has state `APPLIED`; counts describe the number of raw rows actually removed and appended by that operation at its point in the replay, before curation. A drug key matches the trimmed ID even on a malformed original row; an event key matches any original row whose type parses to the same integer. An interaction deletion matches structurally valid directed raw triples after numeric type normalization and removes all duplicates. An absent DELETE removes zero rows. Drug/event UPSERT appends one row; interaction ADD appends one row; other operations append zero.
+
 ## Report and reliability requirements
 
 Write `/output/report.json` as deterministic UTF-8 JSON with a trailing newline. It must contain:
@@ -105,6 +112,8 @@ Write `/output/report.json` as deterministic UTF-8 JSON with a trailing newline.
     "drug_rows": 0,
     "event_rows": 0,
     "interaction_rows": 0,
+    "applied_rows": 0,
+    "withdrawn_rows": 0,
     "delta_added": 0,
     "delta_removed": 0
   },
@@ -137,13 +146,14 @@ Write `/output/report.json` as deterministic UTF-8 JSON with a trailing newline.
   "files": {
     "drugs_clean.csv": {"sha256": "..."},
     "interactions_clean.csv": {"sha256": "..."},
-    "interaction_delta.csv": {"sha256": "..."}
+    "interaction_delta.csv": {"sha256": "..."},
+    "release_audit.csv": {"sha256": "..."}
   }
 }
 ```
 
 Each invalid row entry must contain the 1-based physical `line`, the available identifier (`drug_id` or `event_type`, using an empty string when unavailable), and a stable `reason` (`malformed`, `invalid_smiles`, `invalid_type`, or `empty_description`). Sort invalid row entries by line; sort all ID/type lists.
 
-`input` counts describe the original snapshot; `final_input` counts describe the raw snapshot after replay. All `drugs`, `events`, and `interactions` curation statistics describe the **final** snapshot. `changes` row counts exclude headers and blank physical rows; `delta_added` and `delta_removed` count semantic delta rows. The SHA-256 values are lowercase hexadecimal digests of the exact bytes written to the three CSV files.
+`input` counts describe the original snapshot; `final_input` counts describe the raw snapshot after replay without withdrawn operations. All `drugs`, `events`, and `interactions` curation statistics describe the **final** snapshot. `changes` per-feed row counts include withdrawn operations but exclude headers and blank physical rows; `applied_rows` and `withdrawn_rows` partition those change rows. `delta_added` and `delta_removed` count semantic delta rows. The SHA-256 values are lowercase hexadecimal digests of the exact bytes written to the four CSV files.
 
-The command must be deterministic and safe to rerun. Validate all six input files before replacing existing output files. On a missing input or fatal CSV syntax/header/change-contract error (for example, an unterminated quoted field or repeated `seq`), print a concise message to stderr, exit non-zero, and leave all four existing output files unchanged.
+The command must be deterministic and safe to rerun. Validate all seven input files before replacing existing output files. On a missing input or fatal CSV syntax/header/change/withdrawal-contract error (for example, an unterminated quoted field, repeated `seq`, or unknown withdrawal reference), print a concise message to stderr, exit non-zero, and leave all five existing output files unchanged.

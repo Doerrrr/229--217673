@@ -5,7 +5,7 @@ name = "bioinformatics/ddi-curator-repair"
 authors = [{ name = "bioinformatics-engineer", email = "noreply@example.com" }]
 
 [agent]
-timeout_sec = 1800
+timeout_sec = 2400
 
 [environment]
 build_timeout_sec = 900.0
