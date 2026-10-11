@@ -109,4 +109,3 @@ uv run --python 3.11 --with rdkit==2025.3.6 python validation/validate_release.p
 
 Use the unchanged Harbor 0.5.0 workflow for final container controls, then
 `platform_handoff.md` for user-controlled synchronization and one detection.
-
