@@ -139,6 +139,21 @@ still uses an exact byte hash. `--self-test` checks both line endings and
 rejects byte edits, appended whitespace and lone-CR conversion. Sync still
 requires no Git diff in the three original CSVs or platform workflow.
 
+A fresh detached checkout of e54ff59 was created with `core.autocrlf=false`;
+`git ls-files --eol` confirmed all three CSVs were `i/lf w/lf`. Personal and
+platform preflights plus boundary self-tests passed there and in the original
+Windows CRLF checkout. These are actual LF-byte checkout checks, not a claim
+that a local Linux Docker engine was started.
+
+The resume script was exercised against isolated temporary repositories and
+local bare remotes: restoring the staged 8023f518 payload, applying e54ff59,
+checking boundaries/assets, committing, pushing and verifying clean final state
+all passed. Separate unstaged edits, protected CSV edits and staged files outside
+the task scope each stopped without altering the staged diff. The Windows test
+harness substituted its real Python executable for the WindowsApps python3 stub;
+the delivered Linux script uses python3. No platform remote was pushed by these
+fixture tests; the user's actual remote state still needs its own receipt.
+
 No platform detection or final submission was triggered. R1/R2 and true T1
 difficulty remain unverified for V4. The prior normal T1=0.900 counterexample
 is recorded in experience_review.md. User controls the remaining platform runs.
@@ -160,3 +175,13 @@ This confirms Linux Docker controls for that exact task commit, not a platform
 T1 or R1/R2 result. The subsequent handoff/receipt-only commit leaves all candidate,
 reference and scored test files unchanged; platform synchronization pins the
 verified task SHA rather than an unverified moving branch.
+
+The author-preflight correction **e54ff59cb6b67d9002ac2681828635e03900adab**
+also passed the unchanged fixed workflow:
+[run 38146433283](https://github.com/Doerrrr/229--217673/actions/runs/38146433283),
+job 114490658898, **oracle: reward=1.0 / nop: reward=0.0** at
+2026-10-11T14:18:11Z. See preflight_ci_receipt.json. Git comparison with 8023f518
+shows no change in environment, solution, scored tests, instruction, task config
+or workflow. Author preflight is checked separately because it is not invoked
+by that fixed Harbor workflow. Remote recovery still requires the user's SYNC_OK
+receipt; no platform test has been triggered by this correction.

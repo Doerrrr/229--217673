@@ -1,19 +1,48 @@
 # 第四版：远端 IDE 直接粘贴同步说明
 
-已验证题包 SHA：8023f518432b2f3534c2ac0f2a598650649265f3。
+修复版题包 SHA：e54ff59cb6b67d9002ac2681828635e03900adab。
+题目实现与原批准版本 8023f518 完全一致，仅修复作者预检的 LF/CRLF 哈希。
 Harbor 0.5.0：Oracle 1.000、NOP 0.000；
-CI：[run 38142054389](https://github.com/Doerrrr/229--217673/actions/runs/38142054389)。
-题包代码验收版本为上述 SHA；本说明与回执是随后补充的作者侧交付文档。
+修复版 CI：[run 38146433283](https://github.com/Doerrrr/229--217673/actions/runs/38146433283)。
+原题包 CI 保留在 harbor_ci_receipt.json；修复版回执为 preflight_ci_receipt.json。
+本说明与恢复脚本是随后补充的作者侧交付文档。
 从个人仓库最新版说明复制整个 Bash 代码块，不使用平台旧版说明，
 不删除最外层括号。同步、更新四个介绍字段后，才触发一次平台检测。
 遇到 STOP 时停止，把报错发给我；不会自动关闭终端。
+
+## 已停在原始 CSV 哈希检查：从当前位置恢复
+
+如果刚才已经同步并暂存 8023f518，且在 `protected asset changed` 处停止，
+不要重跑下方要求干净目录的全量流程。保留暂存文件，运行独立恢复脚本。
+它先核对暂存题包就是 8023f518、没有额外修改，再恢复批准修复版并重新
+检查。任何原始 CSV 内容差异仍会停止；不会删除断言或重写原始数据。
+
+可直接粘贴以下命令（仅从已暂存的 8023f518 状态恢复）：
+
+```bash
+(
+  set -euo pipefail
+  cd /home/workspace/project
+  git fetch myrepo main:refs/remotes/myrepo/main
+  HANDOFF_COMMIT=$(git rev-parse myrepo/main)
+  git show "$HANDOFF_COMMIT":validation/resume_platform_sync.sh | bash
+)
+```
+
+上面先把当前拉到的说明版本解析成固定 SHA，再执行脚本。交付消息另给
+完整的已检验说明 SHA，可使用它进一步锁定本次脚本。脚本约束的题包 SHA
+始终是上述 e54ff59，不会自动跟随个人仓库后续增难改动。脚本会提交并
+推送平台 Git 仓库，但不会触发平台检测或最终提交。看到 SYNC_OK 后再
+更新字段并检测；遇到 STOP 则保留现场并把报错发给我。
+
+## 尚未开始同步、工作区干净：完整流程
 
 ```bash
 (
   set -euo pipefail
   cd /home/workspace/project
 
-  APPROVED_COMMIT=8023f518432b2f3534c2ac0f2a598650649265f3
+  APPROVED_COMMIT=e54ff59cb6b67d9002ac2681828635e03900adab
   PERSONAL_REPO=https://github.com/Doerrrr/229--217673.git
 
   echo "[1/7] 检查干净工作区和平台 origin"
@@ -57,7 +86,7 @@ CI：[run 38142054389](https://github.com/Doerrrr/229--217673/actions/runs/38142
     echo "STOP: 三份原始 CSV 变动"; exit 1;
   }
   python3 validation/check_boundary.py --self-test
-  python3 validation/check_release_assets.py --platform
+  python3 validation/check_release_assets.py --platform --self-test
   test ! -e solution/ddi-release || { echo "STOP: 隐藏启动器重复"; exit 1; }
   grep -n 'screen-plan' instruction.md solution/solve.sh
   head -n 3 task.toml

@@ -1,0 +1,20 @@
+{
+  "task_commit": "e54ff59cb6b67d9002ac2681828635e03900adab",
+  "original_task_commit": "8023f518432b2f3534c2ac0f2a598650649265f3",
+  "repository": "Doerrrr/229--217673",
+  "harbor_version": "0.5.0",
+  "run_id": 38146433283,
+  "job_id": 114490658898,
+  "url": "https://github.com/Doerrrr/229--217673/actions/runs/38146433283",
+  "workflow_unchanged": true,
+  "candidate_reference_tests_unchanged": true,
+  "conclusion": "success",
+  "oracle_reward": 1.0,
+  "nop_reward": 0.0,
+  "trial_exceptions": false,
+  "evidence": "Successful Check rewards step and explicit reward lines in job logs",
+  "reward_log_timestamp_utc": "2026-10-11T14:18:11Z",
+  "author_preflight_checked_separately": true,
+  "platform_recovery": "awaiting_user_receipt",
+  "platform_detection_triggered": false
+}
