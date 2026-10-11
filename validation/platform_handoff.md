@@ -1,7 +1,11 @@
 # 第四版：远端 IDE 直接粘贴同步说明
 
-本文件的已验证 SHA 与 CI 回执将在验收完成后锁定。现在不要触发平台检测。
-完成后在个人仓库最新版说明中复制整个 Bash 代码块，不删除最外层括号。
+已验证题包 SHA：8023f518432b2f3534c2ac0f2a598650649265f3。
+Harbor 0.5.0：Oracle 1.000、NOP 0.000；
+CI：[run 38142054389](https://github.com/Doerrrr/229--217673/actions/runs/38142054389)。
+题包代码验收版本为上述 SHA；本说明与回执是随后补充的作者侧交付文档。
+从个人仓库最新版说明复制整个 Bash 代码块，不使用平台旧版说明，
+不删除最外层括号。同步、更新四个介绍字段后，才触发一次平台检测。
 遇到 STOP 时停止，把报错发给我；不会自动关闭终端。
 
 ```bash
@@ -9,7 +13,7 @@
   set -euo pipefail
   cd /home/workspace/project
 
-  APPROVED_COMMIT=WAIT_FOR_V4_CI
+  APPROVED_COMMIT=8023f518432b2f3534c2ac0f2a598650649265f3
   PERSONAL_REPO=https://github.com/Doerrrr/229--217673.git
 
   echo "[1/7] 检查干净工作区和平台 origin"

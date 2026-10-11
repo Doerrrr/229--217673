@@ -137,5 +137,18 @@ is recorded in experience_review.md. User controls the remaining platform runs.
 
 Solver semantics: [CP-SAT status documentation](https://developers.google.com/optimization/cp/cp_solver)
 and [SciPy 1.15.3 milp](https://docs.scipy.org/doc/scipy-1.15.3/reference/generated/scipy.optimize.milp.html).
-Reproduce with README.md commands and use platform_handoff.md only after its CI
-SHA is locked.
+Reproduce with README.md commands and use the locked platform_handoff.md.
+
+## Verified Linux container receipt
+
+Task commit **8023f518432b2f3534c2ac0f2a598650649265f3** passed the unchanged
+Harbor 0.5.0 workflow: [run 38142054389](https://github.com/Doerrrr/229--217673/actions/runs/38142054389),
+job 114477745362. Oracle trial, NOP trial, reward checks and diagnostics upload
+all succeeded. Job logs explicitly record **oracle: reward=1.0** and
+**nop: reward=0.0** at 2026-10-11T13:12:05Z. The workflow also rejects trial
+exception_info. Machine-readable receipt: harbor_ci_receipt.json.
+
+This confirms Linux Docker controls for that exact task commit, not a platform
+T1 or R1/R2 result. The subsequent handoff/receipt-only commit leaves all candidate,
+reference and scored test files unchanged; platform synchronization pins the
+verified task SHA rather than an unverified moving branch.
