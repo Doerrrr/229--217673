@@ -4,5 +4,5 @@
 *.toml text eol=lf
 Dockerfile text eol=lf
 environment/bin/* text eol=lf
-solution/ddi-curate text eol=lf
+solution/ddi-release text eol=lf
 *.csv text eol=lf

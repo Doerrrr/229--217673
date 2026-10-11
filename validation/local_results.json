@@ -1,0 +1,542 @@
+{
+  "date": "2026-10-11",
+  "environment": {
+    "python": "3.11",
+    "rdkit": "2025.3.6",
+    "os": "Windows"
+  },
+  "container_verified": false,
+  "optimizer_exhaustive_graphs": 500,
+  "controls": [
+    {
+      "mode": "oracle",
+      "reward": 1,
+      "elapsed_sec": 21.578,
+      "checks": [
+        {
+          "name": "matching_cardinality",
+          "weight": 0.1,
+          "passed": true
+        },
+        {
+          "name": "matching_score",
+          "weight": 0.1,
+          "passed": true
+        },
+        {
+          "name": "matching_lex",
+          "weight": 0.1,
+          "passed": true
+        },
+        {
+          "name": "matching_full",
+          "weight": 0.05,
+          "passed": true
+        },
+        {
+          "name": "chemistry_transitive",
+          "weight": 0.08,
+          "passed": true
+        },
+        {
+          "name": "chemistry_scaffold_chirality",
+          "weight": 0.05,
+          "passed": true
+        },
+        {
+          "name": "chemistry_full",
+          "weight": 0.07,
+          "passed": true
+        },
+        {
+          "name": "candidate_reverse",
+          "weight": 0.08,
+          "passed": true
+        },
+        {
+          "name": "candidate_top8_score",
+          "weight": 0.07,
+          "passed": true
+        },
+        {
+          "name": "partition_full",
+          "weight": 0.06,
+          "passed": true
+        },
+        {
+          "name": "partition_empty_tiny",
+          "weight": 0.04,
+          "passed": true
+        },
+        {
+          "name": "curation_precedence",
+          "weight": 0.07,
+          "passed": true
+        },
+        {
+          "name": "curation_csv_numeric",
+          "weight": 0.03,
+          "passed": true
+        },
+        {
+          "name": "determinism_alias",
+          "weight": 0.05,
+          "passed": true
+        },
+        {
+          "name": "fatal_no_clobber",
+          "weight": 0.05,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "mode": "nop",
+      "reward": 0,
+      "elapsed_sec": 5.781,
+      "checks": [
+        {
+          "name": "matching_cardinality",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_score",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_lex",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_full",
+          "weight": 0.05,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "chemistry_transitive",
+          "weight": 0.08,
+          "passed": false,
+          "error": "molecules.csv rows/order differ"
+        },
+        {
+          "name": "chemistry_scaffold_chirality",
+          "weight": 0.05,
+          "passed": false,
+          "error": "molecules.csv rows/order differ"
+        },
+        {
+          "name": "chemistry_full",
+          "weight": 0.07,
+          "passed": false,
+          "error": "molecules.csv rows/order differ"
+        },
+        {
+          "name": "candidate_reverse",
+          "weight": 0.08,
+          "passed": false,
+          "error": "reverse fixture target count"
+        },
+        {
+          "name": "candidate_top8_score",
+          "weight": 0.07,
+          "passed": false,
+          "error": "missing targets"
+        },
+        {
+          "name": "partition_full",
+          "weight": 0.06,
+          "passed": false,
+          "error": "positives.csv rows/order differ"
+        },
+        {
+          "name": "partition_empty_tiny",
+          "weight": 0.04,
+          "passed": false,
+          "error": "command failed: Traceback (most recent call last):\n  File \"E:\\coding\\passby\\talentsAi\\general_coding\\229--217673\\environment\\app\\release.py\", line 35, in <module>\n    main()\n  File \"E:\\coding\\passby\\talentsAi\\general_coding\\229--217673\\environment\\app\\release.py\", line 29, in main\n    writer.writerows((\"train\", min(row[0], row[2]), row[1], max(row[0], row[2])) for row in interactions)\n  File \"E:\\coding\\passby\\tal"
+        },
+        {
+          "name": "curation_precedence",
+          "weight": 0.07,
+          "passed": false,
+          "error": "command failed: Traceback (most recent call last):\n  File \"E:\\coding\\passby\\talentsAi\\general_coding\\229--217673\\environment\\app\\release.py\", line 35, in <module>\n    main()\n  File \"E:\\coding\\passby\\talentsAi\\general_coding\\229--217673\\environment\\app\\release.py\", line 29, in main\n    writer.writerows((\"train\", min(row[0], row[2]), row[1], max(row[0], row[2])) for row in interactions)\n  File \"E:\\coding\\passby\\tal"
+        },
+        {
+          "name": "curation_csv_numeric",
+          "weight": 0.03,
+          "passed": false,
+          "error": "command failed: Traceback (most recent call last):\n  File \"E:\\coding\\passby\\talentsAi\\general_coding\\229--217673\\environment\\app\\release.py\", line 35, in <module>\n    main()\n  File \"E:\\coding\\passby\\talentsAi\\general_coding\\229--217673\\environment\\app\\release.py\", line 25, in main\n    writer.writerows((row[0], row[1], row[0], row[0], \"train\") for row in drugs)\n  File \"E:\\coding\\passby\\talentsAi\\general_coding\\229"
+        },
+        {
+          "name": "determinism_alias",
+          "weight": 0.05,
+          "passed": false,
+          "error": "molecules.csv rows/order differ"
+        },
+        {
+          "name": "fatal_no_clobber",
+          "weight": 0.05,
+          "passed": false,
+          "error": "fatal error not reported"
+        }
+      ]
+    },
+    {
+      "mode": "scaffold_only",
+      "reward": 0.34,
+      "elapsed_sec": 21.031,
+      "checks": [
+        {
+          "name": "matching_cardinality",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_score",
+          "weight": 0.1,
+          "passed": true
+        },
+        {
+          "name": "matching_lex",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_full",
+          "weight": 0.05,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "chemistry_transitive",
+          "weight": 0.08,
+          "passed": false,
+          "error": "molecules.csv rows/order differ"
+        },
+        {
+          "name": "chemistry_scaffold_chirality",
+          "weight": 0.05,
+          "passed": true
+        },
+        {
+          "name": "chemistry_full",
+          "weight": 0.07,
+          "passed": false,
+          "error": "molecules.csv rows/order differ"
+        },
+        {
+          "name": "candidate_reverse",
+          "weight": 0.08,
+          "passed": false,
+          "error": "reverse fixture target count"
+        },
+        {
+          "name": "candidate_top8_score",
+          "weight": 0.07,
+          "passed": false,
+          "error": "round-robin targets"
+        },
+        {
+          "name": "partition_full",
+          "weight": 0.06,
+          "passed": false,
+          "error": "positives.csv rows/order differ"
+        },
+        {
+          "name": "partition_empty_tiny",
+          "weight": 0.04,
+          "passed": true
+        },
+        {
+          "name": "curation_precedence",
+          "weight": 0.07,
+          "passed": true
+        },
+        {
+          "name": "curation_csv_numeric",
+          "weight": 0.03,
+          "passed": true
+        },
+        {
+          "name": "determinism_alias",
+          "weight": 0.05,
+          "passed": false,
+          "error": "molecules.csv rows/order differ"
+        },
+        {
+          "name": "fatal_no_clobber",
+          "weight": 0.05,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "mode": "greedy",
+      "reward": 0.65,
+      "elapsed_sec": 23.078,
+      "checks": [
+        {
+          "name": "matching_cardinality",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_score",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_lex",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_full",
+          "weight": 0.05,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "chemistry_transitive",
+          "weight": 0.08,
+          "passed": true
+        },
+        {
+          "name": "chemistry_scaffold_chirality",
+          "weight": 0.05,
+          "passed": true
+        },
+        {
+          "name": "chemistry_full",
+          "weight": 0.07,
+          "passed": true
+        },
+        {
+          "name": "candidate_reverse",
+          "weight": 0.08,
+          "passed": true
+        },
+        {
+          "name": "candidate_top8_score",
+          "weight": 0.07,
+          "passed": true
+        },
+        {
+          "name": "partition_full",
+          "weight": 0.06,
+          "passed": true
+        },
+        {
+          "name": "partition_empty_tiny",
+          "weight": 0.04,
+          "passed": true
+        },
+        {
+          "name": "curation_precedence",
+          "weight": 0.07,
+          "passed": true
+        },
+        {
+          "name": "curation_csv_numeric",
+          "weight": 0.03,
+          "passed": true
+        },
+        {
+          "name": "determinism_alias",
+          "weight": 0.05,
+          "passed": true
+        },
+        {
+          "name": "fatal_no_clobber",
+          "weight": 0.05,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "mode": "reuse",
+      "reward": 0.58,
+      "elapsed_sec": 22.313,
+      "checks": [
+        {
+          "name": "matching_cardinality",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_score",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_lex",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_full",
+          "weight": 0.05,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "chemistry_transitive",
+          "weight": 0.08,
+          "passed": true
+        },
+        {
+          "name": "chemistry_scaffold_chirality",
+          "weight": 0.05,
+          "passed": true
+        },
+        {
+          "name": "chemistry_full",
+          "weight": 0.07,
+          "passed": true
+        },
+        {
+          "name": "candidate_reverse",
+          "weight": 0.08,
+          "passed": true
+        },
+        {
+          "name": "candidate_top8_score",
+          "weight": 0.07,
+          "passed": false,
+          "error": "candidate capacity reused"
+        },
+        {
+          "name": "partition_full",
+          "weight": 0.06,
+          "passed": true
+        },
+        {
+          "name": "partition_empty_tiny",
+          "weight": 0.04,
+          "passed": true
+        },
+        {
+          "name": "curation_precedence",
+          "weight": 0.07,
+          "passed": true
+        },
+        {
+          "name": "curation_csv_numeric",
+          "weight": 0.03,
+          "passed": true
+        },
+        {
+          "name": "determinism_alias",
+          "weight": 0.05,
+          "passed": true
+        },
+        {
+          "name": "fatal_no_clobber",
+          "weight": 0.05,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "mode": "forward_only",
+      "reward": 0.6,
+      "elapsed_sec": 21.609,
+      "checks": [
+        {
+          "name": "matching_cardinality",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_score",
+          "weight": 0.1,
+          "passed": true
+        },
+        {
+          "name": "matching_lex",
+          "weight": 0.1,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "matching_full",
+          "weight": 0.05,
+          "passed": false,
+          "error": "unobserved_pairs.csv rows/order differ"
+        },
+        {
+          "name": "chemistry_transitive",
+          "weight": 0.08,
+          "passed": true
+        },
+        {
+          "name": "chemistry_scaffold_chirality",
+          "weight": 0.05,
+          "passed": true
+        },
+        {
+          "name": "chemistry_full",
+          "weight": 0.07,
+          "passed": true
+        },
+        {
+          "name": "candidate_reverse",
+          "weight": 0.08,
+          "passed": false,
+          "error": "unsafe reverse/other-type candidate"
+        },
+        {
+          "name": "candidate_top8_score",
+          "weight": 0.07,
+          "passed": false,
+          "error": "candidate not in exact safe top-8"
+        },
+        {
+          "name": "partition_full",
+          "weight": 0.06,
+          "passed": true
+        },
+        {
+          "name": "partition_empty_tiny",
+          "weight": 0.04,
+          "passed": true
+        },
+        {
+          "name": "curation_precedence",
+          "weight": 0.07,
+          "passed": true
+        },
+        {
+          "name": "curation_csv_numeric",
+          "weight": 0.03,
+          "passed": true
+        },
+        {
+          "name": "determinism_alias",
+          "weight": 0.05,
+          "passed": true
+        },
+        {
+          "name": "fatal_no_clobber",
+          "weight": 0.05,
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 schema_version = "1.3"
 
 [task]
-name = "bioinformatics/ddi-curator-repair"
+name = "bioinformatics/ddi-leakage-safe-release"
 authors = [{ name = "bioinformatics-engineer", email = "noreply@example.com" }]
 
 [agent]
@@ -21,4 +21,4 @@ timeout_sec = 240
 [metadata]
 difficulty = "hard"
 category = "bioinformatics"
-tags = ["cheminformatics", "data-curation", "rdkit", "csv", "reliability"]
+tags = ["cheminformatics", "data-release", "rdkit", "graph-clustering", "exact-matching", "reliability"]
