@@ -9,13 +9,13 @@
       "test": {"molecules": 224, "positives": 3720}
     },
     "matching": {
-      "validation": {"targets": 48, "matched": 40, "unmatched": 8},
-      "test": {"targets": 48, "matched": 38, "unmatched": 10}
+      "validation": {"targets": 48, "matched": 19, "unmatched": 29},
+      "test": {"targets": 48, "matched": 17, "unmatched": 31}
     }
   },
   "files": {
     "molecules.csv": {"sha256": "b7ff3f9ef487dfeb86c99c852c5fee392d0635fe3065b516edea933918bd4b6c"},
     "positives.csv": {"sha256": "8365bac820444092729d86bc0e6d2e2f018c83cebe39d34b17bec18bdc9abadf"},
-    "unobserved_pairs.csv": {"sha256": "7232502e43e4db7ddaebd739552e6dc5615ee07b065a2b8486963912a33128a2"}
+    "unobserved_pairs.csv": {"sha256": "97338759dc16f41cafed944c6ba7183ae944e4d89cf8e2148f36e1717888434a"}
   }
 }

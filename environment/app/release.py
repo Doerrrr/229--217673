@@ -8,7 +8,7 @@ from pathlib import Path
 
 def main():
     parser = argparse.ArgumentParser()
-    for flag in ("drugs", "events", "interactions", "out-dir"):
+    for flag in ("drugs", "events", "interactions", "screen-plan", "out-dir"):
         parser.add_argument("--" + flag, required=True)
     args = parser.parse_args()
     # This draft assumes IDs are molecular identities, loses directions and

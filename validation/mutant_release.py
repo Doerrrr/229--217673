@@ -6,6 +6,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'solution'))
 import oracle_release as ref
+from screen_optimizer import audit
+from incorrect_optimizer import solve_plan as faulty_solver
 from rdkit import Chem, DataStructs
 from rdkit.Chem.Scaffolds import MurckoScaffold
 
@@ -26,8 +28,24 @@ if mode == 'scaffold_only':
                 meta[row[0]]=(cluster,fold,meta[row[0]][2])
         return meta
     ref.chemistry=scaffold_only
-elif mode in ('greedy','reuse'):
-    def greedy(options):
+elif mode in ('greedy','reuse','ignore_plan','clip','split_stock','per_assay_setup','ignore_min','float_lex'):
+    def incomplete(targets,options,metadata,resources,policy):
+        if mode in ('split_stock','per_assay_setup','ignore_min','float_lex'):
+            return faulty_solver(targets,options,metadata,resources,policy,variant=mode)
+        if mode in ('ignore_plan','clip'):
+            values=ref.exact_matching(options)
+            if mode == 'ignore_plan':
+                return values,'OPTIMAL'
+            result=[None]*len(values)
+            for i,value in enumerate(values):
+                tentative=result[:]; tentative[i]=value
+                report=audit(targets,tentative,metadata,resources,policy,'OPTIMAL')
+                if (report['total_cost'] <= policy['budget'] and sum(v is not None for v in tentative) <= policy['max_pairs']
+                    and all(r['used']<=r['capacity'] for r in report['stock_usage'])
+                    and all(r['used']<=policy['cluster_cap'] for r in report['cluster_usage'])
+                    and all(r['used']<=r['max'] for r in report['event_usage'])):
+                    result=tentative
+            return result,'OPTIMAL'
         result=[]
         used=set()
         for edges in options:
@@ -35,8 +53,8 @@ elif mode in ('greedy','reuse'):
             if match:
                 used.add(match[0])
             result.append(match)
-        return result
-    ref.exact_matching=greedy
+        return result,'OPTIMAL'
+    ref.solve_plan=incomplete
 elif mode == 'forward_only':
     def directed_edges(targets,fold,metadata,interactions):
         known={(a,b) for a,_,b in interactions}

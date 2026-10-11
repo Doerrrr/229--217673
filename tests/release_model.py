@@ -1,7 +1,8 @@
-"""Independent verifier model: graph traversal and rectangular assignment.
+"""Independent verifier model: graph traversal and resource-constrained MILP.
 
-This does not import or execute the reference solution. The matching algorithm
-is Hungarian assignment, independently checked against exhaustive enumeration.
+This does not import or execute the reference solution. Screen-plan optimization
+is constructed separately in screen_model; the legacy Hungarian routine remains
+only for its isolated startup regression check, not V4 release assignments.
 """
 import csv
 import hashlib
@@ -9,6 +10,7 @@ import io
 import math
 from collections import defaultdict
 from pathlib import Path
+from screen_model import policy_input, optimize_batch, resource_report
 
 from rdkit import Chem, DataStructs, RDLogger
 from rdkit.Chem import AllChem
@@ -50,7 +52,7 @@ def number(value):
     return int(value) if value and all('0' <= c <= '9' for c in value) else None
 
 
-def curate(root):
+def curate(root, with_policy_ids=False):
     drug_records = list(records(root / 'drug_list.csv'))
     event_records = list(records(root / 'DDI_event.csv'))
     interaction_records = list(records(root / 'newddi.csv'))
@@ -126,7 +128,8 @@ def curate(root):
         'events': dict(valid_types=len(descriptions)-len(type_conflicts), invalid_rows=event_bad, conflicting_types=sorted(type_conflicts)),
         'interactions': dict(kept=len(positives), dropped=dropped),
     }
-    return molecules, sorted(positives), report
+    result = (molecules, sorted(positives), report)
+    return (*result, set(descriptions)-type_conflicts) if with_policy_ids else result
 
 
 def clusters(molecules):
@@ -228,7 +231,8 @@ def assignment(options):
 
 
 def expected(root):
-    molecules, interactions, report = curate(root)
+    molecules, interactions, report, valid_events = curate(root, with_policy_ids=True)
+    resources, policies = policy_input(root/'screen_plan.json', molecules, valid_events)
     meta = clusters(molecules)
     molecular_rows = [(*row, *meta[row[0]][:2]) for row in molecules]
     positives = {fold: [] for fold in FOLDS}
@@ -243,7 +247,7 @@ def expected(root):
     for a, _, b in interactions:
         known[a].add(b)
         known[b].add(a)
-    pair_rows, targets_by_fold, edges_by_fold, matching = [], {}, {}, {}
+    pair_rows, targets_by_fold, edges_by_fold, matching, plan_report = [], {}, {}, {}, {}
     for fold in FOLDS[1:]:
         anchors = defaultdict(list)
         for row in positives[fold]:
@@ -260,7 +264,8 @@ def expected(root):
                 if similarity >= .15:
                     available.append((c, math.floor(10000*similarity+.5)))
             options.append(sorted(available, key=lambda item: (-item[1], item[0]))[:8])
-        matches = assignment(options)
+        matches, status = optimize_batch(targets, options, meta, resources, policies[fold])
+        plan_report[fold] = resource_report(targets, matches, meta, resources, policies[fold], status)
         for index, (target, match) in enumerate(zip(targets, matches), 1):
             pair_rows.append((fold, index, *target, *(match or ('',0)), 'MATCHED' if match else 'UNMATCHED'))
         count = sum(match is not None for match in matches)
@@ -270,6 +275,7 @@ def expected(root):
         clusters=len({v[0] for v in meta.values()}), cross_fold_withheld=cross,
         folds={fold: dict(molecules=sum(v[1] == fold for v in meta.values()), positives=len(positives[fold])) for fold in FOLDS},
         matching=matching,
+        plan=plan_report,
     )
     tables = dict(zip(HEADERS, (molecular_rows, positive_rows, pair_rows)))
     report['files'] = {name: {'sha256': digest(csv_bytes(HEADERS[name], rows))} for name, rows in tables.items()}

@@ -5,3 +5,4 @@
 Dockerfile text eol=lf
 environment/bin/* text eol=lf
 *.csv text eol=lf
+*.json text eol=lf

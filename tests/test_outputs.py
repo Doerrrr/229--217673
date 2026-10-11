@@ -10,7 +10,8 @@ import tempfile
 import time
 from pathlib import Path
 
-from release_model import HEADERS, FOLDS, csv_bytes, digest, expected, assignment
+from release_model import HEADERS, FOLDS, csv_bytes, digest, expected, assignment, curate, clusters
+from screen_model import policy_input, resource_report, exhaustive_batch, optimize_batch
 
 COMMAND = ["/usr/local/bin/ddi-release"]
 DATA = Path("/data")
@@ -76,12 +77,22 @@ def temp():
 def inputs(root, drugs, events="0,zero\n1,one\n2,two\n", interactions="d1,type,d2\n"):
     for name, text in zip(("drug_list.csv","DDI_event.csv","newddi.csv"), (drugs,events,interactions)):
         (root/name).write_text(text, encoding="utf-8", newline="\n")
+    write_policy(root)
 
 
-def invoke(root, out, extra=(), timeout=90, omit=()):
+def write_policy(root, stock=96, setup=0, overrides=(), **settings):
+    config=dict(budget=1000000, assay_cost=0, max_pairs=48, cluster_cap=48, event_quotas=[])
+    config.update(settings)
+    policy=dict(version=1, defaults=dict(stock=stock,setup_cost=setup),
+                drug_overrides=list(overrides), folds={fold:dict(config) for fold in FOLDS[1:]})
+    (root/'screen_plan.json').write_text(json.dumps(policy),encoding='utf-8')
+    return policy
+
+
+def invoke(root, out, extra=(), timeout=180, omit=()):
     arguments = []
     for flag, path in (("--drugs", root/"drug_list.csv"), ("--events", root/"DDI_event.csv"),
-                       ("--interactions", root/"newddi.csv"), ("--out-dir", out)):
+                       ("--interactions", root/"newddi.csv"), ("--screen-plan", root/'screen_plan.json'), ("--out-dir", out)):
         if flag not in omit:
             arguments.extend((flag, str(path)))
     return subprocess.run(
@@ -125,7 +136,10 @@ def obtain(name):
     if name == "full":
         snapshot=json.loads(Path(__file__).with_name("full_snapshot.json").read_text(encoding="utf-8"))
         for key,value in snapshot.items():
-            require(report[key] == value, f"independently computed full snapshot drift: {key}")
+            computed={k:v for k,v in report[key].items() if k != 'plan'} if key == 'release' else report[key]
+            require(computed == value, f"independently computed full snapshot drift: {key}")
+        require([(report['release']['plan'][f]['total_score'], report['release']['plan'][f]['total_cost'])
+                 for f in FOLDS[1:]] == [(48920,94),(45297,95)], 'fixed resource optimum drift')
         require(report["input"]["interaction_rows"] == report["interactions"]["kept"]+sum(report["interactions"]["dropped"].values()), "raw count conservation")
         require(report["interactions"]["kept"] == sum(v["positives"] for v in report["release"]["folds"].values())+report["release"]["cross_fold_withheld"], "partition conservation")
     result = invoke(root, out)
@@ -171,6 +185,73 @@ def check_assignment(name):
     selected = [(row[5], row[6]) if row[7] == "MATCHED" else None for row in pair_rows]
     require(selected == wanted, f"independent fixture {name} drift")
     exact_table(case, "unobserved_pairs.csv")
+    check_resource_cases(name)
+
+
+RESOURCE_CASES = {
+    'shared': ('lex', dict(stock=1)),
+    'quota_cluster': ('cardinality', dict(stock=2, cluster_cap=1,
+        event_quotas=[dict(type=1,min=2,max=2)], max_pairs=3)),
+    'budget': ('score', dict(stock=2,setup=3,budget=15,assay_cost=1)),
+    'cost': ('score', dict(setup=0,max_pairs=2,budget=100, overrides=[
+        dict(drug_id='E',stock=96,setup_cost=9)])),
+    'alias': ('lex', dict(stock=96, overrides=[
+        dict(drug_id='A',stock=1,setup_cost=3),dict(drug_id='ZZ',stock=1,setup_cost=3)])),
+    'infeasible': ('lex', dict(stock=0,event_quotas=[dict(type=0,min=1,max=3)])),
+    'zero_budget': ('lex', dict(setup=1,budget=0)),
+    'zero_cost': ('lex', dict(stock=2,setup=0,budget=0)),
+}
+
+
+def resource_case(name):
+    cache_key='resource_'+name
+    if cache_key in CACHE:
+        return CACHE[cache_key]
+    fixture,settings=RESOURCE_CASES[name]
+    smiles,triples,_=FIXTURES[fixture]
+    text=''.join(f'{chr(65+i)},{s}\n' for i,s in enumerate(smiles))
+    if name == 'alias':
+        text += f'ZZ,{smiles[0]}\n'
+    root,out=temp(),temp()
+    inputs(root,text,interactions=csv_bytes(['d1','type','d2'],triples).decode())
+    write_policy(root,**settings)
+    tables,report,targets,options=expected(root)
+    molecules,_,_,valid=curate(root,with_policy_ids=True)
+    meta=clusters(molecules)
+    resources,policies=policy_input(root/'screen_plan.json',molecules,valid)
+    for fold in FOLDS[1:]:
+        matches,status=exhaustive_batch(targets[fold],options[fold],meta,resources,policies[fold])
+        rows=[r for r in tables['unobserved_pairs.csv'] if r[0] == fold]
+        require([(r[5],r[6]) if r[7] == 'MATCHED' else None for r in rows] == matches,
+                'small-instance MILP disagrees with exhaustive enumeration')
+        require(report['release']['plan'][fold] == resource_report(targets[fold],matches,meta,resources,policies[fold],status),
+                'small-instance resource ledger disagrees')
+    # Explicit hand-calculated witnesses, independent of both solver outputs.
+    witnesses={
+        'shared': ('validation', [None,('A',6154),('D',6154),None], 12308, 0),
+        'quota_cluster': ('test', [('I',1875),('E',1875),('F',1667),None],5417,0),
+        'budget': ('validation', [('J',5385),('G',5385),None,('D',3889)],14659,15),
+        'cost': ('validation', [('J',5385),('G',5385),None,None],10770,0),
+        'alias': ('validation', [('C',4444),('F',5294),('D',6154),None],15892,3),
+        'zero_cost': ('validation', [('D',5294),('A',6154),('F',6154),None],17602,0),
+    }
+    if name in witnesses:
+        fold,wanted,score,cost=witnesses[name]
+        rows=[r for r in tables['unobserved_pairs.csv'] if r[0]==fold]
+        require([(r[5],r[6]) if r[7]=='MATCHED' else None for r in rows]==wanted, 'manual resource witness drift')
+        require((report['release']['plan'][fold]['total_score'],report['release']['plan'][fold]['total_cost'])==(score,cost), 'manual resource totals drift')
+    case=(root,out,tables,report,targets,options,invoke(root,out))
+    CACHE[cache_key]=case
+    return case
+
+
+def check_resource_cases(group):
+    names={'cardinality':('shared','quota_cluster','alias','infeasible'),
+           'score':('budget','zero_budget','zero_cost'), 'lex':('cost',)}[group]
+    for name in names:
+        case=resource_case(name)
+        exact_table(case,'unobserved_pairs.csv')
+        section(case,'release')
 
 
 def check_matching_full():
@@ -178,6 +259,7 @@ def check_matching_full():
     exact_table(case, "unobserved_pairs.csv")
     actual=json.loads((case[1]/"report.json").read_text(encoding="utf-8"))
     require(actual["release"]["matching"] == case[3]["release"]["matching"], "matching report counts")
+    require(actual['release']['plan'] == case[3]['release']['plan'], 'exact plan optimum/resource report')
     require(actual["files"]["unobserved_pairs.csv"] == case[3]["files"]["unobserved_pairs.csv"], "matching artifact checksum")
 
 
@@ -247,6 +329,27 @@ def check_top8_scores():
     require(all(indices[f] == len(targets[f]) for f in indices), "missing targets")
     # Ensure this is candidate production, not an all-unmatched placeholder.
     require(sum(len(v) for v in seen.values()) > 0, "candidate selection omitted")
+    molecules,_,_,valid=curate(case[0],with_policy_ids=True)
+    meta=clusters(molecules)
+    resources,policies=policy_input(case[0]/'screen_plan.json',molecules,valid)
+    actual=json.loads((case[1]/'report.json').read_text())
+    for fold in FOLDS[1:]:
+        matches=[(r[5],int(r[6])) if r[7] == 'MATCHED' else None for r in rows if r[0] == fold]
+        ledger=resource_report(targets[fold],matches,meta,resources,policies[fold],actual['release']['plan'][fold]['status'])
+        require(actual['release']['plan'][fold] == ledger, 'resource report differs from actual assays')
+    check_exact_threshold()
+
+
+def check_exact_threshold():
+    wanted=('DB00014','DB00104','DB11660')
+    raw={r[0]:r[1] for r in csv.reader((DATA/'drug_list.csv').open()) if r and r[0] in wanted}
+    require(len(raw)==3,'immutable 0.15 fixture unavailable')
+    root,out=temp(),temp()
+    inputs(root,''.join(f'{d},{raw[d]}\n' for d in wanted),interactions='d1,type,d2\nDB00014,0,DB00104\n')
+    tables,report,targets,options=expected(root)
+    require(options['test']==[[('DB11660',1500)]], 'exact inclusive 0.15 fixture drift')
+    case=(root,out,tables,report,targets,options,invoke(root,out))
+    exact_table(case,'unobserved_pairs.csv')
 
 
 def check_partition_full():
@@ -355,6 +458,7 @@ def check_determinism():
         rows=rows[:1]+list(reversed(rows[1:])) if name == "newddi.csv" else list(reversed(rows))
         stream="\n".join(",".join(row) for row in rows)+"\n"
         (root/name).write_text(stream,encoding="utf-8")
+    (root/'screen_plan.json').write_bytes((case[0]/'screen_plan.json').read_bytes())
     exp=expected(root)
     second=(root,out,*exp,invoke(root,out))
     exact_table(second,"molecules.csv")
@@ -382,7 +486,7 @@ def check_fatal():
         result=invoke(root,out,extra=("--unknown-option",) if name == "cli" else ())
         require(result.returncode != 0 and bool(result.stderr.strip()), "fatal error not reported")
         require({key:(out/key).read_bytes() for key in NAMES} == sentinels,"fatal input clobbered output")
-    flags=("--drugs","--events","--interactions","--out-dir")
+    flags=("--drugs","--events","--interactions","--screen-plan","--out-dir")
     for omitted in [(flag,) for flag in flags]+[flags]:
         root,out=temp(),temp()
         inputs(root,"A,CCO\nB,CCC\n",interactions="d1,type,d2\nA,0,B\n")
@@ -392,12 +496,48 @@ def check_fatal():
         result=invoke(root,out,omit=omitted)
         require(result.returncode != 0 and bool(result.stderr.strip()), f"missing CLI {omitted} not reported")
         require({key:(out/key).read_bytes() for key in NAMES} == sentinels,"missing CLI argument clobbered output")
+    check_bad_plans()
+
+
+def check_bad_plans():
+    root,out=temp(),temp()
+    inputs(root,'A,CCO\nB,OCC\nI,bad\nX,CC\nX,CN\n',events='0,zero\n1,one\n1,conflict\n')
+    good=write_policy(root)
+    variants=['{', '{"version":1,"version":1}', '[]', 'null']
+    def altered(change):
+        data=json.loads(json.dumps(good)); change(data); variants.append(json.dumps(data))
+    for key,value in [('version',True),('version',2),('version',1.0),('unknown',0)]:
+        altered(lambda d,k=key,v=value:d.update({k:v}))
+    for key,value in [('stock',True),('stock',-1),('stock',97),('setup_cost',10001),('stock',2.0)]:
+        altered(lambda d,k=key,v=value:d['defaults'].update({k:v}))
+    for key,value in [('budget',-1),('budget',1000001),('assay_cost',10001),('max_pairs',49),('cluster_cap',49),('budget',False),('max_pairs',1.0),('extra',0)]:
+        altered(lambda d,k=key,v=value:d['folds']['test'].update({k:v}))
+    altered(lambda d:d['folds'].pop('test'))
+    altered(lambda d:d['defaults'].pop('stock'))
+    altered(lambda d:d.update(drug_overrides={}))
+    for drug in ['missing','I','X',1]:
+        altered(lambda d,x=drug:d.update(drug_overrides=[dict(drug_id=x,stock=1,setup_cost=0)]))
+    altered(lambda d:d.update(drug_overrides=[dict(drug_id='A',stock=1,setup_cost=0),dict(drug_id='B',stock=2,setup_cost=0)]))
+    altered(lambda d:d.update(drug_overrides=[dict(drug_id='A',stock=1,setup_cost=0,extra=1)]))
+    for quota in [dict(type=99,min=0,max=1),dict(type=1,min=0,max=1),dict(type=True,min=0,max=1),dict(type=0,min=2,max=1),dict(type=0,min=-1,max=2),dict(type=0,min=0,max=49),dict(type=0,min=0,max=1.0)]:
+        altered(lambda d,q=quota:d['folds']['test'].update(event_quotas=[q]))
+    altered(lambda d:d['folds']['test'].update(event_quotas=[dict(type=0,min=0,max=1)]*2))
+    variants += [json.dumps(good).replace('"stock": 96','"stock": 96, "stock": 96',1), json.dumps(good).replace('96','NaN',1)]
+    for index,text in enumerate(variants+[None,'INVALID_UTF8']):
+        sentinels={n:f'old-plan-{index}-{n}\x00'.encode() for n in NAMES}
+        for name,value in sentinels.items(): (out/name).write_bytes(value)
+        path=root/'screen_plan.json'
+        if text is None: path.unlink()
+        else: path.write_bytes(b'\xff' if text=='INVALID_UTF8' else text.encode())
+        result=invoke(root,out)
+        require(result.returncode != 0 and bool(result.stderr.strip()),f'bad plan {index} accepted')
+        require(sentinels=={n:(out/n).read_bytes() for n in NAMES},'bad plan clobbered output')
 
 
 CHECKS = [
     ("matching_cardinality",.10,lambda:check_assignment("cardinality")),
     ("matching_score",.10,lambda:check_assignment("score")),
-    ("matching_lex",.10,lambda:check_assignment("lex")),
+    ("matching_cost_lex",.10,lambda:check_assignment("lex")),
     ("matching_full",.05,check_matching_full),
     ("chemistry_transitive",.08,check_chain),
     ("chemistry_scaffold_chirality",.05,check_scaffold_chirality),

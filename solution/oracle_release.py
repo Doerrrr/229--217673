@@ -14,6 +14,7 @@ import sys
 import tempfile
 from collections import defaultdict, deque
 from pathlib import Path
+from screen_optimizer import read_plan, solve_plan, audit
 
 from rdkit import Chem, RDLogger, DataStructs
 from rdkit.Chem import rdFingerprintGenerator
@@ -433,7 +434,7 @@ def atomic_write(path, data):
 
 
 def release(args):
-    paths = [Path(args.drugs), Path(args.events), Path(args.interactions)]
+    paths = [Path(args.drugs), Path(args.events), Path(args.interactions), Path(args.screen_plan)]
     for path in paths:
         if not path.is_file():
             raise CuratorError(f"missing input file: {path}")
@@ -442,10 +443,11 @@ def release(args):
     event_records = list(nonblank_rows(paths[1]))
     interaction_records = read_interactions(paths[2])
     drug_rows, all_ids, conflicts, invalid_ids, aliases, drugs, drug_report = load_drugs(drug_records)
-    event_rows, known_types, type_conflicts, _, event_report = load_events(event_records)
+    event_rows, known_types, type_conflicts, valid_types, event_report = load_events(event_records)
     interaction_rows, interactions, interaction_report = load_interactions(
         interaction_records, all_ids, conflicts, invalid_ids, aliases, known_types, type_conflicts
     )
+    resources, policies = read_plan(paths[3], aliases, valid_types)
     metadata = chemistry(drugs)
     molecule_rows = [(*row, *metadata[row[0]][:2]) for row in drugs]
     by_fold = {fold: [] for fold in FOLDS}
@@ -459,10 +461,12 @@ def release(args):
     positive_rows = [(fold, *triple) for fold in FOLDS for triple in by_fold[fold]]
     unobserved = []
     matching_report = {}
+    planning_report = {}
     for fold in FOLDS[1:]:
         targets = select_targets(by_fold[fold])
         options = candidate_edges(targets, fold, metadata, interactions)
-        assigned = exact_matching(options)
+        assigned, status = solve_plan(targets, options, metadata, resources, policies[fold])
+        planning_report[fold] = audit(targets, assigned, metadata, resources, policies[fold], status)
         for index, (target, match) in enumerate(zip(targets, assigned), 1):
             candidate, score = match if match else ("", 0)
             unobserved.append((fold, index, *target, candidate, score, "MATCHED" if match else "UNMATCHED"))
@@ -491,6 +495,7 @@ def release(args):
                 } for fold in FOLDS
             },
             "matching": matching_report,
+            "plan": planning_report,
         },
         "files": {name: {"sha256": sha256(data)} for name, data in rendered.items()},
     }
@@ -503,7 +508,7 @@ def release(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for flag in ("drugs", "events", "interactions", "out-dir"):
+    for flag in ("drugs", "events", "interactions", "screen-plan", "out-dir"):
         parser.add_argument("--" + flag, required=True)
     args = parser.parse_args()
     try:

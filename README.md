@@ -1,27 +1,29 @@
-# Leakage-safe DDI training-data release (v3)
+# Resource-constrained, leakage-safe DDI experiment release (v4)
 
-A Harbor 0.5.0 bioinformatics repair task. The agent repairs `ddi-release`:
-curate molecular identities and directed interactions; form scaffold/similarity
-connected components; publish immutable molecular folds; produce safe
-unobserved candidate pairs using exact cardinality/score/lexicographic matching.
+A Harbor 0.5.0 bioinformatics repair task. The agent repairs `ddi-release`
+to curate molecular identities/directed interactions, create immutable chemical
+folds and jointly select safe unobserved assays under finite shared stock,
+once-only setup charges, budgets, candidate-cluster caps and event quotas.
 
-V3 replaces the v2 incremental feeds, withdrawals and five-output interface.
-The three original CSV snapshots are unchanged. Unobserved candidates are **not
-confirmed biological negatives**.
+Unobserved pairs are **not confirmed biological negatives**. Resource amounts
+are synthetic task policy, not experimental claims. The three original CSVs
+and fixed GitHub Actions workflow are unchanged. V3 expectations are preserved
+in `validation/v3_full_snapshot.json`; V4 retains molecular/positive CSV hashes.
 
 ## Layout
 
-- `instruction.md`: complete public behavior and report schema.
-- `environment/`: Python 3.11 + pinned RDKit 2025.3.6, incomplete draft, raw CSVs.
-- `solution/solve.sh`: install only the Oracle Python implementation and run the
-  supplied snapshot through the candidate environment's existing launcher.
-- `solution/oracle_release.py`: union-find clustering, exact residual min-cost flow.
-- `tests/test_outputs.py`: 15 weighted behavioral checks.
-- `tests/release_model.py`: independent graph traversal + Hungarian assignment.
-- `tests/full_snapshot.json`: independently cross-checked fixed summary/hashes.
-- `validation/`: portable local checks, deliberate negative controls and evidence.
-- `task.toml`: schema 1.3, agent 2400 s, verifier 240 s.
-- `.github/workflows/harbor-validation.yml`: unchanged fixed Harbor controls.
+- `instruction.md`: complete public contract, strict plan schema and report fields.
+- `environment/`: Python 3.11, RDKit 2025.3.6, OR-Tools 9.14.6206,
+  SciPy 1.15.3; incomplete executable draft, raw CSVs and screen_plan.json.
+- `solution/solve.sh`: install reference Python modules; reuse candidate launcher.
+- `solution/screen_optimizer.py`: staged integer CP-SAT optimization and audit.
+- `tests/release_model.py`: independent chemical graph traversal.
+- `tests/screen_model.py`: separately constructed SciPy MILP and tiny enumeration.
+- `tests/test_outputs.py`: 15 weighted behavioral checks, unchanged six weights.
+- `tests/full_snapshot.json`: V4 counts and exact CSV hashes.
+- `validation/`: package preflight, 500 exhaustive comparisons, negative controls,
+  measured evidence and user-controlled platform handoff.
+- `task.toml`: schema 1.3, agent 2400 s, verifier 600 s.
 
 ## Run and validate
 
@@ -29,32 +31,38 @@ Inside the task container:
 
 ```bash
 ddi-release --drugs /data/drug_list.csv --events /data/DDI_event.csv \
-  --interactions /data/newddi.csv --out-dir /output
+  --interactions /data/newddi.csv --screen-plan /data/screen_plan.json \
+  --out-dir /output
 ```
 
-On a local host, Python-only checks (not a substitute for container validation):
+Portable author checks (not a substitute for container controls):
 
 ```bash
 python validation/check_boundary.py --self-test
-uv run --python 3.11 --with rdkit==2025.3.6 python validation/validate_release.py --mode oracle
-uv run --python 3.11 --with rdkit==2025.3.6 python validation/validate_release.py --mode nop
-# Also test: scaffold_only, greedy, reuse, forward_only
+python validation/check_release_assets.py
+uv run --python 3.11 --with rdkit==2025.3.6 --with ortools==9.14.6206 --with scipy==1.15.3 python validation/check_optimizer.py
+uv run --python 3.11 --with rdkit==2025.3.6 --with ortools==9.14.6206 --with scipy==1.15.3 python validation/validate_release.py --mode oracle
+uv run --python 3.11 --with rdkit==2025.3.6 --with ortools==9.14.6206 --with scipy==1.15.3 python validation/validate_release.py --mode nop
+# Negative controls: ignore_plan, clip, split_stock, per_assay_setup,
+# ignore_min, float_lex; legacy chemical/safety controls remain available.
 ```
 
-Local verification first checks candidate files copied by the Dockerfile against
-hidden solution/test files by SHA-256 and exact bytes. Any complete duplicate
-stops validation. This is an author-side packaging preflight, not a new score
-condition; unsupported COPY/ADD rules require explicit review before publishing.
+The author preflight compares candidate Docker COPY sources with hidden
+solution/tests by SHA-256 and bytes, rejecting complete duplicate files.
+It does not add a scored agent condition. No reference launcher is copied
+into the candidate image; the reference script reuses the supplied entry point.
 
-Harbor **0.5.0**, in a Linux Docker environment:
+Both exact optimizers fix count, score and cost optima before fixing each target's
+lexicographic choice. Tests retain independent credit for chemical folding,
+positive partition and curation. There is no new global score cap.
+
+Use the unchanged Harbor **0.5.0** workflow for Linux Docker Oracle/NOP:
 
 ```bash
 uvx --python 3.12 --from harbor==0.5.0 harbor trials start -p . -a oracle
 uvx --python 3.12 --from harbor==0.5.0 harbor trials start -p . -a nop
 ```
 
-Oracle must be 1.000, NOP 0.000. The personal repository's unchanged workflow
-checks both rewards and uploads diagnostics. T1 difficulty and platform R1/R2
-remain separate evidence; local or CI success cannot guarantee T1 <= 0.700.
-
-See `validation/verification.md` for fixtures, weights and measured evidence.
+Oracle must be 1.000, NOP 0.000. A final CI receipt is separate from local results.
+R1/R2 and actual T1 scores still require one user-controlled platform detection.
+See `validation/verification.md` and `validation/platform_handoff.md`.

@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "defaults": {"stock": 2, "setup_cost": 3},
+  "drug_overrides": [],
+  "folds": {
+    "validation": {
+      "budget": 96, "assay_cost": 1, "max_pairs": 20, "cluster_cap": 1,
+      "event_quotas": [
+        {"type": 5, "min": 1, "max": 6},
+        {"type": 25, "min": 1, "max": 6},
+        {"type": 14, "min": 1, "max": 6}
+      ]
+    },
+    "test": {
+      "budget": 96, "assay_cost": 1, "max_pairs": 20, "cluster_cap": 1,
+      "event_quotas": [
+        {"type": 75, "min": 1, "max": 6},
+        {"type": 5, "min": 1, "max": 6},
+        {"type": 8, "min": 1, "max": 6}
+      ]
+    }
+  }
+}

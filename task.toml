@@ -16,7 +16,7 @@ gpus = 0
 allow_internet = true
 
 [verifier]
-timeout_sec = 240
+timeout_sec = 600
 
 [metadata]
 difficulty = "hard"
