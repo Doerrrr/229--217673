@@ -125,11 +125,19 @@ local legacy pyc caches. It includes six candidate files (one draft, one
 launcher, four inputs). No hidden reference launcher is installed. Oracle
 solve.sh installs two Python modules and reuses the existing candidate entry.
 
-Original protected SHA-256:
-- drug_list.csv: 9678f897dabe1641e3934a8cd79971c386e2bd17fdff9952af15db6a9a5d932f
-- DDI_event.csv: f7bdb8290a8733a783f4a269f1f32ae2f302d41504098120b9dc61345ae19802
-- newddi.csv: 3e5613f00e241ff79bafe83199347bad56e9d9e6beec0a1c60e73c72c2adcf68
+Original protected SHA-256 (Git blob / LF representation):
+- drug_list.csv: 208edfd36b34dc7f2d877f3b86636cff5fc14c11ff5617466b92b2633890a513
+- DDI_event.csv: 3efbd7ade6ef3c6d3e0fb0422653b7689912b5a75316a29d85c8e26072bff311
+- newddi.csv: 673d7ed6a0f3ecfdeaa1df54295f98ddf45266a837f6ec3a6a5f7934710d3b72
 - harbor-validation.yml: da628e5289907fc57baac03618158602ee8017e775b1f5cc1068c74b662b1156
+
+The initial author preflight accidentally pinned CRLF Windows working-file
+hashes, which rejected the unchanged LF Git checkout on the remote IDE.
+The correction pins the original Git blobs and only normalizes CRLF to LF
+in memory for the CSV hash comparison. It never rewrites data; the workflow
+still uses an exact byte hash. `--self-test` checks both line endings and
+rejects byte edits, appended whitespace and lone-CR conversion. Sync still
+requires no Git diff in the three original CSVs or platform workflow.
 
 No platform detection or final submission was triggered. R1/R2 and true T1
 difficulty remain unverified for V4. The prior normal T1=0.900 counterexample
