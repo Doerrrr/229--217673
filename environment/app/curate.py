@@ -27,6 +27,9 @@ def main():
     parser.add_argument("--drugs", required=True)
     parser.add_argument("--events", required=True)
     parser.add_argument("--interactions", required=True)
+    parser.add_argument("--drug-changes", required=True)
+    parser.add_argument("--event-changes", required=True)
+    parser.add_argument("--interaction-changes", required=True)
     parser.add_argument("--out-dir", required=True)
     args = parser.parse_args()
 
