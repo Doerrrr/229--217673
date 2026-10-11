@@ -4,6 +4,8 @@ import json
 import sys
 from pathlib import Path
 
+from check_boundary import check_boundary
+
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tests'))
 import test_outputs as verifier
@@ -11,6 +13,7 @@ import test_outputs as verifier
 parser=argparse.ArgumentParser()
 parser.add_argument('--mode',choices=('oracle','nop','scaffold_only','greedy','reuse','forward_only'),default='oracle')
 args=parser.parse_args()
+print(json.dumps({'boundary_preflight':check_boundary(ROOT)}),flush=True)
 output=ROOT/'.trials'/('release-'+args.mode)
 output.mkdir(parents=True,exist_ok=True)
 verifier.DATA=ROOT/'environment/data'

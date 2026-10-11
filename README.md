@@ -13,7 +13,8 @@ confirmed biological negatives**.
 
 - `instruction.md`: complete public behavior and report schema.
 - `environment/`: Python 3.11 + pinned RDKit 2025.3.6, incomplete draft, raw CSVs.
-- `solution/solve.sh`: install the Oracle and run the supplied snapshot.
+- `solution/solve.sh`: install only the Oracle Python implementation and run the
+  supplied snapshot through the candidate environment's existing launcher.
 - `solution/oracle_release.py`: union-find clustering, exact residual min-cost flow.
 - `tests/test_outputs.py`: 15 weighted behavioral checks.
 - `tests/release_model.py`: independent graph traversal + Hungarian assignment.
@@ -34,10 +35,16 @@ ddi-release --drugs /data/drug_list.csv --events /data/DDI_event.csv \
 On a local host, Python-only checks (not a substitute for container validation):
 
 ```bash
+python validation/check_boundary.py --self-test
 uv run --python 3.11 --with rdkit==2025.3.6 python validation/validate_release.py --mode oracle
 uv run --python 3.11 --with rdkit==2025.3.6 python validation/validate_release.py --mode nop
 # Also test: scaffold_only, greedy, reuse, forward_only
 ```
+
+Local verification first checks candidate files copied by the Dockerfile against
+hidden solution/test files by SHA-256 and exact bytes. Any complete duplicate
+stops validation. This is an author-side packaging preflight, not a new score
+condition; unsupported COPY/ADD rules require explicit review before publishing.
 
 Harbor **0.5.0**, in a Linux Docker environment:
 

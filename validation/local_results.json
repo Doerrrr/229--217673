@@ -1,17 +1,40 @@
 {
   "date": "2026-10-11",
+  "revision": "v3-r1-targeted-repair",
+  "baseline_sha": "a5cd2a0436ec7e3657f9f7b4ed6f1cb5fd20906a",
   "environment": {
-    "python": "3.11",
     "rdkit": "2025.3.6",
+    "python": "3.11",
     "os": "Windows"
   },
   "container_verified": false,
   "optimizer_exhaustive_graphs": 500,
+  "boundary_preflight": {
+    "exact_duplicates": 0,
+    "duplicate_test": "REJECTED",
+    "duplicate_solution": "REJECTED",
+    "distinct_files": "PASS"
+  },
+  "protected_files_unchanged": true,
+  "new_boundary_negative_controls": {
+    "no_directory_creation": "REJECTED",
+    "bad_csv_escaping": "REJECTED",
+    "missing_cli_accepted": "REJECTED"
+  },
+  "new_public_contract_coverage": [
+    "absent nested output directory",
+    "BOM in each input",
+    "leading blank records",
+    "commas and escaped quotes",
+    "single-field blank versus multi-field empty",
+    "omit each of four required CLI arguments",
+    "no arguments"
+  ],
   "controls": [
     {
       "mode": "oracle",
       "reward": 1,
-      "elapsed_sec": 21.578,
+      "elapsed_sec": 26,
       "checks": [
         {
           "name": "matching_cardinality",
@@ -93,7 +116,7 @@
     {
       "mode": "nop",
       "reward": 0,
-      "elapsed_sec": 5.781,
+      "elapsed_sec": 5.719,
       "checks": [
         {
           "name": "matching_cardinality",
@@ -190,7 +213,7 @@
     {
       "mode": "scaffold_only",
       "reward": 0.34,
-      "elapsed_sec": 21.031,
+      "elapsed_sec": 25.328,
       "checks": [
         {
           "name": "matching_cardinality",
@@ -281,7 +304,7 @@
     {
       "mode": "greedy",
       "reward": 0.65,
-      "elapsed_sec": 23.078,
+      "elapsed_sec": 26.781,
       "checks": [
         {
           "name": "matching_cardinality",
@@ -367,7 +390,7 @@
     {
       "mode": "reuse",
       "reward": 0.58,
-      "elapsed_sec": 22.313,
+      "elapsed_sec": 26.984,
       "checks": [
         {
           "name": "matching_cardinality",
@@ -454,7 +477,7 @@
     {
       "mode": "forward_only",
       "reward": 0.6,
-      "elapsed_sec": 21.609,
+      "elapsed_sec": 26.594,
       "checks": [
         {
           "name": "matching_cardinality",

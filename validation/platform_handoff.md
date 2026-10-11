@@ -31,7 +31,10 @@ git diff --cached --name-status
 git diff --cached --quiet -- .github || { echo "STOP: workflow changed"; exit 1; }
 git diff --cached --quiet -- environment/data/drug_list.csv environment/data/DDI_event.csv environment/data/newddi.csv \
   || { echo "STOP: original CSV changed"; exit 1; }
-git commit -m "Rebuild DDI task as leakage-safe release with exact global matching"
+git diff --cached --quiet -- tests/full_snapshot.json \
+  || { echo "STOP: expected full snapshot changed"; exit 1; }
+python3 validation/check_boundary.py --self-test
+git commit -m "Fix DDI release file boundary and public-contract test gaps"
 git push origin main
 git status -sb
 git rev-parse HEAD
@@ -42,7 +45,8 @@ git diff "$APPROVED_COMMIT" HEAD -- .gitattributes README.md environment instruc
 不在 restore 路径中，必须保留。旧变更流、旧 launcher/Oracle 的删除是
 接口替换的一部分；Git 历史中的原版本仍可恢复。
 
-同步成功后更新平台四个介绍字段为本版发布任务，不要沿用撤销/审计说明。
+本次是第三版 R1 定向返修：只需更新测试思路，Prompt、环境与主体功能
+保持第三版介绍不变。参考侧重复 launcher 已删除，solve.sh 复用候选侧入口。
 核对平台当前剩余次数，再触发 **一次** 保存并检测。
 
 记录平台提交 SHA、检测次数、R1、Oracle、NOP、两项 T1、R2、trial ID 和

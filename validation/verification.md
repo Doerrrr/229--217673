@@ -1,9 +1,9 @@
 # V3 verification evidence
 
 Local verification date: 2026-10-11. Python 3.11, RDKit 2025.3.6.
-Machine-readable evidence: `local_results.json`. Local verifier runtime was
-about 22 seconds, so the verifier budget remains 240 seconds; agent remains
-2400 seconds. No time-limit reduction was used.
+Machine-readable evidence: `local_results.json`. Runtime is recorded for each
+control. Verifier remains 240 seconds; agent remains 2400 seconds.
+No time-limit reduction was used.
 
 ## Controls and scope
 
@@ -19,7 +19,36 @@ about 22 seconds, so the verifier budget remains 240 seconds; agent remains
 These controls demonstrate test sensitivity, **not expected model T1 scores**.
 The latest platform counterexample is documented in `experience_review.md`.
 This file records local results only; the fixed GitHub workflow supplies
-separate Linux Docker/Harbor evidence. Platform R1/T1/R2 remain unexecuted for V3.
+separate Linux Docker/Harbor evidence for the final commit. The previous V3
+platform submission `e2beb9a` received R1 70/100 due to the duplicate launcher;
+this repair's platform R1/T1/R2 still require a new user-controlled detection.
+
+## Targeted R1 repair
+
+The byte-identical `solution/ddi-release` is removed. `solve.sh` installs only
+the reference Python implementation, then calls the existing candidate-side
+launcher. Candidate launcher, Dockerfile, public contract, scoring weights,
+timeouts and pinned full snapshot remain unchanged.
+
+`check_boundary.py` enumerates local Docker COPY sources and compares them with
+hidden solution/test files by SHA-256 and exact bytes. Duplicate solution and
+test launchers are rejected by its temporary-fixture self-test; distinct files
+pass. Unsupported ADD/COPY flags, globs, continuations, symlinks or Docker ignore
+rules require explicit support instead of silently skipping inspection. Every
+portable local control runs the preflight first. It adds no scored agent check.
+
+Existing checks now formally cover creating an absent multi-level output
+directory and checking all four artifact bytes against a same-input run; BOMs
+in all three inputs, leading blanks, quoted commas/escaped quotes, ignored
+single-field blanks versus rejected multi-field empties; and missing each
+required argument plus completely empty CLI invocation. These stay within the
+existing determinism, CSV/numeric and no-clobber checks, so there are still 15
+checks and the same six business weights.
+
+Author-side temporary negative probes were also rejected at the new assertions:
+an implementation refusing absent output directories, one emitting unescaped
+CSV IDs containing commas, and one accepting a missing required CLI argument.
+The full Oracle verifier measured 26 seconds on this host, well below 240 seconds.
 
 ## Independent checks
 
@@ -49,9 +78,10 @@ stereoisomers, salts, canonical aliases, invalid/conflicting IDs, directed
 duplicates, numeric event normalization, multiline physical lines, reversed
 inputs, smaller representative aliases and reverse known positives.
 
-Ten fatal-input/CLI cases use four pre-existing sentinel files, including
+Fifteen fatal-input/CLI cases use four pre-existing sentinel files, including
 missing file, wrong/missing header, broken quoted CSV in each input, invalid
-UTF-8 in each input and unknown CLI option. All four bytestrings must survive.
+UTF-8 in each input, unknown CLI option, missing each of the four required
+arguments and no arguments. All four bytestrings must survive.
 
 ## Weight allocation
 
@@ -101,6 +131,7 @@ or final submission was triggered by local verification.
 ## Reproduce
 
 ```bash
+python validation/check_boundary.py --self-test
 uv run --python 3.11 --with rdkit==2025.3.6 python validation/check_optimizer.py
 uv run --python 3.11 --with rdkit==2025.3.6 python validation/validate_release.py --mode oracle
 uv run --python 3.11 --with rdkit==2025.3.6 python validation/validate_release.py --mode nop

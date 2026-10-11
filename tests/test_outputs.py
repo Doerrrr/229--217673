@@ -78,10 +78,14 @@ def inputs(root, drugs, events="0,zero\n1,one\n2,two\n", interactions="d1,type,d
         (root/name).write_text(text, encoding="utf-8", newline="\n")
 
 
-def invoke(root, out, extra=(), timeout=90):
+def invoke(root, out, extra=(), timeout=90, omit=()):
+    arguments = []
+    for flag, path in (("--drugs", root/"drug_list.csv"), ("--events", root/"DDI_event.csv"),
+                       ("--interactions", root/"newddi.csv"), ("--out-dir", out)):
+        if flag not in omit:
+            arguments.extend((flag, str(path)))
     return subprocess.run(
-        COMMAND + ["--drugs",str(root/"drug_list.csv"),"--events",str(root/"DDI_event.csv"),
-                   "--interactions",str(root/"newddi.csv"),"--out-dir",str(out)] + list(extra),
+        COMMAND + arguments + list(extra),
         capture_output=True, text=True, timeout=timeout, check=False)
 
 
@@ -294,6 +298,33 @@ def check_multiline():
     actual=actual_table(case,"molecules.csv")
     require([r[:3] for r in actual] == [list(r[:3]) for r in tables["molecules.csv"]], "multiline molecular identities")
 
+    # All three inputs have a BOM, leading blank lines and standard CSV escaping.
+    # One-field whitespace is ignored; multi-field empty records are rejected.
+    root,out = temp(),temp()
+    inputs(root, '\ufeff\n\n"A,one",CCO\n"B""two",CCC\n" ",CCN\n,\n,,\n',
+           '\ufeff\n\n0,"dose ""high"", daily"\n00,"dose ""high"", daily"\n1,other\n,\n,,\n" "\n',
+           '\ufeff\n\n d1 , type , d2 \n"A,one",00,"B""two"\n\n,\n,,\n" "\n')
+    tables,report,targets,options = expected(root)
+    case=(root,out,tables,report,targets,options,invoke(root,out))
+    require(report["input"] == {"drug_rows":5,"event_rows":5,"interaction_rows":3}, "manual CSV record counts")
+    require(report["drugs"]["invalid_rows"] == [
+        dict(line=5,drug_id="",reason="malformed"),
+        dict(line=6,drug_id="",reason="malformed"),
+        dict(line=7,drug_id="",reason="malformed")], "manual empty drug rejections")
+    require(report["events"]["invalid_rows"] == [
+        dict(line=6,event_type="",reason="invalid_type"),
+        dict(line=7,event_type="",reason="malformed")], "manual empty event rejections")
+    require(report["interactions"]["kept"] == 1 and report["interactions"]["dropped"]["malformed"] == 2,
+            "manual empty interaction rejections")
+    for key in ("input","drugs","events","interactions"):
+        section(case,key)
+    # CCO and CCC hash to the test fold. This fixture has no matching choices;
+    # checking all artifacts here only exercises CSV parsing/serialization.
+    require([row[:3] for row in tables["molecules.csv"]] == [
+        ("A,one","CCO","A,one"),("B\"two","CCC","B\"two")], "manual escaped identities")
+    for name in HEADERS:
+        exact_table(case,name)
+
 
 def check_determinism():
     case=obtain("lex")
@@ -307,6 +338,11 @@ def check_determinism():
     result=invoke(case[0],case[1])
     require(result.returncode == 0, "rerun failed")
     require(first == {name:(case[1]/name).read_bytes() for name in NAMES}, "rerun changed bytes")
+    created_out = temp()/"missing-parent"/"release"
+    require(not created_out.exists() and not created_out.parent.exists(), "output fixture already exists")
+    result=invoke(case[0],created_out)
+    require(result.returncode == 0 and created_out.is_dir(), "nested output directory not created")
+    require(first == {name:(created_out/name).read_bytes() for name in NAMES}, "new directory changed output bytes")
     # Reverse input records and add a smaller alias. Molecular split must be stable.
     root,out = temp(),temp()
     drugs=list(csv.reader((case[0]/"drug_list.csv").open(encoding="utf-8")))
@@ -346,6 +382,16 @@ def check_fatal():
         result=invoke(root,out,extra=("--unknown-option",) if name == "cli" else ())
         require(result.returncode != 0 and bool(result.stderr.strip()), "fatal error not reported")
         require({key:(out/key).read_bytes() for key in NAMES} == sentinels,"fatal input clobbered output")
+    flags=("--drugs","--events","--interactions","--out-dir")
+    for omitted in [(flag,) for flag in flags]+[flags]:
+        root,out=temp(),temp()
+        inputs(root,"A,CCO\nB,CCC\n",interactions="d1,type,d2\nA,0,B\n")
+        sentinels={key: ("old-cli-"+",".join(omitted)+"-"+key+"\r\n\x00").encode() for key in NAMES}
+        for key,value in sentinels.items():
+            (out/key).write_bytes(value)
+        result=invoke(root,out,omit=omitted)
+        require(result.returncode != 0 and bool(result.stderr.strip()), f"missing CLI {omitted} not reported")
+        require({key:(out/key).read_bytes() for key in NAMES} == sentinels,"missing CLI argument clobbered output")
 
 
 CHECKS = [
