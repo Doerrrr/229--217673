@@ -47,9 +47,13 @@ files = {p.relative_to(task).as_posix(): sha(p.read_bytes())
          if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc"}
 if len(files) != 31:
     raise SystemExit("Unexpected generated task files; run preflight first")
-if any(files[name] != sha(git("show", "HEAD:validation/joint_release/" +
-                             args.task_name + "/" + name)) for name in files):
-    raise SystemExit("Frozen task no longer matches committed source")
+for name in files:
+    committed = git("show", "HEAD:validation/joint_release/" + args.task_name + "/" + name)
+    working = (task / name).read_bytes()
+    if working != committed and not (
+        name.endswith(".cpp") and working.replace(b"\r\n", b"\n") == committed
+    ):
+        raise SystemExit("Frozen task no longer matches committed source: " + name)
 subprocess.run(["python", str(ROOT / "preflight.py"), "--task-name", args.task_name],
                check=True, capture_output=True)
 module = ast.parse((task / "tests/joint_score.py").read_text(encoding="utf-8"))
