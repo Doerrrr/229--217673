@@ -19,7 +19,13 @@ duplicates = [(str(left.relative_to(ROOT)), str(right.relative_to(ROOT)))
 if duplicates:
     raise SystemExit(f"candidate-hidden exact duplicates: {duplicates}")
 for name in PROTECTED:
-    committed = subprocess.check_output(["git", "show", f"{BASELINE}:{name}"], cwd=ROOT)
+    revision = "HEAD" if name.startswith(".github/") else BASELINE
+    tracked = subprocess.check_output(["git", "ls-tree", "--name-only", revision, "--", name], cwd=ROOT).strip()
+    if not tracked:
+        if (ROOT / name).exists():
+            raise SystemExit(f"unexpected workflow introduced: {name}")
+        continue  # A platform repo may have no workflow; preserve that absence.
+    committed = subprocess.check_output(["git", "show", f"{revision}:{name}"], cwd=ROOT)
     working = (ROOT / name).read_bytes()
     # Git's text checkout may be CRLF on Windows; no other normalization is allowed.
     if working.replace(b"\r\n", b"\n") != committed.replace(b"\r\n", b"\n"):

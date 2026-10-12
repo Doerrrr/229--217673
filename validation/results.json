@@ -19,11 +19,21 @@
     "reported_full_kept": 191551,
     "reported_delta_added": 1,
     "reported_delta_removed": 20,
-    "hidden_score": null,
-    "linux_validation": "PENDING"
+    "hidden_score": 0.9615,
+    "linux_validation": "completed normally in Harbor Docker using unchanged verifier",
+    "audit_run": "https://github.com/Doerrrr/229--217673/actions/runs/38188878602",
+    "publication_groups_passed": 5,
+    "publication_group_evidence": "Total deduction 0.0385 is smaller than the minimum publication-group weight 0.07; with independent additive checks all five publication groups necessarily passed.",
+    "per_check_artifact": "UNAVAILABLE (fixed upload workflow excludes hidden .trials)",
+    "workflow_conclusion": "failure at expected-reference reward check because this audit intentionally installed a blind answer, not the golden reference"
   },
-  "linux_reference_publication": "PENDING_CI",
-  "harbor_oracle": null,
-  "harbor_nop": null,
-  "platform_new_version_t1": null
+  "linux_reference_publication": "PASS under the full weighted verifier",
+  "harbor_oracle": 1.0,
+  "harbor_nop": 0.0,
+  "ci_verified_commit": "b5718e94a65a195a1806f31377bc7850d9905866",
+  "ci_run": "https://github.com/Doerrrr/229--217673/actions/runs/38188634197",
+  "blind_audit_commit": "4b193427b5b4aedddafcb91ed3a3d6c707c4208e",
+  "ci_artifact_limitation": "Fixed upload step excluded the hidden .trials directory; job logs contain measured Oracle/NOP rewards but no per-check artifact is available.",
+  "platform_new_version_t1": null,
+  "release_decision": "HOLD platform synchronization: blind evidence does not support intended difficulty reduction; preserve honest weights and do not consume platform detection."
 }
