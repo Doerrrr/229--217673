@@ -43,7 +43,8 @@ def sha(data: bytes) -> str:
 
 
 files = {p.relative_to(task).as_posix(): sha(p.read_bytes())
-         for p in sorted(task.rglob("*")) if p.is_file()}
+         for p in sorted(task.rglob("*"))
+         if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc"}
 if len(files) != 31:
     raise SystemExit("Unexpected generated task files; run preflight first")
 if any(files[name] != sha(git("show", "HEAD:validation/joint_release/" +
@@ -77,7 +78,8 @@ public = out / "ddi_candidate"
 private = out / "ddi_evaluator_private"
 public.mkdir(parents=True)
 private.mkdir(parents=True)
-shutil.copytree(task / "environment", public / "environment")
+shutil.copytree(task / "environment", public / "environment",
+                ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
 shutil.copyfile(task / "instruction.md", public / "instruction.md")
 shutil.copyfile(ROOT / "public_pack_answer.py", public / "pack_answer.py")
 (public / "answer_notes.md").write_text(
@@ -121,7 +123,8 @@ public_hashes = {p.relative_to(public).as_posix(): sha(p.read_bytes())
 (public / "public_manifest.json").write_text(json.dumps(
     {"task_commit": commit, "task_digest": digest, "agent_budget_sec": 3600,
      "files": public_hashes}, indent=2) + "\n", encoding="utf-8")
-shutil.copytree(task, private / "task")
+shutil.copytree(task, private / "task",
+                ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
 shutil.copyfile(ROOT / "frozen_evaluator.py", private / "evaluate.py")
 private_files = {p.relative_to(private).as_posix(): sha(p.read_bytes())
                  for p in sorted(private.rglob("*")) if p.is_file()}

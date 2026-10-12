@@ -19,7 +19,8 @@ if not args.task_name.startswith("runtime_task_") or any(
 ):
     raise SystemExit("Use an owned runtime_task_* folder")
 TASK = ROOT / args.task_name
-FILES = {p.relative_to(TASK).as_posix(): p for p in TASK.rglob("*") if p.is_file()}
+FILES = {p.relative_to(TASK).as_posix(): p for p in TASK.rglob("*")
+         if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc"}
 REQUIRED = {
     "environment/Dockerfile", "environment/app/curate.py",
     "environment/bin/ddi-curate", "environment/bin/ddi-release-audit",
