@@ -1,208 +1,173 @@
-# Repair the DDI curation and release pipeline
+# Repair the versioned DDI evidence library
 
-You are maintaining a drug-drug interaction (DDI) preprocessing job used before model training. The upstream export now includes ordered change files. The current containerized job neither replays them nor produces a trustworthy curated dataset.
+The chemical curation service has a working Python client and a defective C++
+library. Structure corrections must update the directed evidence graph without
+changing the snapshots still being read by downstream analyses. Repair the
+native component, including its transaction and memory-ownership behavior.
+No interaction in this dataset is a confirmed clinical recommendation.
 
-Repair the implementation and launcher already present in the container, including `/opt/ddi-curator/publication.py`. Training workers need a complete, immutable generation while concurrent curation jobs publish new data. The completed legacy command must be:
+## Deliverable and environment
 
-```bash
-/usr/local/bin/ddi-curate \
-  --drugs /data/drug_list.csv \
-  --events /data/DDI_event.csv \
-  --interactions /data/newddi.csv \
-  --drug-changes /data/drug_changes.csv \
-  --event-changes /data/event_changes.csv \
-  --interaction-changes /data/interaction_changes.csv \
-  --out-dir /output
-```
+Implement the C ABI in `/opt/ddi-snapshot/include/ddi_snapshot.h`. Edit
+`/opt/ddi-snapshot/src/ddi_snapshot.cpp` and optionally add C++ source/header
+helpers **under that src directory**. Run `/opt/ddi-snapshot/build.sh`; this
+builds `/opt/ddi-snapshot/libddi.so` using G++ C++20, `-O2`, `-fPIC`, `-shared`,
+and `-pthread`. The library must export the declared unmangled functions.
+Use the installed C++ standard library; no new packages are needed. Do not
+modify the header, build script, Python client, raw data, or runtime configuration.
+Python/RDKit 2025.3.6 and G++ are already installed. The native library must work
+with the existing `ctypes` client; spawning another interpreter or reading
+external answer files is not a replacement for implementing this library.
 
-Do not modify the source files in `/data`.
-
-## Input contracts
-
-- `drug_list.csv` is UTF-8 CSV **without a header**. Each non-blank row has exactly two non-empty fields, `drug_id,SMILES`. A row with the wrong number of fields or an empty field is `malformed`; a structurally valid row whose SMILES RDKit cannot parse and sanitize is `invalid_smiles`.
-- `DDI_event.csv` is UTF-8 CSV **without a header**. Each non-blank row has exactly two fields, `event_type,description`. A wrong field count is `malformed`; a type that is not one or more ASCII decimal digits (`0`–`9`) is `invalid_type`; a valid type with an empty description is `empty_description`. Convert valid types to non-negative base-10 integers, so `01` and `1` denote the same type.
-- `newddi.csv` is UTF-8 CSV with the header `d1,type,d2`. Each non-blank data row must have exactly three fields, non-empty `d1` and `d2`, and a `type` consisting of one or more ASCII decimal digits. A row failing any of these structural checks is `malformed`, before any drug or event lookup. Convert valid types to non-negative base-10 integers; an integer absent from the event dictionary is `unknown_type`.
-- Surrounding whitespace in fields is insignificant. Blank physical rows and CSV records whose fields are all empty after trimming are ignored. Report line numbers refer to the 1-based last physical line occupied by the corresponding CSV record.
-- DDI records are directed. `(A, 7, B)` and `(B, 7, A)` are different records.
-
-## Incremental publication
-
-First curate the three original files as a **baseline**, using all rules below. Then replay the three change files against the raw snapshot and curate the resulting **final** snapshot with the same rules. Each change file is UTF-8 CSV with exactly the header shown below; blank physical rows are ignored. Within each file, `seq` is a positive ASCII decimal integer and must strictly increase (gaps are allowed). Replay each file in its own order; there is no cross-file ordering requirement. Trim surrounding whitespace from all fields. Wrong headers, field counts, operations, sequences, or keys/values described below are fatal input errors.
-
-- `drug_changes.csv`: `seq,op,drug_id,SMILES`. `drug_id` must be non-empty. `UPSERT` requires a non-empty RDKit-parseable/sanitizable SMILES and replaces **all raw rows** for that exact ID with one new row. `DELETE` requires an empty SMILES field and removes all raw rows for that ID; a missing ID is a legal no-op.
-- `event_changes.csv`: `seq,op,event_type,description`. The type must be ASCII decimal digits; compare types numerically, so `01` and `1` are the same key. `UPSERT` requires a non-empty description and replaces all raw rows for that type with one new row. `DELETE` requires an empty description and removes all raw rows for that type; an absent type is a legal no-op.
-- `interaction_changes.csv`: `seq,op,d1,type,d2`. Both drug IDs must be non-empty and `type` must be ASCII decimal digits. `ADD` appends one directed raw row, including when an identical row already exists. `DELETE` removes **all raw rows** matching the directed `(d1, numeric type, d2)` key; an absent key is a legal no-op. Reverse-direction rows are unaffected. The referenced drugs or event type need not exist: ordinary final curation handles those cases.
-
-Structural/sequence/change-value errors must be found before replacing any old output. Invalid molecules and other bad rows in the three **original** files remain non-fatal and are reported by the curation rules below. Physical line numbers in invalid-row evidence refer to surviving original-file records; valid UPSERT rows use their physical line in the corresponding change file if ever needed.
-
-## Drug curation
-
-Use RDKit to parse and sanitize each SMILES, then generate canonical isomeric SMILES (`canonical=True`, `isomericSmiles=True`).
-
-- Malformed rows and invalid SMILES must be reported.
-- If one drug ID has multiple valid rows with the same canonical SMILES, it is valid.
-- If one drug ID has more than one distinct valid canonical SMILES, quarantine that ID as conflicting.
-- An ID with no valid SMILES is invalid.
-- Different valid IDs that resolve to the same canonical SMILES are aliases. Use the lexicographically smallest ID as the representative.
-
-Write `/output/drugs_clean.csv` with UTF-8, LF line endings and this header:
-
-```text
-drug_id,canonical_smiles,aliases
-```
-
-Write one row per unique molecule, sorted by representative `drug_id`. `aliases` is the semicolon-separated, lexicographically sorted list of all valid IDs for that molecule, including the representative.
-
-## Event curation
-
-- Repeated rows with the same type and description are allowed.
-- A type associated with more than one distinct non-empty description is conflicting and cannot be used.
-- Malformed types, empty descriptions and malformed rows must be reported.
-
-## Interaction curation
-
-Process non-blank interaction rows using this first-match rejection order:
-
-1. `malformed`
-2. `missing_drug`
-3. `conflicting_drug`
-4. `invalid_drug`
-5. `unknown_type`
-6. `conflicting_type`
-7. `self_interaction`
-8. `alias_self_interaction`
-9. `duplicate`
-
-Map valid drug IDs to their canonical representatives. A duplicate is an already-kept, mapped, directed `(d1, type, d2)` triple. Do not collapse reverse-direction records.
-
-Write `/output/interactions_clean.csv` with UTF-8, LF line endings and this header:
-
-```text
-d1,type,d2
-```
-
-Sort rows by `d1`, integer `type`, then `d2`.
-
-Write `/output/interaction_delta.csv` with UTF-8, LF line endings and header `action,d1,type,d2`. Compare baseline and final **kept** interactions by directed identity `(canonical isomeric SMILES of d1, numeric type, canonical isomeric SMILES of d2)`. Emit one `REMOVE` row for each identity present only at baseline, using its baseline representative IDs; emit one `ADD` row for each identity present only at final, using its final representative IDs. Sort all `REMOVE` rows first, then `ADD` rows, each by `d1`, numeric `type`, `d2`. A change of representative ID caused only by a new alias must not create a false delta. The delta is a set difference, not a count of raw ADD/DELETE operations.
-
-## Report and reliability requirements
-
-Write `/output/report.json` as deterministic UTF-8 JSON with a trailing newline. It must contain:
-
-```json
-{
-  "input": {
-    "drug_rows": 0,
-    "event_rows": 0,
-    "interaction_rows": 0
-  },
-  "final_input": {
-    "drug_rows": 0,
-    "event_rows": 0,
-    "interaction_rows": 0
-  },
-  "changes": {
-    "drug_rows": 0,
-    "event_rows": 0,
-    "interaction_rows": 0,
-    "delta_added": 0,
-    "delta_removed": 0
-  },
-  "drugs": {
-    "valid_ids": 0,
-    "unique_molecules": 0,
-    "invalid_rows": [],
-    "invalid_only_ids": [],
-    "conflicting_ids": []
-  },
-  "events": {
-    "valid_types": 0,
-    "invalid_rows": [],
-    "conflicting_types": []
-  },
-  "interactions": {
-    "kept": 0,
-    "dropped": {
-      "malformed": 0,
-      "missing_drug": 0,
-      "conflicting_drug": 0,
-      "invalid_drug": 0,
-      "unknown_type": 0,
-      "conflicting_type": 0,
-      "self_interaction": 0,
-      "alias_self_interaction": 0,
-      "duplicate": 0
-    }
-  },
-  "files": {
-    "drugs_clean.csv": {"sha256": "..."},
-    "interactions_clean.csv": {"sha256": "..."},
-    "interaction_delta.csv": {"sha256": "..."}
-  }
-}
-```
-
-Each invalid row entry must contain the 1-based physical `line`, the available identifier (`drug_id` or `event_type`, using an empty string when unavailable), and a stable `reason` (`malformed`, `invalid_smiles`, `invalid_type`, or `empty_description`). Sort invalid row entries by line; sort all ID/type lists.
-
-`input` counts describe the original snapshot; `final_input` counts describe the raw snapshot after replay. All `drugs`, `events`, and `interactions` curation statistics describe the **final** snapshot. `changes` row counts exclude headers and blank physical rows; `delta_added` and `delta_removed` count semantic delta rows. The SHA-256 values are lowercase hexadecimal digests of the exact bytes written to the three CSV files.
-
-The command must be deterministic and safe to rerun. Validate all six input files before replacing existing output files. On a missing input or fatal CSV syntax/header/change-contract error (for example, an unterminated quoted field or repeated `seq`), print a nonempty error description to stderr, exit non-zero, and leave all four existing output files unchanged.
-
-## Immutable generation publication
-
-The legacy mode above remains supported. Two additional **optional but paired** arguments select publication mode:
+The public `client.py` accepts a JSON object with `operations`, runs those C ABI
+calls, and prints the returned values. It contains no expected answers. Example:
 
 ```bash
-ddi-curate --drugs /data/drug_list.csv --events /data/DDI_event.csv \
-  --interactions /data/newddi.csv --drug-changes /data/drug_changes.csv \
-  --event-changes /data/event_changes.csv \
-  --interaction-changes /data/interaction_changes.csv \
-  --out-dir /output/releases-store --release-id batch_a --expected-parent NONE
+printf '%s\n' '{"operations":[["engine","e"],["begin","t","e"],["bind","t",1,1,10],["bind","t",2,1,20],["event","t",0,1],["put","t",11,1,0,2],["commit","t"],["current","s","e"],["snapshot","s"]]}' | python /opt/ddi-snapshot/client.py
 ```
 
-Here `--out-dir` is a store root, not a flat output directory. `NONE` means there is no committed generation. Otherwise the expected parent is a release ID. IDs match the ASCII regex `[a-z][a-z0-9_-]{0,39}`. Reject a missing half of the pair or an invalid ID before modifying the store. Fully validate and curate all six inputs before asking the publisher to change store state. Publication payloads are the **same four byte sequences** that the legacy invocation would write for those inputs; do not add publication metadata to `report.json`.
+The snapshot above has revision 1, one edge `(10,0,20)` with support 1,
+and counts `[0,0,0,0,0,0,0,1]`. Keep your own tests outside the src directory.
+The hidden verifier is not an input you need to find.
 
-Provide these public Python functions in `publication.py`; callers import them by putting `/opt/ddi-curator` on `sys.path`:
+## Identities and cleaning rules
 
-```python
-publish(root, release_id, expected_parent, artifacts, hook=None) -> str
-read_current(root) -> dict | None
-```
+Raw drug IDs, canonical molecule keys, and raw evidence keys are positive
+`uint64_t` values; event types are `uint32_t`, including 0. Canonical molecule
+keys come from an upstream RDKit `MolFromSmiles` and canonical isomeric
+`MolToSmiles` mapping. The three original CSVs in `/data` are supplied for
+end-to-end checks; numeric C ABI fixtures also exercise aliases and conflicts.
+Do not parse SMILES inside this native layer. Different raw IDs may refer to
+the same canonical molecule key, and a binding may change in a later version.
 
-`root` accepts a nonempty string or `pathlib.Path` (including a not-yet-existing multilevel directory). In the Python API, `expected_parent` is `None` or a valid ID, **not** the CLI sentinel. `artifacts` is a dictionary with exactly the four filenames listed above and values of type `bytes`. Validate these types/keys/IDs and that `hook` is None or callable before creating files. Do not modify the caller's dictionary. Fatal API errors raise an exception; no particular exception class or wording is required. The CLI must exit nonzero with a nonempty error description. Use Linux local-filesystem semantics; network filesystems, power loss, and malicious external writers are outside scope.
+`ddi_bind(tx,raw,state,molecule)` replaces the entire current interpretation of
+one raw drug ID. State MISSING(0) removes it; VALID(1) requires a positive molecule
+key; CONFLICTING(2) and INVALID_ONLY(3) require molecule 0. Every non-VALID state
+requires molecule 0. `ddi_event` similarly replaces an event state, accepting
+only MISSING, VALID, or CONFLICTING. Missing removes the event.
 
-### Store layout and integrity
+`ddi_put(tx,key,raw_d1,type,raw_d2)` replaces the raw assertion with that evidence
+key. Reusing a key must remove its old drug/event dependencies and contribution.
+`ddi_remove` removes that key. Removing absent bindings, events, or evidence is a
+successful no-op. Different evidence keys with identical endpoint/type content
+are distinct current assertions, **not** duplicate keys to discard.
 
-- `CURRENT` contains exactly the current ID plus ASCII LF, or is absent before the first commit.
-- `releases/<id>/` contains the four payloads and `manifest.json`. Once sealed, this directory and its bytes must never change, even if it is not yet committed.
-- A manifest is UTF-8 JSON containing exactly `version` (integer 1, not Boolean), `release_id`, `parent` (ID or null), and `sha256` (exactly the four filenames mapped to lowercase SHA-256 digests of their bytes). JSON whitespace/key order is not prescribed.
-- A release is **committed** iff it is CURRENT or lies on its manifest-parent chain. Each reachable manifest must have the correct directory ID, legal fields, matching payload hashes and an existing parent, with no cycle. Reject a corrupt current chain without changing committed files or CURRENT. Do not confuse an unreferenced sealed directory with a committed release.
-- Reserve `.writer.lock`, `.staging/`, and names beginning `.current-` at the store root for publisher bookkeeping. Keep a stable writer-lock file: never unlink or replace it. Do not delete unrelated root files. After a successful publish (including an idempotent retry), `.staging/` has no children and no `.current-` temporary files remain. After an exception or killed writer, these private remnants may exist; the next successful call must remove them. Old sealed generations, including unreferenced ones, are retained.
+Each current raw assertion receives exactly one reason, in this priority order:
 
-`read_current` reads CURRENT **once** and returns None if absent, without creating a store. Otherwise it returns exactly `{"release_id": id, "parent": parent_or_none, "artifacts": {filename: bytes, ...}}`. It validates that captured generation's manifest and hashes; it need not walk ancestors. It must not block on the writer lock. If CURRENT advances while a reader is fetching files, the reader still returns the complete captured generation, never a mixture. Captured generations remain readable after later publications.
+1. Either endpoint binding absent: MISSING_DRUG (index 0).
+2. Either endpoint CONFLICTING: CONFLICTING_DRUG (1).
+3. Either endpoint INVALID_ONLY: INVALID_DRUG (2).
+4. Event type absent: UNKNOWN_EVENT (3).
+5. Event type CONFLICTING: CONFLICTING_EVENT (4).
+6. Raw endpoint IDs equal: SELF (5).
+7. Canonical endpoint molecule keys equal: ALIAS_SELF (6).
+8. Otherwise ACCEPTED (7).
 
-### Compare-and-swap, retries, and failure boundary
+Accepted assertions aggregate into the **directed** canonical tuple
+`(molecule_d1,type,molecule_d2)`. Edge support equals the number of distinct
+currently accepted evidence keys for that tuple. Opposite directions are
+different tuples. Counts include every raw key exactly once, even when multiple
+accepted keys contribute to the same edge. Binding/event updates must reclassify
+already present assertions; a previously rejected assertion may become accepted.
 
-Serialize writers across threads and independent processes, including different root paths resolving to the same directory. Read and validate the actual current chain **after** acquiring writer exclusivity. For a new release, require current ID == expected_parent; two writers competing for the same parent must have exactly one successful commit. A loser must not change CURRENT or any committed bytes. Ordinary readers must remain able to fetch the old generation while a writer is staging or waiting to commit.
+## Transactions and versions
 
-The request identity is `(release_id, parent, exact four artifact bytes)`:
+A new engine has committed revision 0 and empty state. `ddi_begin` captures the
+current committed state and revision. Only that transaction's working state is
+changed by mutations. Other open transactions and existing snapshots must not
+change. An operation that returns INVALID must not change state or replay history.
 
-1. If that exact release is already committed, return its ID successfully even if CURRENT has advanced to a descendant. **Never move CURRENT backwards.** Do not invoke hooks for this no-work retry.
-2. Reusing any sealed ID with different parent or content is an error, whether or not it is committed.
-3. If an identical sealed directory is uncommitted (a writer died after sealing), it may be reused only when the expected-parent compare-and-swap still holds. If another release has won, reject the stale request; do not attach the orphan to a different parent.
+Savepoint tokens are positive and never reused in that transaction. A savepoint
+captures its full working state **and the operation history position**.
+Rollback restores the selected point, discards later history and later points,
+and keeps the selected point usable. Release removes the selected point and
+later points but leaves working state and operation history unchanged. An absent
+token is INVALID and has no side effects.
 
-Stage a complete generation and seal it before atomically switching the single CURRENT pointer. Persist files and relevant directories with `fsync` before reporting success. This requirement concerns independent-process termination, not recovery from arbitrary power loss. A failure before pointer replacement leaves the old CURRENT and all committed bytes unchanged. A failure after pointer replacement leaves the new release committed, even if the caller saw an exception. In both cases locks must be released and later calls must work.
+Commit succeeds only if the engine's committed revision still equals the
+transaction's captured base revision. Exactly one same-base competing writer can
+win. Success publishes its complete working state, increments revision by one
+(even for a no-op), writes the revision output, and closes the transaction.
+A losing commit returns CONFLICT, does not publish, does not change its output,
+and leaves its working state and history open for further editing or rebase.
 
-### Public failure-injection callback
+Rebase captures the latest committed state/revision and replays the transaction's
+**surviving ordered mutation history** on it. History discarded by rollback is
+not replayed. Rebase invalidates all old savepoint tokens. It does not commit.
+Subsequent rollback/savepoint and repeated rebase must remain coherent.
+Preview captures the current working state, with the captured base revision;
+it does not change after rollback, mutation, rebase, or commit of that transaction.
 
-When provided, invoke `hook(event, detail)` synchronously at these boundaries while holding writer exclusivity:
+After success, mutations/savepoint/rollback/release/rebase/commit/preview return
+CLOSED. `ddi_tx_free` is still required. Freeing an engine closes its live
+transactions; operations on them return CLOSED, but transactions can still be
+freed. Existing snapshot and diff handles remain usable independently of engine
+and transaction lifetime. No call uses a freed engine/transaction pointer.
 
-- `after_stage_file`, `{"release_id": id, "name": filename}`: after each staged artifact is written/closed, before sealing. Invoke once per artifact, in filename-lexicographic order. This event does not run when reusing an already-sealed orphan.
-- `after_seal`, `{"release_id": id}`: after the complete generation directory is sealed and before pointer replacement (also when reusing an orphan).
-- `after_switch`, `{"release_id": id}`: after CURRENT has switched and been persisted, before returning.
+## ABI and ownership
 
-Propagate callback exceptions without masking them or rolling back a committed pointer. The callback may pause or terminate the process; do not convert a callback failure into success. No callbacks are invoked on an already-committed retry. Tests coordinate processes using these public events rather than relying on timing sleeps.
+The exact statuses/layouts are in the header: OK=0, INVALID=1, CONFLICT=2,
+CLOSED=3, FAILED=4. Edge records are 32 bytes and diff records 40 bytes on this
+64-bit Linux runtime. `reserved` is always zero. Edges sort numerically by
+`(d1,type,d2)`, not lexically or insertion order. Empty views return NULL and 0.
 
-### Completion and assessment
+`ddi_edges` borrows an immutable contiguous array **owned by that snapshot**.
+Repeated successful reads return the same address and bytes until that snapshot
+is freed. Later operations on any other handle must not mutate or invalidate it.
+`ddi_counts` returns the eight counters above; `ddi_support` returns support for
+a positive canonical endpoint tuple, or 0 if absent. Neither changes the snapshot.
 
-Repair the deployed command and module, run checks, and finish; extra stress suites are not a prerequisite. Assessment gives 0.55 to the existing curation/replay/delta obligations and 0.45 to five publication responsibilities: CLI payload/snapshots (0.10), writer compare-and-swap (0.10), request identity/idempotence (0.08), exception/crash recovery (0.10), and API/integrity/path boundaries (0.07). These are additive checks with no score cap for a single failed responsibility. A command that cannot produce the legacy artifacts receives zero. No clinical validity of the source interactions is asserted.
+`ddi_compare(before,after)` works for arbitrary snapshots, including previews
+and different engines. It returns sorted net support changes only: a row has
+`before` and `after` support; either may be 0; equal values are omitted. It does
+not report transient history or return two rows for one tuple. A diff owns its
+data independently of both source snapshots. Repeated `ddi_changes` reads have
+the same immutable address until `ddi_diff_free`, even after freeing both inputs.
+
+All status-returning functions reject NULL required handles/out-parameters with
+INVALID. Missing scalar keys, invalid enum/state-molecule combinations, and
+invalid savepoint tokens are INVALID. Every non-OK return leaves caller-owned
+out-parameters untouched (including pointer/count pairs). `ddi_revision(NULL)`
+returns 0; every `*_free(NULL)` is a no-op. Invalid arguments are checked before
+closed-state checks where both apply; savepoint-token membership is checked only
+after confirming that the transaction is open. FAILED denotes unexpected internal failure;
+no C++ exception may escape the C ABI. Allocation failures are not injected by
+the verifier, but they must not be reported as successful publication.
+
+Handles returned by successful constructors must be freed exactly once. The
+verifier will not pass invented non-null addresses, use freed handles, or race
+destruction with operations on that same handle. Distinct transactions can be
+used concurrently; multiple readers of one immutable snapshot/diff can run
+concurrently. A single mutable transaction is used by only one thread at a time.
+Different engines must not accidentally share state. Use real native thread
+synchronization; `ctypes` C calls are not serialized by Python's GIL.
+
+## Bounded workload and reliability
+
+The supported sparse workload contains up to 200,000 raw assertions and 2,000
+raw drug IDs, 1,000 committed revisions changing two evidence keys each, and
+34 retained snapshots. Initial loading plus sparse changes and occasional reads
+must complete within **120 seconds** with the process's peak RSS at most
+**1,536 MiB** on the supplied two-CPU Linux environment. Old snapshots are read
+throughout and after engine closure. Reads may materialize an edge array; no
+specific data structure is required. Full copying/rebuilding at every sparse
+update is not a safe assumption at this volume. Ordinary small semantic checks
+have a generous 30-second subprocess bound, independent of the 40-minute coding
+budget. Stress processes are isolated so their failure does not erase scores for
+completed semantic checks. A runtime/environment failure is not a difficulty win.
+
+Native code must not leak snapshots, transactions, or diffs after their matching
+free operations, access released memory, or corrupt borrowed arrays. Your own
+AddressSanitizer/UndefinedBehaviorSanitizer checks are encouraged; correctness is
+judged through the public contract, not by source resemblance to a reference.
+
+Finish by rebuilding the library. All checks are behavior-based and accept any
+C++ implementation satisfying these requirements.
+
+Assessment is additive, with no score cap. The independent behavior groups are:
+ABI/invalid inputs .05; directed edges .06; alias support .06; drug cascade .07;
+event cascade .05; replacement dependencies .05; preview isolation .08; nested
+savepoints .07; rollback/rebase history .08; conflicts/revisions .05; net diffs
+.06; snapshot lifetime .06; diff lifetime .04; concurrent CAS .05; concurrent
+readers .04; composed mutation histories .05; supplied chemical data .04; sparse
+versions .04. An implementation is not required to resemble any reference code.

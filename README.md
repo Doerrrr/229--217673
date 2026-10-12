@@ -1,24 +1,42 @@
-# DDI curation repair task
+# Versioned DDI evidence library task
 
-This repository contains a bioinformatics coding task for Harbor 0.5.0. The agent repairs a broken drug-drug interaction (DDI) curation command and an immutable generation publisher. The six input CSV files remain unchanged. The task combines molecular identity, incremental replay and semantic differences with concurrent compare-and-swap publication, lock-free consistent reads, idempotent request identity and recovery after writer termination. Research interactions are not asserted to be clinical facts.
+This is a Harbor 0.5.0 bioinformatics coding task. The agent repairs a C++20
+library behind an existing Python client. The library maintains directed DDI
+evidence as drug and event interpretations change. It must preserve immutable
+snapshots, support savepoints and transaction rebase, publish one winner for a
+same-base concurrent commit, and keep sparse version updates within the public
+resource budget. Research interactions in the supplied data are not clinical
+recommendations.
 
-## Task layout
+## Task files
 
-- `instruction.md`: agent-visible requirements.
-- `environment/`: Docker build context, broken application, and input CSV files.
-- `solution/solve.sh`: Oracle repair and full-data run.
-- `tests/test.sh`: weighted verifier; writes `/logs/verifier/reward.txt`.
-- `task.toml`: Harbor resource limits and task metadata.
+- `instruction.md` specifies the public C ABI behavior, ownership, concurrency,
+  error handling, and bounded workload.
+- `environment/` contains the damaged C++ source, public header, client,
+  Docker build files, and three original research CSV files.
+- `solution/solve.sh` installs the Oracle implementation.
+- `tests/test.sh` runs 18 additive behavior groups and writes the Harbor reward.
+- `task.toml` declares the schema and execution limits.
 
-## Validation
+The 18 group weights sum to 1.000. There is no score cap. The verifier runs
+candidate code in an unprivileged child process while holding expectations in
+the supervisor. Any implementation satisfying the public behavior is accepted.
 
-Validate the task with Harbor 0.5.0 in a Linux Docker environment and check both controls:
+## Validation status
+
+The frozen task files were tested with Harbor 0.5.0 in Linux Docker. Serial
+Oracle and NOP trials finished normally with rewards 1.000 and 0.000. A fresh
+local blind answer also earned 1.000, so this task is **not** locally verified
+to meet the desired T1 difficulty threshold. A TalentsAI platform run is a
+separate experiment and must be interpreted from its own result.
+
+Run the controls in a Linux Docker environment:
 
 ```bash
 uvx --python 3.12 --from harbor==0.5.0 harbor trials start -p . -a oracle
 uvx --python 3.12 --from harbor==0.5.0 harbor trials start -p . -a nop
 ```
 
-Expected rewards are Oracle `1.0` and NOP `0.0`. A local Windows check can exercise the Python curation and verifier logic, but the Harbor runs are required to validate the container, launcher, and mounted paths.
-
-The verifier retains 14 curation checks, scaled to a total of 0.55, and adds five independent publication responsibilities totaling 0.45. It has no single-responsibility score cap. Candidate execution runs in unprivileged child processes; hidden expectations and reward writing remain in the trusted supervisor. Local control results and platform model scores are separate evidence.
+`validation/sync_native_release.sh` is the reviewed, pinned-commit handoff
+for the platform Git workspace. It only transfers task paths; it checks the
+platform workflow and original CSV bytes before committing.
