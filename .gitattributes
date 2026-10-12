@@ -5,4 +5,6 @@
 Dockerfile text eol=lf
 environment/bin/* text eol=lf
 solution/ddi-curate text eol=lf
+validation/joint_release/runtime_task_*/environment/bin/* text eol=lf
+validation/joint_release/runtime_task_*/solution/ddi-curate text eol=lf
 *.csv text eol=lf

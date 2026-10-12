@@ -50,6 +50,12 @@ for name, path in FILES.items():
         ast.parse(path.read_text(encoding="utf-8"), filename=name)
 assert FILES["solution/solve.sh"].read_bytes().startswith(b"#!/bin/bash")
 assert FILES["tests/test.sh"].read_bytes().startswith(b"#!/bin/bash")
+for name in (
+    "environment/bin/ddi-curate", "environment/bin/ddi-release-audit",
+    "solution/ddi-curate", "solution/solve.sh", "tests/test.sh",
+    "environment/bridge/build.sh",
+):
+    assert b"\r" not in FILES[name].read_bytes(), f"CR line ending in {name}"
 dockerfile = FILES["environment/Dockerfile"].read_text(encoding="utf-8")
 assert "solution/" not in dockerfile and "tests/" not in dockerfile
 assert "rdkit==2025.3.6" in dockerfile and "g++" in dockerfile
