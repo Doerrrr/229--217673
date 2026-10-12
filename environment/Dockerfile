@@ -4,7 +4,7 @@ RUN python -m pip install --no-cache-dir rdkit==2025.3.6
 
 WORKDIR /opt/ddi-curator
 
-COPY app/ /opt/ddi-curator/
+COPY app/curate.py app/publication.py /opt/ddi-curator/
 COPY bin/ddi-curate /usr/local/bin/ddi-curate
 COPY data/ /data/
 

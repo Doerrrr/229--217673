@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-12",
+  "platform_confirmed_head": "680418aad96437c252f234db9a429296f4ec4807",
+  "platform_changed": false,
+  "platform_detection_triggered": false,
+  "preflight": {"protected_files": 4, "exact_duplicates": 0, "python_syntax": "PASS"},
+  "portable_reference_curation": {"passed": 14, "total": 14, "full_data_hashes": "UNCHANGED"},
+  "portable_reference_publication": {
+    "sequential_hook_boundaries": 3,
+    "passed": 3,
+    "limitations": "lock and directory fsync substituted; no Linux concurrency or process termination claim"
+  },
+  "blind_candidate": {
+    "status": "solution saved",
+    "curate_sha256": "6cb46a1fdbc8593c06931f2e228acacf9951861497800013a93dd4f93ac67e15",
+    "publication_sha256": "d8519e2b84860ab81dcbca6a963590452c2fd09ba0208401841a90a78cf9cf85",
+    "scope": "instruction and explicit environment files only",
+    "author_reported_runtime": "Windows Python 3.11 / RDKit 2025.03.6",
+    "reported_full_kept": 191551,
+    "reported_delta_added": 1,
+    "reported_delta_removed": 20,
+    "hidden_score": null,
+    "linux_validation": "PENDING"
+  },
+  "linux_reference_publication": "PENDING_CI",
+  "harbor_oracle": null,
+  "harbor_nop": null,
+  "platform_new_version_t1": null
+}

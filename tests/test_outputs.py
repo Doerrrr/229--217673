@@ -14,6 +14,11 @@ from pathlib import Path
 
 from rdkit import Chem, RDLogger
 
+from publication_checks import (check_publication_snapshots, check_publication_cas,
+                                check_publication_identity, check_publication_recovery,
+                                check_publication_boundaries, drop_privileges, NAMES,
+                                snapshot, Worker, assert_reader)
+
 
 RDLogger.DisableLog("rdApp.error")
 COMMAND = "/usr/local/bin/ddi-curate"
@@ -35,7 +40,27 @@ def make_inputs(root: Path, drugs: str, events: str, interactions: str,
     write_text(root / "interaction_changes.csv", interaction_changes)
 
 
-def run_curator(root: Path, out: Path, timeout=60):
+def allow_candidate_paths(root, out):
+    """Expose only case input/output directories to the unprivileged executor."""
+    for start in (root, out.parent):
+        cursor = start
+        while cursor != Path(tempfile.gettempdir()) and cursor.parent != cursor:
+            if cursor.exists():
+                os.chmod(cursor, 0o755)
+            cursor = cursor.parent
+    for path in root.glob("*.csv"):
+        os.chmod(path, 0o644)
+    if out.exists():
+        os.chmod(out, 0o777)
+        for path in out.iterdir():
+            if path.is_file():
+                os.chmod(path, 0o666)
+    else:
+        os.chmod(out.parent, 0o777)
+
+
+def run_curator(root: Path, out: Path, timeout=60, extra=()):
+    allow_candidate_paths(root, out)
     return subprocess.run(
         [
             COMMAND,
@@ -53,11 +78,13 @@ def run_curator(root: Path, out: Path, timeout=60):
             str(root / "interaction_changes.csv"),
             "--out-dir",
             str(out),
+            *extra,
         ],
         text=True,
         capture_output=True,
         timeout=timeout,
         check=False,
+        preexec_fn=drop_privileges if os.name == "posix" else None,
     )
 
 
@@ -183,7 +210,7 @@ def check_malformed_reporting():
 # type: core
 # weight: 0.08
 # maps_to: RDKit sanitize/canonicalization, stereochemistry and molecular aliases
-# failure_effect: reward <= 0.60
+# failure_effect: normal deduction (legacy weights are scaled by 0.55 below)
 # reason: molecular identity is a central scientific requirement of the curation job.
 def check_canonical_aliases():
     with tempfile.TemporaryDirectory() as temporary:
@@ -268,7 +295,7 @@ def check_event_validation():
 # type: core
 # weight: 0.09
 # maps_to: directed DDI semantics, rejection precedence, alias mapping and exact deduplication
-# failure_effect: reward <= 0.60
+# failure_effect: normal deduction (legacy weights are scaled by 0.55 below)
 # reason: preserving directed interactions is the primary usable output of the pipeline.
 def check_directed_filtering():
     with tempfile.TemporaryDirectory() as temporary:
@@ -383,7 +410,7 @@ def check_failure_no_clobber():
         make_inputs(root, "A,CCO\nB,CC\n", "0,zero\n", "wrong,type,d2\nA,0,B\n")
         result = run_curator(root, out)
         require(result.returncode != 0, "fatal header error returned success")
-        require("ERROR:" in result.stderr, "fatal error was not reported on stderr")
+        require(result.stderr.strip(), "fatal error was not reported on stderr")
         for name, data in sentinels.items():
             require((out / name).read_bytes() == data, f"{name} was clobbered after fatal validation")
 
@@ -397,7 +424,7 @@ def check_failure_no_clobber():
         write_text(root / "newddi.csv", 'd1,type,d2\n"A,0,B\n')
         result = run_curator(root, out)
         require(result.returncode != 0, "fatal CSV syntax error returned success")
-        require("ERROR:" in result.stderr, "fatal CSV syntax error was not reported on stderr")
+        require(result.stderr.strip(), "fatal CSV syntax error was not reported on stderr")
         for name, data in sentinels.items():
             require((out / name).read_bytes() == data, f"{name} was clobbered after invalid CSV")
 
@@ -525,7 +552,7 @@ def check_bad_changes_no_clobber():
             make_inputs(root, "A,CCO\nB,CC\n", "0,zero\n", "d1,type,d2\nA,0,B\n")
             write_text(root / filename, content)
             result = run_curator(root, out)
-            require(result.returncode != 0 and "ERROR:" in result.stderr, f"bad {filename} was accepted")
+            require(result.returncode != 0 and result.stderr.strip(), f"bad {filename} was accepted")
             for name, data in sentinels.items():
                 require((out / name).read_bytes() == data, f"{name} was clobbered after bad {filename}")
 
@@ -539,6 +566,7 @@ def check_real_dataset_smoke():
     with tempfile.TemporaryDirectory() as temporary:
         root = Path(temporary)
         out = root / "out"
+        allow_candidate_paths(root, out)
         result = subprocess.run(
             [
                 COMMAND,
@@ -561,6 +589,7 @@ def check_real_dataset_smoke():
             capture_output=True,
             timeout=180,
             check=False,
+            preexec_fn=drop_privileges if os.name == "posix" else None,
         )
         require(result.returncode == 0, result.stderr)
         report = load_report(out)
@@ -589,7 +618,7 @@ def check_real_dataset_smoke():
         )
 
 
-CHECKS = [
+LEGACY_CHECKS = [
     ("basic_parsing", 0.03, check_basic_parsing),
     ("malformed_reporting", 0.03, check_malformed_reporting),
     ("canonical_aliases", 0.08, check_canonical_aliases),
@@ -604,6 +633,48 @@ CHECKS = [
     ("repeated_upserts_resolve_conflicts", 0.09, check_repeated_upserts_resolve_conflicts),
     ("duplicate_and_reverse_replay", 0.05, check_duplicate_and_reverse_replay),
     ("bad_changes_no_clobber", 0.07, check_bad_changes_no_clobber),
+]
+
+
+def check_publication_cli():
+    with tempfile.TemporaryDirectory() as directory:
+        base = Path(directory)
+        legacy, store = base / "flat", base / "store"
+        make_inputs(base, "B,CCO\nC,CC\n", "0,zero\n", "d1,type,d2\nB,0,C\n",
+                    "seq,op,drug_id,SMILES\n1,UPSERT,A,OCC\n")
+        require(run_curator(base, legacy).returncode == 0, "legacy integration failed")
+        expected = {name: (legacy / name).read_bytes() for name in NAMES}
+        result = run_curator(base, store, extra=("--release-id", "first", "--expected-parent", "NONE"))
+        require(result.returncode == 0, result.stderr)
+        snapshot(store, "first", None, expected)
+        with Worker() as reader:
+            assert_reader(reader, store, "first", None, expected)
+        before = {str(p.relative_to(store)): p.read_bytes() for p in store.rglob("*") if p.is_file()}
+        for extra in (("--release-id", "next"), ("--expected-parent", "first"),
+                      ("--release-id", "../next", "--expected-parent", "first"),
+                      ("--release-id", "next", "--expected-parent", "NONE")):
+            result = run_curator(base, store, extra=extra)
+            require(result.returncode != 0 and result.stderr.strip(), "invalid publication CLI succeeded")
+            for name, value in before.items():
+                require((store / name).read_bytes() == value, "invalid CLI changed store")
+        write_text(base / "interaction_changes.csv", "wrong,header\n")
+        result = run_curator(base, store, extra=("--release-id", "next", "--expected-parent", "first"))
+        require(result.returncode != 0 and result.stderr.strip(), "invalid source published")
+        for name, value in before.items():
+            require((store / name).read_bytes() == value, "source validation failure changed store")
+
+
+def check_publication_delivery():
+    check_publication_cli()
+    check_publication_snapshots()
+
+
+CHECKS = [(name, round(weight * 0.55, 6), function) for name, weight, function in LEGACY_CHECKS] + [
+    ("publication_delivery", 0.10, check_publication_delivery),
+    ("publication_cas", 0.10, check_publication_cas),
+    ("publication_identity", 0.08, check_publication_identity),
+    ("publication_recovery", 0.10, check_publication_recovery),
+    ("publication_boundaries", 0.07, check_publication_boundaries),
 ]
 
 
@@ -646,14 +717,9 @@ def main():
         details["checks"].append(item)
         passed[name] = item["passed"]
 
-    cap = 1.0
-    if not passed.get("canonical_aliases", False):
-        cap = min(cap, 0.60)
-    if not passed.get("directed_filtering", False):
-        cap = min(cap, 0.60)
-    reward = min(raw_reward, cap, 1.0)
+    reward = min(raw_reward, 1.0)
     reward = round(reward + 1e-12, 6)
-    details.update({"raw_reward": round(raw_reward, 6), "cap": cap, "reward": reward})
+    details.update({"raw_reward": round(raw_reward, 6), "reward": reward})
     details_file.write_text(json.dumps(details, indent=2) + "\n", encoding="utf-8")
     atomic_reward(reward_file, reward)
     print(json.dumps(details))

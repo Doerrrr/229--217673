@@ -14,6 +14,8 @@ import tempfile
 from collections import defaultdict
 from pathlib import Path
 
+from publication import PublicationError, publish, valid_id
+
 from rdkit import Chem, RDLogger
 
 
@@ -430,11 +432,15 @@ def curate(args):
         json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     ).encode("utf-8")
 
-    output = Path(args.out_dir)
-    atomic_write(output / "drugs_clean.csv", drugs_bytes)
-    atomic_write(output / "interactions_clean.csv", interactions_bytes)
-    atomic_write(output / "interaction_delta.csv", delta_bytes)
-    atomic_write(output / "report.json", report_bytes)
+    artifacts = {"drugs_clean.csv": drugs_bytes, "interactions_clean.csv": interactions_bytes,
+                 "interaction_delta.csv": delta_bytes, "report.json": report_bytes}
+    if args.release_id is not None:
+        publish(args.out_dir, args.release_id,
+                None if args.expected_parent == "NONE" else args.expected_parent, artifacts)
+    else:
+        output = Path(args.out_dir)
+        for name, payload in artifacts.items():
+            atomic_write(output / name, payload)
 
 
 def main():
@@ -446,10 +452,17 @@ def main():
     parser.add_argument("--event-changes", required=True)
     parser.add_argument("--interaction-changes", required=True)
     parser.add_argument("--out-dir", required=True)
+    parser.add_argument("--release-id")
+    parser.add_argument("--expected-parent")
     args = parser.parse_args()
     try:
+        if (args.release_id is None) != (args.expected_parent is None):
+            raise CuratorError("release-id and expected-parent must be paired")
+        if args.release_id is not None and (not valid_id(args.release_id) or
+                (args.expected_parent != "NONE" and not valid_id(args.expected_parent))):
+            raise CuratorError("invalid release or parent ID")
         curate(args)
-    except CuratorError as exc:
+    except (CuratorError, PublicationError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
     except (OSError, UnicodeError) as exc:
