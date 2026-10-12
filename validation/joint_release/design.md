@@ -22,7 +22,7 @@ Inside `/output/generations/<generation_sha>/`, retain the four curator files an
 
 - `molecule_audit.csv`: `canonical_smiles,cc_min_smiles,cc_size,block_min_smiles,block_size,cc_count,bridge_count,block_count`; one row per final canonical molecule in lexical SMILES order. Minima are lexical canonical SMILES, not raw IDs or vertex numbers.
 - `bridge_evidence.csv`: `evidence_index,d1,type,d2`; only final clean interaction rows whose own physical key is a bridge, sorted by numeric evidence index. A reverse-direction or otherwise parallel edge prevents either individual key from being a bridge.
-- `manifest.json`: exact-byte lowercase SHA-256 for the six CSVs and curator report, plus generation identity computed from those hashes. `CURRENT` is a single generation ID and LF. No partial generation may be advertised.
+- `manifest.json`: exact-byte lowercase SHA-256 for the five CSVs and curator report, plus generation identity computed from those six hashes. `CURRENT` is a single generation ID and LF. No partial generation may be advertised.
 
 The first prototype may use a smaller, explicitly bounded integration workload. The final task must state any throughput bound and must verify the author oracle against it without a model-timeout shortcut.
 
