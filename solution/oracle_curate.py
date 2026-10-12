@@ -1,246 +1,261 @@
 #!/usr/bin/env python3
-"""Reference implementation for deterministic DDI dataset curation."""
-
-from __future__ import annotations
+"""Curate baseline and changed DDI snapshots before writing any output."""
 
 import argparse
 import csv
+from dataclasses import dataclass
 import hashlib
 import io
 import json
 import os
+from pathlib import Path
+import re
 import sys
 import tempfile
-from collections import defaultdict
-from pathlib import Path
 
-from publication import PublicationError, publish, valid_id
+from rdkit import Chem
 
-from rdkit import Chem, RDLogger
+import publication
 
 
-RDLogger.DisableLog("rdApp.error")
-
-
-class CuratorError(Exception):
-    """Fatal input-contract error."""
-
-
-def nonblank_rows(path: Path):
-    try:
-        handle = path.open("r", encoding="utf-8-sig", newline="")
-    except OSError as exc:
-        raise CuratorError(f"cannot open {path}: {exc.strerror or exc}") from exc
-    with handle:
-        try:
-            reader = csv.reader(handle, strict=True)
-            for row in reader:
-                if not row or all(not field.strip() for field in row):
-                    continue
-                yield reader.line_num, [field.strip() for field in row]
-        except csv.Error as exc:
-            raise CuratorError(f"invalid CSV in {path}: {exc}") from exc
-
-
-def load_drugs(records):
-    rows = 0
-    invalid_rows = []
-    all_ids = set()
-    valid_by_id = defaultdict(set)
-
-    for line, row in records:
-        rows += 1
-        drug_id = row[0].strip() if row else ""
-        if len(row) != 2 or not drug_id or not row[1]:
-            invalid_rows.append(
-                {"line": line, "drug_id": drug_id, "reason": "malformed"}
-            )
-            if drug_id:
-                all_ids.add(drug_id)
-            continue
-
-        all_ids.add(drug_id)
-        molecule = Chem.MolFromSmiles(row[1], sanitize=True)
-        if molecule is None:
-            invalid_rows.append(
-                {"line": line, "drug_id": drug_id, "reason": "invalid_smiles"}
-            )
-            continue
-        canonical = Chem.MolToSmiles(
-            molecule, canonical=True, isomericSmiles=True
-        )
-        valid_by_id[drug_id].add(canonical)
-
-    conflicting_ids = sorted(
-        drug_id for drug_id, values in valid_by_id.items() if len(values) > 1
-    )
-    conflicting = set(conflicting_ids)
-    canonical_by_id = {
-        drug_id: next(iter(values))
-        for drug_id, values in valid_by_id.items()
-        if len(values) == 1 and drug_id not in conflicting
-    }
-    invalid_only_ids = sorted(all_ids - set(valid_by_id))
-
-    ids_by_canonical = defaultdict(list)
-    for drug_id, canonical in canonical_by_id.items():
-        ids_by_canonical[canonical].append(drug_id)
-
-    id_to_rep = {}
-    clean_rows = []
-    for canonical, aliases in ids_by_canonical.items():
-        aliases = sorted(aliases)
-        representative = aliases[0]
-        for alias in aliases:
-            id_to_rep[alias] = representative
-        clean_rows.append((representative, canonical, ";".join(aliases)))
-    clean_rows.sort(key=lambda item: item[0])
-
-    report = {
-        "valid_ids": len(canonical_by_id),
-        "unique_molecules": len(clean_rows),
-        "invalid_rows": sorted(invalid_rows, key=lambda item: item["line"]),
-        "invalid_only_ids": invalid_only_ids,
-        "conflicting_ids": conflicting_ids,
-    }
-    return rows, all_ids, conflicting, set(invalid_only_ids), id_to_rep, clean_rows, report
-
-
-def parse_event_type(value: str):
-    value = value.strip()
-    if not value or not value.isascii() or not value.isdigit():
-        return None
-    return int(value)
-
-
-def load_events(records):
-    rows = 0
-    invalid_rows = []
-    descriptions = defaultdict(set)
-
-    for line, row in records:
-        rows += 1
-        raw_type = row[0].strip() if row else ""
-        if len(row) != 2:
-            invalid_rows.append(
-                {"line": line, "event_type": raw_type, "reason": "malformed"}
-            )
-            continue
-        event_type = parse_event_type(raw_type)
-        if event_type is None:
-            invalid_rows.append(
-                {"line": line, "event_type": raw_type, "reason": "invalid_type"}
-            )
-            continue
-        description = row[1].strip()
-        if not description:
-            invalid_rows.append(
-                {
-                    "line": line,
-                    "event_type": str(event_type),
-                    "reason": "empty_description",
-                }
-            )
-            continue
-        descriptions[event_type].add(description)
-
-    conflicting_types = sorted(
-        event_type
-        for event_type, values in descriptions.items()
-        if len(values) > 1
-    )
-    conflicting = set(conflicting_types)
-    valid_types = set(descriptions) - conflicting
-    report = {
-        "valid_types": len(valid_types),
-        "invalid_rows": sorted(invalid_rows, key=lambda item: item["line"]),
-        "conflicting_types": conflicting_types,
-    }
-    return rows, set(descriptions), conflicting, valid_types, report
-
-
-DROP_KEYS = (
-    "malformed",
-    "missing_drug",
-    "conflicting_drug",
-    "invalid_drug",
-    "unknown_type",
-    "conflicting_type",
-    "self_interaction",
-    "alias_self_interaction",
-    "duplicate",
+_DECIMAL = re.compile(r"[0-9]+", re.ASCII)
+_REASONS = (
+    "malformed", "missing_drug", "conflicting_drug", "invalid_drug",
+    "unknown_type", "conflicting_type", "self_interaction",
+    "alias_self_interaction", "duplicate",
 )
+if hasattr(sys, "set_int_max_str_digits"):
+    sys.set_int_max_str_digits(0)
 
 
-def read_interactions(path: Path):
-    records = iter(nonblank_rows(path))
+@dataclass(frozen=True)
+class Record:
+    fields: tuple
+    line: int
+
+
+def _number(value):
+    if _DECIMAL.fullmatch(value) is None:
+        return None
+    return int(value, 10)
+
+
+def _read_csv(path, header=None):
+    path = Path(path)
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        physical_lines = handle.readlines()
+    reader = csv.reader(physical_lines, strict=True)
+    records = []
+    previous_line = 0
+    found_header = header is None
     try:
-        _, header = next(records)
-    except StopIteration as exc:
-        raise CuratorError(f"missing header in {path}") from exc
-    if header != ["d1", "type", "d2"]:
-        raise CuratorError(f"invalid interaction header in {path}; expected d1,type,d2")
-    return list(records)
+        for fields in reader:
+            line = reader.line_num
+            occupied = physical_lines[previous_line:line]
+            previous_line = line
+            if all(not physical.strip() for physical in occupied):
+                continue
+            fields = tuple(field.strip() for field in fields)
+            if not found_header:
+                if fields != tuple(header):
+                    raise ValueError(f"{path}:{line}: wrong CSV header")
+                found_header = True
+            else:
+                records.append(Record(fields, line))
+    except csv.Error as error:
+        raise ValueError(f"{path}:{reader.line_num}: CSV syntax error: {error}") from error
+    if not found_header:
+        raise ValueError(f"{path}: missing CSV header")
+    return records
 
 
-def load_interactions(
-    records,
-    all_ids,
-    conflicting_ids,
-    invalid_ids,
-    id_to_rep,
-    known_types,
-    conflicting_types,
-):
-    dropped = {key: 0 for key in DROP_KEYS}
+def _canonical(smiles):
+    try:
+        molecule = Chem.MolFromSmiles(smiles, sanitize=False)
+        if molecule is None:
+            return None
+        Chem.SanitizeMol(molecule)
+        return Chem.MolToSmiles(molecule, canonical=True, isomericSmiles=True)
+    except Exception:
+        return None
+
+
+def _validate_changes(records, kind):
+    previous_seq = 0
+    result = []
+    width = 5 if kind == "interaction" else 4
+    for record in records:
+        fields = record.fields
+        if len(fields) != width:
+            raise ValueError(f"{kind} changes:{record.line}: wrong field count")
+        seq = _number(fields[0])
+        if seq is None or seq <= previous_seq:
+            raise ValueError(f"{kind} changes:{record.line}: sequence must strictly increase")
+        previous_seq = seq
+        op = fields[1]
+        if kind == "interaction":
+            d1, event, d2 = fields[2:]
+            event_type = _number(event)
+            if op not in {"ADD", "DELETE"} or not d1 or not d2 or event_type is None:
+                raise ValueError(f"interaction changes:{record.line}: invalid operation or key")
+            result.append((op, (d1, event_type, d2), record))
+        else:
+            key, value = fields[2:]
+            if kind == "event":
+                key = _number(key)
+                valid_key = key is not None
+            else:
+                valid_key = bool(key)
+            if op not in {"UPSERT", "DELETE"} or not valid_key:
+                raise ValueError(f"{kind} changes:{record.line}: invalid operation or key")
+            if (op == "DELETE" and value) or (op == "UPSERT" and not value):
+                raise ValueError(f"{kind} changes:{record.line}: invalid change value")
+            if kind == "drug" and op == "UPSERT" and _canonical(value) is None:
+                raise ValueError(f"drug changes:{record.line}: invalid SMILES")
+            result.append((op, key, record))
+    return result
+
+
+def _raw_key(record, kind):
+    fields = record.fields
+    if kind == "drug":
+        return fields[0] if fields else None
+    if kind == "event":
+        return _number(fields[0]) if fields else None
+    if len(fields) >= 3:
+        event = _number(fields[1])
+        if event is not None:
+            return fields[0], event, fields[2]
+    return None
+
+
+def _replay(original, changes, kind):
+    rows = list(original)
+    for op, key, record in changes:
+        if op != "ADD":
+            rows = [row for row in rows if _raw_key(row, kind) != key]
+        if op in {"ADD", "UPSERT"}:
+            rows.append(Record(record.fields[2:], record.line))
+    return rows
+
+
+def _curate(drug_records, event_records, interaction_records):
+    known_ids = set()
+    molecules_by_id = {}
+    drug_invalid = []
+    for record in drug_records:
+        fields = record.fields
+        drug_id = fields[0] if fields else ""
+        if drug_id:
+            known_ids.add(drug_id)
+        reason = None
+        if len(fields) != 2 or not drug_id or not fields[1]:
+            reason = "malformed"
+        else:
+            smiles = _canonical(fields[1])
+            if smiles is None:
+                reason = "invalid_smiles"
+            else:
+                molecules_by_id.setdefault(drug_id, set()).add(smiles)
+        if reason is not None:
+            drug_invalid.append({"line": record.line, "drug_id": drug_id, "reason": reason})
+
+    conflicting_ids = {key for key, values in molecules_by_id.items() if len(values) > 1}
+    invalid_ids = known_ids - set(molecules_by_id)
+    id_smiles = {
+        key: next(iter(values)) for key, values in molecules_by_id.items() if len(values) == 1
+    }
+    ids_by_smiles = {}
+    for drug_id, smiles in id_smiles.items():
+        ids_by_smiles.setdefault(smiles, []).append(drug_id)
+    representatives = {}
+    representative_smiles = {}
+    clean_drugs = []
+    for smiles, ids in ids_by_smiles.items():
+        ids.sort()
+        representative = ids[0]
+        representative_smiles[representative] = smiles
+        for drug_id in ids:
+            representatives[drug_id] = representative
+        clean_drugs.append((representative, smiles, ";".join(ids)))
+    clean_drugs.sort()
+
+    descriptions = {}
+    event_invalid = []
+    for record in event_records:
+        fields = record.fields
+        raw_type = fields[0] if fields else ""
+        reason = None
+        if len(fields) != 2:
+            reason = "malformed"
+        else:
+            event_type = _number(raw_type)
+            if event_type is None:
+                reason = "invalid_type"
+            elif not fields[1]:
+                reason = "empty_description"
+            else:
+                descriptions.setdefault(event_type, set()).add(fields[1])
+        if reason is not None:
+            event_invalid.append({"line": record.line, "event_type": raw_type, "reason": reason})
+    conflicting_types = {key for key, values in descriptions.items() if len(values) > 1}
+
     kept = set()
-    interaction_rows = 0
-    for _, row in records:
-        interaction_rows += 1
-        if len(row) != 3 or not row[0] or not row[2]:
-            dropped["malformed"] += 1
-            continue
-        d1, raw_type, d2 = row
-        event_type = parse_event_type(raw_type)
-        if event_type is None:
-            dropped["malformed"] += 1
-            continue
-        if d1 not in all_ids or d2 not in all_ids:
-            dropped["missing_drug"] += 1
-            continue
-        if d1 in conflicting_ids or d2 in conflicting_ids:
-            dropped["conflicting_drug"] += 1
-            continue
-        if d1 in invalid_ids or d2 in invalid_ids:
-            dropped["invalid_drug"] += 1
-            continue
-        if event_type not in known_types:
-            dropped["unknown_type"] += 1
-            continue
-        if event_type in conflicting_types:
-            dropped["conflicting_type"] += 1
-            continue
-        if d1 == d2:
-            dropped["self_interaction"] += 1
-            continue
+    dropped = dict.fromkeys(_REASONS, 0)
+    for record in interaction_records:
+        fields = record.fields
+        reason = None
+        if len(fields) != 3 or not fields[0] or not fields[2]:
+            reason = "malformed"
+        else:
+            d1, raw_type, d2 = fields
+            event_type = _number(raw_type)
+            if event_type is None:
+                reason = "malformed"
+            elif d1 not in known_ids or d2 not in known_ids:
+                reason = "missing_drug"
+            elif d1 in conflicting_ids or d2 in conflicting_ids:
+                reason = "conflicting_drug"
+            elif d1 in invalid_ids or d2 in invalid_ids:
+                reason = "invalid_drug"
+            elif event_type not in descriptions:
+                reason = "unknown_type"
+            elif event_type in conflicting_types:
+                reason = "conflicting_type"
+            elif d1 == d2:
+                reason = "self_interaction"
+            elif representatives[d1] == representatives[d2]:
+                reason = "alias_self_interaction"
+            else:
+                mapped = (representatives[d1], event_type, representatives[d2])
+                if mapped in kept:
+                    reason = "duplicate"
+                else:
+                    kept.add(mapped)
+        if reason is not None:
+            dropped[reason] += 1
 
-        representative_1 = id_to_rep[d1]
-        representative_2 = id_to_rep[d2]
-        if representative_1 == representative_2:
-            dropped["alias_self_interaction"] += 1
-            continue
-        triple = (representative_1, event_type, representative_2)
-        if triple in kept:
-            dropped["duplicate"] += 1
-            continue
-        kept.add(triple)
+    stats = {
+        "drugs": {
+            "valid_ids": len(id_smiles), "unique_molecules": len(clean_drugs),
+            "invalid_rows": sorted(drug_invalid, key=lambda row: row["line"]),
+            "invalid_only_ids": sorted(invalid_ids), "conflicting_ids": sorted(conflicting_ids),
+        },
+        "events": {
+            "valid_types": len(descriptions) - len(conflicting_types),
+            "invalid_rows": sorted(event_invalid, key=lambda row: row["line"]),
+            "conflicting_types": sorted(conflicting_types),
+        },
+        "interactions": {"kept": len(kept), "dropped": dropped},
+    }
+    semantic = {
+        (representative_smiles[d1], event, representative_smiles[d2]): (d1, event, d2)
+        for d1, event, d2 in kept
+    }
+    return clean_drugs, sorted(kept), semantic, stats
 
-    clean_rows = sorted(kept, key=lambda item: (item[0], item[1], item[2]))
-    report = {"kept": len(clean_rows), "dropped": dropped}
-    return interaction_rows, clean_rows, report
 
-
-def render_csv(header, rows):
+def _csv_bytes(header, rows):
     buffer = io.StringIO(newline="")
     writer = csv.writer(buffer, lineterminator="\n")
     writer.writerow(header)
@@ -248,203 +263,71 @@ def render_csv(header, rows):
     return buffer.getvalue().encode("utf-8")
 
 
-def sha256(data: bytes):
-    return hashlib.sha256(data).hexdigest()
-
-
-def read_changes(path: Path, header: list[str], operations: set[str]):
-    records = iter(nonblank_rows(path))
-    try:
-        _, actual = next(records)
-    except StopIteration as exc:
-        raise CuratorError(f"missing change header in {path}") from exc
-    if actual != header:
-        raise CuratorError(f"invalid change header in {path}; expected {','.join(header)}")
-    changes = []
-    previous = 0
-    for line, row in records:
-        if len(row) != len(header):
-            raise CuratorError(f"invalid change field count in {path}:{line}")
-        seq = parse_event_type(row[0])
-        if seq is None or seq <= previous or seq <= 0:
-            raise CuratorError(f"invalid or non-increasing seq in {path}:{line}")
-        previous = seq
-        if row[1] not in operations:
-            raise CuratorError(f"invalid change operation in {path}:{line}")
-        if header[2] == "drug_id":
-            if not row[2] or (row[1] == "DELETE" and row[3]):
-                raise CuratorError(f"invalid drug change key/value in {path}:{line}")
-            if row[1] == "UPSERT":
-                if not row[3] or Chem.MolFromSmiles(row[3], sanitize=True) is None:
-                    raise CuratorError(f"invalid drug change SMILES in {path}:{line}")
-        elif header[2] == "event_type":
-            event_type = parse_event_type(row[2])
-            if event_type is None or (row[1] == "DELETE" and row[3]) or (row[1] == "UPSERT" and not row[3]):
-                raise CuratorError(f"invalid event change key/value in {path}:{line}")
-            row[2] = str(event_type)
-        else:
-            event_type = parse_event_type(row[3])
-            if not row[2] or event_type is None or not row[4]:
-                raise CuratorError(f"invalid interaction change key in {path}:{line}")
-            row[3] = str(event_type)
-        changes.append((line, row))
-    return changes
-
-
-def apply_dictionary_changes(records, changes, kind):
-    result = list(records)
-    for line, row in changes:
-        _, operation, key, value = row
-        if kind == "drug":
-            matches = lambda candidate: bool(candidate) and candidate[0] == key
-        else:
-            matches = lambda candidate: bool(candidate) and parse_event_type(candidate[0]) == int(key)
-        result = [(old_line, old_row) for old_line, old_row in result if not matches(old_row)]
-        if operation == "UPSERT":
-            result.append((line, [key, value]))
-    return result
-
-
-def apply_interaction_changes(records, changes):
-    result = list(records)
-    for line, row in changes:
-        _, operation, d1, raw_type, d2 = row
-        key = (d1, int(raw_type), d2)
-        if operation == "ADD":
-            result.append((line, [d1, raw_type, d2]))
-        else:
-            result = [
-                (old_line, old_row)
-                for old_line, old_row in result
-                if not (
-                    len(old_row) == 3
-                    and old_row[0] == key[0]
-                    and parse_event_type(old_row[1]) == key[1]
-                    and old_row[2] == key[2]
-                )
-            ]
-    return result
-
-
-def curate_snapshot(drug_records, event_records, interaction_records):
-    drug_rows, all_ids, conflicting_ids, invalid_ids, id_to_rep, clean_drugs, drug_report = load_drugs(drug_records)
-    event_rows, known_types, conflicting_types, _, event_report = load_events(event_records)
-    interaction_rows, clean_interactions, interaction_report = load_interactions(
-        interaction_records, all_ids, conflicting_ids, invalid_ids, id_to_rep,
-        known_types, conflicting_types,
+def build_artifacts(args):
+    drugs = _read_csv(args.drugs)
+    events = _read_csv(args.events)
+    interactions = _read_csv(args.interactions, ("d1", "type", "d2"))
+    drug_changes = _read_csv(args.drug_changes, ("seq", "op", "drug_id", "SMILES"))
+    event_changes = _read_csv(args.event_changes, ("seq", "op", "event_type", "description"))
+    interaction_changes = _read_csv(
+        args.interaction_changes, ("seq", "op", "d1", "type", "d2")
     )
-    counts = {"drug_rows": drug_rows, "event_rows": event_rows, "interaction_rows": interaction_rows}
-    return counts, clean_drugs, clean_interactions, drug_report, event_report, interaction_report
-
-
-def semantic_interactions(drugs, interactions):
-    by_representative = {representative: smiles for representative, smiles, _ in drugs}
-    return {
-        (by_representative[d1], event_type, by_representative[d2]): (d1, event_type, d2)
-        for d1, event_type, d2 in interactions
+    parsed_drugs = _validate_changes(drug_changes, "drug")
+    parsed_events = _validate_changes(event_changes, "event")
+    parsed_interactions = _validate_changes(interaction_changes, "interaction")
+    baseline = _curate(drugs, events, interactions)
+    final_drugs = _replay(drugs, parsed_drugs, "drug")
+    final_events = _replay(events, parsed_events, "event")
+    final_interactions = _replay(interactions, parsed_interactions, "interaction")
+    clean_drugs, clean_interactions, semantic, stats = _curate(
+        final_drugs, final_events, final_interactions
+    )
+    baseline_semantic = baseline[2]
+    removed = sorted(baseline_semantic[key] for key in baseline_semantic.keys() - semantic.keys())
+    added = sorted(semantic[key] for key in semantic.keys() - baseline_semantic.keys())
+    delta = [("REMOVE", *row) for row in removed] + [("ADD", *row) for row in added]
+    artifacts = {
+        "drugs_clean.csv": _csv_bytes(("drug_id", "canonical_smiles", "aliases"), clean_drugs),
+        "interactions_clean.csv": _csv_bytes(("d1", "type", "d2"), clean_interactions),
+        "interaction_delta.csv": _csv_bytes(("action", "d1", "type", "d2"), delta),
     }
-
-
-def atomic_write(path: Path, data: bytes):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fd, temporary_name = tempfile.mkstemp(
-        prefix=f".{path.name}.", dir=str(path.parent)
-    )
-    try:
-        with os.fdopen(fd, "wb") as handle:
-            handle.write(data)
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(temporary_name, path)
-    except BaseException:
-        try:
-            os.unlink(temporary_name)
-        except FileNotFoundError:
-            pass
-        raise
-
-
-def curate(args):
-    drug_path = Path(args.drugs)
-    event_path = Path(args.events)
-    interaction_path = Path(args.interactions)
-    drug_change_path = Path(args.drug_changes)
-    event_change_path = Path(args.event_changes)
-    interaction_change_path = Path(args.interaction_changes)
-    for path in (drug_path, event_path, interaction_path, drug_change_path, event_change_path, interaction_change_path):
-        if not path.is_file():
-            raise CuratorError(f"missing input file: {path}")
-
-    drug_records = list(nonblank_rows(drug_path))
-    event_records = list(nonblank_rows(event_path))
-    interaction_records = read_interactions(interaction_path)
-    drug_changes = read_changes(drug_change_path, ["seq", "op", "drug_id", "SMILES"], {"UPSERT", "DELETE"})
-    event_changes = read_changes(event_change_path, ["seq", "op", "event_type", "description"], {"UPSERT", "DELETE"})
-    interaction_changes = read_changes(interaction_change_path, ["seq", "op", "d1", "type", "d2"], {"ADD", "DELETE"})
-
-    input_counts, baseline_drugs, baseline_interactions, _, _, _ = curate_snapshot(
-        drug_records, event_records, interaction_records
-    )
-    final_drug_records = apply_dictionary_changes(drug_records, drug_changes, "drug")
-    final_event_records = apply_dictionary_changes(event_records, event_changes, "event")
-    final_interaction_records = apply_interaction_changes(interaction_records, interaction_changes)
-    final_counts, clean_drugs, clean_interactions, drug_report, event_report, interaction_report = curate_snapshot(
-        final_drug_records, final_event_records, final_interaction_records
-    )
-    baseline_semantic = semantic_interactions(baseline_drugs, baseline_interactions)
-    final_semantic = semantic_interactions(clean_drugs, clean_interactions)
-    removed_keys = baseline_semantic.keys() - final_semantic.keys()
-    added_keys = final_semantic.keys() - baseline_semantic.keys()
-    delta_rows = [
-        ("REMOVE", *baseline_semantic[key]) for key in removed_keys
-    ] + [
-        ("ADD", *final_semantic[key]) for key in added_keys
-    ]
-    delta_rows.sort(key=lambda item: (0 if item[0] == "REMOVE" else 1, item[1], item[2], item[3]))
-
-    drugs_bytes = render_csv(
-        ("drug_id", "canonical_smiles", "aliases"), clean_drugs
-    )
-    interactions_bytes = render_csv(
-        ("d1", "type", "d2"), clean_interactions
-    )
-    delta_bytes = render_csv(("action", "d1", "type", "d2"), delta_rows)
     report = {
-        "input": input_counts,
-        "final_input": final_counts,
-        "changes": {
-            "drug_rows": len(drug_changes),
-            "event_rows": len(event_changes),
-            "interaction_rows": len(interaction_changes),
-            "delta_added": len(added_keys),
-            "delta_removed": len(removed_keys),
+        "input": {"drug_rows": len(drugs), "event_rows": len(events), "interaction_rows": len(interactions)},
+        "final_input": {
+            "drug_rows": len(final_drugs), "event_rows": len(final_events),
+            "interaction_rows": len(final_interactions),
         },
-        "drugs": drug_report,
-        "events": event_report,
-        "interactions": interaction_report,
+        "changes": {
+            "drug_rows": len(drug_changes), "event_rows": len(event_changes),
+            "interaction_rows": len(interaction_changes),
+            "delta_added": len(added), "delta_removed": len(removed),
+        },
+        **stats,
         "files": {
-            "drugs_clean.csv": {"sha256": sha256(drugs_bytes)},
-            "interactions_clean.csv": {"sha256": sha256(interactions_bytes)},
-            "interaction_delta.csv": {"sha256": sha256(delta_bytes)},
+            name: {"sha256": hashlib.sha256(payload).hexdigest()}
+            for name, payload in artifacts.items()
         },
     }
-    report_bytes = (
-        json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
-    ).encode("utf-8")
+    artifacts["report.json"] = (json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode("utf-8")
+    return artifacts
 
-    artifacts = {"drugs_clean.csv": drugs_bytes, "interactions_clean.csv": interactions_bytes,
-                 "interaction_delta.csv": delta_bytes, "report.json": report_bytes}
-    if args.release_id is not None:
-        publish(args.out_dir, args.release_id,
-                None if args.expected_parent == "NONE" else args.expected_parent, artifacts)
-    else:
-        output = Path(args.out_dir)
+
+def _write_legacy(output, artifacts):
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix=".ddi-curate-", dir=output) as temporary:
+        staged = Path(temporary)
         for name, payload in artifacts.items():
-            atomic_write(output / name, payload)
+            with (staged / name).open("wb") as handle:
+                handle.write(payload)
+                handle.flush()
+                os.fsync(handle.fileno())
+        for name in sorted(artifacts):
+            os.replace(staged / name, output / name)
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser()
     parser.add_argument("--drugs", required=True)
     parser.add_argument("--events", required=True)
     parser.add_argument("--interactions", required=True)
@@ -455,21 +338,26 @@ def main():
     parser.add_argument("--release-id")
     parser.add_argument("--expected-parent")
     args = parser.parse_args()
+
     try:
-        if (args.release_id is None) != (args.expected_parent is None):
-            raise CuratorError("release-id and expected-parent must be paired")
-        if args.release_id is not None and (not valid_id(args.release_id) or
-                (args.expected_parent != "NONE" and not valid_id(args.expected_parent))):
-            raise CuratorError("invalid release or parent ID")
-        curate(args)
-    except (CuratorError, PublicationError) as exc:
-        print(f"ERROR: {exc}", file=sys.stderr)
-        return 2
-    except (OSError, UnicodeError) as exc:
-        print(f"ERROR: {exc}", file=sys.stderr)
-        return 2
-    return 0
+        publishing = args.release_id is not None or args.expected_parent is not None
+        if publishing:
+            if args.release_id is None or args.expected_parent is None:
+                raise ValueError("--release-id and --expected-parent must be supplied together")
+            publication._check_id(args.release_id)
+            parent = None if args.expected_parent == "NONE" else args.expected_parent
+            if parent is not None:
+                publication._check_id(parent)
+        artifacts = build_artifacts(args)
+        if publishing:
+            publication.publish(args.out_dir, args.release_id, parent, artifacts)
+        else:
+            _write_legacy(args.out_dir, artifacts)
+        return 0
+    except Exception as error:
+        print(f"ddi-curate: {type(error).__name__}: {error}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    sys.exit(main())
