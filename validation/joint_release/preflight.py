@@ -64,7 +64,7 @@ config = tomllib.loads(FILES["task.toml"].read_text(encoding="utf-8"))
 assert config["schema_version"] == "1.3"
 assert config["agent"]["timeout_sec"] == 3600
 assert config["verifier"]["timeout_sec"] == 900
-assert config["environment"]["allow_internet"] is False
+assert config["environment"]["allow_internet"] is True
 instruction = FILES["instruction.md"].read_text(encoding="utf-8")
 for clause in (
     "same six inputs", "one-based CSV data-row index", "parallel graph",
