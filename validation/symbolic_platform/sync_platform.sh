@@ -41,7 +41,7 @@ for name in drug_list.csv DDI_event.csv newddi.csv; do
   if git cat-file -e "HEAD:$path" 2>/dev/null; then protected+=("$path"); fi
 done
 git restore --source="$approved" --staged --worktree -- \
-  .gitattributes README.md instruction.md task.toml environment solution tests
+  .gitattributes README.md instruction.md task.toml environment solution tests validation/symbolic_platform
 if ((${#protected[@]})); then
   git restore --source=HEAD --staged --worktree -- "${protected[@]}"
 fi
@@ -53,7 +53,7 @@ workflow_after=ABSENT
 if git cat-file -e ":$workflow" 2>/dev/null; then workflow_after="$(git rev-parse ":$workflow")"; fi
 test "$workflow_before" = "$workflow_after" || { echo 'STOP: workflow changed' >&2; exit 1; }
 git diff --cached --quiet "$approved" -- \
-  .gitattributes README.md instruction.md task.toml environment solution tests \
+  .gitattributes README.md instruction.md task.toml environment solution tests validation/symbolic_platform \
   ':(exclude)environment/data/drug_list.csv' \
   ':(exclude)environment/data/DDI_event.csv' \
   ':(exclude)environment/data/newddi.csv' || { echo 'STOP: task differs from approved source' >&2; exit 1; }
