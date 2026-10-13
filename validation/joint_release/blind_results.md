@@ -6,7 +6,7 @@ The frozen task digest was `eafe4c434c2902a8fb45c6e164ae11b836d0387e0bf2751240bf
 
 Control runs against the same private evaluator completed normally: Oracle 1.000 and NOP 0.000, both verifier exit 0 and no OOM.
 
-Two independent candidates received separate copies of only the public package. Neither had access to the private evaluator or prior answer history. Both frozen first answers completed before either was scored. Exact backend model ID was not exposed; the second candidate self-reported GPT-6 family. These are not the platform's DeepSeek/GLM agents.
+Two independent candidates received separate copies of only the public package and were instructed not to inspect the private evaluator or prior answers. Their notes self-report following that boundary; the shared host filesystem did not technically prevent access, so this is a procedural rather than a sandbox-enforced isolation claim. Both frozen first answers completed before either was scored. Exact backend model ID was not exposed; the second candidate self-reported GPT-6 family. These are not the platform's DeepSeek/GLM agents.
 
 | Candidate | Answer SHA-256 | Coding time | Local reward | Missed checks |
 | --- | --- | ---: | ---: | --- |
