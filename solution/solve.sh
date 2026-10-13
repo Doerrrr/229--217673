@@ -1,4 +1,4 @@
 #!/bin/bash
 set -euo pipefail
-cp /solution/reference.cpp /opt/ddi-snapshot/src/ddi_snapshot.cpp
-/opt/ddi-snapshot/build.sh
+install -m 0644 /solution/oracle_lineage.py /app/lineage.py
+ddi-lineage --input /data/evidence_graph.json --out-dir /output

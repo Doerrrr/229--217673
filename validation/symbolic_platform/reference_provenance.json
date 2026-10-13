@@ -1,0 +1,20 @@
+{
+  "task_id": "DDI-008",
+  "public_contract_version": "v01",
+  "frozen_task_commit": "2febd68d3b50358952cad3fe19364729697b11a5",
+  "frozen_task_digest": "368ba809fa38bf798ec248eb801188d60e40b33f83e8e824526e65c350b22a0f",
+  "reference_origin": "external answer supplied by the user",
+  "answer_sha256": "fc4678592bbf42c694d5256507880aa43735c1d07bd00e4fb9261985c4020943",
+  "answer_source_entry": "app/lineage.py",
+  "installed_reference": "solution/oracle_lineage.py",
+  "reference_content_changed": false,
+  "authorization": "User selected use this full-score answer as the hidden reference and complete the platform package on 2026-10-13",
+  "frozen_local_score": 1.0,
+  "frozen_passed_checks": 20,
+  "public_rules_changed": false,
+  "scoring_weights_changed": false,
+  "runtime_dockerfile_changed": false,
+  "workflow_changed": false,
+  "original_csv_changed": false,
+  "timing_note": "Answer notes report 62m49s; user corrected that actual duration was longer. Exact actual duration is unknown; no budget-compliance claim."
+}

@@ -1,0 +1,54 @@
+{
+  "client_date": "2026-10-13",
+  "harbor_version": "0.5.0",
+  "docker_context": "desktop-linux",
+  "controls": [
+    {
+      "name": "oracle",
+      "trial_id": "72b3fd7d-d863-4489-a946-b3f7ae561fe2",
+      "reward": 1.0,
+      "passed_checks": 20,
+      "total_checks": 20,
+      "exception": null,
+      "harbor_task_checksum": "89f0c4d671ca5dbf21e1d118e05c46af2463cadf17f623d9fa0dbbd7b1487139",
+      "result_sha256": "23267be13d2c0db7743fcab606bdce1866eb2df870da24d4668c802a70e8d172",
+      "details_sha256": "f9e5432ec16101641f0b2432afb9d0cbe516e2f7f8e732c083ed75275750e5ec"
+    },
+    {
+      "name": "nop",
+      "trial_id": "6a772cfb-3c30-46e7-8178-f5e12cfacb61",
+      "reward": 0.0,
+      "passed_checks": 0,
+      "total_checks": 20,
+      "exception": null,
+      "harbor_task_checksum": "1de25063713ea990b39101929913d072e68f0866e300389eb2a8fa6534020932",
+      "result_sha256": "07685b6d44fd8a7b6c8a3521568f5f34aed348102c87bfc1fe4e0671ffbdb3c0",
+      "details_sha256": "812da9fa1b27e596aaa47c39762e494290387f640fdba28e1db2018b831fc01a"
+    }
+  ],
+  "execution_files": {
+    "environment/Dockerfile": "f169f118d1fde4ccf9ed6a8ecb1df4f2e219b3faf13a101122a2c9296020eb22",
+    "environment/app/lineage.py": "1fa15f4b762cd2f4f4f05ca3d3a2b6f71580f351e140eadcaede7a88b73b3b28",
+    "environment/bin/ddi-lineage": "aa8ae9e64b1efceacfd8b8745d1ca89c782754bf92e7b19f6cf9e008135819f4",
+    "environment/data/DDI_event.csv": "3efbd7ade6ef3c6d3e0fb0422653b7689912b5a75316a29d85c8e26072bff311",
+    "environment/data/drug_list.csv": "208edfd36b34dc7f2d877f3b86636cff5fc14c11ff5617466b92b2633890a513",
+    "environment/data/evidence_graph.json": "b42424348bd6e3adb66902e1ee40e704c17df2db37728d5e0ab9702f91c6fcd0",
+    "environment/data/newddi.csv": "673d7ed6a0f3ecfdeaa1df54295f98ddf45266a837f6ec3a6a5f7934710d3b72",
+    "environment/data/stress_graph.json": "100fdfdda226533a83d89accd7e9b34dec08ef4388882d151c0cd54f10996276",
+    "instruction.md": "1c68fab77f1177c9a5b5f0aefcab4a3087baec088261e04c2911d91dd4aaba9f",
+    "solution/oracle_lineage.py": "c427a6c5fab002459f63f480f2874e5b2015641651e8b3a4e25ceded5e269e36",
+    "solution/solve.sh": "b918ce489338e3c1c3fe3799b68b23e40cff466e07e2118fb4ea9ccc83d113b9",
+    "task.toml": "1505c4da3d07769212de9ff9202938b5451b52b763ff0338942ae19a0c91e746",
+    "tests/certificate_check.py": "0941feedb6d6f66e41bd063f40022832b58591ef91290e1c13a5c3362ee10bc3",
+    "tests/fixtures.py": "6253f7a604c3a35843a4c973575f270ecfee3c6640491f792929d1b21f20db6e",
+    "tests/test.sh": "bc3ffef3d3efb12dd8e64614b880310a0653aeb1fc5709fe9bb420b4187ab433",
+    "tests/test_outputs.py": "5b6db58ae2da89640b876f9bcab95ce4fb1aee537ee4f5df7ec039bf2e489a08"
+  },
+  "execution_digest": "ec94e43b3d4c3077164c90b8c7cedb9fa2f137446e00c30b5d09a45fc1a657d4",
+  "public_rules_changed": false,
+  "weights_changed": false,
+  "model_calls": 0,
+  "formal_platform_validated": false,
+  "github_actions_validated": false,
+  "checksum_note": "First local controls differ in full task checksum because README was updated; execution files and frozen tests were unchanged. Final committed validation is recorded separately."
+}
