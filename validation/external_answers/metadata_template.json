@@ -1,0 +1,14 @@
+{
+  "origin": "external_agent",
+  "session_id": "",
+  "model": "",
+  "model_version": "unknown",
+  "first_answer": null,
+  "independent_session": null,
+  "feedback_before_freeze": null,
+  "completion_status": "unknown",
+  "started_at": null,
+  "frozen_at": null,
+  "environment_waits": [],
+  "evidence_note": ""
+}
