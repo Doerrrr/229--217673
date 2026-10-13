@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "catalog_date": "2026-10-13",
+  "scope": "DDI authoring and external-agent task packets in this project",
+  "counting_rule": "One task ID per public contract; installer repairs and repeated ZIP copies are versions, not new tasks.",
+  "tasks": [
+    {"id": "DDI-001", "title": "增量清洗与代际发布", "version": "v01", "legacy_id": "A", "source": "ddi_t1_kit_20261012", "after_abc_external_campaign": false},
+    {"id": "DDI-002", "title": "在线变更与DDI索引", "version": "v01", "legacy_id": "B", "source": "ddi_live_index_20261012/bundle_5c2f7a1e", "after_abc_external_campaign": false},
+    {"id": "DDI-003", "title": "来源整包约束选择", "version": "v01", "legacy_id": "C", "source": "ddi_source_bundles_20261012/bundle_0d31fb0e_audit", "after_abc_external_campaign": false},
+    {"id": "DDI-004", "title": "原生事务与不可变快照", "version": "v02", "legacy_id": null, "source": "ddi_native_snapshot_20261012/frozen_r2", "after_abc_external_campaign": true},
+    {"id": "DDI-005", "title": "时序证据图桥审计", "version": "v01", "legacy_id": null, "source": "ddi_bridge_task_20261013/frozen_r1", "after_abc_external_campaign": true},
+    {"id": "DDI-006", "title": "联合清洗与发布审计", "version": "v01", "legacy_id": null, "source": "ddi_joint_20261013/frozen_r1", "after_abc_external_campaign": true},
+    {"id": "DDI-007", "title": "持久证据账本与崩溃恢复", "version": "v02", "legacy_id": null, "source": "ddi_ledger_20261013/frozen_r2", "after_abc_external_campaign": true}
+  ],
+  "reserved_drafts": [
+    {"id": "DDI-008", "title": "符号化证据来源与精确可靠性", "status": "DRAFT_NOT_PACKAGED", "source_directory": "validation/symbolic_lineage", "next_version": "v01"}
+  ],
+  "restoration_backups": [
+    {"id": "BACKUP-001", "title": "历史增量版恢复", "version": "v01", "source": "ddi_incremental_restore_20261013/ddi_incremental_baseline_f99fd22.zip", "commit": "f99fd220e3d5a6665547a1419e8a975c37e45c17", "sha256": "d6d77f5d76fd0f237809fc9a6567bbad4ee7bbcb287db5c7a8069a845d9a1eb0", "not_an_external_candidate_bundle": true}
+  ]
+}

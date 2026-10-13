@@ -234,9 +234,10 @@ class Diagram:
         return result
 
 
-def import_proof(raw: bytes, data: dict):
+def import_proof(raw: bytes, data: dict, *, require_canonical=True):
     proof = strict_json(raw)
-    assert canonical(proof) == raw, "proof must use canonical JSON bytes"
+    if require_canonical:
+        assert canonical(proof) == raw, "proof must use canonical JSON bytes"
     fields(proof, ("version", "variables", "nodes", "queries"))
     integer(proof["version"], 1, 1)
     variables = [item["source_id"] for item in data["sources"]]
@@ -257,7 +258,8 @@ def import_proof(raw: bytes, data: dict):
         assert key not in manager.unique
         assert manager.make(*key) == expected_id
         keys.append((-item["var"], item["low"], item["high"]))
-    assert keys == sorted(keys), "noncanonical node numbering"
+    if require_canonical:
+        assert keys == sorted(keys), "noncanonical node numbering"
     assert type(proof["queries"]) is list
     assert len(proof["queries"]) == len(data["queries"])
     maximum = len(proof["nodes"]) + 1
@@ -282,7 +284,8 @@ def import_proof(raw: bytes, data: dict):
             continue
         seen.add(node)
         stack.extend(manager.nodes[node][1:])
-    assert seen == set(manager.nodes), "orphan BDD nodes"
+    if require_canonical:
+        assert seen == set(manager.nodes), "orphan BDD nodes"
     return proof, manager
 
 
@@ -290,7 +293,7 @@ def fraction_object(value):
     return {"numerator": str(value.numerator), "denominator": str(value.denominator)}
 
 
-def verify_certificates(data, proof, manager):
+def verify_certificates(data, proof, manager, *, require_minimal=True):
     node_index = {name: i for i, name in enumerate(data["nodes"])}
     var_index = {name: i for i, name in enumerate(manager.variables)}
     weights = [Fraction(item["numerator"], item["denominator"]) for item in data["sources"]]
@@ -326,7 +329,8 @@ def verify_certificates(data, proof, manager):
                 factor = manager.combine("or", manager.negate(literal),
                                          manager.negate(manager.restrict(root, var, False)))
             minimal = manager.combine("and", minimal, factor)
-        assert minimal == certificate["minimal_root"], "incomplete/nonminimal support family"
+        if require_minimal:
+            assert minimal == certificate["minimal_root"], "incomplete/nonminimal support family"
         sizes = manager.support_sizes(minimal)
         condition_possible = all(weights[var] != (0 if value else 1)
                                  for var, value in condition.items())
@@ -349,6 +353,52 @@ def verify_certificates(data, proof, manager):
                     - manager.probability(manager.restrict(root, var, False), weights))
                 if condition_possible else None for var in free},
         })
+    return results
+
+
+SECTIONS = {
+    "family": ("support_count", "minimal_support_count", "min_size", "max_size",
+               "ranked_supports", "critical_sources"),
+    "probability": ("probability_state", "probability", "sensitivities"),
+}
+RESULT_FIELDS = ("query_id", "support_count", "minimal_support_count", "min_size", "max_size",
+                 "ranked_supports", "critical_sources", "probability_state", "probability", "sensitivities")
+
+
+def check_part(input_bytes, proof_bytes, report_bytes, section):
+    """Award behavior independently; a wrong probability cannot erase a proof.
+
+The all-section check remains strict. Partial checks deliberately do not make
+byte formatting or unrelated report fields a universal prerequisite.
+"""
+    assert section in ("proof", "family", "probability", "serialization")
+    data = parse_input(input_bytes)
+    proof, manager = import_proof(proof_bytes, data, require_canonical=section == "serialization")
+    if section == "serialization":
+        report = strict_json(report_bytes)
+        fields(report, ("version", "proof_sha256", "results"))
+        integer(report["version"], 1, 1)
+        assert type(report["results"]) is list and len(report["results"]) == len(data["queries"])
+        for actual, query in zip(report["results"], data["queries"]):
+            fields(actual, RESULT_FIELDS)
+            assert actual["query_id"] == query["query_id"]
+        assert canonical(report) == report_bytes
+        assert report["proof_sha256"] == hashlib.sha256(proof_bytes).hexdigest()
+        return {"queries": len(data["queries"])}
+    results = verify_certificates(data, proof, manager, require_minimal=section == "family")
+    if section == "proof":
+        return results
+    report = strict_json(report_bytes)
+    assert type(report) is dict and type(report.get("version")) is int and report["version"] == 1
+    assert type(report.get("results")) is list and len(report["results"]) == len(results)
+    for actual, expected in zip(report["results"], results):
+        assert type(actual) is dict and actual.get("query_id") == expected["query_id"]
+        if section in SECTIONS:
+            selected = SECTIONS[section]
+            assert canonical({key: actual[key] for key in selected}) == canonical(
+                {key: expected[key] for key in selected}), "incorrect " + section + " metrics"
+        else:
+            fields(actual, expected)
     return results
 
 
