@@ -12,3 +12,5 @@ validation/symbolic_lineage/**/*.json text eol=lf
 validation/package_catalog/*.json text eol=lf
 validation/joint_release/runtime_task_*/solution/ddi-curate text eol=lf
 *.csv text eol=lf
+environment/data/*.json text eol=lf
+validation/symbolic_platform/*.json text eol=lf
