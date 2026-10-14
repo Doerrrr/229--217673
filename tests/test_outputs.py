@@ -35,7 +35,7 @@ with tempfile.TemporaryDirectory(prefix='ddi018-platform-') as temporary:
     root = Path(temporary)
     root.chmod(0o755)
     result = evaluate(Native(str(binary), '/work/bcftools-1.20/bcftools', root, str(runner), out), resource_checks)
-result.update(native_build='PASS', private_guard='PASS', platform_version='v02')
+result.update(native_build='PASS', private_guard='PASS', platform_version='v03-safety')
 (out / 'checks.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
 if result['execution_status'] != 'NORMAL':
     raise RuntimeError('candidate runtime did not complete normally; inspect checks.json')

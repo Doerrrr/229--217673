@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* Author-owned measuring process. Never link this into a candidate binary. */
 static double now(void) {
@@ -22,8 +23,10 @@ int main(int argc, char **argv) {
     char *end;
     long seconds = strtol(argv[1], &end, 10);
     if (*end || seconds < 1 || seconds > 600) return 125;
-    long uid = strtol(argv[4], &end, 10);
-    if (*end || uid < 1) return 125;
+    /* This verifier always runs the candidate as UID/GID 10001. Reject every
+       other identity before creating outputs or launching a process. There is
+       no caller-controlled UID/GID passed into the privilege-changing calls. */
+    if (strcmp(argv[4], "10001")) return 125;
     int output = open(argv[2], O_WRONLY | O_CREAT | O_EXCL, 0600);
     int errors = open(argv[3], O_WRONLY | O_CREAT | O_EXCL, 0600);
     if (output < 0 || errors < 0) { perror("exclusive outputs"); return 125; }
@@ -33,8 +36,10 @@ int main(int argc, char **argv) {
     if (!child) {
         if (setpgid(0, 0) || dup2(output, 1) < 0 || dup2(errors, 2) < 0) _exit(125);
         close(output); close(errors);
-        if (geteuid() == 0 && (setgroups(0, NULL) || setgid(uid) || setuid(uid))) _exit(125);
-        if (getuid() != (uid_t)uid) _exit(125);
+        /* Empty supplementary-group list contains no GID; count is zero.
+           Both effective target identifiers are literal 10001 in 0..65535. */
+        if (geteuid() == 0 && (setgroups(0, NULL) || setgid(10001) || setuid(10001))) _exit(125);
+        if (getuid() != 10001 || getgid() != 10001) _exit(125);
         execvp(argv[5], argv + 5);
         perror("exec"); _exit(125);
     }

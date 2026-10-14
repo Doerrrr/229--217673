@@ -27,7 +27,7 @@ test -z "$(git diff --cached --name-only -- .github environment/data/drug_list.c
 python3 validation/cohort_platform/preflight.py
 git diff --cached --name-status
 if ! git diff --cached --quiet; then
-  git commit -m 'Publish DDI-018 platform v02 with validated Oracle and NOP'
+  git commit -m 'Repair DDI-018 verifier fixed UID/GID safety boundary'
 fi
 git push origin HEAD:main
 test "$(git ls-remote origin refs/heads/main | cut -f1)" = "$(git rev-parse HEAD)" || { echo 'STOP: remote SHA mismatch'; exit 1; }

@@ -12,7 +12,6 @@ FROZEN = {
     'business_checks.py': 'ec38ae5b7cd1038af16641fb608c572dbd3ba793b763fc3a7615d02f46f44730',
     'evaluate.py': '90d7666c204228c4be565e2b738b9fb5a7943c816916c2a93bbbaf1bca8ae31d',
     'resource_cases.py': 'a0214b26fe4323d830ca38f847b4414365eb1441e97edb80e6b77662fcedf86b',
-    'rss_runner.c': 'a644ef2b184d6bbb10a5d3f4dfc7c2adba6a7ee45602593d72d9801c6fcc530b',
 }
 PUBLIC = {
     'environment/packet/lab/exchange.md': '0f9cb4f8fe9774ac61be98fdaa0d497d784d8b37c9eaaf89e636c9ef1b0ab079',
@@ -31,6 +30,11 @@ def digest(path):
 def main():
     for name, wanted in FROZEN.items():
         assert digest(ROOT / 'tests' / name) == wanted, f'frozen check changed: {name}'
+    runner=(ROOT/'tests/rss_runner.c').read_text(encoding='utf-8')
+    assert 'strcmp(argv[4], "10001")' in runner
+    assert 'setgid(10001)' in runner and 'setuid(10001)' in runner
+    assert 'setgroups(0, NULL)' in runner
+    assert 'setgid(uid)' not in runner and 'setuid(uid)' not in runner
     for name, wanted in PUBLIC.items():
         assert digest(ROOT / name) == wanted, f'public obligation/dependency changed: {name}'
     copied = [ROOT/'environment/Makefile']
@@ -55,7 +59,8 @@ def main():
     assert sum(c['weight'] for c in provenance['business_weights']) == 1
     print(json.dumps({'status':'PASS', 'frozen_business_checks':33,
                       'complete_file_duplicates':len(pairs), 'internet_enabled':True,
-                      'platform_version':'v02', 'historical_scores_transferred':False}))
+                      'platform_version':'v03-safety', 'fixed_uid_gid':10001,
+                      'historical_scores_transferred':False}))
 
 if __name__ == '__main__':
     main()

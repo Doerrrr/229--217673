@@ -1,6 +1,8 @@
 {
   "task_id": "DDI-018",
-  "platform_version": "v02",
+  "platform_version": "v03-safety",
+  "platform_v02_commit": "97c5d56ee46107b9b76a7ef275920a6b2897277d",
+  "instrumentation_only_repair": "rss-runner now permits only literal UID/GID 10001; five semantic scoring files remain unchanged",
   "public_business_contract_source": "d1e31a47211bef87deb58ec7ccafff1585f9a75aa693e1648e864a7f4e7d46fa",
   "reference_answer_sha256": "2b4004989da2b3714364f7b98b1102746032b2d45de7db03edb72e94182d6de8",
   "reference_source_role": "USER_APPROVED_EXTERNAL_ANSWER_WITH_AUTHOR_RESOURCE_FIX",

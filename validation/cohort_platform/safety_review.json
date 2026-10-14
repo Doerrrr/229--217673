@@ -1,0 +1,20 @@
+{
+  "platform_version": "v03-safety",
+  "reported_platform_commit": "44bce151b78aa3dd47f6634f856f20f65b13980d",
+  "reported_repository": "cpoct-hlo/229--227194",
+  "r1_gate": "UID/GID must be statically provable in 0..65535",
+  "old_defect": "rss_runner parsed a dynamic uid and checked only uid >= 1",
+  "repair": "Accept exactly argument 10001; setgid(10001), setuid(10001), empty supplementary-group list",
+  "public_contract_changed": false,
+  "business_scoring_modules_changed": false,
+  "weights_changed": false,
+  "frozen_external_packets_changed": false,
+  "unknown_runtime_diagnostic": {
+    "location": "tests/test.sh:1",
+    "code": "unknown",
+    "status": "UNEXPLAINED_BY_CURRENT_FEEDBACK",
+    "next_step": "If it persists after the gate repair, obtain verifier stdout/stderr and runtime terminal state; do not change scores or guess a cause"
+  },
+  "platform_r1_passed_after_repair": false,
+  "formal_platform_t1": false
+}
