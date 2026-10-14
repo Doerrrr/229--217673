@@ -1,10 +1,10 @@
 {
-  "platform_version": "v03-safety",
-  "reported_platform_commit": "44bce151b78aa3dd47f6634f856f20f65b13980d",
-  "reported_repository": "cpoct-hlo/229--227194",
+  "platform_version": "v04-setpriv",
+  "reported_platform_commit": "47f8cebb139bb232548b932b4bb460bfbf96bfff",
+  "reported_repository": "cpoct-hlo/229--229204",
   "r1_gate": "UID/GID must be statically provable in 0..65535",
-  "old_defect": "rss_runner parsed a dynamic uid and checked only uid >= 1",
-  "repair": "Accept exactly argument 10001; setgid(10001), setuid(10001), empty supplementary-group list",
+  "old_defect": "v03 literal UID/GID accepted except platform static gate rejects setgroups(0,NULL)",
+  "repair": "Use standard /usr/bin/setpriv --reuid=10001 --regid=10001 --clear-groups --no-new-privs; remove direct setgroups/setuid/setgid in C and Python adapter",
   "public_contract_changed": false,
   "business_scoring_modules_changed": false,
   "weights_changed": false,
@@ -13,7 +13,7 @@
     "location": "tests/test.sh:1",
     "code": "unknown",
     "status": "UNEXPLAINED_BY_CURRENT_FEEDBACK",
-    "next_step": "If it persists after the gate repair, obtain verifier stdout/stderr and runtime terminal state; do not change scores or guess a cause"
+    "next_step": "Added VERIFIER_ENTRY_START, VERIFIER_STAGE markers, guard.stderr and runner.stderr. Obtain actual failing stage/traceback if unknown persists; do not assert the static-gate change fixes unknown"
   },
   "platform_r1_passed_after_repair": false,
   "formal_platform_t1": false

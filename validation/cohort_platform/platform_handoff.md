@@ -1,17 +1,18 @@
-# DDI-018 v03-safety 远端同步
+# DDI-018 v04-setpriv 远端同步
 
-本版在已验证的v02上仅修判卷身份：rss_runner只接受10001，setuid/setgid均使用字面量10001；
-补充组为空列表，满足0–65535范围且不保留root补充组。业务语义、33项评分和权重未变。
+本版移除测量器和Python适配器内直接的setgroups/setuid/setgid调用，改用util-linux
+setpriv --reuid=10001 --regid=10001 --clear-groups --no-new-privs。业务语义、33项评分和权重未变。
+实际降权及私有目录隔离须通过验证；不以删除安全措施来绕过门禁。
+新增判分阶段标记及stderr日志。unknown原因仍待平台实际日志，不假定本版必然修复。
 旧三份 0.500/0.400/0.950 属于 v01 外部答卷，不是 v02 正式 T1。
 
 ## 粘贴命令
 
 锁定最终通过 CI 的完整 SHA 后，使用交付消息中的短命令加载本目录 sync_platform.sh。
-该脚本只在 /home/workspace/project 执行，验证干净工作区和 cpoct-hlo 平台 origin，
-同步题包而不导入个人 .github 工作流、不覆盖三份既有原始 CSV。
-检查通过后普通提交并推送；不强推、不 reset、不丢弃用户修改。
+本版使用sync_manual.sh，只在/home/workspace/project执行，检查工作区干净及平台origin，
+导入完整批准题包但不导入个人.github工作流。停在暂存状态，用户自己commit/push。
 
-执行后须出现 SYNC_OK，记录其 source 和 platform 两个 SHA。
+执行后须出现SYNC_READY；手动提交后记录source及platform两个SHA。
 远端提交 SHA 与个人仓库 SHA 不同是正常的，因为保留了不同仓库历史及平台工作流；
 脚本会核对两边题包内容。若 STOP，请保留当前状态并发送完整输出，不反复粘贴长脚本。
 

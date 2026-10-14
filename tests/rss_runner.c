@@ -4,7 +4,6 @@
 #include <sys/resource.h>
 #include <time.h>
 #include <unistd.h>
-#include <grp.h>
 #include <signal.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -36,12 +35,19 @@ int main(int argc, char **argv) {
     if (!child) {
         if (setpgid(0, 0) || dup2(output, 1) < 0 || dup2(errors, 2) < 0) _exit(125);
         close(output); close(errors);
-        /* Empty supplementary-group list contains no GID; count is zero.
-           Both effective target identifiers are literal 10001 in 0..65535. */
-        if (geteuid() == 0 && (setgroups(0, NULL) || setgid(10001) || setuid(10001))) _exit(125);
-        if (getuid() != 10001 || getgid() != 10001) _exit(125);
-        execvp(argv[5], argv + 5);
-        perror("exec"); _exit(125);
+        /* util-linux owns the privilege transition; both identifiers are
+           explicitly 10001. The exec preserves the measured child's PID. */
+        char **command = calloc((size_t)argc + 2, sizeof(*command));
+        if (!command) _exit(125);
+        command[0] = "/usr/bin/setpriv";
+        command[1] = "--reuid=10001";
+        command[2] = "--regid=10001";
+        command[3] = "--clear-groups";
+        command[4] = "--no-new-privs";
+        command[5] = "--";
+        for (int i = 5; i < argc; ++i) command[i + 1] = argv[i];
+        execv(command[0], command);
+        perror("exec setpriv"); _exit(125);
     }
     close(output); close(errors);
     setpgid(child, child);

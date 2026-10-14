@@ -32,9 +32,13 @@ def main():
         assert digest(ROOT / 'tests' / name) == wanted, f'frozen check changed: {name}'
     runner=(ROOT/'tests/rss_runner.c').read_text(encoding='utf-8')
     assert 'strcmp(argv[4], "10001")' in runner
-    assert 'setgid(10001)' in runner and 'setuid(10001)' in runner
-    assert 'setgroups(0, NULL)' in runner
-    assert 'setgid(uid)' not in runner and 'setuid(uid)' not in runner
+    assert '"--reuid=10001"' in runner and '"--regid=10001"' in runner
+    assert '"--clear-groups"' in runner and '"--no-new-privs"' in runner
+    assert not re.search(r'\b(?:setgroups|setgid|setuid)\s*\(',runner)
+    adapter=(ROOT/'tests/test_outputs.py').read_text(encoding='utf-8')
+    assert not re.search(r'\b(?:setgroups|setgid|setuid)\s*\(',adapter)
+    assert '--reuid=10001' in adapter and '--regid=10001' in adapter
+    assert '--clear-groups' in adapter and 'VERIFIER_STAGE' in adapter
     for name, wanted in PUBLIC.items():
         assert digest(ROOT / name) == wanted, f'public obligation/dependency changed: {name}'
     copied = [ROOT/'environment/Makefile']
@@ -59,7 +63,7 @@ def main():
     assert sum(c['weight'] for c in provenance['business_weights']) == 1
     print(json.dumps({'status':'PASS', 'frozen_business_checks':33,
                       'complete_file_duplicates':len(pairs), 'internet_enabled':True,
-                      'platform_version':'v03-safety', 'fixed_uid_gid':10001,
+                      'platform_version':'v04-setpriv', 'fixed_uid_gid':10001,
                       'historical_scores_transferred':False}))
 
 if __name__ == '__main__':

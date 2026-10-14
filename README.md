@@ -1,4 +1,4 @@
-# DDI-018 — Cross-batch observation release (platform v03-safety)
+# DDI-018 — Cross-batch observation release (platform v04-setpriv)
 
 A Harbor 0.5.0 bioinformatics maintenance task. Repair the native C application
 that aggregates VCF, BGZF VCF and BCF observations from multiple batches while
@@ -26,11 +26,15 @@ projection 0.45, priority 0.25, grouping 0.15, resources 0.10, completion 0.05.
 The user-approved third external answer supplies the reference implementation,
 with an author fix that releases large per-source decoding buffers.
 
-Platform v03-safety changes only the verifier identity boundary: `rss_runner.c`
-accepts UID/GID 10001 exclusively and uses literal identifiers in setgid/setuid,
-which are statically within 0..65535. The five semantic scoring modules, public
-contract, source/Oracle implementation and weights remain unchanged. Historical
-v02 local validation remains recorded; v03 must obtain its own fixed CI receipt.
+Platform v03-safety constrained the identity to 10001, but the platform gate
+still rejected the direct empty supplementary-group call. Platform v04-setpriv
+uses the standard util-linux tool with explicit `--reuid=10001 --regid=10001
+--clear-groups --no-new-privs` for the guard, build and measured child. There are
+no direct identity-changing system calls in the measuring/adapting source.
+Stage markers and stderr logs improve diagnosis without changing scoring.
+The five semantic scoring modules, public contract, candidate and Oracle remain
+unchanged; util-linux is declared as an actually used environment dependency.
+Historical receipts remain historical; v04 must obtain its own fixed CI receipt.
 
 Original v01 answers scored 0.500, 0.400 and 0.950. They are historical external
 evidence, **not** independent v02 answers or formal platform T1 scores. They and
