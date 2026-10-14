@@ -1,4 +1,5 @@
 #!/bin/bash
 set -euo pipefail
-cp /solution/reference.cpp /opt/ddi-snapshot/src/ddi_snapshot.cpp
-/opt/ddi-snapshot/build.sh
+cp /solution/src/*.c /solution/src/cohort.h /work/cohort-release/src/
+cd /work/cohort-release
+make -B

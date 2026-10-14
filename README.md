@@ -1,42 +1,48 @@
-# Versioned DDI evidence library task
+# DDI-018 — Cross-batch observation release (platform v02)
 
-This is a Harbor 0.5.0 bioinformatics coding task. The agent repairs a C++20
-library behind an existing Python client. The library maintains directed DDI
-evidence as drug and event interpretations change. It must preserve immutable
-snapshots, support savepoints and transaction rebase, publish one winner for a
-same-base concurrent commit, and keep sparse version updates within the public
-resource budget. Research interactions in the supplied data are not clinical
-recommendations.
+A Harbor 0.5.0 bioinformatics maintenance task. Repair the native C application
+that aggregates VCF, BGZF VCF and BCF observations from multiple batches while
+preserving sample identity, allele/genotype meaning, priority and provenance.
+The supported workload includes one-to-four-ploid observations, repeated records
+and bounded-memory streaming. The public protocol accepts equivalent ALT order;
+there is no hidden byte-layout requirement.
 
-## Task files
+## Files
 
-- `instruction.md` specifies the public C ABI behavior, ownership, concurrency,
-  error handling, and bounded workload.
-- `environment/` contains the damaged C++ source, public header, client,
-  Docker build files, and three original research CSV files.
-- `solution/solve.sh` installs the Oracle implementation.
-- `tests/test.sh` runs 18 additive behavior groups and writes the Harbor reward.
-- `task.toml` declares the schema and execution limits.
+- `instruction.md`: online task and delivery instructions.
+- `environment/packet/`: public laboratory policy, consumer and sample inputs.
+- `environment/src/`, `environment/Makefile`: initial native application.
+- `environment/upstream/`: pinned build dependency.
+- `solution/solve.sh`, `solution/src/`: hidden Oracle implementation.
+- `tests/`: unchanged 33 business checks from DDI-018 v01, plus Harbor adapter.
+- `validation/cohort_platform/`: provenance, preflight and platform handoff.
+- `task.toml`: schema 1.3, internet enabled for the platform model route.
 
-The 18 group weights sum to 1.000. There is no score cap. The verifier runs
-candidate code in an unprivileged child process while holding expectations in
-the supervisor. Any implementation satisfying the public behavior is accepted.
+## Version boundary
 
-## Validation status
+Platform v02 adapts online delivery and changes the initial migration draft to
+meet NOP admission. Business obligations and the five weights remain unchanged:
+projection 0.45, priority 0.25, grouping 0.15, resources 0.10, completion 0.05.
+The user-approved third external answer supplies the reference implementation,
+with an author fix that releases large per-source decoding buffers.
 
-The frozen task files were tested with Harbor 0.5.0 in Linux Docker. Serial
-Oracle and NOP trials finished normally with rewards 1.000 and 0.000. A fresh
-local blind answer also earned 1.000, so this task is **not** locally verified
-to meet the desired T1 difficulty threshold. A TalentsAI platform run is a
-separate experiment and must be interpreted from its own result.
+Original v01 answers scored 0.500, 0.400 and 0.950. They are historical external
+evidence, **not** independent v02 answers or formal platform T1 scores. They and
+their original frozen packages have been preserved outside this repository.
 
-Run the controls in a Linux Docker environment:
+The three original research CSV files are preserved for historical continuity,
+but are not copied into this task's image or used by its public input protocol.
+The GitHub Actions workflow is unchanged. Final TalentsAI detection and submission
+remain user-controlled; local or GitHub validation does not prove R1/T1/R2 pass.
+
+## Container validation
+
+Use the fixed workflow on `main`, or run Harbor 0.5.0 with:
 
 ```bash
-uvx --python 3.12 --from harbor==0.5.0 harbor trials start -p . -a oracle
-uvx --python 3.12 --from harbor==0.5.0 harbor trials start -p . -a nop
+uvx --python 3.12 --from harbor==0.5.0 harbor trials start -p . -a oracle --trial-name oracle --trials-dir .trials/oracle
+uvx --python 3.12 --from harbor==0.5.0 harbor trials start -p . -a nop --trial-name nop --trials-dir .trials/nop
 ```
 
-`validation/sync_native_release.sh` is the reviewed, pinned-commit handoff
-for the platform Git workspace. It only transfers task paths; it checks the
-platform workflow and original CSV bytes before committing.
+Expected normal rewards: Oracle 1.000, NOP 0.000. A runtime exception or absent
+reward is a validation failure, not evidence that a model failed the task.

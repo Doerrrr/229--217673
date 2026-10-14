@@ -1,0 +1,53 @@
+{
+  "task_id": "DDI-018",
+  "platform_version": "v02",
+  "public_business_contract_source": "d1e31a47211bef87deb58ec7ccafff1585f9a75aa693e1648e864a7f4e7d46fa",
+  "reference_answer_sha256": "2b4004989da2b3714364f7b98b1102746032b2d45de7db03edb72e94182d6de8",
+  "reference_source_role": "USER_APPROVED_EXTERNAL_ANSWER_WITH_AUTHOR_RESOURCE_FIX",
+  "frozen_external_scores": [
+    0.5,
+    0.4,
+    0.95
+  ],
+  "scores_transfer_to_new_starter": false,
+  "original_public_and_private_archives_changed": false,
+  "business_weights": [
+    {
+      "name": "projection",
+      "weight": 0.45,
+      "cases": 12
+    },
+    {
+      "name": "priority",
+      "weight": 0.25,
+      "cases": 8
+    },
+    {
+      "name": "grouping",
+      "weight": 0.15,
+      "cases": 6
+    },
+    {
+      "name": "resources",
+      "weight": 0.1,
+      "cases": 2
+    },
+    {
+      "name": "completion",
+      "weight": 0.05,
+      "cases": 5
+    }
+  ],
+  "business_weights_changed": false,
+  "reference_before_fix_files": {
+    "changes/src/alleles.c": "909ce837767f1ab1d3e381f3657e4827c1aa7db5c28492133b9c4df52fcefb01",
+    "changes/src/cohort.h": "1de67f67291a0cf97025d4951b9ce06c7dc5e7c847e6f49ac42773b147ff541d",
+    "changes/src/coordinator.c": "191a7831df3ecb0967b003c89691b8d6365ff68f0775dd12a1e71701db00f1ee",
+    "changes/src/fields.c": "8606f0b93e0cda399258943d8c1598c494b0deb41d427d09ec393650cec927d4",
+    "changes/src/main.c": "d6b7e283a535f38daefaf8a0eca1ceaf9a6b0e36cb3ef3b68ad2f673384416e1",
+    "changes/src/publish.c": "42c324a9490759e7583cce9217614b36a819167ee053e558d2cdf83ec9204488",
+    "changes/src/source.c": "d323a061e0ca72bd3eec39fef29bf0676f0d2d3c898b6f3f4badafa0c9f70131"
+  },
+  "platform_validated": false,
+  "model_calls": 0
+}
