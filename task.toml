@@ -1,7 +1,7 @@
 schema_version = "1.3"
 
 [task]
-name = "bioinformatics/ddi-cohort-observation-release"
+name = "bioinformatics/ddi-dual-view-transactional-release"
 authors = [{ name = "bioinformatics-engineer", email = "noreply@example.com" }]
 
 [agent]
@@ -11,7 +11,7 @@ timeout_sec = 5400
 build_timeout_sec = 900
 cpus = 2
 memory_mb = 4096
-storage_mb = 10240
+storage_mb = 20480
 gpus = 0
 allow_internet = true
 
@@ -21,4 +21,4 @@ timeout_sec = 600
 [metadata]
 difficulty = "hard"
 category = "bioinformatics"
-tags = ["variant-observations", "allele-projection", "native-c", "streaming", "bounded-memory"]
+tags = ["variant-observations", "dual-views", "native-c", "transactional-publication", "bounded-memory"]

@@ -79,7 +79,8 @@ CHECKS={'projection':projection,'priority':priority,'grouping':grouping}
 
 def accepts(group,case,result):
     if result['returncode']!=0:
-        return group=='completion' and not case.success and result['returncode']>0 and bool(result['stderr'].strip())
+        return (group=='completion' and not case.success and result['returncode']>0
+                and bool(result['stderr'].strip()) and result['stdout'].stat().st_size==0)
     if not case.success:return False
     try:
         if group=='completion':return grouping(case,result['rows']) and priority(case,result['rows'])

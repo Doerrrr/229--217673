@@ -2,95 +2,71 @@
 #include "cohort.h"
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
 
-/*
-   Published dictionary: the union of the ALT lists of every record contributing to
-   one key, in the order in which the alleles first appear (contributors are ordered
-   by batch priority and then by record ordinal).  No particular arrangement is
-   mandated by the exchange record, but every observation has to be expressed in
-   this dictionary so that a source's own allele numbering cannot change the allele
-   or genotype an observation stands for.
-*/
-int locus_find(const locus *value, const char *alt) {
-    for (size_t i = 0; i < value->nalt; ++i) if (!strcmp(value->alts[i], alt)) return (int)i;
+/* ------------------------------------------------------------ allele list */
+void allele_list_init(allele_list *value) { memset(value, 0, sizeof(*value)); }
+
+void allele_list_free(allele_list *value) {
+    for (size_t i = 0; i < value->count; ++i) free(value->items[i]);
+    free(value->items);
+    memset(value, 0, sizeof(*value));
+}
+
+int allele_list_index(const allele_list *value, const char *text) {
+    for (size_t i = 0; i < value->count; ++i)
+        if (!strcmp(value->items[i], text)) return (int)i;
     return -1;
 }
 
-int locus_open(frame_list *items, locus *out) {
-    memset(out, 0, sizeof(*out));
-    out->items = items->items; out->count = items->count;
-    for (size_t i = 0; i < items->count; ++i) {
-        if (!strcmp(items->items[i]->columns[4], ".")) continue;
-        char *text = strdup(items->items[i]->columns[4]), *save = NULL;
-        if (!text) { locus_close(out); return -1; }
-        for (char *alt = strtok_r(text, ",", &save); alt; alt = strtok_r(NULL, ",", &save)) {
-            if (locus_find(out, alt) >= 0) continue;
-            char **next = realloc(out->alts, (out->nalt+1) * sizeof(*next));
-            if (!next) { free(text); locus_close(out); return -1; }
-            out->alts = next;
-            out->alts[out->nalt] = strdup(alt);
-            if (!out->alts[out->nalt]) { free(text); locus_close(out); return -1; }
-            ++out->nalt;
-        }
-        free(text);
-    }
+int allele_list_add(allele_list *value, const char *text) {
+    if (allele_list_index(value, text) >= 0) return 0;
+    char **grown = realloc(value->items, (value->count + 1) * sizeof(*grown));
+    if (!grown) return -1;
+    value->items = grown;
+    value->items[value->count] = strdup(text);
+    if (!value->items[value->count]) return -1;
+    ++value->count;
     return 0;
 }
 
-void locus_close(locus *value) {
-    for (size_t i = 0; i < value->nalt; ++i) free(value->alts[i]);
-    free(value->alts); memset(value, 0, sizeof(*value));
-}
-
-/* ploidy declared by the GT string used by one observation */
-int locus_ploidy(const char *gt) {
-    if (!gt || !*gt) return -1;
-    int ploidy = 0;
-    for (const char *p = gt; *p; ) {
-        if (*p == '/' || *p == '|') { ++p; continue; }
-        if (*p == '.') ++p;
-        else while (*p >= '0' && *p <= '9') ++p;
-        ++ploidy;
-    }
-    return ploidy;
-}
-
-static int64_t choose_(int64_t n, int64_t k) {
-    if (k < 0 || n < 0 || k > n) return 0;
+/* ------------------------------------------------------- genotype algebra */
+static uint64_t binomial(uint64_t n, uint64_t k) {
+    if (k > n) return 0;
     if (k > n - k) k = n - k;
-    int64_t result = 1;
-    for (int64_t i = 1; i <= k; ++i) {
-        if (result > (INT64_MAX - 1) / (n - k + i)) return INT64_MAX/2;   /* far outside the supported domain */
-        result = result * (n - k + i) / i;
-    }
+    uint64_t result = 1;
+    for (uint64_t i = 1; i <= k; ++i) result = result * (n - k + i) / i;
     return result;
 }
 
-/* number of genotypes for the given ploidy and allele count, i.e. C(alleles+ploidy-1, ploidy) */
-int64_t locus_genotype_count(int ploidy, size_t alleles) {
-    if (ploidy < 1) return 0;
-    return choose_((int64_t)alleles + ploidy - 1, ploidy);
+uint64_t genotype_slots(int ploidy, int alleles) {
+    if (ploidy < 1 || alleles < 1) return 0;
+    return binomial((uint64_t)alleles + (uint64_t)ploidy - 1, (uint64_t)ploidy);
 }
 
-/* index of a genotype, alleles[] non-decreasing and 0-based */
-int64_t locus_genotype_index(int ploidy, const int *alleles) {
-    if (ploidy <= 1) return alleles[0];
-    int top = alleles[ploidy-1];
-    int64_t index = 0;
-    for (int j = 0; j < top; ++j) index += choose_(j + ploidy - 1, ploidy - 1);
-    return index + locus_genotype_index(ploidy-1, alleles);
+/* Co-lexicographic combination index, as VCF orders Number=G values. */
+uint64_t genotype_rank(const int *alleles, int ploidy) {
+    uint64_t rank = 0;
+    for (int i = 0; i < ploidy; ++i)
+        rank += binomial((uint64_t)alleles[i] + (uint64_t)i, (uint64_t)i + 1);
+    return rank;
 }
 
-/* inverse of locus_genotype_index: fill out[] with the non-decreasing allele multiset */
-void locus_genotype_alleles(int ploidy, size_t alleles, int64_t index, int *out) {
-    if (ploidy <= 1) { out[0] = (int)index; return; }
-    size_t top = 0;
-    for (; top < alleles; ++top) {
-        int64_t block = choose_((int64_t)top + ploidy - 1, ploidy - 1);
-        if (index < block) break;
-        index -= block;
+void genotype_unrank(uint64_t rank, int ploidy, int alleles, int *out) {
+    uint64_t remaining = rank;
+    for (int i = ploidy - 1; i >= 0; --i) {
+        int chosen = 0;
+        for (int a = alleles - 1; a >= 0; --a) {
+            uint64_t value = binomial((uint64_t)a + (uint64_t)i, (uint64_t)i + 1);
+            if (value <= remaining) { chosen = a; remaining -= value; break; }
+        }
+        out[i] = chosen;
     }
-    out[ploidy-1] = (int)top;
-    locus_genotype_alleles(ploidy-1, top+1, index, out);
+}
+
+int genotype_ploidy(const char *gt) {
+    if (!gt || !*gt || !strcmp(gt, ".")) return 1;
+    int ploidy = 1;
+    for (const char *p = gt; *p; ++p)
+        if (*p == '/' || *p == '|') ++ploidy;
+    return ploidy;
 }

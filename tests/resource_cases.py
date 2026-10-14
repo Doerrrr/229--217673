@@ -45,7 +45,7 @@ def resource_checks(execute):
                 if wide:file.write((body+b'\n')*rows)
                 else:
                     parts=body.split(b'\t');suffix=b'\t'.join(parts[2:])+b'\n'
-                    for pos in range(1,rows+1):file.write(b'chr7\t'+str(pos).encode()+b'\t'+suffix)
+                    for pos in range(rows,0,-1):file.write(b'chr7\t'+str(pos).encode()+b'\t'+suffix)
             path.chmod(0o444);paths.append((name,path))
         manifest=directory/'batches.tsv';manifest.write_text('source\tpath\n'+''.join(name+'\t'+str(path)+'\n' for name,path in paths));manifest.chmod(0o444)
         measured=execute.invoke(label,manifest,names,limit=180)
@@ -60,7 +60,7 @@ def resource_checks(execute):
                         assert len(actual)==len(old) and set(actual)==set(old)
                         if actual not in cache:cache[actual]=expected_fields(values,old,actual)
                         fields=cache[actual]
-                        origins=[(name,j) for name,_ in paths for j in range(rows)] if wide else [('primary',count-1)]
+                        origins=[(name,j) for name,_ in paths for j in range(rows)] if wide else [('primary',rows-count)]
                         assert sorted((v['source'],v['ordinal']) for v in row['contributors'])==sorted(origins)
                         assert [v['name'] for v in row['samples']]==list(names)
                         for sample in row['samples']:

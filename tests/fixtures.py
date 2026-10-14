@@ -121,6 +121,55 @@ completion=[Case('all_sources_empty',(Batch('first',('S',),()),),('S',)),
             Case('unreadable_header',(Batch('first',('S',),(),fault='header'),),('S',),False),
             Case('missing_sample_column',(Batch('first',('S',),(record(),),fault='columns'),),('S',),False)]
 
+incompatible = next(c for c in grouping if c.name == 'ref_separates_same_position')
+grouping = [c for c in grouping if c is not incompatible]
+completion.append(replace(incompatible, name='incompatible_same_length_ref', success=False))
+
+for p in range(1,5):
+    short = record(('G',), p, 10)
+    long = replace(record(('TC',), p, 20), ref='AC')
+    projection.append(pair('prefix_extend_'+str(p), short, long,
+                           encoding='bcf' if p % 2 else 'vcfgz'))
+projection += [
+    pair('same_haplotype_different_source_strings', record(('G',),2,30),
+         replace(record(('GC',),2,40),ref='AC')),
+    pair('same_source_string_different_haplotypes', record(('G',),2,50),
+         replace(record(('G',),2,60),ref='AC')),
+    pair('append_suffix_not_prepend', replace(record(('T',),3,70),ref='G'),
+         replace(record(('GGT',),3,80),ref='GT')),
+    pair('missing_observation_changes_release_ref', record(('G',),4,90),
+         replace(record(('TC',),4,100,missing=True),ref='AC')),
+]
+priority += [Case('longer_ref_does_not_override_priority',
+                 (Batch('first',('S',),(record(('G',),2,110),)),
+                  Batch('second',('S',),(replace(record(('TC',),2,120),ref='AC'),))),('S',)),
+             Case('earliest_original_record_not_sorted_ref',
+                 (Batch('first',('S',),(replace(record(('TC',),2,130),ref='AC'),
+                                      record(('G',),2,140))),),('S',))]
+grouping += [
+    Case('positions_reverse', (Batch('first',('S',),tuple(record(pos=p) for p in (100,9,2))),),('S',)),
+    Case('same_position_returns_after_other_position',
+         (Batch('first',('S',),(record(pos=100),record(pos=2),record(pos=100,seed=150))),),('S',)),
+    Case('contig_returns_after_other_contig',
+         (Batch('first',('S',),(record(chrom='chrB'),record(chrom='chrA'),
+                                record(chrom='chrB',seed=160)),('chrB','chrA')),),('S',)),
+    Case('ref_coordination_across_separated_records',
+         (Batch('first',('S',),(record(('G',),pos=31),record(pos=8),
+                                replace(record(('TC',),pos=31),ref='AC'))),),('S',)),
+    Case('ref_only_short_span', (Batch('first',('S',),(record((),2,170),)),
+                               Batch('second',('S',),(replace(record(('TC',),2,180),ref='AC'),))),('S',)),
+]
+completion += [
+    Case('late_ref_mismatch_same_source',
+         (Batch('first',('S',),tuple(record(pos=p) for p in range(1,25))+
+                               (replace(record(pos=24),ref='C'),)),),('S',),False),
+    Case('last_source_ref_mismatch',
+         (Batch('first',('S',),(record(pos=1),record(pos=80))),
+          Batch('second',('S',),(replace(record(pos=80),ref='AG'),)),
+          Batch('third',('S',),(replace(record(pos=80),ref='AT'),))),('S',),False),
+    Case('malformed_tail_after_valid_records',
+         (Batch('first',('S',),tuple(record(pos=p) for p in range(1,30)),fault='tail'),),('S',),False),
+]
 CASES={'projection':tuple(projection),'priority':tuple(priority),
        'grouping':tuple(grouping),'completion':tuple(completion)}
 
@@ -128,14 +177,24 @@ CASES={'projection':tuple(projection),'priority':tuple(priority),
 def source_facts(case):
     """Finite facts about generated sources, not release output or a solver."""
     loci={}
+    longest={}
+    for batch in case.batches:
+        for row in batch.records:
+            poskey=(row.chrom,row.pos)
+            if len(row.ref)>len(longest.get(poskey,'')):
+                longest[poskey]=row.ref
     for rank,batch in enumerate(case.batches):
         for ordinal,row in enumerate(batch.records):
-            key=(row.chrom,row.pos,row.ref)
+            ref=longest[(row.chrom,row.pos)]
+            if not ref.startswith(row.ref):raise ValueError('incompatible reference prefix')
+            suffix=ref[len(row.ref):]
+            alleles=(ref,*(alt+suffix for alt in row.alt))
+            key=(row.chrom,row.pos,ref)
             entry=loci.setdefault(key,{'alts':set(),'origins':[], 'samples':{n:[] for n in case.selected}})
-            entry['alts'].update(row.alt)
+            entry['alts'].update(alleles[1:])
             entry['origins'].append((batch.source,ordinal))
             for name,values in row.samples:
                 if name not in entry['samples']:continue
                 entry['samples'][name].append({'source':batch.source,'ordinal':ordinal,'format':list(row.tags),
-                                              'values':dict(zip(row.tags,values)), 'alleles':(row.ref,*row.alt)})
+                                              'values':dict(zip(row.tags,values)), 'alleles':alleles})
     return loci

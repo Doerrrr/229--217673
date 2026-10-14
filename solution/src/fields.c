@@ -2,7 +2,7 @@
 #include "cohort.h"
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
+#include <errno.h>
 
 void json_string(FILE *out, const char *text) {
     fputc('"', out);
@@ -14,238 +14,349 @@ void json_string(FILE *out, const char *text) {
     fputc('"', out);
 }
 
-/* a slot/measurement the source has no value for */
-#define ABSENT INT64_MIN
-#define MAX_PLOIDY 8
-
-static int64_t *scratch = NULL;
-static size_t scratch_size = 0;
-static char **tokens = NULL;
-static size_t token_size = 0;
-
-static int scratch_reserve(size_t count) {
-    if (scratch_size >= count) return 0;
-    int64_t *next = realloc(scratch, count * sizeof(*next));
-    if (!next) return -1;
-    scratch = next; scratch_size = count;
-    return 0;
-}
-
-static int tokens_reserve(size_t count) {
-    if (token_size >= count) return 0;
-    char **next = realloc(tokens, count * sizeof(*next));
-    if (!next) return -1;
-    tokens = next; token_size = count;
-    return 0;
-}
-
-static size_t count_fields(const char *text, char separator) {
-    if (!text || !*text) return 0;
-    size_t count = 1;
-    for (const char *p = text; *p; ++p) if (*p == separator) ++count;
-    return count;
-}
-
-/* split in place, keeping empty fields so that vectors stay aligned */
-static size_t split_fields(char *text, char separator, char **out, size_t capacity) {
-    if (!text) return 0;
-    size_t count = 0;
-    char *field = text;
-    for (;;) {
-        if (count < capacity) out[count] = field;
-        ++count;
-        char *at = strchr(field, separator);
-        if (!at) break;
-        *at = 0;
-        field = at + 1;
+void json_string_ks(kstring_t *out, const char *text) {
+    kputc('"', out);
+    for (const unsigned char *p = (const unsigned char *)text; *p; ++p) {
+        if (*p == '"' || *p == '\\') { kputc('\\', out); kputc(*p, out); }
+        else if (*p < 32) ksprintf(out, "\\u%04x", *p);
+        else kputc(*p, out);
     }
-    return count;
+    kputc('"', out);
 }
 
-static int64_t measurement(const char *text) {
-    if (!text || !*text || !strcmp(text, ".")) return ABSENT;
-    return strtoll(text, NULL, 10);
+/* ------------------------------------------------------------ scanning -- */
+
+/*
+ * Field `index` of a separated list, borrowed from the caller's text.  A FORMAT
+ * tag and its measurement are paired by position, so the index is what selects
+ * a measurement and an empty field still occupies its slot.
+ */
+static int list_token(const char *text, char separator, size_t index,
+                      const char **start, size_t *length) {
+    if (!text) return 0;
+    const char *field = text;
+    for (size_t i = 0;; ++i) {
+        const char *next = strchr(field, separator);
+        size_t size = next ? (size_t)(next - field) : strlen(field);
+        if (i == index) { *start = field; *length = size; return 1; }
+        if (!next) return 0;
+        field = next + 1;
+    }
 }
 
-static void print_vector(FILE *out, size_t count) {
+/* The same, inside a substring that is not terminated. */
+static int bounded_token(const char *text, size_t total, char separator, size_t index,
+                         const char **start, size_t *length) {
+    if (!text) return 0;
+    size_t begin = 0;
+    for (size_t i = 0;; ++i) {
+        size_t end = begin;
+        while (end < total && text[end] != separator) ++end;
+        if (i == index) { *start = text + begin; *length = end - begin; return 1; }
+        if (end >= total) return 0;
+        begin = end + 1;
+    }
+}
+
+static int is_missing(const char *start, size_t length) {
+    return start == NULL || length == 0 || (length == 1 && *start == '.');
+}
+
+static size_t field_count(const char *text, char separator) {
+    size_t count = 0;
+    if (!text) return 0;
+    for (const char *p = text; *p; ++p) if (*p == separator) ++count;
+    return count + 1;
+}
+
+static const char *tag_at(const char *format, size_t index, size_t *length) {
+    const char *start = NULL;
+    if (!list_token(format, ':', index, &start, length)) return NULL;
+    return start;
+}
+
+/* A measurement that is not a decimal integer is not a measurement. */
+static void number_at(FILE *out, const char *start, size_t length) {
+    if (is_missing(start, length)) { fputs("null", out); return; }
+    char buffer[32];
+    if (length >= sizeof(buffer)) { fputs("null", out); return; }
+    memcpy(buffer, start, length);
+    buffer[length] = 0;
+    char *end = NULL;
+    errno = 0;
+    long long parsed = strtoll(buffer, &end, 10);
+    if (!errno && end && end != buffer && !*end) fprintf(out, "%lld", parsed);
+    else fputs("null", out);
+}
+
+static void number_at_ks(kstring_t *out, const char *start, size_t length) {
+    if (is_missing(start, length)) { kputs("null", out); return; }
+    char buffer[32];
+    if (length >= sizeof(buffer)) { kputs("null", out); return; }
+    memcpy(buffer, start, length);
+    buffer[length] = 0;
+    char *end = NULL;
+    errno = 0;
+    long long parsed = strtoll(buffer, &end, 10);
+    if (!errno && end && end != buffer && !*end) ksprintf(out, "%lld", parsed);
+    else kputs("null", out);
+}
+
+/* ---------------------------------------------------- the original view -- */
+
+/* Values exactly as the source wrote them, walked once, in their own order. */
+static void plain_vector_ks(kstring_t *out, const char *text, size_t total) {
+    if (is_missing(text, total)) { kputs("null", out); return; }
+    kputc('[', out);
+    size_t begin = 0;
+    for (size_t k = 0;; ++k) {
+        size_t end = begin;
+        while (end < total && text[end] != ',') ++end;
+        if (k) kputc(',', out);
+        number_at_ks(out, text + begin, end - begin);
+        if (end >= total) break;
+        begin = end + 1;
+    }
+    kputc(']', out);
+}
+
+int observation_plain_ks(kstring_t *out, const char *format, const char *column) {
+    if (!format || !*format) format = ".";
+    size_t ntags = field_count(format, ':');
+    kputc('{', out);
+    int first = 1;
+    for (size_t i = 0; i < ntags; ++i) {
+        size_t tag_length = 0;
+        const char *tag = tag_at(format, i, &tag_length);
+        if (!tag || !tag_length || (tag_length == 1 && *tag == '.')) continue;
+        char name[64];
+        if (tag_length >= sizeof(name)) continue;
+        memcpy(name, tag, tag_length); name[tag_length] = 0;
+
+        const char *raw = NULL; size_t raw_length = 0;
+        list_token(column ? column : ".", ':', i, &raw, &raw_length);
+        if (!first) kputc(',', out);
+        first = 0;
+        json_string_ks(out, name);
+        kputc(':', out);
+        if (!strcmp(name, "GT")) {
+            if (is_missing(raw, raw_length)) kputs("\".\"", out);
+            else { kputc('"', out); kputsn(raw, raw_length, out); kputc('"', out); }
+        } else if (!strcmp(name, "AD") || !strcmp(name, "PL")) {
+            plain_vector_ks(out, raw, raw_length);
+        } else {
+            number_at_ks(out, raw, raw_length);
+        }
+    }
+    kputc('}', out);
+    return 0;
+}
+
+/* ------------------------------------------------ the published view ---- */
+
+void observation_scratch_free(observation_scratch *value) {
+    free(value->combo); free(value->mapped);
+    free(value->slot_of_rank); free(value->values);
+    memset(value, 0, sizeof(*value));
+}
+
+int observation_scratch_reserve(observation_scratch *value, size_t ploidy,
+                                size_t ranks, size_t slots) {
+    if (value->ploidy_cap < ploidy) {
+        int *combo = realloc(value->combo, ploidy * sizeof(*combo));
+        if (!combo) return -1;
+        value->combo = combo;
+        int *mapped = realloc(value->mapped, ploidy * sizeof(*mapped));
+        if (!mapped) return -1;
+        value->mapped = mapped;
+        value->ploidy_cap = ploidy;
+    }
+    if (value->rank_cap < ranks) {
+        int *grown = realloc(value->slot_of_rank, (ranks ? ranks : 1) * sizeof(*grown));
+        if (!grown) return -1;
+        value->slot_of_rank = grown;
+        value->rank_cap = ranks;
+    }
+    if (value->values_cap < slots) {
+        void *grown = realloc(value->values, (slots ? slots : 1) * sizeof(*value->values));
+        if (!grown) return -1;
+        value->values = grown;
+        value->values_cap = slots;
+    }
+    return 0;
+}
+
+/* GT alleles are source indices; the published allele is the coordinated one. */
+static void gt_publish(FILE *out, const char *raw, size_t raw_length, const allele_map *map) {
+    if (is_missing(raw, raw_length)) { fputs("\".\"", out); return; }
+    fputc('"', out);
+    const char *p = raw;
+    const char *stop = raw + raw_length;
+    while (p < stop) {
+        const char *end = p;
+        while (end < stop && *end != '/' && *end != '|') ++end;
+        size_t length = (size_t)(end - p);
+        int mapped = 0;
+        if (length == 1 && *p == '.') fputc('.', out);
+        else {
+            char buffer[32];
+            if (length && length < sizeof(buffer)) {
+                memcpy(buffer, p, length);
+                buffer[length] = 0;
+                char *tail = NULL;
+                long index = strtol(buffer, &tail, 10);
+                if (tail && *tail == 0 && index >= 0 && index < map->source_alleles) {
+                    fprintf(out, "%zu", map->source_to_pub[index]);
+                    mapped = 1;
+                }
+            }
+            if (!mapped) fputc('.', out);
+        }
+        if (end >= stop) break;
+        fputc(*end, out);
+        p = end + 1;
+    }
+    fputc('"', out);
+}
+
+/* AD is indexed by allele, so each source slot moves to its published slot. */
+static void ad_publish(FILE *out, const char *raw, size_t raw_length, const allele_map *map) {
+    if (is_missing(raw, raw_length)) { fputs("null", out); return; }
     fputc('[', out);
-    for (size_t i = 0; i < count; ++i) {
-        if (i) fputc(',', out);
-        if (scratch[i] == ABSENT) fputs("null", out);
-        else fprintf(out, "%lld", (long long)scratch[i]);
+    for (size_t j = 0; j < map->dict->count; ++j) {
+        if (j) fputc(',', out);
+        int source = map->pub_to_src[j];
+        const char *start = NULL; size_t length = 0;
+        if (source < 0 || !bounded_token(raw, raw_length, ',', (size_t)source, &start, &length)) {
+            fputs("null", out);
+            continue;
+        }
+        number_at(out, start, length);
     }
     fputc(']', out);
 }
 
 /*
-   A source states its measurements against its own allele dictionary.  The report
-   states them against the published dictionary of the key, because that is what the
-   receiver reads them with: an allele or genotype has to keep its identity no matter
-   how its source happened to spell it, and a slot the source has no measurement for
-   stays unobserved instead of being filled with a value.
-   map[i] is the published index of source allele i (index 0 is REF).
-*/
-static void emit_number_r(FILE *out, const locus *site, const char *text, const int *map, size_t nsrc) {
-    size_t given = count_fields(text, ',');
-    size_t count = site->nalt + 1;
-    if (!given || (given == 1 && !*text) || (given == 1 && !strcmp(text, "."))) { fputs("null", out); return; }
-    if (scratch_reserve(count) || tokens_reserve(given)) { fputs("null", out); return; }
-    char *copy = strdup(text);
-    if (!copy) { fputs("null", out); return; }
-    size_t used = split_fields(copy, ',', tokens, given);
-    for (size_t i = 0; i < count; ++i) scratch[i] = ABSENT;
-    for (size_t i = 0; i < used; ++i) {
-        if (i >= nsrc) break;
-        int slot = map[i];
-        if (slot < 0 || (size_t)slot >= count) continue;
-        scratch[slot] = measurement(tokens[i]);
+ * PL is indexed by genotype combination.  Published slot j takes the source
+ * slot naming the same genotype; a genotype the source never measured stays
+ * null instead of being filled with zero.
+ *
+ * The plan walks the *source* genotypes (a handful, because a record carries at
+ * most a few ALT) and maps each one forward into the published ordering, rather
+ * than unranking every published slot of a possibly 17 allele dictionary for
+ * every one of the 64 samples.
+ */
+static void pl_publish(FILE *out, const char *raw, size_t raw_length,
+                       const allele_map *map, int ploidy, observation_scratch *scratch) {
+    if (is_missing(raw, raw_length)) { fputs("null", out); return; }
+    size_t slots = (size_t)genotype_slots(ploidy, (int)map->dict->count);
+    size_t ranks = (size_t)genotype_slots(ploidy, map->source_alleles);
+    if (!slots || !ranks) { fputs("null", out); return; }
+    if (observation_scratch_reserve(scratch, (size_t)ploidy, ranks, slots)) {
+        fputs("null", out);
+        return;
     }
-    free(copy);
-    print_vector(out, count);
-}
+    for (size_t j = 0; j < slots; ++j) scratch->values[j].start = NULL;
 
-static void emit_number_a(FILE *out, const locus *site, const char *text, const int *map, size_t nsrc) {
-    size_t given = count_fields(text, ',');
-    size_t count = site->nalt;
-    if (!given || (given == 1 && !*text) || (given == 1 && !strcmp(text, "."))) { fputs("null", out); return; }
-    if (!count) { fputs("null", out); return; }
-    if (scratch_reserve(count) || tokens_reserve(given)) { fputs("null", out); return; }
-    char *copy = strdup(text);
-    if (!copy) { fputs("null", out); return; }
-    size_t used = split_fields(copy, ',', tokens, given);
-    for (size_t i = 0; i < count; ++i) scratch[i] = ABSENT;
-    for (size_t i = 0; i < used; ++i) {
-        int slot = (i + 1 < nsrc) ? map[i+1] : -1;      /* Number=A starts at the first ALT */
-        if (slot < 1 || (size_t)slot > count) continue;
-        scratch[slot-1] = measurement(tokens[i]);
-    }
-    free(copy);
-    print_vector(out, count);
-}
-
-static void emit_number_g(FILE *out, const locus *site, const char *text, const int *map, size_t nsrc, int ploidy) {
-    size_t given = count_fields(text, ',');
-    if (!given || (given == 1 && !*text) || (given == 1 && !strcmp(text, ".")) || ploidy < 1 || ploidy > MAX_PLOIDY) {
-        fputs("null", out); return;
-    }
-    int64_t count = locus_genotype_count(ploidy, site->nalt + 1);
-    int64_t source_count = locus_genotype_count(ploidy, nsrc);
-    if (count <= 0 || source_count <= 0 || count > (int64_t)(1<<26)) { fputs("null", out); return; }
-    if (scratch_reserve((size_t)count) || tokens_reserve(given)) { fputs("null", out); return; }
-    char *copy = strdup(text);
-    if (!copy) { fputs("null", out); return; }
-    size_t used = split_fields(copy, ',', tokens, given);
-    for (int64_t i = 0; i < count; ++i) scratch[i] = ABSENT;
-    for (size_t i = 0; i < used && (int64_t)i < source_count; ++i) {
-        int source_alleles[MAX_PLOIDY], translated[MAX_PLOIDY];
-        locus_genotype_alleles(ploidy, nsrc, (int64_t)i, source_alleles);
-        int usable = 1;
-        for (int j = 0; j < ploidy; ++j) {
-            int slot = map[source_alleles[j]];
-            if (slot < 0) { usable = 0; break; }
-            translated[j] = slot;
+    for (size_t r = 0; r < ranks; ++r) {
+        genotype_unrank(r, ploidy, map->source_alleles, scratch->combo);
+        for (int k = 0; k < ploidy; ++k)
+            scratch->mapped[k] = (int)map->source_to_pub[scratch->combo[k]];
+        /* the published index of an allele is not ordered like the source one,
+           so the genotype has to be put back in non-decreasing order first */
+        for (int a = 1; a < ploidy; ++a) {
+            int value = scratch->mapped[a], b = a - 1;
+            while (b >= 0 && scratch->mapped[b] > value) {
+                scratch->mapped[b + 1] = scratch->mapped[b];
+                --b;
+            }
+            scratch->mapped[b + 1] = value;
         }
-        if (!usable) continue;
-        for (int a = 0; a < ploidy; ++a)                 /* a genotype is unordered */
-            for (int b = a+1; b < ploidy; ++b)
-                if (translated[b] < translated[a]) { int t = translated[a]; translated[a] = translated[b]; translated[b] = t; }
-        int64_t index = locus_genotype_index(ploidy, translated);
-        if (index >= 0 && index < count) scratch[index] = measurement(tokens[i]);
+        uint64_t slot = genotype_rank(scratch->mapped, ploidy);
+        if (slot < slots) scratch->slot_of_rank[r] = (int)slot;
+        else scratch->slot_of_rank[r] = -1;
     }
-    free(copy);
-    print_vector(out, (size_t)count);
-}
 
-static void emit_scalar(FILE *out, const char *text) {
-    int64_t value = measurement(text);
-    if (value == ABSENT) fputs("null", out);
-    else fprintf(out, "%lld", (long long)value);
-}
-
-/* GT keeps its separators and its allele visit order; only the allele ids change */
-static int emit_gt(FILE *out, const char *text, const int *map, size_t nsrc) {
-    fputc('"', out);
-    if (!text || !*text) { fputs(".", out); fputc('"', out); return 0; }
-    for (const char *p = text; *p; ) {
-        if (*p == '/' || *p == '|' || *p == '.') { fputc(*p++, out); continue; }
-        if (*p < '0' || *p > '9') { ++p; continue; }
-        char *end = NULL;
-        long index = strtol(p, &end, 10);
-        p = end;
-        if (index == 0) fputc('0', out);
-        else if ((size_t)index < nsrc && map[index] >= 0) fprintf(out, "%d", map[index]);
-        else { fprintf(stderr, "genotype allele %ld is outside the published dictionary\n", index); return -1; }
+    size_t begin = 0;
+    for (size_t r = 0; r < ranks; ++r) {
+        size_t end = begin;
+        while (end < raw_length && raw[end] != ',') ++end;
+        int slot = scratch->slot_of_rank[r];
+        if (slot >= 0) {
+            scratch->values[slot].start = raw + begin;
+            scratch->values[slot].length = end - begin;
+        }
+        if (end >= raw_length) break;
+        begin = end + 1;
     }
-    fputc('"', out);
-    return 0;
+    fputc('[', out);
+    for (size_t j = 0; j < slots; ++j) {
+        if (j) fputc(',', out);
+        if (!scratch->values[j].start) fputs("null", out);
+        else number_at(out, scratch->values[j].start, scratch->values[j].length);
+    }
+    fputc(']', out);
 }
 
-int fields_publish(FILE *out, const locus *site, const frame *value, int sample_slot) {
-    if (sample_slot < 0 || (size_t)(9+sample_slot) >= value->ncolumns) return -1;
-    bcf_hdr_t *header = value->origin->header;
-    const char *cell = value->columns[9+sample_slot];
-    int result = -1;
-    char *tag_text = NULL, *cell_text = NULL, *alt_text = NULL;
-    char **keys = NULL, **cells = NULL, **source_alts = NULL;
-    int *map = NULL;
-    size_t nkeys = count_fields(value->columns[8], ':');
-    size_t ncell = count_fields(cell, ':');
-    size_t used = 0, measured = 0, nsrc_alt = 0, nsrc = 1;
+int observation_publish(FILE *out, const char *source_id, uint64_t ordinal,
+                        const char *format, const char *column,
+                        const allele_map *map, observation_scratch *scratch) {
+    if (!format || !*format) format = ".";
+    size_t ntags = field_count(format, ':');
 
-    tag_text = strdup(value->columns[8]);
-    cell_text = strdup(cell);
-    alt_text = strdup(value->columns[4]);
-    keys = calloc(nkeys ? nkeys : 1, sizeof(*keys));
-    cells = calloc(ncell ? ncell : 1, sizeof(*cells));
-    if (!tag_text || !cell_text || !alt_text || !keys || !cells) goto cleanup;
-    used = split_fields(tag_text, ':', keys, nkeys);
-    measured = split_fields(cell_text, ':', cells, ncell);
-
-    /* the source's own allele dictionary, translated into the published one */
-    nsrc_alt = count_fields(alt_text, ',');
-    if (nsrc_alt == 1 && !strcmp(alt_text, ".")) nsrc_alt = 0;
-    source_alts = calloc(nsrc_alt ? nsrc_alt : 1, sizeof(*source_alts));
-    map = calloc(nsrc_alt + 1, sizeof(*map));
-    if (!source_alts || !map) goto cleanup;
-    map[0] = 0;
-    if (nsrc_alt) {
-        nsrc_alt = split_fields(alt_text, ',', source_alts, nsrc_alt);
-        for (size_t i = 0; i < nsrc_alt; ++i) {
-            int slot = locus_find(site, source_alts[i]);
-            map[i+1] = slot >= 0 ? slot + 1 : -1;      /* published allele 0 is the reference */
+    const char *gt = NULL; size_t gt_length = 0;
+    for (size_t i = 0; i < ntags; ++i) {
+        size_t length = 0;
+        const char *tag = tag_at(format, i, &length);
+        if (tag && length == 2 && !strncmp(tag, "GT", 2)) {
+            list_token(column ? column : ".", ':', i, &gt, &gt_length);
+            break;
         }
     }
-    nsrc = nsrc_alt + 1;
+    int ploidy = 2;
+    if (gt && gt_length && gt_length < 32) {
+        char buffer[32];
+        memcpy(buffer, gt, gt_length);
+        buffer[gt_length] = 0;
+        ploidy = genotype_ploidy(buffer);
+    }
+    if (ploidy < 1) ploidy = 1;
+    if (ploidy > 4) ploidy = 4;                /* the policy stops at tetraploid */
 
-    int ploidy = -1;
-    for (size_t i = 0; i < used; ++i)
-        if (!strcmp(keys[i], "GT")) ploidy = locus_ploidy(i < measured ? cells[i] : ".");
-
-    fputs("{\"source\":", out); json_string(out, value->origin->id);
-    fprintf(out, ",\"ordinal\":%llu,\"format\":[", (unsigned long long)value->ordinal);
-    for (size_t i = 0; i < used; ++i) { if (i) fputc(',', out); json_string(out, keys[i]); }
+    fputs("{\"source\":", out); json_string(out, source_id);
+    fprintf(out, ",\"ordinal\":%llu,\"format\":[", (unsigned long long)ordinal);
+    int first = 1;
+    for (size_t i = 0; i < ntags; ++i) {
+        size_t length = 0;
+        const char *tag = tag_at(format, i, &length);
+        if (!tag || !length || (length == 1 && *tag == '.')) continue;
+        char name[64];
+        if (length >= sizeof(name)) continue;
+        memcpy(name, tag, length); name[length] = 0;
+        if (!first) fputc(',', out);
+        first = 0;
+        json_string(out, name);
+    }
     fputs("],\"values\":{", out);
-    result = 0;
-    for (size_t i = 0; i < used; ++i) {
-        if (i) fputc(',', out);
-        json_string(out, keys[i]); fputc(':', out);
-        const char *measurement_text = i < measured ? cells[i] : NULL;
-        if (!strcmp(keys[i], "GT")) {
-            if (emit_gt(out, measurement_text, map, nsrc)) { result = -1; break; }
-            continue;
-        }
-        int id = bcf_hdr_id2int(header, BCF_DT_ID, keys[i]);
-        int number = id >= 0 ? bcf_hdr_id2length(header, BCF_HL_FMT, id) : BCF_VL_VAR;
-        if (number == BCF_VL_R) emit_number_r(out, site, measurement_text, map, nsrc);
-        else if (number == BCF_VL_A) emit_number_a(out, site, measurement_text, map, nsrc);
-        else if (number == BCF_VL_G) emit_number_g(out, site, measurement_text, map, nsrc, ploidy);
-        else emit_scalar(out, measurement_text);
+    first = 1;
+    for (size_t i = 0; i < ntags; ++i) {
+        size_t length = 0;
+        const char *tag = tag_at(format, i, &length);
+        if (!tag || !length || (length == 1 && *tag == '.')) continue;
+        char name[64];
+        if (length >= sizeof(name)) continue;
+        memcpy(name, tag, length); name[length] = 0;
+        const char *raw = NULL; size_t raw_length = 0;
+        list_token(column ? column : ".", ':', i, &raw, &raw_length);
+        if (!first) fputc(',', out);
+        first = 0;
+        json_string(out, name);
+        fputc(':', out);
+        if (!strcmp(name, "GT")) gt_publish(out, raw, raw_length, map);
+        else if (!strcmp(name, "AD")) ad_publish(out, raw, raw_length, map);
+        else if (!strcmp(name, "PL")) pl_publish(out, raw, raw_length, map, ploidy, scratch);
+        else number_at(out, raw, raw_length);
     }
     fputs("}}", out);
-    if (ferror(out)) result = -1;
-
-cleanup:
-    free(keys); free(cells); free(source_alts); free(map);
-    free(tag_text); free(cell_text); free(alt_text);
-    return result;
+    return ferror(out) ? -1 : 0;
 }

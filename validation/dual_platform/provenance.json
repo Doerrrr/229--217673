@@ -1,0 +1,53 @@
+{
+  "task_id": "DDI-019",
+  "platform_version": "v02-platform-r1",
+  "public_external_packet_sha256": "14954d5b9ca0f87f7151ef981f3d1b1ff6357ebda29984d9e517fe116e3af644",
+  "qc_private_digest": "4768a956ecb170eaf0d53c70f4802bb04b03219baa1400176e02063f90058c38",
+  "reference_answer_sha256": "b4a9641b03da2b7f2fb0739c01cad5294327801021643fe7a99a75459156e8b1",
+  "reference_files": {
+    "app/store.py": "3224830742c04d686f8d508c2b8c0e5ca1aa3ef484fa25259fdb29323a255b69",
+    "src/alleles.c": "ad20075256e81c968867abe4210b3eaf90dfda4afba4b22be9220ea7954ec074",
+    "src/cohort.h": "10ed0607530e5227a7a07dacaae2c681b28ccb5e9a9887685e37f128ec04eed9",
+    "src/coordinator.c": "9a3f30370fae3c44d348f193838e0102321bb933635965100d9c9eab98e585f3",
+    "src/fields.c": "43df740b9bdf016fb2009ddef334be4b9441538c8d521b8982e329fcb044fc1f",
+    "src/main.c": "72dbd3da2f782b93fc341cc16685a0ab48a6b7abdea5a8e5628b5dd0bd50543a",
+    "src/manifest.c": "a9bf19e3186f15579206da0567ae359d0a2682e967ad27775dd52406aeed6e6e",
+    "src/publish.c": "a9ab8581db69100abeabe89b17247284e7aa58708c01242215fcff78dc21bfab",
+    "src/source.c": "9a3ce8bda0564779d0d1bfcaeddaff81ea5babd9d95920ce36afd7b2d22a936c"
+  },
+  "reference_fix": "Preserve inherited SIGXFSZ disposition in the native subprocess so write failures return normal EXIT_IO=6, not a signal mapped to EXIT_RECORD=4.",
+  "starter_adjustment": "Migration-unavailable handlers exit normally with EX_CONFIG=78 but emit a configuration diagnostic on stdout, violating the public output/error protocol; not the earlier OOM baseline. The first silent handler earned 0.026667 from legacy fatal-error checks and was not released.",
+  "business_checks": 113,
+  "weights": [
+    [
+      "legacy",
+      0.3
+    ],
+    [
+      "dual_views",
+      0.2
+    ],
+    [
+      "atomicity_and_pinned_readers",
+      0.2
+    ],
+    [
+      "conflicts_and_recovery",
+      0.15
+    ],
+    [
+      "failure_paths",
+      0.1
+    ],
+    [
+      "resources",
+      0.05
+    ]
+  ],
+  "business_contract_changed": false,
+  "historical_scores_transferred": false,
+  "external_samples_are_continuations": true,
+  "formal_platform_t1": false,
+  "local_target_met": false,
+  "user_approved_reference_and_starter_adaptation": true
+}

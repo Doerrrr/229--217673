@@ -1,58 +1,21 @@
-# DDI-018 — Cross-batch observation release (platform v04-setpriv)
+# DDI-019 v02-platform-r1：双视图事务发布
 
-A Harbor 0.5.0 bioinformatics maintenance task. Repair the native C application
-that aggregates VCF, BGZF VCF and BCF observations from multiple batches while
-preserving sample identity, allele/genotype meaning, priority and provenance.
-The supported workload includes one-to-four-ploid observations, repeated records
-and bounded-memory streaming. The public protocol accepts equivalent ALT order;
-there is no hidden byte-layout requirement.
+Harbor平台适配版，来源为019v02公开包及私有QC1修正，不是018，也不是下一版受损存储恢复草案。
+修复原生VCF/BCF观测聚合工程与Python存储适配器，交付保留来源字典的原始视图和重编号后的发布视图，同时维护不可变历史、固定版本读者、提交时expect冲突判定及有界资源。
 
-## Files
+公开依据位于instruction.md以及/packet/readme.md、/packet/lab/exchange.md、/packet/lab/publication.md和可读接收端。JSON空白/键序、发布ALT排列的合法自由度不改变。
 
-- `instruction.md`: online task and delivery instructions.
-- `environment/packet/`: public laboratory policy, consumer and sample inputs.
-- `environment/src/`, `environment/Makefile`: initial native application.
-- `environment/upstream/`: pinned build dependency.
-- `solution/solve.sh`, `solution/src/`: hidden Oracle implementation.
-- `tests/`: unchanged 33 business checks from DDI-018 v01, plus Harbor adapter.
-- `validation/cohort_platform/`: provenance, preflight and platform handoff.
-- `task.toml`: schema 1.3, internet enabled for the platform model route.
+## 与外部包的差异
 
-## Version boundary
+- 业务113项及权重不变。PREPARED接受合法内部暂存布局；提交后规定路径、摘要、来源事实仍受检。
+- 平台初始草稿能够正常构建，但迁移处理器未配置，退出78并把配置诊断误写入stdout，违反数据/错误通道协议；不是早先发生OOM的草稿。历史外测分数不转移为本版首答分数。
+- 隐藏参考来自用户提供的第三份DS延续答卷，修复原生子进程SIGXFSZ处置，使EFBIG返回正常I/O退出6，不被信号杀死后映射成记录错误4。
+- 参考脚本只覆盖参考实现文件，复用候选启动器及构建配置；镜像不COPY solution或tests。
 
-Platform v02 adapts online delivery and changes the initial migration draft to
-meet NOP admission. Business obligations and the five weights remain unchanged:
-projection 0.45, priority 0.25, grouping 0.15, resources 0.10, completion 0.05.
-The user-approved third external answer supplies the reference implementation,
-with an author fix that releases large per-source decoding buffers.
+三份原始DDI CSV为历史保留资产，本题不使用或修改它们。作答输入是题设VCF/BCF来源和清单。
 
-Platform v03-safety constrained the identity to 10001, but the platform gate
-still rejected the direct empty supplementary-group call. Platform v04-setpriv
-uses the standard util-linux tool with explicit `--reuid=10001 --regid=10001
---clear-groups --no-new-privs` for the guard, build and measured child. There are
-no direct identity-changing system calls in the measuring/adapting source.
-Stage markers and stderr logs improve diagnosis without changing scoring.
-The five semantic scoring modules, public contract, candidate and Oracle remain
-unchanged; util-linux is declared as an actually used environment dependency.
-Historical receipts remain historical; v04 must obtain its own fixed CI receipt.
+## 评分与验证
 
-Original v01 answers scored 0.500, 0.400 and 0.950. They are historical external
-evidence, **not** independent v02 answers or formal platform T1 scores. They and
-their original frozen packages have been preserved outside this repository.
-
-The three original research CSV files are preserved for historical continuity,
-but are not copied into this task's image or used by its public input protocol.
-The GitHub Actions workflow is unchanged. Final TalentsAI detection and submission
-remain user-controlled; local or GitHub validation does not prove R1/T1/R2 pass.
-
-## Container validation
-
-Use the fixed workflow on `main`, or run Harbor 0.5.0 with:
-
-```bash
-uvx --python 3.12 --from harbor==0.5.0 harbor trials start -p . -a oracle --trial-name oracle --trials-dir .trials/oracle
-uvx --python 3.12 --from harbor==0.5.0 harbor trials start -p . -a nop --trial-name nop --trials-dir .trials/nop
-```
-
-Expected normal rewards: Oracle 1.000, NOP 0.000. A runtime exception or absent
-reward is a validation failure, not evidence that a model failed the task.
+旧模式语义0.30；双视图来源一致性0.20；原子发布/固定读者0.20；冲突/准备后中止重试0.15；分类失败/旧版保护0.10；资源0.05，共113项，无新增分数封顶。
+固定setpriv身份10001及原生wait4父进程计量；候选与隐藏评分文件隔离。不把超时、崩溃或无分数当正常低T1。
+本地控制、Harbor/CI及正式平台结果分别记录；不以延续答卷代替两种同版独立首答均≤0.700。实际回执见validation/dual_platform/，固定GitHub Actions工作流不改。
