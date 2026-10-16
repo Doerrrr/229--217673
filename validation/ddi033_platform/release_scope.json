@@ -1,0 +1,9 @@
+{
+  "task": "DDI-033",
+  "model_calls": 0,
+  "formal_platform_t1": false,
+  "pre_delivery_snapshot": "01a5a02e8db4cdfac77aab44771c004b7185eba5a3bd2e000e4aee174937a03c",
+  "github_ci": "NOT_YET_DISPATCHED",
+  "cold_v04": "RUNNING",
+  "main_must_remain": "a905ccd8f73be3daeef65e8bf97adc5b29e1efaa"
+}

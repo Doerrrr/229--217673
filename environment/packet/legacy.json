@@ -1,0 +1,1 @@
+{"version":1,"variables":["b","c","a"],"relations":[{"a":"a","b":"b","bit":1}],"observations":[{"id":"old","source":"A","sample":"P","chrom":"chr1","position":1,"block":"b","gt":"0|1"}]}
