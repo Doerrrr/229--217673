@@ -1,0 +1,24 @@
+{
+  "version": "DDI-032-v01-platform.1",
+  "files": {
+    "environment/app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
+    "environment/bin/certified-minimum": "e438d6f5d3b23c382aa889395868e66cf43b416ac02231cab7b9d29509a70833",
+    "environment/packet/problem.md": "4abdfd9392c75ce570a504cd20e3c139b6050a4bd7a4850e1aabf39fb4539056",
+    "environment/packet/smoke.json": "e6f32e763955391e5068ac7b3fdcea6c7856c4cf3bcd25ea3c163d0c097940da",
+    "solution/implementation/certificate.py": "1b8cc33ffacad1d6fe4e77c190d6afdc516d7ae4b1326e8ed293e30e7c427b04",
+    "solution/implementation/interface.py": "cbb2762cdd4e4a42800a1265934fe9c82449855e406fb072e2a07f9551b7e6e6",
+    "solution/implementation/main.py": "eaedd5801980ce2b43dafc4eab587354049e0c34d997aae0afc0cc03effad7ba",
+    "solution/solve.sh": "73f7a67e6c7d59d63607088a88d46101272afb093a20ef534d1a7e42b5491bf6",
+    "tests/algebra.py": "ed57766e3c92e1cbd8a7caf0b22c02d1ef362d55bd538f6a8f0ebb117ee2b3d1",
+    "tests/cases032.json": "70f3b50c2fb7f98937f496ee2cd909ac7f483d35fcdc727ee76bed28954149ee",
+    "tests/common.py": "f2f42d3dc583ae3ce12ea9d1bda6a601d0a18204e3897ce77c1e2399dbcd93fd",
+    "tests/grade032.py": "63a8f3787d573bdbc81dd5e9f3c68b951fcb651dd6d4281163a77b52493f127d",
+    "tests/measure.py": "891c0d3f29bc76303c13043b8b8cab7bb703b7da85d7821fff9870eefd0e9e1b",
+    "tests/test.sh": "5e3ff34373f1000410a4b97aa3abef93278ff04e124c08d9e4c1602c0e388c19",
+    "environment/Dockerfile": "138250ec086654082ea41fc5b930390f9412152f75889b965f31e08465d84b3f",
+    "task.toml": "abb9b0bc550c818f8750e72d4083e2e8ca0319b5625799bd72ef734861c26a0e",
+    "instruction.md": "d08a08c71d9497258556c2d616b008136b4ef569addb61edd2f61e46d95e4473",
+    "README.md": "16429e7ba483d3d7045263f56c3bb47c02f3d2694530bdbce7d2d226486e9a47",
+    "agent_prompt.txt": "03b9a931d5a40a9f5f970d1666b11ed3f54edf14e3bdfbf3008bf72c368798a3"
+  }
+}

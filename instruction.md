@@ -1,11 +1,22 @@
-# 无序批次的双视图事务发布
+# DDI-032：布尔极值的精确下界证书
 
-修复/work/cohort-release中的既有原生工程和存储适配器，使实验室能发布可信的两份观测视图，并让复核读者固定读取完整版本。
+你在维护布尔多项式优化与精确下界证书工具。工程位于 `/work/certificate`。
+先完整阅读该工程中的 `packet/problem.md`，再修改 `app/`、`bin/`，必要时新增 `build.sh`。
+输入格式、输出状态、精确证书条件、失败保护、规模和评分规则均以该文件为准。
 
-保留cohort-release命令。旧stdout形式继续支持；新文件发布形式、版本身份、提交冲突、可控准备门和失败语义见/packet/lab/publication.md。无序输入、同位置REF协调、来源优先级、原始ordinal及GT/AD/PL含义见/packet/lab/exchange.md。两份资料共同构成任务要求；没有指定修复位置或算法。
+命令为：
 
-允许改src/、app/、bin/和Makefile，增加自写模块。不替换固定上游库，不修改输入、消费者或公开政策掩盖问题。必须支持政策范围内其他输入，而不只输出样例。可以查阅资料并自行测试；容器内已有构建依赖，不需要在容器内启动Docker。
+```bash
+cd /work/certificate
+./bin/certified-minimum --input packet/smoke.json --output /tmp/result.jsonl
+```
 
-大输入保持192MiB候选完整命令RSS预算，临时盘允许。40万/80万长来源的增长判据、宽位点范围和计量口径见publication.md；两种视图都必须完整正确，不能以截断输出达到预算。
+需要交付全局最优赋值及精确有理半正定 Gram 下界证书；允许不同的合法赋值和证书，
+不按隐藏参考矩阵逐项比较。只找到赋值时如实返回 `INCUMBENT`，没有结果时返回 `UNSOLVED`，
+不要把数值容差或求解器状态当作精确证明。先校验完整输入，再原子替换输出。
 
-直接修复/work/cohort-release中的工程文件。平台验证器运行该工程；不需要提交answer.zip。
+镜像已提供锁定版本的 NumPy、SciPy、SymPy、CVXPY、SCS、Clarabel 和 OR-Tools。
+可以查资料、编译、运行和自行测试；已经处于 Linux 容器内，不需要也不应启动嵌套 Docker。
+请直接完成工作目录中的工程修改。平台会运行该工程判分，不需要另交 `answer.zip`。
+
+这是 DDI-032 v01-platform.1：数学业务契约和评分规则保持 v01，初始原型及平台启动路径经过适配。

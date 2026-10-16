@@ -1,21 +1,19 @@
-# DDI-019 v02-platform-r1：双视图事务发布
+# DDI-032 v01：布尔极值的精确下界证书
 
-Harbor平台适配版，来源为019v02公开包及私有QC1修正，不是018，也不是下一版受损存储恢复草案。
-修复原生VCF/BCF观测聚合工程与Python存储适配器，交付保留来源字典的原始视图和重编号后的发布视图，同时维护不可变历史、固定版本读者、提交时expect冲突判定及有界资源。
+先读 environment/packet/problem.md，再实现 app/ 和 bin/。本题要求最优赋值与精确有理下界证书，接受不同的合法证书；不比较作者矩阵。
 
-公开依据位于instruction.md以及/packet/readme.md、/packet/lab/exchange.md、/packet/lab/publication.md和可读接收端。JSON空白/键序、发布ALT排列的合法自由度不改变。
+在解压根目录：
+```bash
+docker build -t ddi032-answer -f environment/Dockerfile environment
+docker run --rm -it -v "$PWD/environment:/work/certificate" ddi032-answer bash
+```
+已在 Linux 容器内时直接操作工程，不再启动 Docker：
+```bash
+./bin/certified-minimum --input packet/smoke.json --output /tmp/result.jsonl
+```
 
-## 与外部包的差异
+统一提示词在 agent_prompt.txt，每个外部模型用一个全新会话。允许查资料、使用求解库、编译、运行和自测。镜像提供 NumPy/SciPy/SymPy、CVXPY、SCS、Clarabel 和 OR-Tools；不提供隐藏实例、Gram矩阵或通用求解算法。
 
-- 业务113项及权重不变。PREPARED接受合法内部暂存布局；提交后规定路径、摘要、来源事实仍受检。
-- 平台初始草稿能够正常构建，但迁移处理器未配置，退出78并把配置诊断误写入stdout，违反数据/错误通道协议；不是早先发生OOM的草稿。历史外测分数不转移为本版首答分数。
-- 隐藏参考来自用户提供的第三份DS延续答卷，修复原生子进程SIGXFSZ处置，使EFBIG返回正常I/O退出6，不被信号杀死后映射成记录错误4。
-- 参考脚本只覆盖参考实现文件，复用候选启动器及构建配置；镜像不COPY solution或tests。
+返回 answer.zip（根目录 changes/、notes.md，必要时 deletions.txt）。修改路径相对 environment/，只交源码。注明模型版本、首次独立或延续/修订、环境是否可用。初始程序未实现任务，不要把初始退出当作数学不可解。
 
-三份原始DDI CSV为历史保留资产，本题不使用或修改它们。作答输入是题设VCF/BCF来源和清单。
-
-## 评分与验证
-
-旧模式语义0.30；双视图来源一致性0.20；原子发布/固定读者0.20；冲突/准备后中止重试0.15；分类失败/旧版保护0.10；资源0.05，共113项，无新增分数封顶。
-固定setpriv身份10001及原生wait4父进程计量；候选与隐藏评分文件隔离。不把超时、崩溃或无分数当正常低T1。
-本地控制、Harbor/CI及正式平台结果分别记录；不以延续答卷代替两种同版独立首答均≤0.700。实际回执见validation/dual_platform/，固定GitHub Actions工作流不改。
+这是 platform.1 适配版：业务契约和评分权重保持 v01，初始原型与环境路径经过平台适配。旧 v01 的外测成绩不转移为本版正式成绩。

@@ -1,12 +1,9 @@
-FROM python:3.11.17-slim-bookworm
-RUN apt-get update && apt-get install -y --no-install-recommends gcc make libc6-dev bzip2 zlib1g-dev libbz2-dev liblzma-dev util-linux && apt-get clean
-COPY upstream/bcftools-1.20.tar.bz2 /tmp/bcftools-1.20.tar.bz2
-RUN mkdir -p /work && tar -xjf /tmp/bcftools-1.20.tar.bz2 -C /work && cd /work/bcftools-1.20 && ./configure --disable-libcurl && make -j2
-ENV PATH="/work/cohort-release:/work/bcftools-1.20:/usr/local/bin:/usr/bin:/bin"
-COPY Makefile /work/cohort-release/Makefile
-COPY src/ /work/cohort-release/src/
-COPY app/ /work/cohort-release/app/
-COPY bin/ /work/cohort-release/bin/
-COPY packet/ /packet/
-WORKDIR /work/cohort-release
-RUN make
+FROM python:3.11.17-slim@sha256:e88e9763f943ec1834f992a4b51e0f24500486803e8bc534e5767af9ea65f6ce
+ENV LANG=C.UTF-8 PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+RUN python3 -m pip install --no-cache-dir numpy==2.2.6 scipy==1.15.3 sympy==1.13.3 cvxpy==1.7.2 scs==3.2.8 clarabel==0.11.1 ortools==9.14.6206
+WORKDIR /work/certificate
+COPY app/ app/
+COPY bin/ bin/
+COPY packet/ packet/
+RUN chmod 755 bin/* && python3 -m compileall -q app
+CMD ["bash"]

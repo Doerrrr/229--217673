@@ -1,7 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
-trap 'status=$?; printf "VERIFIER_ENTRY_FAILURE line=%s status=%s\n" "$LINENO" "$status" >&2; exit "$status"' ERR
-printf 'VERIFIER_ENTRY_START uid=%s gid=%s\n' "$(id -u)" "$(id -g)" >&2
 mkdir -p /logs/verifier
 chmod 700 /tests /logs/verifier
-python3 /tests/test_outputs.py
+python3 /tests/grade032.py --project /work/certificate --results /logs/verifier/ddi032
+python3 - <<'PY'
+import json
+from pathlib import Path
+result=json.loads(Path('/logs/verifier/ddi032/result.json').read_bytes())
+assert result['execution_status']=='NORMAL' and result['reward'] is not None
+Path('/logs/verifier/reward.txt').write_text(str(result['reward'])+'\n')
+PY
