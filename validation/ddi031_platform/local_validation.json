@@ -1,8 +1,10 @@
 {
   "status": "AWAITING_FIXED_GITHUB_CI",
+  "oracle_scope": "FINITE_WITNESS_STARTUP_CONTROL_ONLY",
+  "production_oracle": false,
   "local_harbor_run": false,
-  "reason": "Local Docker create calls stalled; no Docker service restart was performed",
-  "windows_probes": "Preliminary only; not a substitute for Linux Harbor validation",
-  "formal_platform_t1": false,
-  "model_calls": 0
+  "finite_mathematical_audit_source": "Original frozen DDI-031: 28 witnesses, 1200 small cross-checks, 56 independent MILP witness checks",
+  "source_freeze": "d764e0bb6a195528e1c06ae1082c9ece60103c3c7625c24a38e413e1ab3029c8",
+  "model_calls": 0,
+  "formal_platform_t1": false
 }

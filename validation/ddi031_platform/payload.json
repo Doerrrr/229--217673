@@ -1,29 +1,25 @@
 {
-  "version": "DDI-031-v01-platform.1",
+  "version": "DDI-031-v01-platform.1-finite-startup",
   "files": {
     "environment/app/main.py": "15328e02cf7ae12fd7df298f2a8f66fc0ac816cb355b559178e70ccfadae4d3b",
     "environment/bin/ramsey-complete": "e438d6f5d3b23c382aa889395868e66cf43b416ac02231cab7b9d29509a70833",
     "environment/packet/problem.md": "ceefdb2f47515797133e8e1a2f344cac352f207c52f4a81b877703750256b4f8",
     "environment/packet/smoke.json": "18d0d31582a0a288a25dc6e6cc1f470f3dca613f94fb2365b1008e0fadae57a3",
-    "solution/implementation/field_search.py": "354dbfbd0f161bf9a8950b40ff61ed06a6207699c6122b327aa5e9a0b15256bd",
+    "solution/solve.sh": "233c5fa94dc1b54f807b8effddd1b21db22042cf685073faa556e9eebdc35b11",
+    "solution/implementation/finite_witnesses.json": "925c8a931b492b56a9b398aaf4732c6431d8ad7bb15a4ca92cf5136a4f16ac68",
     "solution/implementation/graphs.py": "4bfdeb006748a2cd0d4f1ab403b906d0bcb788a084ddb16b899f86d1d5a28400",
     "solution/implementation/interface.py": "15e807a6eea43f62227aac4537f067742fba63570a10e496558ae0af3f2fe05e",
-    "solution/implementation/main.py": "2a06d2b0cc2eed2b1218f198e679aaf70743e2ebacee4f3e2b4abad6e067843c",
-    "solution/implementation/native.cpp": "383b1a3b34f2fe5d6c8771630900833fe8b635bc8fa3918345b47948aed7edb1",
-    "solution/implementation/paley_search.py": "6a542296ed29ce36deb892b62bf2d6b4fb2f6813e24d83b038662404edbf281d",
-    "solution/implementation/repair.py": "9c77b29f0cbc30b683f8ce501d6892e2c25b2a9b415f3452ed45927b213d5e34",
-    "solution/implementation/sat_search.py": "dd4fed58b88f1900ef84b1db4dc9cdfe08fbde07feae6b14d0af1d332258f8a7",
-    "solution/solve.sh": "a9cc8ce2ca42d23f5e2c8919454f56eab9bb640d2a40ca8c7ed47b80609cabb8",
+    "solution/implementation/main.py": "cbe661f159b1592ed49997c6f517c9216b1ab86e64104493a00c94d89bc88816",
     "tests/cases031.json": "ce35c5be7ffd71e2d5b2250cd430c466f5805e5ada9a139b51995aa90bb03cf6",
     "tests/common.py": "f2f42d3dc583ae3ce12ea9d1bda6a601d0a18204e3897ce77c1e2399dbcd93fd",
     "tests/grade031.py": "70c9b31fcdcc3c6e16d8acaf613a3d5a3398ca6bbf14e78d0d4a2ef2d74db333",
     "tests/graphs.py": "4bfdeb006748a2cd0d4f1ab403b906d0bcb788a084ddb16b899f86d1d5a28400",
     "tests/measure.py": "891c0d3f29bc76303c13043b8b8cab7bb703b7da85d7821fff9870eefd0e9e1b",
     "tests/test.sh": "bf388f61a97451181b6d204a2b89b1e03de18e45fab48cff9b946c3723a69b29",
-    "environment/Dockerfile": "dfd788957d9c0dae46922e2a7dd295d3e3660b1bb76a5ae47a802c9d08e30e50",
+    "environment/Dockerfile": "d7e69c0bd8b0d5502b22a010954c24749c4dd32e687d404078fa51e1df3bed75",
     "task.toml": "a5117cc1e57d8e52ca7405c7ba181e0a0949250d75180d0c0052ab4424c3a0d7",
-    "instruction.md": "3ab2a03660e2964527a53be6d1a443b7b00681373b78bd20fd838e97e4d27479",
-    "README.md": "3ab2a03660e2964527a53be6d1a443b7b00681373b78bd20fd838e97e4d27479",
-    "agent_prompt.txt": "3ab2a03660e2964527a53be6d1a443b7b00681373b78bd20fd838e97e4d27479"
+    "instruction.md": "14512de80c4b2dadf63bf34997cd82ba3700742a0e9ff6c6984c6cd9fb70e06e",
+    "README.md": "14512de80c4b2dadf63bf34997cd82ba3700742a0e9ff6c6984c6cd9fb70e06e",
+    "agent_prompt.txt": "14512de80c4b2dadf63bf34997cd82ba3700742a0e9ff6c6984c6cd9fb70e06e"
   }
 }

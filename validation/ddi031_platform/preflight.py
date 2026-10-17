@@ -14,5 +14,5 @@ def main():
     copies=[line.strip() for line in (ROOT/'environment/Dockerfile').read_text().splitlines() if line.startswith('COPY ')]
     assert copies==['COPY app/ app/','COPY bin/ bin/','COPY packet/ packet/']
     assert not (ROOT/'reference_project').exists()
-    print(json.dumps(dict(status='PASS',payload_files=len(manifest['files']),visible_files=len(public),hidden_files=len(hidden),exact_hidden_duplicates=0,registered_oracle=False)))
+    print(json.dumps(dict(status='PASS',payload_files=len(manifest['files']),visible_files=len(public),hidden_files=len(hidden),exact_hidden_duplicates=0,registered_oracle=True, oracle_scope="FINITE_WITNESS_STARTUP_CONTROL_ONLY")))
 if __name__=='__main__':main()
