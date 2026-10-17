@@ -1,0 +1,22 @@
+{
+  "oracle": {
+    "reward": 1.0,
+    "task_checksum": "a5ba9f6b12425343770b3a07d98c92f6342d2f306423cc9188f2cf64305675b3",
+    "started_at": "2026-10-17T00:15:05.539193Z",
+    "finished_at": "2026-10-17T00:16:40.057975Z",
+    "source_sha256": "0f013cd6a3efc499a9dfe0a0a96e96a29470681dd649b086c9eba59bf8c88784",
+    "elapsed_seconds": 105.591
+  },
+  "nop": {
+    "reward": 0.0,
+    "task_checksum": "a5ba9f6b12425343770b3a07d98c92f6342d2f306423cc9188f2cf64305675b3",
+    "started_at": "2026-10-17T00:16:50.716800Z",
+    "finished_at": "2026-10-17T00:17:07.084865Z",
+    "source_sha256": "e24ca98214105936e3f9fed721631b9768b0069b08c2086f2b64e303aded68f7",
+    "elapsed_seconds": 27.003
+  },
+  "harbor_version": "0.5.0",
+  "local_container_trials": true,
+  "formal_platform_t1": false,
+  "model_calls": 0
+}

@@ -1,0 +1,22 @@
+{
+  "version": "DDI-030-v01-platform.1",
+  "files": {
+    "environment/app/main.py": "aa2b620811325b16cb8c38c8c78b3ecd4a53aa4be9cb71b764a372ab726ada4a",
+    "environment/bin/phase-repair": "e438d6f5d3b23c382aa889395868e66cf43b416ac02231cab7b9d29509a70833",
+    "environment/packet/problem.md": "10dd1b8eec875324d7a47061f56e1266d87a181b788432eeb2f37c96f80994f9",
+    "environment/packet/smoke.json": "9c19aa521212dd9171deeca4deffb50f8eca26f9a0253befc56229e842a35a0e",
+    "solution/implementation/main.py": "e9080e158f4d88d9f51e185af0044603a93c24dd3d82cbb0c68e98b009acfccf",
+    "solution/solve.sh": "28ad62841202c68e8a14a90fbba19c79ed7b33f18128cd8919e0f7faab64e6b3",
+    "tests/cases030.json": "aa6c84c270021d0df6f88d0bd361290b6982ece8a4b01ed7d96bb201e6fdc008",
+    "tests/common.py": "f2f42d3dc583ae3ce12ea9d1bda6a601d0a18204e3897ce77c1e2399dbcd93fd",
+    "tests/grade030.py": "e03c9f625535c56be01ed9f132542ab9bc32840a3941a3eb9abea5958fb01810",
+    "tests/grade_math.py": "190e8daf3b33f6d0f8690d697782b7f04ec5d76ffff04864a289b2d74b499863",
+    "tests/measure.py": "891c0d3f29bc76303c13043b8b8cab7bb703b7da85d7821fff9870eefd0e9e1b",
+    "tests/test.sh": "460ff3da5e89ef0b338eda462ae062d8f86fdf0fcbe5ff503ff000960519f62d",
+    "environment/Dockerfile": "b7d189b12ec47abedf22644f4de39e93d8ac4cef2bf44c0fbacccf0d93c25bea",
+    "task.toml": "0f546953c2f91ed6b7b90fb383e68c7fdf9dc027923e14eeb39d8a74555a316d",
+    "instruction.md": "6862dd02252e44e88bfee5428500173a7c1938fb12a19eb26e78d653d34d3c36",
+    "README.md": "6862dd02252e44e88bfee5428500173a7c1938fb12a19eb26e78d653d34d3c36",
+    "agent_prompt.txt": "6862dd02252e44e88bfee5428500173a7c1938fb12a19eb26e78d653d34d3c36"
+  }
+}

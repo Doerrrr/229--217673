@@ -1,22 +1,5 @@
-# DDI-032：布尔极值的精确下界证书
-
-你在维护布尔多项式优化与精确下界证书工具。工程位于 `/work/certificate`。
-先完整阅读该工程中的 `packet/problem.md`，再修改 `app/`、`bin/`，必要时新增 `build.sh`。
-输入格式、输出状态、精确证书条件、失败保护、规模和评分规则均以该文件为准。
-
-命令为：
-
-```bash
-cd /work/certificate
-./bin/certified-minimum --input packet/smoke.json --output /tmp/result.jsonl
-```
-
-需要交付全局最优赋值及精确有理半正定 Gram 下界证书；允许不同的合法赋值和证书，
-不按隐藏参考矩阵逐项比较。只找到赋值时如实返回 `INCUMBENT`，没有结果时返回 `UNSOLVED`，
-不要把数值容差或求解器状态当作精确证明。先校验完整输入，再原子替换输出。
-
-镜像已提供锁定版本的 NumPy、SciPy、SymPy、CVXPY、SCS、Clarabel 和 OR-Tools。
-可以查资料、编译、运行和自行测试；已经处于 Linux 容器内，不需要也不应启动嵌套 Docker。
-请直接完成工作目录中的工程修改。平台会运行该工程判分，不需要另交 `answer.zip`。
-
-这是 DDI-032 v01-platform.1：数学业务契约和评分规则保持 v01，初始原型及平台启动路径经过适配。
+维护 `/work/math` 中的带权相位证据最小撤销工具。先完整阅读 `packet/problem.md`。
+修复 `app/` 与 `bin/`，必要时新增 `build.sh`。入口为 `./bin/phase-repair --input INPUT.json --output OUTPUT.jsonl`。
+在满足不可撤销 pins 的全部相位赋值中，使违反证据的总费用全局最小；接受任意最优赋值，dropped 必须恰为全部违反证据的ID。
+允许使用镜像中提供的 NumPy/SciPy 等工具以及公开资料。你已经处在 Linux 容器中，无需启动嵌套 Docker。
+直接修改工程源码，平台会运行工程判分，不要求额外打包 answer.zip；其他数学、输入输出和错误保护规则以 problem.md 为准。

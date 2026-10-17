@@ -3,29 +3,41 @@
   "queries": [
     {
       "id": "example",
-      "n": 2,
-      "basis": [
-        [],
-        [
-          0
-        ],
-        [
-          1
-        ]
+      "markers": [
+        "A",
+        "B",
+        "C"
       ],
-      "terms": [
+      "evidence": [
         {
-          "vars": [],
-          "coef": "2"
+          "id": "ab",
+          "terms": [
+            "A",
+            "B"
+          ],
+          "parity": 1,
+          "cost": 2
         },
         {
-          "vars": [
-            0,
-            1
+          "id": "bc",
+          "terms": [
+            "B",
+            "C"
           ],
-          "coef": "-2"
+          "parity": 1,
+          "cost": 3
+        },
+        {
+          "id": "ac",
+          "terms": [
+            "A",
+            "C"
+          ],
+          "parity": 1,
+          "cost": 5
         }
-      ]
+      ],
+      "pins": {}
     }
   ]
 }

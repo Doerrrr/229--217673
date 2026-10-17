@@ -12,19 +12,21 @@ esac
 test "$(git branch --show-current)" = main || { echo 'STOP: 当前不是 main'; exit 1; }
 git fetch origin main
 git merge --ff-only origin/main
-BEFORE_WORKFLOW=$(git rev-parse HEAD:.github)
+# An absent workflow directory is valid; preserve either presence or absence.
+BEFORE_WORKFLOW=$(git ls-tree HEAD -- .github)
 paths=(.gitattributes README.md instruction.md agent_prompt.txt task.toml
        environment/Dockerfile environment/app environment/bin environment/packet
-       solution tests validation/ddi032_platform)
+       solution tests validation/ddi030_platform)
 git restore --source="$APPROVED_COMMIT" --staged --worktree -- "${paths[@]}"
 # Remove only obsolete task source trees; keep environment/data and .github intact.
 git rm -r --ignore-unmatch -- environment/Makefile environment/src environment/upstream
-git diff --cached --check
+# Preserve the frozen grader byte-for-byte, including its final empty line.
+git -c core.whitespace=-blank-at-eof,cr-at-eol diff --cached --check
 git diff --cached --exit-code -- .github
-test "$(git write-tree | xargs -I '{}' git rev-parse '{}:.github')" = "$BEFORE_WORKFLOW"
+test "$(git ls-tree "$(git write-tree)" -- .github)" = "$BEFORE_WORKFLOW"
 git diff --cached --exit-code -- environment/data/drug_list.csv environment/data/DDI_event.csv environment/data/newddi.csv
 git diff --exit-code "$APPROVED_COMMIT" -- "${paths[@]}"
-python3 validation/ddi032_platform/preflight.py
+python3 validation/ddi030_platform/preflight.py
 git status --short
-echo "STAGED_OK: DDI-032 source=$APPROVED_COMMIT; 平台工作流和原始 CSV 未修改"
+echo "STAGED_OK: DDI-030 source=$APPROVED_COMMIT; 平台工作流和原始 CSV 未修改"
 echo '请检查暂存差异后，自行 git commit 和 git push origin main。此脚本没有提交、推送或触发检测。'

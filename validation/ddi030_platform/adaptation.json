@@ -1,0 +1,12 @@
+{
+  "task": "DDI-030",
+  "platform_version": "v01-platform.1",
+  "source_freeze": "e87f1c82df7ed0e0c66d750664df303b11d3ced93378edba8eb4d55b833ed25f",
+  "business_contract_unchanged": true,
+  "private_grader_unchanged": true,
+  "weights_unchanged": true,
+  "initial_draft_changed": true,
+  "historical_scores_transferred": false,
+  "reference_uses_registered_answers": false,
+  "oracle_method": "Input-driven SciPy HiGHS integer parity optimization with valid triangle and 5-clique inequalities"
+}
