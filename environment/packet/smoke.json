@@ -3,41 +3,33 @@
   "queries": [
     {
       "id": "example",
-      "markers": [
-        "A",
-        "B",
-        "C"
+      "n": 5,
+      "red_forbid": 3,
+      "blue_forbid": 3,
+      "fixed": [],
+      "degrees": [
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          2
+        ]
       ],
-      "evidence": [
-        {
-          "id": "ab",
-          "terms": [
-            "A",
-            "B"
-          ],
-          "parity": 1,
-          "cost": 2
-        },
-        {
-          "id": "bc",
-          "terms": [
-            "B",
-            "C"
-          ],
-          "parity": 1,
-          "cost": 3
-        },
-        {
-          "id": "ac",
-          "terms": [
-            "A",
-            "C"
-          ],
-          "parity": 1,
-          "cost": 5
-        }
-      ],
-      "pins": {}
+      "cuts": []
     }
   ]
 }

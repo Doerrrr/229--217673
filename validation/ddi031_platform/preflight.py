@@ -4,7 +4,7 @@ import ast,hashlib,json
 ROOT=Path(__file__).resolve().parents[2]
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
-    manifest=json.loads((ROOT/'validation/ddi030_platform/payload.json').read_bytes())
+    manifest=json.loads((ROOT/'validation/ddi031_platform/payload.json').read_bytes())
     for relative,expected in manifest['files'].items():assert sha(ROOT/relative)==expected,relative
     public=[p for folder in ('app','bin','packet') for p in (ROOT/'environment'/folder).rglob('*') if p.is_file()]
     hidden=[p for folder in ('solution','tests') for p in (ROOT/folder).rglob('*') if p.is_file()]

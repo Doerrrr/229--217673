@@ -1,0 +1,14 @@
+{
+  "task": "DDI-031",
+  "platform_version": "v01-platform.1",
+  "source_freeze": "d764e0bb6a195528e1c06ae1082c9ece60103c3c7625c24a38e413e1ab3029c8",
+  "business_contract_unchanged": true,
+  "private_grader_unchanged": true,
+  "weights_unchanged": true,
+  "checks": 52,
+  "initial_draft_changed": true,
+  "reference_uses_registered_answers": false,
+  "oracle_method": "Input-driven Paley embedding with CP-SAT, native tabu construction and exact lazy clique separation",
+  "added_environment_tool": "g++ for compiling the native reference and candidate implementations",
+  "historical_scores_transferred": false
+}

@@ -1,0 +1,8 @@
+{
+  "status": "AWAITING_FIXED_GITHUB_CI",
+  "local_harbor_run": false,
+  "reason": "Local Docker create calls stalled; no Docker service restart was performed",
+  "windows_probes": "Preliminary only; not a substitute for Linux Harbor validation",
+  "formal_platform_t1": false,
+  "model_calls": 0
+}
