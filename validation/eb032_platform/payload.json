@@ -1,5 +1,5 @@
 {
-  "version": "EB032-MATH-M-platform.2-agent5h",
+  "version": "EB032-MATH-M-platform.3-agent5h-verifier5h",
   "files": {
     "environment/Dockerfile": "138250ec086654082ea41fc5b930390f9412152f75889b965f31e08465d84b3f",
     "environment/app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
@@ -20,7 +20,7 @@
     "README.md": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
     "instruction.md": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
     "agent_prompt.txt": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
-    "task.toml": "6d0865cc5781bc817dcef41cc3d47e1a714d3dc21958f82ccef05b79e559b72c",
+    "task.toml": "40233ff06d5303df1cfdfb0be1c94a4ba40ed1213dcb0f4074050f269cee7375",
     ".gitattributes": "3fde201c2fe2689c2e9b567fca72491dac8cc26f21353ac08513c7ca234cd8d1"
   },
   "candidate_image_files": {

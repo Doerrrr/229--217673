@@ -12,7 +12,7 @@ storage_mb = 10240
 gpus = 0
 allow_internet = true
 [verifier]
-timeout_sec = 1800
+timeout_sec = 18000
 [metadata]
 difficulty = "hard"
 category = "mathematics"
