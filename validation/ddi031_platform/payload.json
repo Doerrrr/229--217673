@@ -1,5 +1,5 @@
 {
-  "version": "DDI-031-v01-platform.1-finite-startup",
+  "version": "DDI-031-v01-platform.2-verifier-diagnostics",
   "files": {
     "environment/app/main.py": "15328e02cf7ae12fd7df298f2a8f66fc0ac816cb355b559178e70ccfadae4d3b",
     "environment/bin/ramsey-complete": "e438d6f5d3b23c382aa889395868e66cf43b416ac02231cab7b9d29509a70833",
@@ -11,8 +11,8 @@
     "solution/implementation/interface.py": "15e807a6eea43f62227aac4537f067742fba63570a10e496558ae0af3f2fe05e",
     "solution/implementation/main.py": "cbe661f159b1592ed49997c6f517c9216b1ab86e64104493a00c94d89bc88816",
     "tests/cases031.json": "ce35c5be7ffd71e2d5b2250cd430c466f5805e5ada9a139b51995aa90bb03cf6",
-    "tests/common.py": "f2f42d3dc583ae3ce12ea9d1bda6a601d0a18204e3897ce77c1e2399dbcd93fd",
-    "tests/grade031.py": "70c9b31fcdcc3c6e16d8acaf613a3d5a3398ca6bbf14e78d0d4a2ef2d74db333",
+    "tests/common.py": "19c0b9df16e321d607d36e338e6ecf74b5678b73e39a99834d88d3a654d2a8d0",
+    "tests/grade031.py": "3e8e12fb5e13e89d2ccce8727bf5d54c668bfa9f399ff8e328ba4cbdff2dc242",
     "tests/graphs.py": "4bfdeb006748a2cd0d4f1ab403b906d0bcb788a084ddb16b899f86d1d5a28400",
     "tests/measure.py": "891c0d3f29bc76303c13043b8b8cab7bb703b7da85d7821fff9870eefd0e9e1b",
     "tests/test.sh": "bf388f61a97451181b6d204a2b89b1e03de18e45fab48cff9b946c3723a69b29",
@@ -20,6 +20,7 @@
     "task.toml": "a5117cc1e57d8e52ca7405c7ba181e0a0949250d75180d0c0052ab4424c3a0d7",
     "instruction.md": "14512de80c4b2dadf63bf34997cd82ba3700742a0e9ff6c6984c6cd9fb70e06e",
     "README.md": "14512de80c4b2dadf63bf34997cd82ba3700742a0e9ff6c6984c6cd9fb70e06e",
-    "agent_prompt.txt": "14512de80c4b2dadf63bf34997cd82ba3700742a0e9ff6c6984c6cd9fb70e06e"
+    "agent_prompt.txt": "14512de80c4b2dadf63bf34997cd82ba3700742a0e9ff6c6984c6cd9fb70e06e",
+    "tests/diagnostics.py": "5620383d0cabbcb21ae7936804732c487d959c404ab8860e21da5e8198cda27c"
   }
 }

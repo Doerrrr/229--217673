@@ -1,10 +1,37 @@
 {
-  "status": "AWAITING_FIXED_GITHUB_CI",
+  "status": "AUTHOR_DIAGNOSTICS_PASS",
   "oracle_scope": "FINITE_WITNESS_STARTUP_CONTROL_ONLY",
   "production_oracle": false,
   "local_harbor_run": false,
-  "finite_mathematical_audit_source": "Original frozen DDI-031: 28 witnesses, 1200 small cross-checks, 56 independent MILP witness checks",
   "source_freeze": "d764e0bb6a195528e1c06ae1082c9ece60103c3c7625c24a38e413e1ab3029c8",
+  "author_container_validation": {
+    "status": "PASS",
+    "controls": {
+      "old_finite": 1.0,
+      "diag_finite": 1.0,
+      "old_nop": 0.0,
+      "diag_nop": 0.0,
+      "assertions_per_run": 52,
+      "full_case_evidence_equal": true,
+      "graph_check_events": {
+        "finite": 30,
+        "nop": 29
+      },
+      "call_checkpoints_per_diag_run": 52,
+      "candidate_cannot_read_diagnostics": true
+    },
+    "interruption": {
+      "sigkill_before_save_preserves_last_phase": true,
+      "completed_calls_checkpointed_before_save": 2,
+      "thirty_second_heartbeat_preserves_current_phase": true,
+      "interruption_does_not_create_score": true,
+      "evidence": "/root/results/interrupted-5094d657"
+    },
+    "scope": "AUTHOR_CONTROLS_AND_DIAGNOSTIC_PERSISTENCE_ONLY",
+    "model_calls": 0,
+    "formal_platform_t1": false
+  },
+  "github_ci_at_packaging": "NOT_RUN",
   "model_calls": 0,
   "formal_platform_t1": false
 }

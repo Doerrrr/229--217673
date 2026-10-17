@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from diagnostics import Diagnostics
 
 class Runner:
     def __init__(self, project, command, result_dir):
@@ -19,6 +20,7 @@ class Runner:
         shutil.copytree(project, self.project, ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
         self.output = Path(result_dir)
         self.output.mkdir(parents=True, exist_ok=True)
+        self.diagnostics = Diagnostics(self.output)
         self.private = self.base / 'measurements'
         self.private.mkdir(mode=0o700)
         launcher = self.project / 'bin' / command
@@ -59,6 +61,7 @@ class Runner:
         stem = self.private / f'{self.number:04d}'
         stdout, stderr = str(stem) + '.stdout', str(stem) + '.stderr'
         cmd = list(map(str, args)) if absolute else self.command + list(map(str, args))
+        self.diagnostics.emit('candidate_begin', phase='candidate', call=self.number, command=cmd)
         process = subprocess.Popen([sys.executable, str(Path(__file__).with_name('measure.py')),
             'publish', '300', stdout, stderr, str(self.home), str(self.project), *cmd],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -69,7 +72,11 @@ class Runner:
     def finish(self, job, expected_kill=False):
         if 'result' in job:
             return job['result']
-        raw, diagnostics = job['process'].communicate(timeout=315)
+        try:
+            raw, diagnostics = job['process'].communicate(timeout=315)
+        except BaseException as error:
+            self.diagnostics.emit('measurement_exception', call=int(job['stem'].name), error=repr(error)[:500])
+            raise
         try:
             records = [json.loads(line) for line in raw.splitlines()]
             value = records[-1]
@@ -83,6 +90,11 @@ class Runner:
         log = {k: v for k, v in value.items() if k not in ('stdout', 'stderr')}
         log.update(command=job['command'], expected_kill=expected_kill)
         Path(str(job['stem']) + '.json').write_text(json.dumps(log, indent=2))
+        self.diagnostics.checkpoint(job['stem'], log)
+        self.diagnostics.emit('candidate_end', phase='case', call=int(job['stem'].name),
+                              returncode=value['returncode'], timed_out=value['timed_out'],
+                              command_seconds=value['elapsed_seconds'], peak_rss_kib=value['peak_rss_kib'],
+                              stdout_bytes=len(value['stdout']), stderr_bytes=len(value['stderr']))
         if (value['timed_out'] or value['returncode'] < 0) and not expected_kill:
             self.infrastructure.append({'candidate_runtime': log})
         job['result'] = value
@@ -114,8 +126,10 @@ class Runner:
 
     def check(self, group, name, passed, evidence=None):
         self.cases.append({'group': group, 'name': name, 'passed': bool(passed), 'evidence': evidence})
+        self.diagnostics.emit('assertion', phase='case', group=group, name=name, passed=bool(passed))
 
     def save(self, task, weights, all_required=()):
+        self.diagnostics.emit('save_begin', phase='saving_results')
         groups = []
         for name, weight in weights.items():
             cases = [c for c in self.cases if c['group'] == name]
@@ -132,6 +146,7 @@ class Runner:
                   'formal_platform_t1': False, 'model_calls': 0}
         shutil.copytree(self.private, self.output / 'runtime', dirs_exist_ok=False)
         (self.output / 'result.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
+        self.diagnostics.close(status, result['reward'], len(self.cases))
         print(json.dumps({k: v for k, v in result.items() if k not in ('cases', 'runtime_issues')}, ensure_ascii=False), flush=True)
         return result
 

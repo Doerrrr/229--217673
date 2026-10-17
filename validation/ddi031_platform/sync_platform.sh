@@ -20,7 +20,7 @@ paths=(.gitattributes README.md instruction.md agent_prompt.txt task.toml
 git restore --source="$APPROVED_COMMIT" --staged --worktree -- "${paths[@]}"
 # Remove only obsolete task source trees; keep environment/data and .github intact.
 git rm -r --ignore-unmatch -- environment/Makefile environment/src environment/upstream validation/ddi030_platform validation/ddi032_platform
-# Preserve the frozen grader byte-for-byte, including its final empty line.
+# Preserve the approved diagnostic revision, including its final empty line.
 git -c core.whitespace=-blank-at-eof,cr-at-eol diff --cached --check
 git diff --cached --exit-code -- .github
 test "$(git ls-tree "$(git write-tree)" -- .github)" = "$BEFORE_WORKFLOW"

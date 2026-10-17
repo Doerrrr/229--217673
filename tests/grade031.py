@@ -5,6 +5,9 @@ import json
 from pathlib import Path
 from common import Runner, success
 from graphs import structural
+from diagnostics import trace_check
+
+structural = trace_check(structural)
 
 WEIGHTS={'small':.10,'both_colors':.30,'fixed':.20,'degree_cuts':.30,'failure':.10}
 
@@ -29,6 +32,7 @@ def main():
     cases=json.loads(Path(__file__).with_name('cases031.json').read_bytes())
     r=Runner(a.project,'ramsey-complete',a.results)
     for idx,case in enumerate(cases):
+        r.diagnostics.context(case['query']['id'], case['group'])
         wire=json.dumps({'version':1,'queries':[case['query']]}).encode()
         if idx%2==0:wire=b'\xef\xbb\xbf'+wire
         source=r.file(f'query{idx}.json',wire);out=r.home/f'new{idx}/nested/result.jsonl'
@@ -45,6 +49,7 @@ def main():
             for rest in cases[idx+1:]:r.check(rest['group'],rest['query']['id'],False,'not run after runtime failure')
             break
     # A genuine multi-query call, preserving independent first-group points.
+    r.diagnostics.context('multi-query-order', 'small')
     source_multi=r.file('multi.json',json.dumps({'version':1,'queries':[c['query'] for c in cases[:2]]}).encode())
     out_multi=r.home/'multi/result.jsonl';got=r.call(['--input',source_multi,'--output',out_multi])
     passed=False
@@ -55,10 +60,12 @@ def main():
     r.check('small','multi-query-order',success(got) and not got['stdout'] and passed)
     first=cases[0]['query']
     for name,raw in invalids(first):
+        r.diagnostics.context(name, 'failure')
         src=r.file('bad.json',raw);old=r.file('old.jsonl',b'OLD\x00SENTINEL\n')
         got=r.call(['--input',src,'--output',old])
         r.check('failure',name,got['returncode']!=0 and bool(got['stderr'].strip()) and not got['stdout'] and old.read_bytes()==b'OLD\x00SENTINEL\n')
     for name,args in [('missing-input',['--output',str(r.home/'cli.jsonl')]),('missing-output',['--input',str(source)]),('no-args',[]),('unreadable',['--input',str(r.home/'missing'),'--output',str(r.home/'cli.jsonl')])]:
+        r.diagnostics.context(name, 'failure')
         old=r.file('cli.jsonl',b'CLI_SENTINEL');got=r.call(args)
         r.check('failure',name,got['returncode']!=0 and bool(got['stderr'].strip()) and not got['stdout'] and old.read_bytes()==b'CLI_SENTINEL')
     r.save('DDI-031',WEIGHTS)
