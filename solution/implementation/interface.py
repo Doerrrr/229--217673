@@ -1,165 +1,161 @@
-import json, re
-SLOT_RE=re.compile(r"[A-Za-z0-9_-]{1,64}\Z")
-MIN_N,MAX_N=5,80
-QUERY_KEYS=("id","n","red_forbid","blue_forbid","fixed","degrees","cuts")
-CUT_KEYS=("left","right","min","max")
-class InputError(Exception):
-    pass
+"""Validated CLI schema adapted from the user-supplied DDI-032 answer."""
+import json
+import re
+from fractions import Fraction
+EXIT_FORMAT=4
+RATION=re.compile(r"[+-]?[0-9]+(?:/[0-9]+)?\Z")
+ID_CHARS=set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-")
+LIMIT=Fraction(10)**12
 
-def _pairs_hook(pairs):
-    seen = {}
+
+class Bad(Exception):
+    def __init__(self, code, message):
+        super().__init__(message)
+        self.code = code
+        self.message = message
+
+def _pairs(pairs):
+    out = {}
     for key, value in pairs:
-        if key in seen:
-            raise InputError("duplicate JSON key: %r" % (key,))
-        seen[key] = value
-    return seen
+        if key in out:
+            raise Bad(EXIT_FORMAT, "duplicate object key %r" % key)
+        out[key] = value
+    return out
 
-def _reject_constant(name):
-    raise InputError("non-finite numeric constant in JSON: %s" % (name,))
+def _reject_constant(text):
+    raise Bad(EXIT_FORMAT, "%s is not a JSON number" % text)
 
 def _is_int(value):
     return isinstance(value, int) and not isinstance(value, bool)
 
-def validate_document(doc):
-    if not isinstance(doc, dict):
-        raise InputError("top level must be a JSON object")
-    if set(doc.keys()) != {"version", "queries"}:
-        raise InputError("top level must have exactly version and queries")
-    version = doc["version"]
-    if not _is_int(version) or version != 1:
-        raise InputError("version must be the integer 1")
-    queries = doc["queries"]
-    if not isinstance(queries, list):
-        raise InputError("queries must be a list")
-    if not (1 <= len(queries) <= 32):
-        raise InputError("queries must contain 1..32 entries")
+def _need_object(value, where):
+    if not isinstance(value, dict):
+        raise Bad(EXIT_FORMAT, "%s must be an object" % where)
+    return value
 
-    parsed = []
-    seen_ids = set()
-    for qindex, query in enumerate(queries):
-        where = "queries[%d]" % qindex
-        if not isinstance(query, dict):
-            raise InputError("%s must be an object" % where)
-        if set(query.keys()) != set(QUERY_KEYS):
-            raise InputError("%s must have exactly %s"
-                             % (where, ",".join(QUERY_KEYS)))
-        qid = query["id"]
-        if not isinstance(qid, str) or SLOT_RE.match(qid) is None:
-            raise InputError("%s.id is not a valid identifier" % where)
-        if qid in seen_ids:
-            raise InputError("duplicate query id: %r" % (qid,))
-        seen_ids.add(qid)
+def _need_list(value, where):
+    if not isinstance(value, list):
+        raise Bad(EXIT_FORMAT, "%s must be a list" % where)
+    return value
 
-        n = query["n"]
-        if not _is_int(n) or not (MIN_N <= n <= MAX_N):
-            raise InputError(where + ".n must be an integer in 5..80")
-        kr = query["red_forbid"]
-        kb = query["blue_forbid"]
-        for name, value in (("red_forbid", kr), ("blue_forbid", kb)):
-            if not _is_int(value) or not (3 <= value <= 8):
-                raise InputError("%s.%s must be an integer in 3..8" % (where, name))
-            if value > n:
-                raise InputError("%s.%s cannot exceed n" % (where, name))
+def _need_keys(obj, allowed, where):
+    keys = set(obj)
+    if keys != allowed:
+        missing = sorted(allowed - keys)
+        if missing:
+            raise Bad(EXIT_FORMAT, "%s is missing %s" % (where, ",".join(missing)))
+        raise Bad(EXIT_FORMAT, "%s has unknown field %s"
+                  % (where, ",".join(sorted(keys - allowed))))
 
-        raw_fixed = query["fixed"]
-        if not isinstance(raw_fixed, list):
-            raise InputError(where + ".fixed must be a list")
-        if len(raw_fixed) > n * (n - 1) // 2:
-            raise InputError(where + ".fixed has too many entries")
-        fixed = []
-        seen_edges = set()
-        for findex, item in enumerate(raw_fixed):
-            loc = "%s.fixed[%d]" % (where, findex)
-            if not isinstance(item, list) or len(item) != 3:
-                raise InputError(loc + " must be a triple")
-            u, v, c = item
-            if not (_is_int(u) and _is_int(v) and _is_int(c)):
-                raise InputError(loc + " must contain integers")
-            if not (0 <= u < v < n):
-                raise InputError(loc + ": require 0 <= u < v < n")
-            if c not in (0, 1):
-                raise InputError(loc + ": colour must be 0 or 1")
-            if (u, v) in seen_edges:
-                raise InputError(loc + ": duplicate edge")
-            seen_edges.add((u, v))
-            fixed.append((u, v, c))
+def _int_in(value, low, high, where):
+    if not _is_int(value):
+        raise Bad(EXIT_FORMAT, "%s must be an integer" % where)
+    if not (low <= value <= high):
+        raise Bad(EXIT_FORMAT, "%s is out of range" % where)
+    return value
 
-        raw_degrees = query["degrees"]
-        if not isinstance(raw_degrees, list) or len(raw_degrees) != n:
-            raise InputError(where + ".degrees must have n entries")
-        degrees = []
-        for vindex, pair in enumerate(raw_degrees):
-            if not isinstance(pair, list) or len(pair) != 2:
-                raise InputError("%s.degrees[%d] must be a pair" % (where, vindex))
-            lo, hi = pair
-            if not (_is_int(lo) and _is_int(hi)):
-                raise InputError("%s.degrees[%d] must be integers" % (where, vindex))
-            if not (0 <= lo <= hi <= n - 1):
-                raise InputError("%s.degrees[%d]: require 0 <= low <= high <= n-1"
-                                 % (where, vindex))
-            degrees.append((lo, hi))
+def _parse_rational(text, where):
+    if not isinstance(text, str):
+        raise Bad(EXIT_FORMAT, "%s must be a string" % where)
+    if len(text) > 80:
+        raise Bad(EXIT_FORMAT, "%s is longer than 80 characters" % where)
+    if not RATION.match(text):
+        raise Bad(EXIT_FORMAT, "%s is not a valid rational" % where)
+    if "/" in text:
+        head, _, tail = text.partition("/")
+        value = Fraction(int(head), int(tail))
+    else:
+        value = Fraction(int(text))
+    return value
 
-        raw_cuts = query["cuts"]
-        if not isinstance(raw_cuts, list):
-            raise InputError(where + ".cuts must be a list")
-        if len(raw_cuts) > 16:
-            raise InputError(where + ".cuts must contain at most 16 entries")
-        cuts = []
-        for cindex, item in enumerate(raw_cuts):
-            loc = "%s.cuts[%d]" % (where, cindex)
-            if not isinstance(item, dict):
-                raise InputError(loc + " must be an object")
-            if set(item.keys()) != set(CUT_KEYS):
-                raise InputError(loc + " must have exactly left,right,min,max")
-            sides = []
-            for key in ("left", "right"):
-                raw = item[key]
-                if not isinstance(raw, list) or len(raw) == 0:
-                    raise InputError(loc + "." + key + " must be a non-empty list")
-                seen_local = set()
-                for value in raw:
-                    if not _is_int(value) or not (0 <= value < n):
-                        raise InputError(loc + "." + key + ": index out of range")
-                    if value in seen_local:
-                        raise InputError(loc + "." + key + ": duplicate vertex")
-                    seen_local.add(value)
-                sides.append(seen_local)
-            left, right = sides
-            if left & right:
-                raise InputError(loc + ": left and right must be disjoint")
-            lo = item["min"]
-            hi = item["max"]
-            if not (_is_int(lo) and _is_int(hi)):
-                raise InputError(loc + ": min/max must be integers")
-            cap = len(left) * len(right)
-            if not (0 <= lo <= hi <= cap):
-                raise InputError(loc + ": require 0 <= min <= max <= |left|*|right|")
-            lm = 0
-            for v in left:
-                lm |= 1 << v
-            rm = 0
-            for v in right:
-                rm |= 1 << v
-            cuts.append((lm, rm, lo, hi))
+def _monomial(raw, where, max_len):
+    lst = _need_list(raw, where)
+    if len(lst) > max_len:
+        raise Bad(EXIT_FORMAT, "%s is longer than %d" % (where, max_len))
+    previous = -1
+    for item in lst:
+        if not _is_int(item):
+            raise Bad(EXIT_FORMAT, "%s has a non-integer index" % where)
+        if item <= previous:
+            raise Bad(EXIT_FORMAT, "%s is not strictly increasing" % where)
+        previous = item
+    return tuple(lst)
 
-        parsed.append((qid, n, kr, kb, fixed, degrees, cuts))
-    return parsed
+def parse_query(raw, index):
+    where = "queries[%d]" % index
+    obj = _need_object(raw, where)
+    _need_keys(obj, {"id", "n", "basis", "terms"}, where)
+    ident = obj["id"]
+    if not isinstance(ident, str) or not (1 <= len(ident) <= 64):
+        raise Bad(EXIT_FORMAT, where + ".id must be a 1-64 character string")
+    for ch in ident:
+        if ch not in ID_CHARS:
+            raise Bad(EXIT_FORMAT, where + ".id has a character outside [A-Za-z0-9_-]")
+    n = _int_in(obj["n"], 2, 32, where + ".n")
 
-def load_document(path):
+    basis_raw = _need_list(obj["basis"], where + ".basis")
+    if not (1 <= len(basis_raw) <= 65):
+        raise Bad(EXIT_FORMAT, where + ".basis must hold 1..65 monomials")
+    basis = []
+    seen = set()
+    for item in basis_raw:
+        mono = _monomial(item, where + ".basis[]", 2)
+        for v in mono:
+            if not (0 <= v < n):
+                raise Bad(EXIT_FORMAT, where + ".basis[] has an index outside 0..n-1")
+        if mono in seen:
+            raise Bad(EXIT_FORMAT, where + ".basis repeats a monomial")
+        seen.add(mono)
+        basis.append(mono)
+    if basis[0] != ():
+        raise Bad(EXIT_FORMAT, where + ".basis must start with the empty monomial")
+    for v in range(n):
+        if (v,) not in seen:
+            raise Bad(EXIT_FORMAT, where + ".basis must contain every single variable")
+
+    terms_raw = _need_list(obj["terms"], where + ".terms")
+    if not (1 <= len(terms_raw) <= 32768):
+        raise Bad(EXIT_FORMAT, where + ".terms must hold 1..32768 entries")
+    terms = []
+    seen_terms = set()
+    for item in terms_raw:
+        term = _need_object(item, where + ".terms[]")
+        _need_keys(term, {"vars", "coef"}, where + ".terms[]")
+        mono = _monomial(term["vars"], where + ".terms[].vars", 4)
+        for v in mono:
+            if not (0 <= v < n):
+                raise Bad(EXIT_FORMAT, where + ".terms[].vars has an index outside 0..n-1")
+        if mono in seen_terms:
+            raise Bad(EXIT_FORMAT, where + ".terms repeats a monomial")
+        seen_terms.add(mono)
+        coef = _parse_rational(term["coef"], where + ".terms[].coef")
+        if coef == 0:
+            raise Bad(EXIT_FORMAT, where + ".terms[].coef must not be zero")
+        if abs(coef) > LIMIT:
+            raise Bad(EXIT_FORMAT, where + ".terms[].coef is out of range")
+        terms.append((mono, coef))
+    return {"id": ident, "n": n, "basis": basis, "terms": terms}
+
+def parse_document(text):
     try:
-        with open(path, "rb") as handle:
-            raw = handle.read()
-    except OSError as exc:
-        raise InputError("cannot read input: %s" % (exc,))
-    try:
-        text = raw.decode("utf-8-sig")
-    except UnicodeDecodeError as exc:
-        raise InputError("input is not valid UTF-8: %s" % (exc,))
-    try:
-        doc = json.loads(text, object_pairs_hook=_pairs_hook,
-                         parse_constant=_reject_constant)
-    except InputError:
+        doc = json.loads(text, object_pairs_hook=_pairs, parse_constant=_reject_constant)
+    except Bad:
         raise
-    except Exception as exc:
-        raise InputError("invalid JSON: %s" % (exc,))
-    return validate_document(doc)
+    except Exception as error:
+        raise Bad(EXIT_FORMAT, "input is not valid JSON (%s)" % error.__class__.__name__)
+    obj = _need_object(doc, "document")
+    _need_keys(obj, {"version", "queries"}, "document")
+    if not _is_int(obj["version"]) or obj["version"] != 1:
+        raise Bad(EXIT_FORMAT, "version must be the integer 1")
+    raw_queries = _need_list(obj["queries"], "queries")
+    if not (1 <= len(raw_queries) <= 16):
+        raise Bad(EXIT_FORMAT, "queries must hold 1..16 entries")
+    queries = []
+    seen = set()
+    for index, raw in enumerate(raw_queries):
+        query = parse_query(raw, index)
+        if query["id"] in seen:
+            raise Bad(EXIT_FORMAT, "duplicate query id %r" % query["id"])
+        seen.add(query["id"])
+        queries.append(query)
+    return queries

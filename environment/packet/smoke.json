@@ -3,33 +3,29 @@
   "queries": [
     {
       "id": "example",
-      "n": 5,
-      "red_forbid": 3,
-      "blue_forbid": 3,
-      "fixed": [],
-      "degrees": [
+      "n": 2,
+      "basis": [
+        [],
         [
-          2,
-          2
+          0
         ],
         [
-          2,
-          2
-        ],
-        [
-          2,
-          2
-        ],
-        [
-          2,
-          2
-        ],
-        [
-          2,
-          2
+          1
         ]
       ],
-      "cuts": []
+      "terms": [
+        {
+          "vars": [],
+          "coef": "2"
+        },
+        {
+          "vars": [
+            0,
+            1
+          ],
+          "coef": "-2"
+        }
+      ]
     }
   ]
 }

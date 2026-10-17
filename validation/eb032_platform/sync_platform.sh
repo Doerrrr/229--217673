@@ -16,17 +16,17 @@ git merge --ff-only origin/main
 BEFORE_WORKFLOW=$(git ls-tree HEAD -- .github)
 paths=(.gitattributes README.md instruction.md agent_prompt.txt task.toml
        environment/Dockerfile environment/app environment/bin environment/packet
-       solution tests validation/ddi031_platform)
+       solution tests validation/eb032_platform)
 git restore --source="$APPROVED_COMMIT" --staged --worktree -- "${paths[@]}"
 # Remove only obsolete task source trees; keep environment/data and .github intact.
-git rm -r --ignore-unmatch -- environment/Makefile environment/src environment/upstream validation/ddi030_platform validation/ddi032_platform
+git rm -r --ignore-unmatch -- environment/Makefile environment/src environment/upstream validation/ddi030_platform validation/ddi031_platform validation/ddi032_platform validation/ddi031_diagnostics
 # Preserve the frozen grader byte-for-byte, including its final empty line.
 git -c core.whitespace=-blank-at-eof,cr-at-eol diff --cached --check
 git diff --cached --exit-code -- .github
 test "$(git ls-tree "$(git write-tree)" -- .github)" = "$BEFORE_WORKFLOW"
 git diff --cached --exit-code -- environment/data/drug_list.csv environment/data/DDI_event.csv environment/data/newddi.csv
 git diff --exit-code "$APPROVED_COMMIT" -- "${paths[@]}"
-python3 validation/ddi031_platform/preflight.py
+python3 validation/eb032_platform/preflight.py
 git status --short
-echo "STAGED_OK: DDI-031 source=$APPROVED_COMMIT; 平台工作流和原始 CSV 未修改"
+echo "STAGED_OK: EB032-MATH-M source=$APPROVED_COMMIT; 平台工作流和原始 CSV 未修改"
 echo '请检查暂存差异后，自行 git commit 和 git push origin main。此脚本没有提交、推送或触发检测。'

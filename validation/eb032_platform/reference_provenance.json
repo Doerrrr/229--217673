@@ -1,0 +1,10 @@
+{
+  "scope": "FINITE_WITNESS_STARTUP_CONTROL_ONLY",
+  "registered_witnesses": 18,
+  "production_oracle": false,
+  "uses_registered_answers": true,
+  "identity_and_psd_rechecked": true,
+  "ids_not_lookup_keys": true,
+  "parser_source": "Prior DDI-032 author implementation/interface.py",
+  "candidate_image_contains_reference": false
+}

@@ -1,0 +1,18 @@
+{
+  "task": "EB032-MATH-M",
+  "platform_version": "math-m.platform.1-agent3h",
+  "source_freeze": "fe0723a64ea464fd12fe3a415bc8a71f4c668faf2ee46c91430756b5cd3adbe4",
+  "source_public_sha256": "7aa6a6e428698a04aee7b8376e0933d19256c2737ecd82bce212aa96ddb7785e",
+  "source_private_sha256": "05e300e4a815093f285b442a4e190c9d63a6accf3b284c6d28b1c14097335df4",
+  "business_contract_unchanged": true,
+  "weights_unchanged": true,
+  "private_grader_byte_identical": true,
+  "initial_platform_prototype_changed": true,
+  "production_oracle": false,
+  "reference_uses_registered_answers": true,
+  "oracle_scope": "FINITE_WITNESS_STARTUP_CONTROL_ONLY",
+  "agent_seconds": 10800,
+  "verifier_seconds": 1800,
+  "command_seconds": 300,
+  "historical_scores_transferred": false
+}

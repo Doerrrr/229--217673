@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "checks": 25,
+  "seconds": 5.824399699999958,
+  "all_18_exact_witnesses": true,
+  "renamed_and_reordered_query": true,
+  "unknown_input_unsolved": true,
+  "whole_input_validation": true,
+  "atomic_output": true,
+  "production_oracle": false,
+  "model_calls": 0,
+  "scope": "FINITE_WITNESS_STARTUP_CONTROL_ONLY",
+  "local_docker_available": false,
+  "github_ci": "PENDING"
+}
