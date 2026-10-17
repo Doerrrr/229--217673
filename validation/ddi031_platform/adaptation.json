@@ -8,7 +8,7 @@
   "checks": 52,
   "initial_draft_changed": true,
   "reference_uses_registered_answers": false,
-  "oracle_method": "Input-driven Paley embedding with CP-SAT, native tabu construction and exact lazy clique separation",
-  "added_environment_tool": "g++ for compiling the native reference and candidate implementations",
+  "oracle_method": "Input-driven native construction, incremental CaDiCaL SAT with exact lazy clique separation, and algebraic graph embedding fallback",
+  "added_environment_tool": "g++ and Python-SAT 1.8.dev24; no hidden answer lookup",
   "historical_scores_transferred": false
 }

@@ -19,6 +19,14 @@ def solve(q,seconds):
     rows=got.stdout.decode().splitlines();row=dict(id=ident,state='COMPLETE',rows=rows)
     query=dict(id=ident,n=n,red_forbid=kr,blue_forbid=kb,fixed=fixed,degrees=degrees,cuts=[dict(left=[i for i in range(n) if a>>i&1],right=[i for i in range(n) if b>>i&1],min=low,max=high) for a,b,low,high in cuts])
     if got.returncode==0 and structural(query,row)[0]:return row
+    sat_seconds=max(.05,min(170,(seconds-(time.monotonic()-begin))*.8))
+    try:
+        sat=subprocess.run([sys.executable,str(Path(__file__).with_name('sat_search.py'))],input=json.dumps(dict(query=query,initial=rows,seconds=sat_seconds)).encode(),capture_output=True,timeout=sat_seconds)
+        if os.environ.get('DDI031_PROFILE'):Path(os.environ['DDI031_PROFILE'],ident+'_sat.txt').write_bytes(sat.stderr)
+        sat_row=dict(id=ident,state='COMPLETE',rows=sat.stdout.decode().splitlines())
+        if sat.returncode==0 and structural(query,sat_row)[0]:return sat_row
+    except subprocess.TimeoutExpired as e:
+        if os.environ.get('DDI031_PROFILE'):Path(os.environ['DDI031_PROFILE'],ident+'_sat.txt').write_bytes(e.stderr or b'')
     embed_seconds=max(.01,min(100,(seconds-(time.monotonic()-begin))*.55));embed_lines=lines[:];embed_lines[0]=f'{n} {kr} {kb} {embed_seconds:.3f}'
     mode='embed-wide' if not cuts and all(lo==0 and hi==n-1 for lo,hi in degrees) else 'embed'
     got_embed=subprocess.run([str(Path(__file__).with_name('ramsey-native')),mode],input=('\n'.join(embed_lines)+'\n').encode(),capture_output=True,timeout=embed_seconds+3)

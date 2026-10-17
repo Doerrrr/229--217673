@@ -140,11 +140,15 @@ struct Embedding {
     int count=0;for(int v=0;v<p;v++)count+=d[v]==d[u];int size=pc(d[u]);if(count>size)return false;
     if(count==size)for(int v=0;v<p;v++)if(d[v]!=d[u]&&(d[v]&d[u])){d[v]&=~d[u];if(!d[v])return false;changed=true;}
    }
-   for(int u=0;u<p;u++)for(auto [v,c]:arcs[u])if(!restrict_pair(d,u,v,c,changed))return false;
+   array<Bits,104>union_red{},union_blue{};
+   for(int u=0;u<p;u++){Bits mask=d[u];while(mask){int a=first(mask);mask&=mask-1;union_red[u]|=adj[a];union_blue[u]|=neighborhood(a,0);if(union_red[u]==full&&union_blue[u]==full)break;}}
+   for(int u=0;u<p;u++)for(auto [v,c]:arcs[u]){
+    Bits keep=d[u]&(c?union_red[v]:union_blue[v]);if(!keep)return false;if(keep!=d[u]){d[u]=keep;changed=true;}
+   }
    // Red degree in an induced graph = regular parent degree minus red links
    // to omitted vertices. Domain bounds provide safe cardinality propagation.
    if(p>q.n)for(int u=0;u<q.n;u++){
-    int low=(p-1)/2-q.bounds[u].second,high=(p-1)/2-q.bounds[u].first;Bits keep=0,mask=d[u];
+    int low=(p-1)/2-q.bounds[u].second,high=(p-1)/2-q.bounds[u].first;if(low<=0&&high>=p-q.n)continue;Bits keep=0,mask=d[u];
     while(mask){int a=first(mask);mask&=mask-1;int lo=0,hi=0;
      for(int v=q.n;v<p;v++){lo+=(d[v]&~adj[a])==0;hi+=bool(d[v]&adj[a]);}
      if(lo<=high&&hi>=low)keep|=Bits(1)<<a;
@@ -179,6 +183,49 @@ struct Embedding {
   for(auto[score,a]:values){if(!(d[chosen]&(Bits(1)<<a)))continue;State next=d;next[chosen]=Bits(1)<<a;if(dfs(next))return true;if(expired())return false;
    d[chosen]&=~(Bits(1)<<a);if(!d[chosen]||!propagate(d))return false;}return false;
  }
+ bool local(double seconds){
+  mt19937 rng(310331);auto started=chrono::steady_clock::now();int m=q.edges.size();
+  vector<int>labels(p),color(m),deg(q.n),counts(q.cuts.size()),weights(m,1),degree_weights(q.n,2),cut_weights(q.cuts.size(),2);
+  vector<vector<int>>tabu(p,vector<int>(p,0));long long fixed_cost=0;
+  auto color_of=[&](int u,int v){return int(bool(adj[labels[u]]&(Bits(1)<<labels[v])));};
+  auto rebuild=[&](){fill(deg.begin(),deg.end(),0);fill(counts.begin(),counts.end(),0);fixed_cost=0;
+   for(int e=0;e<m;e++){auto&a=q.edges[e];color[e]=color_of(a.u,a.v);if(color[e]){deg[a.u]++;deg[a.v]++;for(int c:a.cuts)counts[c]++;}
+    if(a.fixed>=0&&color[e]!=a.fixed)fixed_cost+=weights[e];}};
+  auto cost=[&](){long long total=fixed_cost;for(int u=0;u<q.n;u++)total+=degree_weights[u]*q.violation(u,deg[u]);for(int c=0;c<(int)counts.size();c++)total+=cut_weights[c]*q.cv(c,counts[c]);return total;};
+  auto swap_labels=[&](int u,int v){swap(labels[u],labels[v]);
+   for(int a:{u,v})if(a<q.n)for(int b=0;b<q.n;b++)if(a!=b&&!(a==v&&b==u)){
+    int e=q.ei[a][b],old=color[e],next=color_of(a,b);if(old==next)continue;int d=next-old;color[e]=next;deg[a]+=d;deg[b]+=d;
+    for(int c:q.edges[e].cuts)counts[c]+=d;
+    if(q.edges[e].fixed>=0)fixed_cost+=weights[e]*((next!=q.edges[e].fixed)-(old!=q.edges[e].fixed));
+   }};
+  int step=0;
+  while(!expired()&&chrono::duration<double>(chrono::steady_clock::now()-started).count()<seconds){
+   iota(labels.begin(),labels.end(),0);shuffle(labels.begin(),labels.end(),rng);fill(weights.begin(),weights.end(),1);fill(degree_weights.begin(),degree_weights.end(),2);fill(cut_weights.begin(),cut_weights.end(),2);rebuild();
+   long long best=cost();int stale=0;
+   for(int inner=0;inner<15000&&!expired()&&chrono::duration<double>(chrono::steady_clock::now()-started).count()<seconds;inner++,step++){
+    long long current=cost();if(!current){answer.assign(labels.begin(),labels.begin()+q.n);return true;}
+    vector<int>bad;
+    for(int e=0;e<m;e++)if(q.edges[e].fixed>=0&&color[e]!=q.edges[e].fixed){bad.push_back(q.edges[e].u);bad.push_back(q.edges[e].v);}
+    if(bad.empty()||rng()%3==0){for(int u=0;u<q.n;u++)if(q.violation(u,deg[u]))bad.push_back(u);
+     for(int c=0;c<(int)counts.size();c++)if(q.cv(c,counts[c])){bad.insert(bad.end(),q.cuts[c].a.begin(),q.cuts[c].a.end());bad.insert(bad.end(),q.cuts[c].b.begin(),q.cuts[c].b.end());}}
+    int u=bad.empty()?rng()%q.n:bad[rng()%bad.size()],move=-1,ties=0;long long candidate=LLONG_MAX;
+    for(int v=0;v<p;v++)if(u!=v){int assigned=labels[v];swap_labels(u,v);long long next=cost();
+     if(!next){answer.assign(labels.begin(),labels.begin()+q.n);return true;}swap_labels(u,v);
+     if(tabu[u][assigned]>step&&next>=best)continue;
+     if(next<candidate){candidate=next;move=v;ties=1;}else if(next==candidate&&rng()%++ties==0)move=v;
+    }
+    if(move<0)continue;int old_u=labels[u],old_v=labels[move];swap_labels(u,move);tabu[u][old_u]=step+4+rng()%max(5,p/3);tabu[move][old_v]=step+4+rng()%max(5,p/3);
+    if(candidate<best){best=candidate;stale=0;}else stale++;
+    if(stale>150){
+     for(int e=0;e<m;e++)if(q.edges[e].fixed>=0&&color[e]!=q.edges[e].fixed)weights[e]++;
+     for(int u=0;u<q.n;u++)if(q.violation(u,deg[u]))degree_weights[u]++;
+     for(int c=0;c<(int)counts.size();c++)if(q.cv(c,counts[c]))cut_weights[c]++;
+     rebuild();best=cost();stale=0;
+    }
+   }
+  }
+  return false;
+ }
  bool run(){
   vector<int>candidates;for(int a=q.n;a<104;a++)candidates.push_back(a);
   if(wide)reverse(candidates.begin(),candidates.end());
@@ -188,6 +235,7 @@ struct Embedding {
    adj.fill(0);for(int u=0;u<p;u++)for(int v=0;v<p;v++)if(u!=v&&res[(u-v+p)%p])adj[u]|=Bits(1)<<v;
    if(clique(full,q.kr,1)||clique(full,q.kb,0))continue;
    bool possible=true;if(p==q.n)for(auto[lo,hi]:q.bounds)if(! (lo<=(p-1)/2&&(p-1)/2<=hi))possible=false;if(!possible)continue;
+   if(local(min(25.0,budget*.4)))return true;
    arcs.assign(p,{});cut_degree.assign(p,0);
    auto add=[&](int u,int v,int c){arcs[u].push_back({v,c});arcs[v].push_back({u,c});};
    for(auto&e:q.edges)if(e.fixed>=0)add(e.u,e.v,e.fixed);
