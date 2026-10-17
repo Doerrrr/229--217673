@@ -11,5 +11,8 @@
   "model_calls": 0,
   "scope": "FINITE_WITNESS_STARTUP_CONTROL_ONLY",
   "local_docker_available": false,
-  "github_ci": "PENDING"
+  "github_ci": "PENDING_AUTOMATIC_MAIN_CI",
+  "prior_release_checks_only": true,
+  "agent_duration_revision_only": true,
+  "prior_oracle_nop_ci": "https://github.com/Doerrrr/229--217673/actions/runs/39028537438"
 }

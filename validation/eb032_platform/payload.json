@@ -1,5 +1,5 @@
 {
-  "version": "EB032-MATH-M-platform.1-agent3h",
+  "version": "EB032-MATH-M-platform.2-agent5h",
   "files": {
     "environment/Dockerfile": "138250ec086654082ea41fc5b930390f9412152f75889b965f31e08465d84b3f",
     "environment/app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
@@ -17,10 +17,10 @@
     "tests/grade032.py": "66aee694b5438ceacc68e6aed3fbd7e61927e493a9035495962a792669f1ac00",
     "tests/measure.py": "891c0d3f29bc76303c13043b8b8cab7bb703b7da85d7821fff9870eefd0e9e1b",
     "tests/test.sh": "7bd0c90735a6768320560c9dd931c375eadf383106feafd1874050d61eff6131",
-    "README.md": "c8667c03e7f792e41b02b119cc34678739d339fc14b44535134a64cf6cbe828b",
-    "instruction.md": "c8667c03e7f792e41b02b119cc34678739d339fc14b44535134a64cf6cbe828b",
-    "agent_prompt.txt": "c8667c03e7f792e41b02b119cc34678739d339fc14b44535134a64cf6cbe828b",
-    "task.toml": "2d5f0fc5bacb7c8964ca144605e4532abb2044d6b0f16f31ba00a2ed33759d27",
+    "README.md": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
+    "instruction.md": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
+    "agent_prompt.txt": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
+    "task.toml": "6d0865cc5781bc817dcef41cc3d47e1a714d3dc21958f82ccef05b79e559b72c",
     ".gitattributes": "3fde201c2fe2689c2e9b567fca72491dac8cc26f21353ac08513c7ca234cd8d1"
   },
   "candidate_image_files": {
