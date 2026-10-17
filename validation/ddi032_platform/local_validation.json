@@ -18,5 +18,6 @@
   "github_ci": "PENDING_AFTER_PUSH",
   "formal_platform_t1": false,
   "model_calls": 0,
-  "trial_scope": "Same environment, solution and unmodified grader as published; platform instruction path corrected afterward. Final GitHub CI tests the publication SHA."
+  "trial_scope": "Historical Oracle/NOP cover unchanged mathematical solver/environment/grader. This revision changes only Agent duration; no new T1 claimed.",
+  "prior_release_trials_only": true
 }

@@ -1,6 +1,6 @@
 {
   "task": "DDI-032",
-  "platform_version": "v01-platform.1",
+  "platform_version": "v01-platform.2-agent3h",
   "business_contract_unchanged": true,
   "weights_unchanged": true,
   "private_grader_unchanged": true,
@@ -9,5 +9,8 @@
   "source_freeze": "efb015bd5d2b1ea6531503ea13bde0dfd5a567ab729fb3a6df748cb6c8998e00",
   "workflow_sha256": "da628e5289907fc57baac03618158602ee8017e775b1f5cc1068c74b662b1156",
   "reference_uses_registered_answers": false,
-  "workflow_source": "Unchanged origin/main Git blob, not Windows checkout CRLF bytes"
+  "workflow_source": "Unchanged origin/main Git blob, not Windows checkout CRLF bytes",
+  "agent_timeout_sec": 10800,
+  "prior_agent_timeout_sec": 7200,
+  "change_scope": "Only task Agent duration; solver, grader, memory and command/verifier guards unchanged"
 }

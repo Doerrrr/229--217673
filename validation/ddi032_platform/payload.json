@@ -1,5 +1,5 @@
 {
-  "version": "DDI-032-v01-platform.1",
+  "version": "DDI-032-v01-platform.2-agent3h",
   "files": {
     "environment/app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
     "environment/bin/certified-minimum": "e438d6f5d3b23c382aa889395868e66cf43b416ac02231cab7b9d29509a70833",
@@ -16,7 +16,7 @@
     "tests/measure.py": "891c0d3f29bc76303c13043b8b8cab7bb703b7da85d7821fff9870eefd0e9e1b",
     "tests/test.sh": "5e3ff34373f1000410a4b97aa3abef93278ff04e124c08d9e4c1602c0e388c19",
     "environment/Dockerfile": "138250ec086654082ea41fc5b930390f9412152f75889b965f31e08465d84b3f",
-    "task.toml": "abb9b0bc550c818f8750e72d4083e2e8ca0319b5625799bd72ef734861c26a0e",
+    "task.toml": "fadaafc1d7895420cc3d99f063c7e53eabb30f1d46057b4fbf17be4d0615351d",
     "instruction.md": "d08a08c71d9497258556c2d616b008136b4ef569addb61edd2f61e46d95e4473",
     "README.md": "16429e7ba483d3d7045263f56c3bb47c02f3d2694530bdbce7d2d226486e9a47",
     "agent_prompt.txt": "03b9a931d5a40a9f5f970d1666b11ed3f54edf14e3bdfbf3008bf72c368798a3"
