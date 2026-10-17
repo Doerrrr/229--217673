@@ -6,7 +6,7 @@
     "environment/packet/problem.md": "ceefdb2f47515797133e8e1a2f344cac352f207c52f4a81b877703750256b4f8",
     "environment/packet/smoke.json": "18d0d31582a0a288a25dc6e6cc1f470f3dca613f94fb2365b1008e0fadae57a3",
     "solution/solve.sh": "233c5fa94dc1b54f807b8effddd1b21db22042cf685073faa556e9eebdc35b11",
-    "solution/implementation/finite_witnesses.json": "925c8a931b492b56a9b398aaf4732c6431d8ad7bb15a4ca92cf5136a4f16ac68",
+    "solution/implementation/finite_witnesses.json": "c71f4882c621ed3a9c53141882e917ac9d0c8710af0795073aef9e82a8c6395d",
     "solution/implementation/graphs.py": "4bfdeb006748a2cd0d4f1ab403b906d0bcb788a084ddb16b899f86d1d5a28400",
     "solution/implementation/interface.py": "15e807a6eea43f62227aac4537f067742fba63570a10e496558ae0af3f2fe05e",
     "solution/implementation/main.py": "cbe661f159b1592ed49997c6f517c9216b1ab86e64104493a00c94d89bc88816",
