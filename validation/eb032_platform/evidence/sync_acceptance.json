@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "case": "existing",
+      "status": "PASS",
+      "head_unchanged": true,
+      "workflow_and_csv_unchanged": true,
+      "legacy_removed": true,
+      "dirty_changes_preserved": false
+    },
+    {
+      "case": "absent",
+      "status": "PASS",
+      "head_unchanged": true,
+      "workflow_and_csv_unchanged": true,
+      "legacy_removed": true,
+      "dirty_changes_preserved": false
+    },
+    {
+      "case": "dirty",
+      "status": "PASS",
+      "head_unchanged": true,
+      "workflow_and_csv_unchanged": true,
+      "legacy_removed": false,
+      "dirty_changes_preserved": true
+    }
+  ],
+  "real_git_restore": true,
+  "mocked": [
+    "origin URL",
+    "network fetch"
+  ],
+  "platform_executed": false
+}

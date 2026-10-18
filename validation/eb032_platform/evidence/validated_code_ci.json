@@ -1,0 +1,23 @@
+{
+  "validated_code_commit": "c75fcb69d34838884fdef5ba6c59088bb8f3b503",
+  "payload_digest": "30862110bb9c4c8e484004381c2cc4dc2598baf08d14b309cb9e028aea3ca6d7",
+  "ci": {
+    "harbor-validation.yml": {
+      "id": 39085358097,
+      "head_sha": "c75fcb69d34838884fdef5ba6c59088bb8f3b503",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Doerrrr/229--217673/actions/runs/39085358097"
+    },
+    "eb032-author-regression.yml": {
+      "id": 39085358634,
+      "head_sha": "c75fcb69d34838884fdef5ba6c59088bb8f3b503",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Doerrrr/229--217673/actions/runs/39085358634"
+    }
+  },
+  "evidence_commit_policy": "This commit changes author metadata only; code payload equals the tested commit",
+  "formal_platform_t1": false,
+  "new_model_calls": 0
+}

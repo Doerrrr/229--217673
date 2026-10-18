@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "baseline_commit": "d94f7fdb983303d05cf7b54fd73b791e05ae3156",
+  "validated_code_commit": "c75fcb69d34838884fdef5ba6c59088bb8f3b503",
+  "public_contract_and_environment_byte_identical": true,
+  "cases_byte_identical": true,
+  "algebra_byte_identical": true,
+  "grader_identical_after_removing_only_guard_import_and_results_configuration": true,
+  "runner_check_and_reward_aggregation_ast_identical": true,
+  "scored_assertions": 66,
+  "scored_cli_calls": 47,
+  "scoring_cases_added": 0,
+  "old_platform_candidates_available": false,
+  "old_platform_candidates_replayed": false,
+  "assurance": "Identical mathematical scoring and paired author controls; no claim of identical scores from newly generated model answers"
+}
