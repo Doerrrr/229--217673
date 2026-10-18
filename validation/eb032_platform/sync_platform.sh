@@ -19,7 +19,7 @@ paths=(.gitattributes README.md instruction.md agent_prompt.txt task.toml
        solution tests validation/eb032_platform)
 git restore --source="$APPROVED_COMMIT" --staged --worktree -- "${paths[@]}"
 # Remove only obsolete task source trees; keep environment/data and .github intact.
-git rm -r --ignore-unmatch -- environment/Makefile environment/src environment/upstream validation/ddi030_platform validation/ddi031_platform validation/ddi032_platform validation/ddi031_diagnostics
+git rm -r --ignore-unmatch -- environment/Makefile environment/src environment/upstream validation/ddi030_platform validation/ddi031_platform validation/ddi032_platform validation/ddi031_diagnostics validation/dual_platform review
 # Preserve the frozen grader byte-for-byte, including its final empty line.
 git -c core.whitespace=-blank-at-eof,cr-at-eol diff --cached --check
 git diff --cached --exit-code -- .github

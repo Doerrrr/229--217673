@@ -63,6 +63,8 @@ def _parse_rational(text, where):
         raise Bad(EXIT_FORMAT, "%s is not a valid rational" % where)
     if "/" in text:
         head, _, tail = text.partition("/")
+        if int(tail) <= 0:
+            raise Bad(EXIT_FORMAT, "%s denominator must be positive" % where)
         value = Fraction(int(head), int(tail))
     else:
         value = Fraction(int(text))

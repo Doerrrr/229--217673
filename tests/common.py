@@ -83,7 +83,7 @@ class Runner:
         log = {k: v for k, v in value.items() if k not in ('stdout', 'stderr')}
         log.update(command=job['command'], expected_kill=expected_kill)
         Path(str(job['stem']) + '.json').write_text(json.dumps(log, indent=2))
-        if (value['timed_out'] or value['returncode'] < 0) and not expected_kill:
+        if value.get('log_limit_exceeded', False) or ((value['timed_out'] or value['returncode'] < 0) and not expected_kill):
             self.infrastructure.append({'candidate_runtime': log})
         job['result'] = value
         return value

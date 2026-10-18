@@ -4,7 +4,7 @@ import copy
 import json
 from pathlib import Path
 from common import Runner,success
-from algebra import check
+from guarded_check import check, configure_results
 
 WEIGHTS={'witness':.30,'quadratic_proof':.15,'quartic_proof':.20,'singular_proof':.25,'failure':.10}
 
@@ -28,6 +28,7 @@ def rows_from(path):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--project',required=True);p.add_argument('--results',required=True);a=p.parse_args()
+    configure_results(a.results)
     cases=json.loads(Path(__file__).with_name('cases032.json').read_bytes());r=Runner(a.project,'certified-minimum',a.results)
     for i,c in enumerate(cases):
         wire=json.dumps(dict(version=1,queries=[c['query']])).encode();wire=(b'\xef\xbb\xbf'+wire) if i%2==0 else wire

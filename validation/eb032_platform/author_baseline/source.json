@@ -1,0 +1,10 @@
+{
+  "commit": "d94f7fdb983303d05cf7b54fd73b791e05ae3156",
+  "files": {
+    "grade032.py": "66aee694b5438ceacc68e6aed3fbd7e61927e493a9035495962a792669f1ac00",
+    "common.py": "f2f42d3dc583ae3ce12ea9d1bda6a601d0a18204e3897ce77c1e2399dbcd93fd",
+    "measure.py": "891c0d3f29bc76303c13043b8b8cab7bb703b7da85d7821fff9870eefd0e9e1b",
+    "algebra.py": "ed57766e3c92e1cbd8a7caf0b22c02d1ef362d55bd538f6a8f0ebb117ee2b3d1"
+  },
+  "scope": "NON_SCORING_AUTHOR_REGRESSION_ONLY"
+}

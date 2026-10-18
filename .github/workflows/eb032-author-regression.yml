@@ -1,0 +1,24 @@
+name: EB032 author regressions (no answer models)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  author-regression:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the unchanged candidate environment
+        run: docker build -t eb032-author -f environment/Dockerfile environment
+      - name: Frozen scoring equivalence and fault controls
+        run: |
+          mkdir -p .author-results
+          docker run --rm --network none --cpus 2 --memory 2g --pids-limit 256 -v "$PWD:/root/author:ro" -v "$PWD/.author-results:/root/results" eb032-author python3 /root/author/validation/eb032_platform/author_checks.py --repo /root/author --results /root/results
+      - name: Save author evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eb032-author-evidence
+          path: .author-results
+          if-no-files-found: error

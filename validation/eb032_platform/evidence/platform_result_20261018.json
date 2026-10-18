@@ -1,0 +1,37 @@
+{
+  "scope": "HISTORICAL_PLATFORM_RUN_BEFORE_R2_PATCH",
+  "report_sha256": "f9a9aa70134dde39af80500ae7daae4ea989eb0a1c3d60a661b91816134a59f6",
+  "platform_repository_label": "a0e21d4a3202ee237c793e974f683c20e92192c1",
+  "platform_r2_frozen_head": "73c075fd1d1072247cae5d1f01909f78723d7627",
+  "t1": [
+    {
+      "candidate": 1,
+      "model_reported_in_r2": "DeepSeek V4.1 Flash",
+      "score": 0.518,
+      "status": "NORMAL",
+      "trial_id": "trial_af576e85d1c547b88ab2b05f"
+    },
+    {
+      "candidate": 2,
+      "model_reported_in_r2": "GLM 5.3 Flash",
+      "score": 0.617,
+      "status": "NORMAL",
+      "trial_id": "trial_74b3fa4ab8964238a7547cdb"
+    }
+  ],
+  "t1_phase": {
+    "transaction_id": "f4845dd2-e8d7-45a5-91d0-49c434af7f2d",
+    "seconds": 25682.2,
+    "hours": 7.133944444444444,
+    "start_local": "2026-10-18 00:34:58",
+    "end_local": "2026-10-18 07:43:01",
+    "per_model_timing_available": false
+  },
+  "r1": 92,
+  "oracle": 1.0,
+  "nop": 0.0,
+  "r2": 77.26,
+  "new_patch_replayed_with_original_platform_candidates": false,
+  "platform_attempts_used": 9,
+  "platform_attempts_total": 10
+}

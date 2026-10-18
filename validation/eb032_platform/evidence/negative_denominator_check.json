@@ -1,0 +1,50 @@
+{
+  "status": "REPORT_CLAIM_REFUTED_ON_PUBLISHED_AUTHOR_SOURCE",
+  "source_sha256": "cbb2762cdd4e4a42800a1265934fe9c82449855e406fb072e2a07f9551b7e6e6",
+  "values": [
+    {
+      "input": "1/-2",
+      "accepted": false,
+      "type": "Bad",
+      "message": "queries[0].terms[0].coef is not a valid rational"
+    },
+    {
+      "input": "-1/-2",
+      "accepted": false,
+      "type": "Bad",
+      "message": "queries[0].terms[0].coef is not a valid rational"
+    },
+    {
+      "input": "1/+2",
+      "accepted": false,
+      "type": "Bad",
+      "message": "queries[0].terms[0].coef is not a valid rational"
+    },
+    {
+      "input": "1/0",
+      "accepted": false,
+      "type": "ZeroDivisionError",
+      "message": "Fraction(1, 0)"
+    },
+    {
+      "input": "-3/7",
+      "accepted": true,
+      "value": "-3/7"
+    },
+    {
+      "input": "+05/10",
+      "accepted": true,
+      "value": "1/2"
+    }
+  ],
+  "whole_document_failure": {
+    "type": "Bad",
+    "message": "queries[0].terms[].coef is not a valid rational"
+  },
+  "cli": {
+    "returncode": 2,
+    "stdout_empty": true,
+    "stderr": "invalid input or witness: queries[0].terms[].coef is not a valid rational",
+    "old_output_preserved": true
+  }
+}
