@@ -3,6 +3,7 @@ set -euo pipefail
 mkdir -p /logs/verifier
 chmod 700 /tests /logs/verifier
 python3 /tests/grade032.py --project /work/certificate --results /logs/verifier/eb032_math_m
+python3 /tests/provenance.py --results /logs/verifier/eb032_math_m
 python3 - <<'PY'
 import json
 from pathlib import Path

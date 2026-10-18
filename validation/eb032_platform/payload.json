@@ -13,16 +13,17 @@
     "solution/implementation/main.py": "e1bf64571ac7a678320c8ee6c3068bb2b6216ae29bbc0f76fb87e17ff9fd7d2c",
     "tests/algebra.py": "ed57766e3c92e1cbd8a7caf0b22c02d1ef362d55bd538f6a8f0ebb117ee2b3d1",
     "tests/cases032.json": "1a06569df00726d750cff7aa240dc8f0791623d2955e3849e361b8af0e14b2e2",
-    "tests/common.py": "996187992be5c16f76074b95b428e14c2e829edaef005d680999d4054baedfa7",
+    "tests/common.py": "1c956be40c1f89ab659f3e48a0e325f14a04653ebb9ada0ec22faf59ea6ebb8f",
     "tests/grade032.py": "dff34788237f4359770148c3db7190a8121552a3be9afd1fffba86f7a1ef0568",
     "tests/measure.py": "f887b545111c723af41e51961cbeb7818ff057cb7332b1e5abf47cb1edc31441",
-    "tests/test.sh": "7bd0c90735a6768320560c9dd931c375eadf383106feafd1874050d61eff6131",
+    "tests/test.sh": "067b5f99ace8f7babf4861dd37879015cae5f06826fb14a87b026f2584582580",
     "README.md": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
     "instruction.md": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
     "agent_prompt.txt": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
     "task.toml": "40233ff06d5303df1cfdfb0be1c94a4ba40ed1213dcb0f4074050f269cee7375",
     ".gitattributes": "3fde201c2fe2689c2e9b567fca72491dac8cc26f21353ac08513c7ca234cd8d1",
-    "tests/guarded_check.py": "9205f7039a63509d5d119faf7e5e153df83b70fb269970d121aef698c6e3da09"
+    "tests/guarded_check.py": "9205f7039a63509d5d119faf7e5e153df83b70fb269970d121aef698c6e3da09",
+    "tests/provenance.py": "fd20bb7d5194c77a9559cc95a6d0f419ce48406b8c7f9c35057697ed22a5f22b"
   },
   "candidate_image_files": {
     "app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
@@ -30,5 +31,5 @@
     "packet/problem.md": "4abdfd9392c75ce570a504cd20e3c139b6050a4bd7a4850e1aabf39fb4539056",
     "packet/smoke.json": "e6f32e763955391e5068ac7b3fdcea6c7856c4cf3bcd25ea3c163d0c097940da"
   },
-  "payload_digest": "1ab4681cd072f43d5dff0f7649ca20576f1b53ae85613b31c3ab8d958fa81d22"
+  "payload_digest": "30862110bb9c4c8e484004381c2cc4dc2598baf08d14b309cb9e028aea3ca6d7"
 }

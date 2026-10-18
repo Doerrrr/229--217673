@@ -1,12 +1,14 @@
 # EB032 MATH-M 发布、验证与回滚
 
-本次修订保持README、instruction、agent_prompt、完整environment、task.toml、18个计分实例、algebra精确算法及五组权重；仍为66项断言／47次CLI调用。数学评分核心不变。grade032仅将同一check调用放进独立受限进程并指定诊断目录；common只新增日志超限的运行异常分类。运行保护变化不能据此称作整个grader逐字节不变。
+本次修订保持README、instruction、agent_prompt、完整environment、task.toml、18个计分实例、algebra精确算法及五组权重；仍为66项断言／47次CLI调用。数学评分核心不变。grade032仅将同一check调用放进独立受限进程并指定诊断目录；common新增日志超限的运行异常分类和调用前输入摘要；test.sh只追加非计分的结果溯源步骤。运行保护变化不能据此称作整个grader逐字节不变。
 
 ## 当前结果与适用范围
 
 历史平台结果在evidence/platform_result_20261018.json：R1=92、Oracle=1、NOP=0、两候选正常0.518／0.617、R2=77.26。模型名称来自R2标注。该成绩属于补丁之前的平台冻结版本；新补丁尚未回放两份平台候选，不能声称新分数已实测相同。R2仍待复评。
 
 CI证据按“已验证代码提交＋payload摘要＋cases摘要”绑定。证据补录提交只增补作者材料，不改变已验证的代码载荷。发布时以local_validation.json中的实际CI回执和payload_digest为准，不将旧CI或旧T1冒充新运行。平台来源标签、R2冻结HEAD、个人提交分别记录，不因三者不同自行推断错误。
+
+容器实际记录每次提供的输入文件SHA-256，以及当前grade／algebra／measure等源码摘要；CI回执将这些摘要绑定到已验证代码提交。容器没有平台Git信息时将source_commit明确置空，不编造冻结HEAD。结果溯源步骤只增加元数据，既有groups／cases／reward不改。
 
 ## 运行保护
 

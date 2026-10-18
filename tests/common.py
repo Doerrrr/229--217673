@@ -1,5 +1,6 @@
 """Private judging harness. Never copied to public projects."""
 import json
+import hashlib
 import os
 from pathlib import Path
 import shutil
@@ -59,10 +60,18 @@ class Runner:
         stem = self.private / f'{self.number:04d}'
         stdout, stderr = str(stem) + '.stdout', str(stem) + '.stderr'
         cmd = list(map(str, args)) if absolute else self.command + list(map(str, args))
+        input_sha256 = None
+        input_read_error = None
+        if '--input' in cmd:
+            try:
+                input_path = Path(cmd[cmd.index('--input') + 1])
+                input_sha256 = hashlib.sha256(input_path.read_bytes()).hexdigest()
+            except (OSError, IndexError) as error:
+                input_read_error = str(error)
         process = subprocess.Popen([sys.executable, str(Path(__file__).with_name('measure.py')),
             'publish', '300', stdout, stderr, str(self.home), str(self.project), *cmd],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        job = {'process': process, 'stdout': stdout, 'stderr': stderr, 'command': cmd, 'stem': stem}
+        job = {'process': process, 'stdout': stdout, 'stderr': stderr, 'command': cmd, 'stem': stem, 'input_sha256': input_sha256, 'input_read_error': input_read_error}
         self.jobs.append(job)
         return job
 
@@ -81,7 +90,7 @@ class Runner:
         value['stdout'] = Path(job['stdout']).read_bytes()
         value['stderr'] = Path(job['stderr']).read_bytes()
         log = {k: v for k, v in value.items() if k not in ('stdout', 'stderr')}
-        log.update(command=job['command'], expected_kill=expected_kill)
+        log.update(command=job['command'], expected_kill=expected_kill, input_sha256=job['input_sha256'], input_read_error=job['input_read_error'])
         Path(str(job['stem']) + '.json').write_text(json.dumps(log, indent=2))
         if value.get('log_limit_exceeded', False) or ((value['timed_out'] or value['returncode'] < 0) and not expected_kill):
             self.infrastructure.append({'candidate_runtime': log})

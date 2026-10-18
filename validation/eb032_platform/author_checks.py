@@ -64,6 +64,13 @@ def score_equivalence(repo,results,workspace):
             (target/'driver.stdout').write_bytes(got.stdout);(target/'driver.stderr').write_bytes(got.stderr)
             require(got.returncode==0,got.stderr.decode(errors='replace')[-4000:])
             r=json.loads((target/'result.json').read_bytes())
+            if label=='revised':
+                provenance=subprocess.run([sys.executable,str(tests/'provenance.py'),'--results',str(target)],capture_output=True,timeout=15)
+                require(provenance.returncode==0,provenance.stderr.decode(errors='replace'))
+                r=json.loads((target/'result.json').read_bytes())
+                observed=r['verification_provenance']
+                require(len(observed['inputs'])==47 and observed['source_files_sha256']['cases032.json']==sha((tests/'cases032.json').read_bytes()),'runtime provenance missing')
+                require(sum(v['input_sha256'] is not None for v in observed['inputs'])==44,'CLI input digests not captured')
             require(r['execution_status']=='NORMAL' and r['reward']==expected[profile],profile+': '+str(r))
             require(len(r['cases'])==66,'scored assertion count changed')
             paired.append(r)
