@@ -15,6 +15,9 @@ jobs:
         run: |
           mkdir -p .author-results
           docker run --rm --network none --cpus 2 --memory 2g --pids-limit 256 -v "$PWD:/root/author:ro" -v "$PWD/.author-results:/root/results" eb032-author python3 /root/author/validation/eb032_platform/author_checks.py --repo /root/author --results /root/results
+      - name: Make completed author evidence readable by the uploader
+        if: always()
+        run: sudo chmod -R a+rX .author-results
       - name: Save author evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -22,3 +25,4 @@ jobs:
           name: eb032-author-evidence
           path: .author-results
           if-no-files-found: error
+          include-hidden-files: true

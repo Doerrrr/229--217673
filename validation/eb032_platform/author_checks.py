@@ -76,7 +76,10 @@ def score_equivalence(repo,results,workspace):
     dump(results/'score_equivalence.json',report);return report
 
 def runner_faults(repo,results,workspace):
-    measure=repo/'tests/measure.py';home=workspace/'fault-home';home.mkdir(mode=0o755);own(home)
+    measure=repo/'tests/measure.py'
+    # This test home must be reachable by UID10001; author fixture ancestors
+    # deliberately remain 0700 and are never made candidate-readable.
+    home=Path(tempfile.mkdtemp(prefix='eb032-fault-home-',dir='/tmp'));own(home)
     records=[]
     def run(name,code,seconds=5):
         out=results/'faults'/name;out.mkdir(parents=True)
