@@ -1,0 +1,15 @@
+{
+  "source": "user pasted platform quality report",
+  "platform_source_label": "cpoct-hlo-229--234147-953fbe5703ab599b0257881a4036fcc47a6ee857",
+  "structure": "PASS",
+  "configuration": "PASS",
+  "safety": "FAIL",
+  "blocker": "UID/GID must be statically provable within 0..65535",
+  "cited_calls": [
+    "tests/output_reader.py:44 os.seteuid(uid)",
+    "tests/output_reader.py:45 os.setegid(gid)",
+    "tests/output_reader.py:46 os.setgroups(groups)"
+  ],
+  "later_checks": "CANCELLED_AFTER_EARLIER_GATE_FAILURE",
+  "generic_unknown_diagnostic_does_not_identify_runtime_root_cause": true
+}

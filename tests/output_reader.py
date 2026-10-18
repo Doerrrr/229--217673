@@ -10,6 +10,14 @@ def rows_from(path):
     # call have been reaped before this function. Never execute candidate code
     # while the effective identity is changed.
     uid, gid, groups = os.geteuid(), os.getegid(), os.getgroups()
+    # Reject unsupported verifier identities before changing any credentials.
+    # All dynamic values later passed to setegid/setgroups are bounded here.
+    if not 0 <= uid <= 65535:
+        raise RuntimeError('verifier effective UID must be in 0..65535')
+    if not 0 <= gid <= 65535:
+        raise RuntimeError('verifier effective GID must be in 0..65535')
+    if not all(0 <= group <= 65535 for group in groups):
+        raise RuntimeError('verifier supplementary GIDs must be in 0..65535')
     descriptor = None
     original_mode = None
     try:
@@ -36,11 +44,15 @@ def rows_from(path):
     except (OSError, ValueError, RecursionError):
         return []
     finally:
-        if descriptor is not None:
-            if original_mode is not None:
-                os.fchmod(descriptor, original_mode)
-            os.close(descriptor)
-        if uid == 0:
-            os.seteuid(uid)
-            os.setegid(gid)
-            os.setgroups(groups)
+        try:
+            if descriptor is not None:
+                try:
+                    if original_mode is not None:
+                        os.fchmod(descriptor, original_mode)
+                finally:
+                    os.close(descriptor)
+        finally:
+            if uid == 0:
+                os.seteuid(0)
+                os.setegid(gid)
+                os.setgroups(groups)

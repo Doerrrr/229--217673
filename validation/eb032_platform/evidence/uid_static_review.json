@@ -1,0 +1,288 @@
+{
+  "status": "LOCAL_SOURCE_REVIEW_PASSED",
+  "scope": "AST inventory of UID/GID mutation calls; not the platform checker",
+  "platform_quality_gate_reassessment": false,
+  "guard_expressions": [
+    "not 0 <= uid <= 65535",
+    "not 0 <= gid <= 65535",
+    "not all((0 <= group <= 65535 for group in groups))"
+  ],
+  "identity_mutation_calls": 32,
+  "findings": [
+    {
+      "file": "tests/common.py",
+      "line": 41,
+      "call": "os.chown(path, 10001, 10001, follow_symlinks=False)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "tests/common.py",
+      "line": 44,
+      "call": "os.chown(child, 10001, 10001, follow_symlinks=False)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "tests/common.py",
+      "line": 81,
+      "call": "os.fchown(handle.fileno(), 10001, 10001)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "tests/common.py",
+      "line": 60,
+      "call": "os.chown(part, 10001, 10001, dir_fd=fd, follow_symlinks=False)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "tests/output_reader.py",
+      "line": 25,
+      "call": "os.setgroups([])",
+      "range_evidence": [
+        "literal group list in 0..65535"
+      ]
+    },
+    {
+      "file": "tests/output_reader.py",
+      "line": 26,
+      "call": "os.setegid(10001)",
+      "range_evidence": [
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "tests/output_reader.py",
+      "line": 27,
+      "call": "os.seteuid(10001)",
+      "range_evidence": [
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "tests/output_reader.py",
+      "line": 56,
+      "call": "os.seteuid(0)",
+      "range_evidence": [
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "tests/output_reader.py",
+      "line": 57,
+      "call": "os.setegid(gid)",
+      "range_evidence": [
+        "explicit pre-mutation range guard at lines 15,17,19"
+      ]
+    },
+    {
+      "file": "tests/output_reader.py",
+      "line": 58,
+      "call": "os.setgroups(groups)",
+      "range_evidence": [
+        "explicit pre-mutation range guard at lines 15,17,19"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/author_checks.py",
+      "line": 11,
+      "call": "os.chown(p, 10001, 10001)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/author_checks.py",
+      "line": 187,
+      "call": "os.chown(denied, 0, 0)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/author_checks.py",
+      "line": 13,
+      "call": "os.chown(item, 10001, 10001)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 30,
+      "call": "os.chown(ordinary, 10001, 10001)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 60,
+      "call": "os.chown(fifo, 10001, 10001)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 66,
+      "call": "os.chown(malformed, 10001, 10001)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 70,
+      "call": "os.chown(recursive, 10001, 10001)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 99,
+      "call": "os.setegid(65535)",
+      "range_evidence": [
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 100,
+      "call": "os.setgroups([0, 65535])",
+      "range_evidence": [
+        "literal group list in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 106,
+      "call": "os.setgroups([])",
+      "range_evidence": [
+        "literal group list in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 113,
+      "call": "os.chown(nonroot, 65535, 65535)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 115,
+      "call": "os.setgroups([])",
+      "range_evidence": [
+        "literal group list in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 116,
+      "call": "os.setegid(65535)",
+      "range_evidence": [
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 117,
+      "call": "os.seteuid(65535)",
+      "range_evidence": [
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 104,
+      "call": "os.setegid(0)",
+      "range_evidence": [
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 105,
+      "call": "os.setgroups([0])",
+      "range_evidence": [
+        "literal group list in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 110,
+      "call": "os.setgroups([0])",
+      "range_evidence": [
+        "literal group list in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 121,
+      "call": "os.seteuid(0)",
+      "range_evidence": [
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 122,
+      "call": "os.setegid(0)",
+      "range_evidence": [
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 123,
+      "call": "os.setgroups([0])",
+      "range_evidence": [
+        "literal group list in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/author_baseline/common.py",
+      "line": 39,
+      "call": "os.chown(path, 10001, 10001, follow_symlinks=False)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    },
+    {
+      "file": "validation/eb032_platform/author_baseline/common.py",
+      "line": 42,
+      "call": "os.chown(child, 10001, 10001, follow_symlinks=False)",
+      "range_evidence": [
+        "literal in 0..65535",
+        "literal in 0..65535"
+      ]
+    }
+  ],
+  "command_runner_ids": {
+    "publish": 10001,
+    "other": 10002
+  },
+  "candidate_scoring_or_public_inputs_changed": false
+}

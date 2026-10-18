@@ -1,0 +1,69 @@
+{
+  "status": "PUBLISHED_AUTHOR_AND_HARBOR_VALIDATION_PASSED",
+  "payload_digest": "935e487dc0e3666b0cf35815488410922659376dabd0c204b552f298be98afe2",
+  "current_code_commit": "bf1ebf8c1b7f8bd132e0fbd6e6ff9164bc04b5e9",
+  "current_code_github_ci": {
+    "harbor-validation.yml": {
+      "id": 39110071259,
+      "head_sha": "bf1ebf8c1b7f8bd132e0fbd6e6ff9164bc04b5e9",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Doerrrr/229--217673/actions/runs/39110071259",
+      "created_at": "2026-10-18T08:04:52Z",
+      "updated_at": "2026-10-18T08:06:50Z",
+      "jobs": [
+        {
+          "name": "oracle-and-nop",
+          "status": "completed",
+          "conclusion": "success",
+          "active_steps": [],
+          "failed_steps": []
+        }
+      ]
+    },
+    "eb032-author-regression.yml": {
+      "id": 39110071248,
+      "head_sha": "bf1ebf8c1b7f8bd132e0fbd6e6ff9164bc04b5e9",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Doerrrr/229--217673/actions/runs/39110071248",
+      "created_at": "2026-10-18T08:04:52Z",
+      "updated_at": "2026-10-18T08:07:27Z",
+      "jobs": [
+        {
+          "name": "author-regression",
+          "status": "completed",
+          "conclusion": "success",
+          "active_steps": [],
+          "failed_steps": []
+        }
+      ]
+    }
+  },
+  "published": true,
+  "new_model_calls": 0,
+  "new_platform_tests": 0,
+  "formal_platform_t1_for_this_patch": false,
+  "r2_platform_reassessment": "NOT_RUN",
+  "previous_validated_revision_record": "evidence/historical_validation_c75fcb6.json",
+  "previous_ci_is_not_current_patch_evidence": true,
+  "oracle_scope": "FINITE_WITNESS_STARTUP_CONTROL_ONLY",
+  "production_oracle": false,
+  "candidate_command_seconds": 300,
+  "agent_seconds": 18000,
+  "verifier_seconds": 18000,
+  "candidate_log_storage_limit_bytes": 67108864,
+  "candidate_log_storage_policy": "32 MiB per stream; drain/discard excess without killing candidate",
+  "mathematical_scoring_unchanged": true,
+  "external_replays": "PASSED_SAME_66_ASSERTIONS_AND_GROUPS",
+  "complete_author_controls": "PASSED",
+  "diagnostic_job_cache_policy": "metadata only; capture files reloaded on repeated finish",
+  "verifier_source_digest": "609b3f4d8445cc1a04a470678f05c34d675a3948ae1347b3e38622e02d2a75e0",
+  "current_local_evidence": "evidence/audit_summary_20261018.json",
+  "current_ci_evidence": "evidence/compatibility_code_ci.json",
+  "current_local_evidence_is_prepublication_audit": true,
+  "finite_oracle_startup_reward": 1.0,
+  "nop_startup_reward": 0.0,
+  "github_author_scored_assertions": 792,
+  "evidence_commit_policy": "Metadata-only descendant; identical payload and verifier source to current_code_commit"
+}

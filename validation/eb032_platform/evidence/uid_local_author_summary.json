@@ -1,0 +1,345 @@
+{
+  "status": "PASS",
+  "scope": "AUTHOR_REGRESSION_ONLY",
+  "formal_platform_t1": false,
+  "new_model_calls": 0,
+  "score_equivalence": {
+    "status": "PASS",
+    "records": [
+      {
+        "profile": "nop",
+        "baseline": 0.0,
+        "revised": 0.0,
+        "all_66_assertions_and_groups_equal": true
+      },
+      {
+        "profile": "point",
+        "baseline": 0.4,
+        "revised": 0.4,
+        "all_66_assertions_and_groups_equal": true
+      },
+      {
+        "profile": "quadratic",
+        "baseline": 0.55,
+        "revised": 0.55,
+        "all_66_assertions_and_groups_equal": true
+      },
+      {
+        "profile": "finite",
+        "baseline": 1.0,
+        "revised": 1.0,
+        "all_66_assertions_and_groups_equal": true
+      },
+      {
+        "profile": "wrong_identity",
+        "baseline": 0.4,
+        "revised": 0.4,
+        "all_66_assertions_and_groups_equal": true
+      },
+      {
+        "profile": "indefinite",
+        "baseline": 0.4,
+        "revised": 0.4,
+        "all_66_assertions_and_groups_equal": true
+      }
+    ],
+    "paired_grader_runs": 12,
+    "total_scored_assertions": 792,
+    "scope": "AUTHOR_CONTROLS_ONLY_NOT_REPLAYS_OF_PLATFORM_CANDIDATES",
+    "model_calls": 0
+  },
+  "runner_faults": {
+    "status": "PASS",
+    "records": [
+      {
+        "name": "successful-exit",
+        "returncode": 0,
+        "timed_out": false,
+        "peak_rss_kib": 11552,
+        "elapsed_seconds": 0.0127,
+        "log_truncated": false,
+        "captured_bytes": 0,
+        "capture_limit_bytes": 67108864,
+        "stderr_tail": "",
+        "descendants_signalled": 0,
+        "descendants_remaining": 0
+      },
+      {
+        "name": "failed-exit",
+        "returncode": 7,
+        "timed_out": false,
+        "peak_rss_kib": 11968,
+        "elapsed_seconds": 0.013,
+        "log_truncated": false,
+        "captured_bytes": 0,
+        "capture_limit_bytes": 67108864,
+        "stderr_tail": "",
+        "descendants_signalled": 0,
+        "descendants_remaining": 0
+      },
+      {
+        "name": "command-timeout",
+        "returncode": -9,
+        "timed_out": true,
+        "peak_rss_kib": 11788,
+        "elapsed_seconds": 1.0094,
+        "log_truncated": false,
+        "captured_bytes": 0,
+        "capture_limit_bytes": 67108864,
+        "stderr_tail": "",
+        "descendants_signalled": 0,
+        "descendants_remaining": 0
+      },
+      {
+        "name": "same-group-background",
+        "returncode": 0,
+        "timed_out": false,
+        "peak_rss_kib": 14912,
+        "elapsed_seconds": 0.1046,
+        "log_truncated": false,
+        "captured_bytes": 0,
+        "capture_limit_bytes": 67108864,
+        "stderr_tail": "",
+        "descendants_signalled": 1,
+        "descendants_remaining": 0
+      },
+      {
+        "name": "detached-background",
+        "returncode": 0,
+        "timed_out": false,
+        "peak_rss_kib": 14920,
+        "elapsed_seconds": 0.1122,
+        "log_truncated": false,
+        "captured_bytes": 0,
+        "capture_limit_bytes": 67108864,
+        "stderr_tail": "",
+        "descendants_signalled": 1,
+        "descendants_remaining": 0
+      },
+      {
+        "name": "ordinary-stderr",
+        "returncode": 0,
+        "timed_out": false,
+        "peak_rss_kib": 12512,
+        "elapsed_seconds": 0.0399,
+        "log_truncated": false,
+        "captured_bytes": 2097152,
+        "capture_limit_bytes": 67108864,
+        "stderr_tail": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "descendants_signalled": 0,
+        "descendants_remaining": 0
+      },
+      {
+        "name": "capture-limit",
+        "log_truncated": true,
+        "reward": 0,
+        "captured_bytes": 33554432
+      }
+    ],
+    "capture_limit_is_for_stdout_stderr_not_answer_jsonl": true
+  },
+  "checker_faults": {
+    "status": "PASS",
+    "all_18_direct_checks_equal": true,
+    "faults": [
+      {
+        "name": "independent-timeout",
+        "status": "VERIFIER_CHECKER_ERROR",
+        "reward": null
+      },
+      {
+        "name": "exception",
+        "status": "VERIFIER_CHECKER_ERROR",
+        "reward": null
+      },
+      {
+        "name": "abrupt-exit",
+        "status": "VERIFIER_CHECKER_ERROR",
+        "reward": null
+      },
+      {
+        "name": "aggregate-budget",
+        "status": "VERIFIER_CHECKER_ERROR"
+      }
+    ]
+  },
+  "reference_boundaries": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "rational-1/-2",
+        "expected_valid": false
+      },
+      {
+        "name": "rational--1/-2",
+        "expected_valid": false
+      },
+      {
+        "name": "rational-1/+2",
+        "expected_valid": false
+      },
+      {
+        "name": "rational-1/0",
+        "expected_valid": false
+      },
+      {
+        "name": "rational--3/7",
+        "expected_valid": true
+      },
+      {
+        "name": "rational-+05/10",
+        "expected_valid": true
+      },
+      {
+        "name": "rational-1/9999999999",
+        "expected_valid": true
+      },
+      {
+        "name": "n-lower-invalid",
+        "expected_valid": false
+      },
+      {
+        "name": "n-upper-invalid",
+        "expected_valid": false
+      },
+      {
+        "name": "n32-basis65",
+        "expected_valid": true
+      },
+      {
+        "name": "basis66",
+        "expected_valid": false
+      },
+      {
+        "name": "queries16",
+        "expected_valid": true
+      },
+      {
+        "name": "queries17",
+        "expected_valid": false
+      },
+      {
+        "name": "output-permission-denied",
+        "expected_valid": false
+      },
+      {
+        "name": "output-parent-is-file",
+        "expected_valid": false
+      },
+      {
+        "name": "atomic-replacement-fails",
+        "expected_valid": false
+      },
+      {
+        "name": "cli-rational-1/-2",
+        "field_diagnostic": true,
+        "old_output_preserved": true
+      },
+      {
+        "name": "cli-rational-1/0",
+        "field_diagnostic": true,
+        "old_output_preserved": true
+      }
+    ],
+    "scope": "NON_SCORING_AUTHOR_REFERENCE_REGRESSIONS",
+    "candidate_scoring_cases_added": 0
+  },
+  "output_reader_identities": {
+    "status": "PASS",
+    "scope": "NON_SCORING_OUTPUT_READER_IDENTITY_CONTROLS",
+    "records": [
+      {
+        "case": "ordinary_crlf",
+        "status": "PASS"
+      },
+      {
+        "case": "candidate_owned_mode_000",
+        "status": "PASS"
+      },
+      {
+        "case": "readable_symlink",
+        "status": "PASS"
+      },
+      {
+        "case": "private_symlink_denied",
+        "status": "PASS"
+      },
+      {
+        "case": "fifo_returns_without_writer",
+        "status": "PASS"
+      },
+      {
+        "case": "directory_is_not_output",
+        "status": "PASS"
+      },
+      {
+        "case": "missing_output",
+        "status": "PASS"
+      },
+      {
+        "case": "malformed_json",
+        "status": "PASS"
+      },
+      {
+        "case": "recursive_json",
+        "status": "PASS"
+      },
+      {
+        "case": "negative_uid_rejected_before_mutation",
+        "status": "PASS"
+      },
+      {
+        "case": "oversized_uid_rejected_before_mutation",
+        "status": "PASS"
+      },
+      {
+        "case": "negative_gid_rejected_before_mutation",
+        "status": "PASS"
+      },
+      {
+        "case": "oversized_gid_rejected_before_mutation",
+        "status": "PASS"
+      },
+      {
+        "case": "negative_supplementary_gid_rejected_before_mutation",
+        "status": "PASS"
+      },
+      {
+        "case": "oversized_supplementary_gid_rejected_before_mutation",
+        "status": "PASS"
+      },
+      {
+        "case": "maximum_gid_and_groups_restore_exactly",
+        "status": "PASS"
+      },
+      {
+        "case": "empty_supplementary_groups_restore_exactly",
+        "status": "PASS"
+      },
+      {
+        "case": "maximum_nonroot_uid_without_identity_change",
+        "status": "PASS"
+      },
+      {
+        "case": "fchmod_failure_still_restores_identity",
+        "status": "PASS"
+      },
+      {
+        "case": "close_failure_still_restores_identity",
+        "status": "PASS"
+      },
+      {
+        "case": "read_failure_still_restores_identity",
+        "status": "PASS"
+      }
+    ],
+    "total": 21,
+    "model_calls": 0,
+    "platform_tests": 0,
+    "platform_static_gate_reassessment": false
+  },
+  "seconds": 187.35203754500003,
+  "payload_digest": "c5e41d959d3ec1179e3577aa4eead4135ed95754afafe195ad5d8d3a3872569b",
+  "cases_sha256": "1a06569df00726d750cff7aa240dc8f0791623d2955e3849e361b8af0e14b2e2",
+  "old_t1_candidates_replayed": false
+}

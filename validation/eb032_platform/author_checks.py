@@ -218,6 +218,11 @@ def main():
     report['runner_faults']=runner_faults(a.repo,a.results,workspace)
     report['checker_faults']=checker_faults(a.repo,a.results)
     report['reference_boundaries']=reference_boundaries(a.repo,a.results,workspace)
+    identity_result=a.results/'output_reader_identities.json'
+    subprocess.run([sys.executable,str(a.repo/'validation/eb032_platform/identity_checks.py'),
+                    '--tests',str(a.repo/'tests'),'--results',str(identity_result)],
+                   check=True,timeout=30)
+    report['output_reader_identities']=json.loads(identity_result.read_bytes())
     report.update(status='PASS',seconds=time.monotonic()-start,payload_digest=manifest['payload_digest'],
                   cases_sha256=sha((a.repo/'tests/cases032.json').read_bytes()),old_t1_candidates_replayed=False)
     dump(a.results/'summary.json',report);print(json.dumps(report),flush=True)

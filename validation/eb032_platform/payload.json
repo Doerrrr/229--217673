@@ -1,5 +1,5 @@
 {
-  "version": "EB032-MATH-M-platform.5-verifier-compatibility-20261018",
+  "version": "EB032-MATH-M-platform.6-bounded-identities-20261018",
   "files": {
     "environment/Dockerfile": "138250ec086654082ea41fc5b930390f9412152f75889b965f31e08465d84b3f",
     "environment/app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
@@ -25,7 +25,7 @@
     "tests/guarded_check.py": "9205f7039a63509d5d119faf7e5e153df83b70fb269970d121aef698c6e3da09",
     "tests/provenance.py": "fd20bb7d5194c77a9559cc95a6d0f419ce48406b8c7f9c35057697ed22a5f22b",
     "tests/report_reward.py": "9f3479215a860022b6c766a6d9bf04be2a0e340cf65229f125bdd36aa5b29f7f",
-    "tests/output_reader.py": "b5fe6add59222abec7746e554711d174f00d3d899592917f0624e5489cbbbf4b"
+    "tests/output_reader.py": "bc6e2bc8acc0e3a97e257a7e17684170b031549b391cd96e875631df190b4831"
   },
   "candidate_image_files": {
     "app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
@@ -33,5 +33,5 @@
     "packet/problem.md": "4abdfd9392c75ce570a504cd20e3c139b6050a4bd7a4850e1aabf39fb4539056",
     "packet/smoke.json": "e6f32e763955391e5068ac7b3fdcea6c7856c4cf3bcd25ea3c163d0c097940da"
   },
-  "payload_digest": "935e487dc0e3666b0cf35815488410922659376dabd0c204b552f298be98afe2"
+  "payload_digest": "c5e41d959d3ec1179e3577aa4eead4135ed95754afafe195ad5d8d3a3872569b"
 }

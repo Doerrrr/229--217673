@@ -11,4 +11,4 @@ Oracle仅使用18个有限精确见证，按数学对象匹配并重新验证，
 
 作者回归不进入候选计分。运行保护、历史平台成绩与新补丁验证范围见release_and_rollback.md及evidence目录。
 
-当前为已发布的兼容修订；本次GitHub作者回归及Harbor Oracle／NOP启动验证均通过。实际代码提交、载荷与CI回执见local_validation.json及evidence/compatibility_code_ci.json；evidence/audit_summary_20261018.json保留发布前本地核对记录。平台新T1／R2尚未运行。
+本轮新增UID／GID显式范围检查和异常收尾身份恢复；当前验证状态、实际代码提交及CI回执以local_validation.json为准。原platform.5 CI为历史；平台本轮安全硬门禁、T1／R2尚未复评。
