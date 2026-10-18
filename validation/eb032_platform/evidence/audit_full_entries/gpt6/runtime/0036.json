@@ -1,0 +1,22 @@
+{
+  "returncode": 2,
+  "timed_out": false,
+  "peak_rss_kib": 16332,
+  "elapsed_seconds": 0.2515,
+  "log_truncated": false,
+  "captured_bytes": 38,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "invalid input: invalid monomial index\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-5bzpmn5m/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-5bzpmn5m/candidate/bad.json",
+    "--output",
+    "/tmp/ddi-night-5bzpmn5m/candidate/old.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "267d6d1a7293051fcf143479d7dca593ecf648b23eb52b92b8b8a0583b926ceb",
+  "input_read_error": null
+}

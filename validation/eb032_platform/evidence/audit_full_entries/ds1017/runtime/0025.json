@@ -1,0 +1,22 @@
+{
+  "returncode": 2,
+  "timed_out": false,
+  "peak_rss_kib": 31740,
+  "elapsed_seconds": 0.3232,
+  "log_truncated": false,
+  "captured_bytes": 41,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "certified-minimum: n above allowed range\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-f_gy5m1e/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-f_gy5m1e/candidate/bad.json",
+    "--output",
+    "/tmp/ddi-night-f_gy5m1e/candidate/old.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "1a86147496557ed9ac3c4cb24ea22bb5b0090ef9a76157af40c41baaceab637b",
+  "input_read_error": null
+}

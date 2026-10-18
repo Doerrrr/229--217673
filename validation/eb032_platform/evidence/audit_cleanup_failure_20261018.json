@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "scope": "author fault injection, not platform replay",
+  "cleanup_pair": [
+    {
+      "version": "old_r2",
+      "measuring_parent_exit": 0,
+      "wrongly_accepted_cleanup_failure": true
+    },
+    {
+      "version": "fixed",
+      "measuring_parent_exit": 1,
+      "wrongly_accepted_cleanup_failure": false
+    }
+  ],
+  "measurement_error_has_actual_reason": true,
+  "truncated_log_preserves_crash_tail": true,
+  "abnormal_reward_remains_null": true,
+  "model_calls": 0,
+  "platform_runs": 0
+}

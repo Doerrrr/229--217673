@@ -1,0 +1,22 @@
+{
+  "returncode": 2,
+  "timed_out": false,
+  "peak_rss_kib": 16404,
+  "elapsed_seconds": 0.2348,
+  "log_truncated": false,
+  "captured_bytes": 38,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "invalid input: invalid basis coverage\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-5bzpmn5m/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-5bzpmn5m/candidate/bad.json",
+    "--output",
+    "/tmp/ddi-night-5bzpmn5m/candidate/old.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "fd21b637a83d8d7b707986b0e8cd9867ecb89ae324ac2ac0e973a92756b54605",
+  "input_read_error": null
+}

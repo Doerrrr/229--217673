@@ -104,17 +104,17 @@ def runner_faults(repo,results,workspace):
         r,_=run(name,code);pid=int(pidfile.read_text())
         require(r['returncode']==0 and not Path('/proc/'+str(pid)).exists(),name+' still alive')
     r,out=run('ordinary-stderr','import sys;sys.stderr.write("x"*2097152)')
-    require(r['returncode']==0 and not r['log_limit_exceeded'] and (out/'stderr').stat().st_size==2097152,'ordinary capture altered')
+    require(r['returncode']==0 and not r.get('log_truncated', False) and (out/'stderr').stat().st_size==2097152,'ordinary capture altered')
     # Exercise the real Runner classification, not just a helper boolean.
     sys.path.insert(0,str(repo/'tests'));from common import Runner
     project=workspace/'cap-project';shutil.copytree(repo/'environment',project,ignore=shutil.ignore_patterns('data','Dockerfile'))
     runner=Runner(str(project),'certified-minimum',str(results/'capture-classification'))
     r=runner.call([sys.executable,'-c','import os;block=b"x"*1048576\nfor i in range(80):os.write(1,block)'],absolute=True)
-    require(r['log_limit_exceeded'] and r['captured_bytes']<=64*1024*1024,'capture exceeded hard limit')
+    require(r['log_truncated'] and r['captured_bytes']<=64*1024*1024 and bool(r['stdout']),'capture exceeded hard limit')
     runner.check('author','capture-guard',False)
     score=runner.save('AUTHOR_CAPTURE',{'author':1})
-    require(score['reward'] is None and score['execution_status']=='CANDIDATE_RUNTIME_ERROR','excessive log became a score')
-    records.append(dict(name='capture-limit',log_limit_exceeded=True,reward=None,captured_bytes=r['captured_bytes']))
+    require(score['reward']==0 and score['execution_status']=='NORMAL','diagnostic capture changed ordinary execution classification')
+    records.append(dict(name='capture-limit',log_truncated=True,reward=0,captured_bytes=r['captured_bytes']))
     # A cleanup failure is never quietly accepted as a completed command.
     report=dict(status='PASS',records=records,capture_limit_is_for_stdout_stderr_not_answer_jsonl=True)
     dump(results/'runner_faults.json',report);return report
@@ -139,6 +139,14 @@ def checker_faults(repo,results):
         log=json.loads(next((results/'checker-timeout/checker').glob('*.json')).read_bytes())
         require(log['status']=='VERIFIER_CHECKER_ERROR' and log['reward'] is None,'checker timeout became zero')
         records.append(dict(name='independent-timeout',status=log['status'],reward=None))
+        for name,callback in [('exception',lambda *args:(_ for _ in ()).throw(RuntimeError('author injected checker error'))),('abrupt-exit',lambda *args:os._exit(23))]:
+            guard.configure_results(results/('checker-'+name));guard._algebra_check=callback
+            try:guard.check(cases[0]['query'],cases[0]['answer'],cases[0]['optimum'])
+            except guard.CheckerFailure:pass
+            else:raise AssertionError('checker '+name+' became a mathematical result')
+            log=json.loads(next((results/('checker-'+name)/'checker').glob('*.json')).read_bytes())
+            require(log['status']=='VERIFIER_CHECKER_ERROR' and log['reward'] is None,'checker '+name+' became a score')
+            records.append(dict(name=name,status=log['status'],reward=None))
         guard.configure_results(results/'checker-budget');guard.CHECK_TOTAL_SECONDS=0
         try:guard.check(cases[0]['query'],cases[0]['answer'],cases[0]['optimum'])
         except guard.CheckerFailure:pass

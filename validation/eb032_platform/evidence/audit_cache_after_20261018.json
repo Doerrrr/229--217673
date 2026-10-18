@@ -1,0 +1,9 @@
+{
+  "scope": "author cache probe only",
+  "calls": 12,
+  "payload_bytes_per_call": 1048576,
+  "retained_payload_bytes": 0,
+  "repeated_finish_same_result": true,
+  "model_calls": 0,
+  "platform_runs": 0
+}

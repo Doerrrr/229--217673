@@ -1,0 +1,52 @@
+{
+  "mode": "nop",
+  "test_exit_code": 0,
+  "reward_file_exists": true,
+  "formal_platform_t1": false,
+  "model_calls": 0,
+  "execution_status": "NORMAL",
+  "reward": 0.0,
+  "groups": [
+    {
+      "name": "witness",
+      "weight": 0.3,
+      "passed": 0,
+      "total": 19,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.0
+    },
+    {
+      "name": "quadratic_proof",
+      "weight": 0.15,
+      "passed": 0,
+      "total": 7,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.0
+    },
+    {
+      "name": "quartic_proof",
+      "weight": 0.2,
+      "passed": 0,
+      "total": 6,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.0
+    },
+    {
+      "name": "singular_proof",
+      "weight": 0.25,
+      "passed": 0,
+      "total": 6,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.0
+    },
+    {
+      "name": "failure",
+      "weight": 0.1,
+      "passed": 0,
+      "total": 28,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.0
+    }
+  ],
+  "source_digest": "609b3f4d8445cc1a04a470678f05c34d675a3948ae1347b3e38622e02d2a75e0"
+}

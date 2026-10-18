@@ -1,0 +1,180 @@
+{
+  "status": "PASS",
+  "scope": "author process probes, not actual failed platform answer",
+  "capture_storage_limit_bytes": 67108864,
+  "runtime_time_limit_changed": false,
+  "descendant_cleanup_ast_unchanged": true,
+  "tests": [
+    {
+      "case": "large_stderr",
+      "status": "PASS",
+      "pair": [
+        {
+          "version": "old",
+          "returncode": 0,
+          "timed_out": false,
+          "runner_status": "NORMAL",
+          "stdout_empty": true,
+          "stderr_nonempty": true,
+          "stdout_bytes": 0,
+          "stderr_bytes": 68157440,
+          "log_truncated": false
+        },
+        {
+          "version": "compatible",
+          "returncode": 0,
+          "timed_out": false,
+          "runner_status": "NORMAL",
+          "stdout_empty": true,
+          "stderr_nonempty": true,
+          "stdout_bytes": 0,
+          "stderr_bytes": 33554432,
+          "log_truncated": true
+        }
+      ]
+    },
+    {
+      "case": "stderr_then_stdout",
+      "status": "PASS",
+      "pair": [
+        {
+          "version": "old",
+          "returncode": 0,
+          "timed_out": false,
+          "runner_status": "NORMAL",
+          "stdout_empty": false,
+          "stderr_nonempty": true,
+          "stdout_bytes": 18,
+          "stderr_bytes": 68157440,
+          "log_truncated": false
+        },
+        {
+          "version": "compatible",
+          "returncode": 0,
+          "timed_out": false,
+          "runner_status": "NORMAL",
+          "stdout_empty": false,
+          "stderr_nonempty": true,
+          "stdout_bytes": 18,
+          "stderr_bytes": 33554432,
+          "log_truncated": true
+        }
+      ]
+    },
+    {
+      "case": "large_stdout",
+      "status": "PASS",
+      "pair": [
+        {
+          "version": "old",
+          "returncode": 0,
+          "timed_out": false,
+          "runner_status": "NORMAL",
+          "stdout_empty": false,
+          "stderr_nonempty": false,
+          "stdout_bytes": 68157440,
+          "stderr_bytes": 0,
+          "log_truncated": false
+        },
+        {
+          "version": "compatible",
+          "returncode": 0,
+          "timed_out": false,
+          "runner_status": "NORMAL",
+          "stdout_empty": false,
+          "stderr_nonempty": false,
+          "stdout_bytes": 33554432,
+          "stderr_bytes": 0,
+          "log_truncated": true
+        }
+      ]
+    },
+    {
+      "case": "nonzero_after_logs",
+      "status": "PASS",
+      "pair": [
+        {
+          "version": "old",
+          "returncode": 2,
+          "timed_out": false,
+          "runner_status": "NORMAL",
+          "stdout_empty": true,
+          "stderr_nonempty": true,
+          "stdout_bytes": 0,
+          "stderr_bytes": 68157440,
+          "log_truncated": false
+        },
+        {
+          "version": "compatible",
+          "returncode": 2,
+          "timed_out": false,
+          "runner_status": "NORMAL",
+          "stdout_empty": true,
+          "stderr_nonempty": true,
+          "stdout_bytes": 0,
+          "stderr_bytes": 33554432,
+          "log_truncated": true
+        }
+      ]
+    },
+    {
+      "case": "timeout_after_logs",
+      "status": "PASS",
+      "pair": [
+        {
+          "version": "old",
+          "returncode": -9,
+          "timed_out": true,
+          "runner_status": "CANDIDATE_RUNTIME_ERROR",
+          "stdout_empty": true,
+          "stderr_nonempty": true,
+          "stdout_bytes": 0,
+          "stderr_bytes": 68157440,
+          "log_truncated": false
+        },
+        {
+          "version": "compatible",
+          "returncode": -9,
+          "timed_out": true,
+          "runner_status": "CANDIDATE_RUNTIME_ERROR",
+          "stdout_empty": true,
+          "stderr_nonempty": true,
+          "stdout_bytes": 0,
+          "stderr_bytes": 33554432,
+          "log_truncated": true
+        }
+      ]
+    },
+    {
+      "case": "signal",
+      "status": "PASS",
+      "pair": [
+        {
+          "version": "old",
+          "returncode": -15,
+          "timed_out": false,
+          "runner_status": "CANDIDATE_RUNTIME_ERROR",
+          "stdout_empty": true,
+          "stderr_nonempty": false,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "log_truncated": false
+        },
+        {
+          "version": "compatible",
+          "returncode": -15,
+          "timed_out": false,
+          "runner_status": "CANDIDATE_RUNTIME_ERROR",
+          "stdout_empty": true,
+          "stderr_nonempty": false,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "log_truncated": false
+        }
+      ]
+    }
+  ],
+  "actual_trial_root_cause_proven": false,
+  "model_calls": 0,
+  "platform_runs": 0
+}

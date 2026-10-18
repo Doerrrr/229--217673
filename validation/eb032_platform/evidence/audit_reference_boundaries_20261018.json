@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "rational-1/-2",
+      "expected_valid": false
+    },
+    {
+      "name": "rational--1/-2",
+      "expected_valid": false
+    },
+    {
+      "name": "rational-1/+2",
+      "expected_valid": false
+    },
+    {
+      "name": "rational-1/0",
+      "expected_valid": false
+    },
+    {
+      "name": "rational--3/7",
+      "expected_valid": true
+    },
+    {
+      "name": "rational-+05/10",
+      "expected_valid": true
+    },
+    {
+      "name": "rational-1/9999999999",
+      "expected_valid": true
+    },
+    {
+      "name": "n-lower-invalid",
+      "expected_valid": false
+    },
+    {
+      "name": "n-upper-invalid",
+      "expected_valid": false
+    },
+    {
+      "name": "n32-basis65",
+      "expected_valid": true
+    },
+    {
+      "name": "basis66",
+      "expected_valid": false
+    },
+    {
+      "name": "queries16",
+      "expected_valid": true
+    },
+    {
+      "name": "queries17",
+      "expected_valid": false
+    },
+    {
+      "name": "output-permission-denied",
+      "expected_valid": false
+    },
+    {
+      "name": "output-parent-is-file",
+      "expected_valid": false
+    },
+    {
+      "name": "atomic-replacement-fails",
+      "expected_valid": false
+    },
+    {
+      "name": "cli-rational-1/-2",
+      "field_diagnostic": true,
+      "old_output_preserved": true
+    },
+    {
+      "name": "cli-rational-1/0",
+      "field_diagnostic": true,
+      "old_output_preserved": true
+    }
+  ],
+  "scope": "NON_SCORING_AUTHOR_REFERENCE_REGRESSIONS",
+  "candidate_scoring_cases_added": 0
+}

@@ -9,6 +9,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import uuid
 
 class Runner:
     def __init__(self, project, command, result_dir):
@@ -43,17 +44,49 @@ class Runner:
                 os.chown(child, 10001, 10001, follow_symlinks=False)
 
     def directory(self, name):
-        path = self.home / name
-        path.mkdir(parents=True, exist_ok=True)
-        self.own(path)
-        return path
+        parts = Path(name).parts
+        fd = self._input_parent(parts)
+        os.close(fd)
+        return self.home / name
+
+    def _input_parent(self, parts):
+        if any(p in ('', '.', '..') for p in parts) or any('/' in p for p in parts):
+            raise ValueError('invalid author input path')
+        fd = os.open(self.home, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            for part in parts:
+                try:
+                    os.mkdir(part, 0o700, dir_fd=fd)
+                    os.chown(part, 10001, 10001, dir_fd=fd, follow_symlinks=False)
+                except FileExistsError:
+                    pass
+                child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                os.close(fd)
+                fd = child
+            return fd
+        except BaseException:
+            os.close(fd)
+            raise
 
     def file(self, name, raw):
-        path = self.home / name
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(raw)
-        self.own(path.parent)
-        return path
+        parts = Path(name).parts
+        if not parts or Path(name).is_absolute():
+            raise ValueError('invalid author input path')
+        fd = self._input_parent(parts[:-1])
+        temporary = '.author-input-' + uuid.uuid4().hex
+        try:
+            target = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=fd)
+            with os.fdopen(target, 'wb') as handle:
+                handle.write(raw)
+                os.fchown(handle.fileno(), 10001, 10001)
+            os.replace(temporary, parts[-1], src_dir_fd=fd, dst_dir_fd=fd)
+        finally:
+            try:
+                os.unlink(temporary, dir_fd=fd)
+            except FileNotFoundError:
+                pass
+            os.close(fd)
+        return self.home / name
 
     def start(self, args, absolute=False):
         self.number += 1
@@ -77,7 +110,10 @@ class Runner:
 
     def finish(self, job, expected_kill=False):
         if 'result' in job:
-            return job['result']
+            value = dict(job['result'])
+            value['stdout'] = Path(job['stdout']).read_bytes()
+            value['stderr'] = Path(job['stderr']).read_bytes()
+            return value
         raw, diagnostics = job['process'].communicate(timeout=315)
         try:
             records = [json.loads(line) for line in raw.splitlines()]
@@ -86,7 +122,10 @@ class Runner:
                 raise ValueError('measurement failed')
         except Exception:
             self.infrastructure.append({'command': job['command'], 'error': diagnostics.decode(errors='replace')})
-            raise RuntimeError('measurement infrastructure failure')
+            detail = dict(call=job['stem'].name, input_sha256=job['input_sha256'],
+                          measure_exit=job['process'].returncode,
+                          stderr_tail=diagnostics[-1200:].decode(errors='replace'))
+            raise RuntimeError('VERIFIER_MEASUREMENT_ERROR ' + json.dumps(detail, ensure_ascii=True))
         value['stdout'] = Path(job['stdout']).read_bytes()
         value['stderr'] = Path(job['stderr']).read_bytes()
         log = {k: v for k, v in value.items() if k not in ('stdout', 'stderr')}
@@ -94,7 +133,9 @@ class Runner:
         Path(str(job['stem']) + '.json').write_text(json.dumps(log, indent=2))
         if value.get('log_limit_exceeded', False) or ((value['timed_out'] or value['returncode'] < 0) and not expected_kill):
             self.infrastructure.append({'candidate_runtime': log})
-        job['result'] = value
+        # Retain metadata, not every call's potentially large diagnostic bytes.
+        # Repeated finish() calls rehydrate the same root-owned capture files.
+        job['result'] = {k: v for k, v in value.items() if k not in ('stdout', 'stderr')}
         return value
 
     def call(self, args, absolute=False):

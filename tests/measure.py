@@ -8,7 +8,7 @@ import signal
 import sys
 import time
 
-CAPTURE_LIMIT_BYTES = 64 * 1024 * 1024  # stdout + stderr, per call; not answer JSONL
+CAPTURE_LIMIT_BYTES = 64 * 1024 * 1024  # 32 MiB per stream; drain/discard excess, never kill for logging
 
 
 def children(parent):
@@ -100,8 +100,10 @@ def main():
         raise
     begin = time.monotonic()
     timed_out = False
-    log_limit_exceeded = False
+    log_truncated = False
     total_bytes = 0
+    stream_bytes = {}
+    stderr_tail = b''
     usage = status = None
     cleanup_result = None
     try:
@@ -115,20 +117,23 @@ def main():
                     selector.unregister(key.fd)
                     os.close(key.fd)
                     continue
-                remaining = max(0, CAPTURE_LIMIT_BYTES - total_bytes)
+                if key.fd == pipes[1][0]:
+                    stderr_tail = (stderr_tail + block)[-2048:]
+                remaining = max(0, CAPTURE_LIMIT_BYTES // 2 - stream_bytes.get(key.fd, 0))
                 if len(block) > remaining:
-                    log_limit_exceeded = True
+                    log_truncated = True
                 if remaining:
                     kept = block[:remaining]
                     view = memoryview(kept)
                     while view:
                         view = view[os.write(key.data, view):]
                     total_bytes += len(kept)
+                    stream_bytes[key.fd] = stream_bytes.get(key.fd, 0) + len(kept)
             if status is None:
                 ended, state, measured = os.wait4(pid, os.WNOHANG)
                 if ended:
                     status, usage = state, measured
-            if status is None and (time.monotonic() - begin > seconds or log_limit_exceeded):
+            if status is None and time.monotonic() - begin > seconds:
                 timed_out = time.monotonic() - begin > seconds
                 try:
                     os.killpg(pid, signal.SIGKILL)
@@ -138,10 +143,10 @@ def main():
             if status is not None and cleanup_result is None:
                 # The same cleanup applies to successful, failed and timed-out calls.
                 cleanup_result = cleanup(pid)
-            if status is not None and not selector.get_map():
-                break
             if cleanup_result and cleanup_result['descendants_remaining']:
                 raise RuntimeError('candidate descendants could not be reaped')
+            if status is not None and not selector.get_map():
+                break
     finally:
         if cleanup_result is None:
             cleanup(pid)
@@ -152,8 +157,8 @@ def main():
             os.close(fd)
     print(json.dumps({'returncode': os.waitstatus_to_exitcode(status), 'timed_out': timed_out,
                       'peak_rss_kib': usage.ru_maxrss, 'elapsed_seconds': round(time.monotonic() - begin, 4),
-                      'log_limit_exceeded': log_limit_exceeded, 'captured_bytes': total_bytes,
-                      'capture_limit_bytes': CAPTURE_LIMIT_BYTES, **cleanup_result}), flush=True)
+                      'log_truncated': log_truncated, 'captured_bytes': total_bytes,
+                      'capture_limit_bytes': CAPTURE_LIMIT_BYTES, 'stderr_tail': stderr_tail.decode(errors='replace'), **cleanup_result}), flush=True)
 
 
 if __name__ == '__main__':

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from common import Runner,success
 from guarded_check import check, configure_results
+from output_reader import rows_from
 
 WEIGHTS={'witness':.30,'quadratic_proof':.15,'quartic_proof':.20,'singular_proof':.25,'failure':.10}
 
@@ -21,10 +22,6 @@ def invalids(first):
     q=copy.deepcopy(first);del q['basis'];add('missing-field',dict(version=1,queries=[q]))
     result.extend([('truncated',b'{'),('duplicate-key',b'{"version":1,"version":1,"queries":[]}'),('nonfinite',b'{"version":NaN,"queries":[]}')])
     return result
-
-def rows_from(path):
-    try:return [json.loads(line) for line in path.read_bytes().splitlines()]
-    except (OSError,ValueError):return []
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--project',required=True);p.add_argument('--results',required=True);a=p.parse_args()

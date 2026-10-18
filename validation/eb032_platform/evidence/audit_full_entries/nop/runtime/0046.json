@@ -1,0 +1,18 @@
+{
+  "returncode": 0,
+  "timed_out": false,
+  "peak_rss_kib": 15768,
+  "elapsed_seconds": 0.2038,
+  "log_truncated": false,
+  "captured_bytes": 0,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-5zzs630s/candidate/project/bin/certified-minimum"
+  ],
+  "expected_kill": false,
+  "input_sha256": null,
+  "input_read_error": null
+}

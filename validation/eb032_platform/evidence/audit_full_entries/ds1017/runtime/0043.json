@@ -1,0 +1,22 @@
+{
+  "returncode": 2,
+  "timed_out": false,
+  "peak_rss_kib": 31536,
+  "elapsed_seconds": 0.3006,
+  "log_truncated": false,
+  "captured_bytes": 47,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "certified-minimum: non-finite JSON number: NaN\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-f_gy5m1e/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-f_gy5m1e/candidate/bad.json",
+    "--output",
+    "/tmp/ddi-night-f_gy5m1e/candidate/old.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "7a1fab70326729f68a9cd83fe8674c9074e7d7c6a31d0cd35d7922e86056b6eb",
+  "input_read_error": null
+}

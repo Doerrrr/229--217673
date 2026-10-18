@@ -1,0 +1,22 @@
+{
+  "returncode": 2,
+  "timed_out": false,
+  "peak_rss_kib": 16136,
+  "elapsed_seconds": 0.2328,
+  "log_truncated": false,
+  "captured_bytes": 68,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "invalid input or witness: input is not valid JSON (JSONDecodeError)\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-uojiu_qa/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-uojiu_qa/candidate/bad.json",
+    "--output",
+    "/tmp/ddi-night-uojiu_qa/candidate/old.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96",
+  "input_read_error": null
+}

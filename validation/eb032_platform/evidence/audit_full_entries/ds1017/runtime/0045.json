@@ -1,0 +1,20 @@
+{
+  "returncode": 2,
+  "timed_out": false,
+  "peak_rss_kib": 31864,
+  "elapsed_seconds": 0.2911,
+  "log_truncated": false,
+  "captured_bytes": 133,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "usage: certified-minimum [-h] --input INPUT --output OUTPUT\ncertified-minimum: error: the following arguments are required: --output\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-f_gy5m1e/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-f_gy5m1e/candidate/multi.json"
+  ],
+  "expected_kill": false,
+  "input_sha256": "f5b24b01d5c6a90e127e07221632169f3b62d855c5662150473424df7e9c20af",
+  "input_read_error": null
+}

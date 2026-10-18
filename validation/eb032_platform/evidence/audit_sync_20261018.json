@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "scope": "local Git fixtures only",
+  "cases": [
+    {
+      "case": "existing",
+      "status": "PASS",
+      "protected_files_unchanged": true,
+      "new_verifier_modules_staged": true,
+      "git_head_unchanged": true
+    },
+    {
+      "case": "absent",
+      "status": "PASS",
+      "protected_files_unchanged": true,
+      "new_verifier_modules_staged": true,
+      "git_head_unchanged": true
+    },
+    {
+      "case": "dirty",
+      "status": "PASS",
+      "protected_files_unchanged": true,
+      "new_verifier_modules_staged": false,
+      "git_head_unchanged": true
+    }
+  ],
+  "network_calls": 0,
+  "platform_runs": 0,
+  "real_project_commits": 0,
+  "pushes": 0,
+  "mocks": [
+    "origin URL",
+    "network fetch"
+  ]
+}

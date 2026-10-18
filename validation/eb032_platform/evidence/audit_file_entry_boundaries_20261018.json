@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "scope": "non-scoring author boundary controls",
+  "records": [
+    {
+      "case": "input_final_symlink_replaced_without_following",
+      "status": "PASS"
+    },
+    {
+      "case": "input_parent_symlink_rejected",
+      "status": "PASS"
+    },
+    {
+      "case": "ordinary_output_and_crlf",
+      "status": "PASS"
+    },
+    {
+      "case": "candidate_owned_mode_000",
+      "status": "PASS"
+    },
+    {
+      "case": "candidate_readable_symlink",
+      "status": "PASS"
+    },
+    {
+      "case": "private_symlink_not_read_with_root_permissions",
+      "status": "PASS"
+    },
+    {
+      "case": "fifo_does_not_wait_for_writer",
+      "status": "PASS"
+    },
+    {
+      "case": "directory_is_not_output_file",
+      "status": "PASS"
+    },
+    {
+      "case": "missing_file",
+      "status": "PASS"
+    },
+    {
+      "case": "malformed_json",
+      "status": "PASS"
+    },
+    {
+      "case": "recursive_json_does_not_crash_verifier",
+      "status": "PASS"
+    },
+    {
+      "case": "grade_fails",
+      "status": "PASS",
+      "expected_exit": 7
+    },
+    {
+      "case": "provenance_fails",
+      "status": "PASS",
+      "expected_exit": 8
+    },
+    {
+      "case": "abnormal_reward_reports_cause",
+      "status": "PASS",
+      "expected_exit": 1
+    },
+    {
+      "case": "normal_reward_replaces_stale_value",
+      "status": "PASS",
+      "expected_exit": 0
+    }
+  ],
+  "model_calls": 0,
+  "platform_runs": 0
+}

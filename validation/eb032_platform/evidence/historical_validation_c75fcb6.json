@@ -1,0 +1,57 @@
+{
+  "status": "AUTHOR_VALIDATION_PASSED",
+  "formal_platform_t1": false,
+  "new_model_calls": 0,
+  "prior_code_ci": {
+    "id": 39042283756,
+    "head_sha": "d94f7fdb983303d05cf7b54fd73b791e05ae3156",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/Doerrrr/229--217673/actions/runs/39042283756"
+  },
+  "historical_platform_result": "evidence/platform_result_20261018.json",
+  "oracle_scope": "FINITE_WITNESS_STARTUP_CONTROL_ONLY",
+  "production_oracle": false,
+  "exact_checker_time_bounded": true,
+  "checker_call_seconds": 300,
+  "checker_aggregate_seconds": 2400,
+  "candidate_command_seconds": 300,
+  "agent_seconds": 18000,
+  "verifier_seconds": 18000,
+  "combined_wait_budget_seconds": 17520,
+  "remaining_seconds_for_overhead": 480,
+  "candidate_capture_limit_bytes": 67108864,
+  "normal_exit_descendant_cleanup": true,
+  "validated_code_commit": "c75fcb69d34838884fdef5ba6c59088bb8f3b503",
+  "validated_payload_digest": "30862110bb9c4c8e484004381c2cc4dc2598baf08d14b309cb9e028aea3ca6d7",
+  "github_ci": {
+    "harbor-validation.yml": {
+      "id": 39085358097,
+      "head_sha": "c75fcb69d34838884fdef5ba6c59088bb8f3b503",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Doerrrr/229--217673/actions/runs/39085358097"
+    },
+    "eb032-author-regression.yml": {
+      "id": 39085358634,
+      "head_sha": "c75fcb69d34838884fdef5ba6c59088bb8f3b503",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Doerrrr/229--217673/actions/runs/39085358634"
+    }
+  },
+  "cases_sha256": "1a06569df00726d750cff7aa240dc8f0791623d2955e3849e361b8af0e14b2e2",
+  "score_equivalence": "evidence/r2_score_equivalence.json",
+  "runtime_fault_controls": "evidence/r2_runner_faults.json",
+  "exact_checker_controls": "evidence/r2_checker_faults.json",
+  "reference_boundary_controls": "evidence/r2_reference_boundaries.json",
+  "sync_controls": "evidence/sync_acceptance.json",
+  "historical_t1": "evidence/platform_result_20261018.json",
+  "historical_t1_is_not_a_new_patch_result": true,
+  "r2_platform_reassessment": "NOT_RUN",
+  "current_code_payload_equal_to_validated_code": true,
+  "historical_platform_t1_passed": true,
+  "formal_platform_t1_for_this_patch": false,
+  "author_regression_assertions": 792,
+  "runtime_result_provenance": "Per-call input SHA-256 and actual verifier source digests; linked to CI code SHA by this record"
+}

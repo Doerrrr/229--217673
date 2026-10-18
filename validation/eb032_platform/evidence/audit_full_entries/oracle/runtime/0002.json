@@ -1,0 +1,22 @@
+{
+  "returncode": 0,
+  "timed_out": false,
+  "peak_rss_kib": 18288,
+  "elapsed_seconds": 0.298,
+  "log_truncated": false,
+  "captured_bytes": 0,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-uojiu_qa/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-uojiu_qa/candidate/q1.json",
+    "--output",
+    "/tmp/ddi-night-uojiu_qa/candidate/not-existing1/nested/result.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "b3db808210a2d7e1b24eed8b139a90e96a995394e6d458affb0036fe9a06e54e",
+  "input_read_error": null
+}

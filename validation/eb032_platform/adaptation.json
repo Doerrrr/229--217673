@@ -1,6 +1,6 @@
 {
   "task": "EB032-MATH-M",
-  "platform_version": "math-m.platform.4-r2-runtime-evidence",
+  "platform_version": "LOCAL_UNPUBLISHED_AUDIT_20261018",
   "source_freeze": "fe0723a64ea464fd12fe3a415bc8a71f4c668faf2ee46c91430756b5cd3adbe4",
   "source_public_sha256": "7aa6a6e428698a04aee7b8376e0933d19256c2737ecd82bce212aa96ddb7785e",
   "source_private_sha256": "05e300e4a815093f285b442a4e190c9d63a6accf3b284c6d28b1c14097335df4",
@@ -16,12 +16,13 @@
   "command_seconds": 300,
   "historical_scores_transferred": false,
   "prior_agent_seconds": 10800,
-  "change_scope": "Author evidence, legacy cleanup, exact-checker isolation, process cleanup and diagnostic capture; no new scoring cases",
+  "change_scope": "Log storage compatibility, safe author input writes, regular-file candidate-identity output reading, stale-reward prevention and failure diagnostics; no new scoring cases",
   "prior_verifier_seconds": 1800,
   "prior_release_commit": "d94f7fdb983303d05cf7b54fd73b791e05ae3156",
   "mathematical_scoring_unchanged": true,
   "public_payload_unchanged": true,
   "scored_checks": 66,
   "scored_candidate_calls": 47,
-  "non_scoring_author_regression_separate": true
+  "non_scoring_author_regression_separate": true,
+  "published": false
 }

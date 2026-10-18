@@ -1,0 +1,22 @@
+{
+  "returncode": 2,
+  "timed_out": false,
+  "peak_rss_kib": 16208,
+  "elapsed_seconds": 0.2288,
+  "log_truncated": false,
+  "captured_bytes": 54,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "invalid input or witness: queries[0] is missing basis\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-uojiu_qa/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-uojiu_qa/candidate/bad.json",
+    "--output",
+    "/tmp/ddi-night-uojiu_qa/candidate/old.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "49bb3a6f4332288a0bc3c0dbf34989adc6945657107760419a548648ee338890",
+  "input_read_error": null
+}
