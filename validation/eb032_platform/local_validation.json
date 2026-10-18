@@ -1,9 +1,46 @@
 {
-  "status": "UID_BOUND_LOCAL_AUTHOR_VALIDATION_PASSED_AWAITING_GITHUB_CI",
+  "status": "PUBLISHED_UID_BOUND_AUTHOR_AND_HARBOR_VALIDATION_PASSED",
   "payload_digest": "c5e41d959d3ec1179e3577aa4eead4135ed95754afafe195ad5d8d3a3872569b",
-  "current_code_commit": null,
-  "current_code_github_ci": null,
-  "published": false,
+  "current_code_commit": "a0d898d41b714c3e87b65c591142746d5f0df2da",
+  "current_code_github_ci": {
+    "harbor-validation.yml": {
+      "id": 39112307303,
+      "head_sha": "a0d898d41b714c3e87b65c591142746d5f0df2da",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Doerrrr/229--217673/actions/runs/39112307303",
+      "created_at": "2026-10-18T08:39:48Z",
+      "updated_at": "2026-10-18T08:41:25Z",
+      "jobs": [
+        {
+          "name": "oracle-and-nop",
+          "status": "completed",
+          "conclusion": "success",
+          "active_steps": [],
+          "failed_steps": []
+        }
+      ]
+    },
+    "eb032-author-regression.yml": {
+      "id": 39112307299,
+      "head_sha": "a0d898d41b714c3e87b65c591142746d5f0df2da",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Doerrrr/229--217673/actions/runs/39112307299",
+      "created_at": "2026-10-18T08:39:48Z",
+      "updated_at": "2026-10-18T08:41:43Z",
+      "jobs": [
+        {
+          "name": "author-regression",
+          "status": "completed",
+          "conclusion": "success",
+          "active_steps": [],
+          "failed_steps": []
+        }
+      ]
+    }
+  },
+  "published": true,
   "new_model_calls": 0,
   "new_platform_tests": 0,
   "formal_platform_t1_for_this_patch": false,
@@ -23,12 +60,17 @@
   "diagnostic_job_cache_policy": "metadata only; capture files reloaded on repeated finish",
   "verifier_source_digest": "2f26f485b4a6dd4116c44ff62b8a5f859bfeed497038766281b94604f738ab49",
   "current_local_evidence": "evidence/uid_local_author_summary.json",
-  "current_ci_evidence": null,
+  "current_ci_evidence": "evidence/uid_code_ci.json",
   "current_local_evidence_is_prepublication_audit": true,
-  "evidence_commit_policy": "Metadata-only descendant; identical payload and verifier source to current_code_commit",
+  "evidence_commit_policy": "Metadata-only descendant of tested code_commit; same 25 payload files",
   "platform_quality_gate_reassessment": "NOT_RUN",
   "uid_gid_policy": "0 <= UID/GID <= 65535; validate saved identities before any credential change; restore UID with literal 0",
   "identity_range_review": "evidence/uid_static_review.json",
   "identity_boundary_controls": "evidence/uid_identity_controls.json",
-  "file_and_entry_boundary_controls": "evidence/uid_boundary_controls.json"
+  "file_and_entry_boundary_controls": "evidence/uid_boundary_controls.json",
+  "current_code_payload_equal_to_validated_code": true,
+  "finite_oracle_startup_reward": 1.0,
+  "nop_startup_reward": 0.0,
+  "github_author_scored_assertions": 792,
+  "github_identity_controls": 21
 }

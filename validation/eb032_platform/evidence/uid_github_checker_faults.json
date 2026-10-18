@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "all_18_direct_checks_equal": true,
+  "faults": [
+    {
+      "name": "independent-timeout",
+      "status": "VERIFIER_CHECKER_ERROR",
+      "reward": null
+    },
+    {
+      "name": "exception",
+      "status": "VERIFIER_CHECKER_ERROR",
+      "reward": null
+    },
+    {
+      "name": "abrupt-exit",
+      "status": "VERIFIER_CHECKER_ERROR",
+      "reward": null
+    },
+    {
+      "name": "aggregate-budget",
+      "status": "VERIFIER_CHECKER_ERROR"
+    }
+  ]
+}

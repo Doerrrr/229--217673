@@ -6,7 +6,7 @@
 
 历史平台结果在evidence/platform_result_20261018.json：R1=92、Oracle=1、NOP=0、两候选正常0.518／0.617、R2=77.26。模型名称来自R2标注。该成绩属于补丁之前的平台冻结版本；新补丁尚未回放两份平台候选，不能声称新分数已实测相同。R2仍待复评。
 
-本轮身份范围修订的本地作者验证已完成；当前代码CI待本轮提交验证。上一轮platform.5的CI仅作历史，不能用于证明本轮修订。CI证据应按“已验证代码提交＋payload摘要＋cases摘要”绑定。证据补录提交只增补作者材料，不改变已验证的代码载荷。发布时以local_validation.json中的实际CI回执和payload_digest为准，不将旧CI或旧T1冒充新运行。平台来源标签、R2冻结HEAD、个人提交分别记录，不因三者不同自行推断错误。
+本轮身份范围修订已发布；代码提交a0d898d41b714c3e87b65c591142746d5f0df2da已通过GitHub作者回归及Harbor Oracle=1／NOP=0启动验证，载荷c5e41d959d3ec1179e3577aa4eead4135ed95754afafe195ad5d8d3a3872569b。上一轮platform.5的CI仅作历史，不能用于证明本轮修订。CI证据应按“已验证代码提交＋payload摘要＋cases摘要”绑定。证据补录提交只增补作者材料，不改变已验证的代码载荷。发布时以local_validation.json中的实际CI回执和payload_digest为准，不将旧CI或旧T1冒充新运行。平台来源标签、R2冻结HEAD、个人提交分别记录，不因三者不同自行推断错误。
 
 容器实际记录每次提供的输入文件SHA-256，以及当前grade／algebra／measure等源码摘要；CI回执将这些摘要绑定到已验证代码提交。容器没有平台Git信息时将source_commit明确置空，不编造冻结HEAD。结果溯源步骤只增加元数据，既有groups／cases／reward不改。
 
