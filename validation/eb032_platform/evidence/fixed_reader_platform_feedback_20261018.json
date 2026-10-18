@@ -1,0 +1,12 @@
+{
+  "source": "user pasted second platform safety rejection",
+  "platform_source_label": "cpoct-hlo-229--234147-33a702131bd535f64727e4fdfc4652fddc8dbbae",
+  "safety": "FAIL",
+  "rejected_calls": [
+    "tests/output_reader.py:57 os.setegid(gid)",
+    "tests/output_reader.py:58 os.setgroups(groups)"
+  ],
+  "preceding_range_guards_were_not_accepted_as_static_proof": true,
+  "platform_checker_reproduced_locally": false,
+  "selected_repair": "Remove variable-argument credential restoration by never changing parent credentials"
+}

@@ -1,0 +1,247 @@
+{
+  "status": "LOCAL_LITERAL_SOURCE_REVIEW_PASSED",
+  "scope": "All Python credential mutation arguments are literal; not the platform checker",
+  "platform_quality_gate_reassessment": false,
+  "identity_mutation_calls": 30,
+  "output_reader_mutations": [
+    {
+      "file": "tests/output_reader.py",
+      "line": 54,
+      "name": "setgroups",
+      "call": "os.setgroups([])",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "tests/output_reader.py",
+      "line": 55,
+      "name": "setgid",
+      "call": "os.setgid(10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "tests/output_reader.py",
+      "line": 56,
+      "name": "setuid",
+      "call": "os.setuid(10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    }
+  ],
+  "all_output_reader_mutations_inside_child_branch": true,
+  "variable_credential_arguments": 0,
+  "findings": [
+    {
+      "file": "tests/common.py",
+      "line": 41,
+      "name": "chown",
+      "call": "os.chown(path, 10001, 10001, follow_symlinks=False)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "tests/common.py",
+      "line": 44,
+      "name": "chown",
+      "call": "os.chown(child, 10001, 10001, follow_symlinks=False)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "tests/common.py",
+      "line": 81,
+      "name": "fchown",
+      "call": "os.fchown(handle.fileno(), 10001, 10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "tests/common.py",
+      "line": 60,
+      "name": "chown",
+      "call": "os.chown(part, 10001, 10001, dir_fd=fd, follow_symlinks=False)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "tests/output_reader.py",
+      "line": 54,
+      "name": "setgroups",
+      "call": "os.setgroups([])",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "tests/output_reader.py",
+      "line": 55,
+      "name": "setgid",
+      "call": "os.setgid(10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "tests/output_reader.py",
+      "line": 56,
+      "name": "setuid",
+      "call": "os.setuid(10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/author_checks.py",
+      "line": 11,
+      "name": "chown",
+      "call": "os.chown(p, 10001, 10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/author_checks.py",
+      "line": 187,
+      "name": "chown",
+      "call": "os.chown(denied, 0, 0)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/author_checks.py",
+      "line": 13,
+      "name": "chown",
+      "call": "os.chown(item, 10001, 10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 30,
+      "name": "chown",
+      "call": "os.chown(ordinary, 10001, 10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 60,
+      "name": "chown",
+      "call": "os.chown(fifo, 10001, 10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 66,
+      "name": "chown",
+      "call": "os.chown(malformed, 10001, 10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 70,
+      "name": "chown",
+      "call": "os.chown(recursive, 10001, 10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 100,
+      "name": "setegid",
+      "call": "os.setegid(65535)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 101,
+      "name": "setgroups",
+      "call": "os.setgroups([0, 65535])",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 107,
+      "name": "setgroups",
+      "call": "os.setgroups([])",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 114,
+      "name": "chown",
+      "call": "os.chown(nonroot, 65535, 65535)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 116,
+      "name": "setgroups",
+      "call": "os.setgroups([])",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 117,
+      "name": "setegid",
+      "call": "os.setegid(65535)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 118,
+      "name": "seteuid",
+      "call": "os.seteuid(65535)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 177,
+      "name": "chown",
+      "call": "os.chown(large, 10001, 10001)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 105,
+      "name": "setegid",
+      "call": "os.setegid(0)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 106,
+      "name": "setgroups",
+      "call": "os.setgroups([0])",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 111,
+      "name": "setgroups",
+      "call": "os.setgroups([0])",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 122,
+      "name": "seteuid",
+      "call": "os.seteuid(0)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 123,
+      "name": "setegid",
+      "call": "os.setegid(0)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/identity_checks.py",
+      "line": 124,
+      "name": "setgroups",
+      "call": "os.setgroups([0])",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/author_baseline/common.py",
+      "line": 39,
+      "name": "chown",
+      "call": "os.chown(path, 10001, 10001, follow_symlinks=False)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    },
+    {
+      "file": "validation/eb032_platform/author_baseline/common.py",
+      "line": 42,
+      "name": "chown",
+      "call": "os.chown(child, 10001, 10001, follow_symlinks=False)",
+      "evidence": "literal IDs in 0..65535 or literal group list"
+    }
+  ],
+  "measured_command_runner_ids": {
+    "publish": 10001,
+    "other": 10002
+  }
+}
