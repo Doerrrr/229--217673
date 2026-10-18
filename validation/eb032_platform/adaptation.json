@@ -24,7 +24,7 @@
   "scored_checks": 66,
   "scored_candidate_calls": 47,
   "non_scoring_author_regression_separate": true,
-  "published": false,
-  "validated_code_commit": null,
-  "validated_payload_digest": null
+  "published": true,
+  "validated_code_commit": "7b020d212419a491c834e65e10bfe9241dc08f6c",
+  "validated_payload_digest": "d6e166c5f9b8204d4890a97995697f71ba60d1f8464e4077020c36fd92eb807a"
 }

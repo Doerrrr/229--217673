@@ -1,0 +1,118 @@
+{
+  "status": "PASS",
+  "scope": "NON_SCORING_FIXED_CHILD_IDENTITY_CONTROLS",
+  "records": [
+    {
+      "case": "ordinary_crlf",
+      "status": "PASS"
+    },
+    {
+      "case": "candidate_owned_mode_000",
+      "status": "PASS"
+    },
+    {
+      "case": "readable_symlink",
+      "status": "PASS"
+    },
+    {
+      "case": "private_symlink_denied",
+      "status": "PASS"
+    },
+    {
+      "case": "fifo_returns_without_writer",
+      "status": "PASS"
+    },
+    {
+      "case": "directory_is_not_output",
+      "status": "PASS"
+    },
+    {
+      "case": "missing_output",
+      "status": "PASS"
+    },
+    {
+      "case": "malformed_json",
+      "status": "PASS"
+    },
+    {
+      "case": "recursive_json",
+      "status": "PASS"
+    },
+    {
+      "case": "negative_uid_rejected_before_mutation",
+      "status": "PASS"
+    },
+    {
+      "case": "oversized_uid_rejected_before_mutation",
+      "status": "PASS"
+    },
+    {
+      "case": "negative_gid_rejected_before_mutation",
+      "status": "PASS"
+    },
+    {
+      "case": "oversized_gid_rejected_before_mutation",
+      "status": "PASS"
+    },
+    {
+      "case": "negative_supplementary_gid_rejected_before_mutation",
+      "status": "PASS"
+    },
+    {
+      "case": "oversized_supplementary_gid_rejected_before_mutation",
+      "status": "PASS"
+    },
+    {
+      "case": "maximum_gid_and_groups_restore_exactly",
+      "status": "PASS"
+    },
+    {
+      "case": "empty_supplementary_groups_restore_exactly",
+      "status": "PASS"
+    },
+    {
+      "case": "maximum_nonroot_uid_without_identity_change",
+      "status": "PASS"
+    },
+    {
+      "case": "child_fchmod_failure_parent_identity_unchanged",
+      "status": "PASS"
+    },
+    {
+      "case": "child_close_failure_parent_identity_unchanged",
+      "status": "PASS"
+    },
+    {
+      "case": "child_read_failure_parent_identity_unchanged",
+      "status": "PASS"
+    },
+    {
+      "case": "read_occurs_in_fixed_identity_child_only",
+      "status": "PASS"
+    },
+    {
+      "case": "pipe_transfers_more_than_its_buffer_without_truncation",
+      "status": "PASS"
+    },
+    {
+      "case": "abrupt_child_exit_reports_verifier_error",
+      "status": "PASS"
+    },
+    {
+      "case": "child_identity_drop_failure_keeps_parent_identity",
+      "status": "PASS"
+    },
+    {
+      "case": "fork_failure_closes_both_pipe_descriptors",
+      "status": "PASS"
+    },
+    {
+      "case": "all_output_workers_reaped",
+      "status": "PASS"
+    }
+  ],
+  "total": 27,
+  "model_calls": 0,
+  "platform_tests": 0,
+  "platform_static_gate_reassessment": false
+}

@@ -1,0 +1,10 @@
+{
+  "oracle": {
+    "reward": 1.0,
+    "workflow_stdout_path": "oracle-and-nop/7_Check rewards.txt"
+  },
+  "nop": {
+    "reward": 0.0,
+    "workflow_stdout_path": "oracle-and-nop/7_Check rewards.txt"
+  }
+}
