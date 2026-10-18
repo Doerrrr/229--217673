@@ -2,7 +2,7 @@ name: EB032 author regressions (no answer models)
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, quality/eb032-r2-minimal-20261018]
 jobs:
   author-regression:
     runs-on: ubuntu-22.04
