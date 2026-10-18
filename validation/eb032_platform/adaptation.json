@@ -1,6 +1,6 @@
 {
   "task": "EB032-MATH-M",
-  "platform_version": "LOCAL_UNPUBLISHED_AUDIT_20261018",
+  "platform_version": "math-m.platform.5-verifier-compatibility",
   "source_freeze": "fe0723a64ea464fd12fe3a415bc8a71f4c668faf2ee46c91430756b5cd3adbe4",
   "source_public_sha256": "7aa6a6e428698a04aee7b8376e0933d19256c2737ecd82bce212aa96ddb7785e",
   "source_private_sha256": "05e300e4a815093f285b442a4e190c9d63a6accf3b284c6d28b1c14097335df4",
@@ -24,5 +24,7 @@
   "scored_checks": 66,
   "scored_candidate_calls": 47,
   "non_scoring_author_regression_separate": true,
-  "published": false
+  "published": true,
+  "validated_code_commit": "bf1ebf8c1b7f8bd132e0fbd6e6ff9164bc04b5e9",
+  "validated_payload_digest": "935e487dc0e3666b0cf35815488410922659376dabd0c204b552f298be98afe2"
 }

@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "records": [
+    {
+      "profile": "nop",
+      "baseline": 0.0,
+      "revised": 0.0,
+      "all_66_assertions_and_groups_equal": true
+    },
+    {
+      "profile": "point",
+      "baseline": 0.4,
+      "revised": 0.4,
+      "all_66_assertions_and_groups_equal": true
+    },
+    {
+      "profile": "quadratic",
+      "baseline": 0.55,
+      "revised": 0.55,
+      "all_66_assertions_and_groups_equal": true
+    },
+    {
+      "profile": "finite",
+      "baseline": 1.0,
+      "revised": 1.0,
+      "all_66_assertions_and_groups_equal": true
+    },
+    {
+      "profile": "wrong_identity",
+      "baseline": 0.4,
+      "revised": 0.4,
+      "all_66_assertions_and_groups_equal": true
+    },
+    {
+      "profile": "indefinite",
+      "baseline": 0.4,
+      "revised": 0.4,
+      "all_66_assertions_and_groups_equal": true
+    }
+  ],
+  "paired_grader_runs": 12,
+  "total_scored_assertions": 792,
+  "scope": "AUTHOR_CONTROLS_ONLY_NOT_REPLAYS_OF_PLATFORM_CANDIDATES",
+  "model_calls": 0
+}

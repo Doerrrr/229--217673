@@ -10,7 +10,7 @@
 | 正常退出留后台进程 | 无论正常、失败、超时均清理本次进程组；subreaper清理脱离会话后代，作者故障注入确认PID消失 |
 | stdout/stderr无上限 | 修正最初硬杀策略的兼容回归：每路保存前32MiB，超量继续排空且标记截断，不因日志量杀程序；保留stderr尾部，历史job仅缓存元数据 |
 | 精确checker没有独立上限 | 独立子进程、每次300秒、合计2400秒；超时／崩溃不算错误证书或0分，保存验证异常记录 |
-| CI仍写PENDING、缺少本题回执与版本绑定 | 历史CI与平台回执保留旧版本绑定；当前本地修订尚未发布、未跑新GitHub CI，不借用旧CI证明新代码。最终本地检查及源码摘要见local_validation.json |
+| CI仍写PENDING、缺少本题回执与版本绑定 | 历史CI与平台回执保留旧版本绑定；本次发布代码已有同源GitHub作者回归与Harbor Oracle／NOP成功回执，按实际代码提交及载荷摘要绑定，见local_validation.json和evidence/compatibility_code_ci.json；平台新T1／R2待用户决定 |
 | DDI-019旧review及dual_platform遗留 | 修复平台同步删除列表；Git历史保留旧材料，本题活动材料不再引用旧模板 |
 | 缺回滚说明 | release_and_rollback.md提供暂存前后及已推送后的回滚步骤，保护其他工作区改动 |
 | 联网与五小时窗口 | 保持公开允许的工具和原时限，不用未经验证的禁网／缩时改变已通过T1的任务条件 |

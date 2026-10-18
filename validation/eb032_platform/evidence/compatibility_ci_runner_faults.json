@@ -1,0 +1,90 @@
+{
+  "status": "PASS",
+  "records": [
+    {
+      "name": "successful-exit",
+      "returncode": 0,
+      "timed_out": false,
+      "peak_rss_kib": 11500,
+      "elapsed_seconds": 0.0135,
+      "log_truncated": false,
+      "captured_bytes": 0,
+      "capture_limit_bytes": 67108864,
+      "stderr_tail": "",
+      "descendants_signalled": 0,
+      "descendants_remaining": 0
+    },
+    {
+      "name": "failed-exit",
+      "returncode": 7,
+      "timed_out": false,
+      "peak_rss_kib": 11924,
+      "elapsed_seconds": 0.0136,
+      "log_truncated": false,
+      "captured_bytes": 0,
+      "capture_limit_bytes": 67108864,
+      "stderr_tail": "",
+      "descendants_signalled": 0,
+      "descendants_remaining": 0
+    },
+    {
+      "name": "command-timeout",
+      "returncode": -9,
+      "timed_out": true,
+      "peak_rss_kib": 11896,
+      "elapsed_seconds": 1.0015,
+      "log_truncated": false,
+      "captured_bytes": 0,
+      "capture_limit_bytes": 67108864,
+      "stderr_tail": "",
+      "descendants_signalled": 0,
+      "descendants_remaining": 0
+    },
+    {
+      "name": "same-group-background",
+      "returncode": 0,
+      "timed_out": false,
+      "peak_rss_kib": 14944,
+      "elapsed_seconds": 0.0884,
+      "log_truncated": false,
+      "captured_bytes": 0,
+      "capture_limit_bytes": 67108864,
+      "stderr_tail": "",
+      "descendants_signalled": 1,
+      "descendants_remaining": 0
+    },
+    {
+      "name": "detached-background",
+      "returncode": 0,
+      "timed_out": false,
+      "peak_rss_kib": 14940,
+      "elapsed_seconds": 0.0998,
+      "log_truncated": false,
+      "captured_bytes": 0,
+      "capture_limit_bytes": 67108864,
+      "stderr_tail": "",
+      "descendants_signalled": 1,
+      "descendants_remaining": 0
+    },
+    {
+      "name": "ordinary-stderr",
+      "returncode": 0,
+      "timed_out": false,
+      "peak_rss_kib": 12544,
+      "elapsed_seconds": 0.0178,
+      "log_truncated": false,
+      "captured_bytes": 2097152,
+      "capture_limit_bytes": 67108864,
+      "stderr_tail": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "descendants_signalled": 0,
+      "descendants_remaining": 0
+    },
+    {
+      "name": "capture-limit",
+      "log_truncated": true,
+      "reward": 0,
+      "captured_bytes": 33554432
+    }
+  ],
+  "capture_limit_is_for_stdout_stderr_not_answer_jsonl": true
+}
