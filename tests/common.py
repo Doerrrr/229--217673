@@ -165,7 +165,7 @@ class Runner:
     def check(self, group, name, passed, evidence=None):
         self.cases.append({'group': group, 'name': name, 'passed': bool(passed), 'evidence': evidence})
 
-    def save(self, task, weights, all_required=()):
+    def save(self, task, weights, all_required=(), *, aborted=None):
         groups = []
         for name, weight in weights.items():
             cases = [c for c in self.cases if c['group'] == name]
@@ -176,10 +176,18 @@ class Runner:
                            'aggregation': 'ALL_REQUIRED' if name in all_required else 'PROPORTIONAL',
                            'earned': weight * fraction})
         status = 'CANDIDATE_RUNTIME_ERROR' if self.infrastructure else 'NORMAL'
+        if aborted is not None:
+            if not self.infrastructure or aborted['execution_status'] not in (
+                    'CANDIDATE_RUNTIME_ERROR', 'VERIFIER_MEASUREMENT_ERROR',
+                    'VERIFIER_OUTPUT_READER_ERROR', 'VERIFIER_CHECKER_ERROR'):
+                raise ValueError('invalid abnormal finalization')
+            status = aborted['execution_status']
         result = {'task': task, 'version': 'v01', 'execution_status': status,
                   'reward': None if self.infrastructure else round(sum(g['earned'] for g in groups), 6),
                   'groups': groups, 'cases': self.cases, 'runtime_issues': self.infrastructure,
                   'formal_platform_t1': False, 'model_calls': 0}
+        if aborted is not None:
+            result['aborted'] = aborted
         shutil.copytree(self.private, self.output / 'runtime', dirs_exist_ok=False)
         (self.output / 'result.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
         print(json.dumps({k: v for k, v in result.items() if k not in ('cases', 'runtime_issues')}, ensure_ascii=False), flush=True)

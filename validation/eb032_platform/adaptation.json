@@ -1,6 +1,6 @@
 {
   "task": "EB032-MATH-M",
-  "platform_version": "math-m.platform.7-fixed-child-reader",
+  "platform_version": "math-m.time-optimization-20261019",
   "source_freeze": "fe0723a64ea464fd12fe3a415bc8a71f4c668faf2ee46c91430756b5cd3adbe4",
   "source_public_sha256": "7aa6a6e428698a04aee7b8376e0933d19256c2737ecd82bce212aa96ddb7785e",
   "source_private_sha256": "05e300e4a815093f285b442a4e190c9d63a6accf3b284c6d28b1c14097335df4",
@@ -16,7 +16,7 @@
   "command_seconds": 300,
   "historical_scores_transferred": false,
   "prior_agent_seconds": 10800,
-  "change_scope": "Output reading in a literal UID10001/GID10001/no-groups child; no parent identity mutations or variable restoration; mathematical grading unchanged",
+  "change_scope": "Abnormal execution short-circuit; normal mathematical scoring and 47 calls unchanged",
   "prior_verifier_seconds": 1800,
   "prior_release_commit": "d94f7fdb983303d05cf7b54fd73b791e05ae3156",
   "mathematical_scoring_unchanged": true,
@@ -24,7 +24,8 @@
   "scored_checks": 66,
   "scored_candidate_calls": 47,
   "non_scoring_author_regression_separate": true,
-  "published": true,
-  "validated_code_commit": "7b020d212419a491c834e65e10bfe9241dc08f6c",
-  "validated_payload_digest": "d6e166c5f9b8204d4890a97995697f71ba60d1f8464e4077020c36fd92eb807a"
+  "validated_code_commit": null,
+  "validated_payload_digest": null,
+  "validation_status": "LOCAL_AUTHOR_REGRESSION_PASSED_REPLAYS_STOPPED_BY_USER",
+  "platform_deployed": false
 }

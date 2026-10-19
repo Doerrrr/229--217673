@@ -1,82 +1,23 @@
 {
-  "status": "PUBLISHED_FIXED_CHILD_AUTHOR_AND_HARBOR_VALIDATION_PASSED",
-  "payload_digest": "d6e166c5f9b8204d4890a97995697f71ba60d1f8464e4077020c36fd92eb807a",
-  "current_code_commit": "7b020d212419a491c834e65e10bfe9241dc08f6c",
-  "current_code_github_ci": {
-    "harbor-validation.yml": {
-      "id": 39114256335,
-      "head_sha": "7b020d212419a491c834e65e10bfe9241dc08f6c",
-      "status": "completed",
-      "conclusion": "success",
-      "html_url": "https://github.com/Doerrrr/229--217673/actions/runs/39114256335",
-      "created_at": "2026-10-18T09:09:57Z",
-      "updated_at": "2026-10-18T09:11:55Z",
-      "jobs": [
-        {
-          "name": "oracle-and-nop",
-          "status": "completed",
-          "conclusion": "success",
-          "active_steps": [],
-          "failed_steps": []
-        }
-      ]
-    },
-    "eb032-author-regression.yml": {
-      "id": 39114256236,
-      "head_sha": "7b020d212419a491c834e65e10bfe9241dc08f6c",
-      "status": "completed",
-      "conclusion": "success",
-      "html_url": "https://github.com/Doerrrr/229--217673/actions/runs/39114256236",
-      "created_at": "2026-10-18T09:09:57Z",
-      "updated_at": "2026-10-18T09:12:53Z",
-      "jobs": [
-        {
-          "name": "author-regression",
-          "status": "completed",
-          "conclusion": "success",
-          "active_steps": [],
-          "failed_steps": []
-        }
-      ]
-    }
-  },
-  "published": true,
-  "new_model_calls": 0,
-  "new_platform_tests": 0,
-  "formal_platform_t1_for_this_patch": false,
-  "r2_platform_reassessment": "NOT_RUN",
-  "previous_validated_revision_record": "evidence/historical_validation_platform6.json",
-  "previous_ci_is_not_current_patch_evidence": true,
-  "oracle_scope": "FINITE_WITNESS_STARTUP_CONTROL_ONLY",
-  "production_oracle": false,
-  "candidate_command_seconds": 300,
+  "status": "LOCAL_AUTHOR_REGRESSION_PASSED_REPLAYS_STOPPED_BY_USER",
+  "base_commit": "dba12741eea20b9de0e11c15fedab2529474703b",
+  "payload_digest": "70e4045c6e11dbf2428bbf376a780a53716e9305d59c89182952ea8bf76828ee",
+  "normal_paths_required_calls": 47,
+  "normal_checks": 66,
+  "public_and_math_files_unchanged": true,
   "agent_seconds": 18000,
   "verifier_seconds": 18000,
-  "candidate_log_storage_limit_bytes": 67108864,
-  "candidate_log_storage_policy": "32 MiB per stream; drain/discard excess without killing candidate",
-  "mathematical_scoring_unchanged": true,
-  "external_replays": "HISTORICAL_PLATFORM5_ONLY_NOT_REPEATED_FOR_FIXED_CHILD_READER",
-  "complete_author_controls": "PASSED_792_ASSERTIONS_AND_27_CHILD_IDENTITY_CONTROLS",
-  "diagnostic_job_cache_policy": "metadata only; capture files reloaded on repeated finish",
-  "verifier_source_digest": "51d585a551d0691976e4e90751b3cd7b25c0db2dafa79123ec2ec2c24059818e",
-  "current_local_evidence": "evidence/child_reader_local_author_summary.json",
-  "current_ci_evidence": "evidence/child_reader_code_ci.json",
-  "current_local_evidence_is_prepublication_audit": true,
-  "evidence_commit_policy": "Metadata-only descendant of tested code_commit; same 25 payload files",
-  "platform_quality_gate_reassessment": "NOT_RUN",
-  "uid_gid_policy": "Only worker changes credentials: literal setgroups([]), setgid(10001), setuid(10001). Parent credentials never change.",
-  "identity_range_review": "evidence/child_reader_literal_id_review.json",
-  "identity_boundary_controls": "evidence/child_reader_identity_controls.json",
-  "file_and_entry_boundary_controls": "evidence/child_reader_boundary_controls.json",
-  "current_code_payload_equal_to_validated_code": true,
-  "reader_worker_identity": {
-    "uid": 10001,
-    "gid": 10001,
-    "groups": []
-  },
-  "reader_parent_identity_mutations": 0,
-  "finite_oracle_startup_reward": 1.0,
-  "nop_startup_reward": 0.0,
-  "github_author_scored_assertions": 792,
-  "github_identity_controls": 27
+  "command_seconds": 300,
+  "old_ci_does_not_validate_this_patch": true,
+  "external_replays": "BASELINE_SIX_COMPLETE_REVISED_NOT_RUN_USER_STOP",
+  "formal_platform_t1": false,
+  "model_calls": 0,
+  "platform_operations": 0,
+  "baseline_replays_completed": 6,
+  "author_regression": "PASS_792_ASSERTIONS",
+  "fault_controls": "PARTIAL_USER_STOP",
+  "profiles": "NOT_RUN_USER_STOP",
+  "github_ci": "SKIPPED_USER_REQUEST",
+  "publication_target": "PERSONAL_GITHUB_MAIN",
+  "evidence": "validation/eb032_platform/evidence/time_optimization_partial_20261019.json"
 }

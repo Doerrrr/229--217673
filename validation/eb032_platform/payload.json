@@ -1,5 +1,5 @@
 {
-  "version": "EB032-MATH-M-platform.7-fixed-child-reader-20261018",
+  "version": "EB032-MATH-M-time-optimization-20261019",
   "files": {
     "environment/Dockerfile": "138250ec086654082ea41fc5b930390f9412152f75889b965f31e08465d84b3f",
     "environment/app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
@@ -13,8 +13,8 @@
     "solution/implementation/main.py": "e1bf64571ac7a678320c8ee6c3068bb2b6216ae29bbc0f76fb87e17ff9fd7d2c",
     "tests/algebra.py": "ed57766e3c92e1cbd8a7caf0b22c02d1ef362d55bd538f6a8f0ebb117ee2b3d1",
     "tests/cases032.json": "1a06569df00726d750cff7aa240dc8f0791623d2955e3849e361b8af0e14b2e2",
-    "tests/common.py": "c4a25a86447ddf82f5aa056c6dcc3b644109eabb6046879aa835e36afe75b27f",
-    "tests/grade032.py": "dd1d6d0dddfb52d723af51ffc4db0f1286d53b376af1e690513d5ff96d03fb25",
+    "tests/common.py": "99a215cf58d5a52317b5591569d36bcff905aa401957835a5404edac3d90fa44",
+    "tests/grade032.py": "00efafe41ae5355ea49117495072e6bce741898256a31edb4f574dad33c2c66a",
     "tests/measure.py": "91337e59296c5df6c386f42e0f6fac8a3ba85565a4a56c70f8ebff0eb6b9494f",
     "tests/test.sh": "5f4236cb9a676bd19af162ed55a15af8a59bb95b9f52c38ea7f58b83578abf8f",
     "README.md": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
@@ -33,5 +33,5 @@
     "packet/problem.md": "4abdfd9392c75ce570a504cd20e3c139b6050a4bd7a4850e1aabf39fb4539056",
     "packet/smoke.json": "e6f32e763955391e5068ac7b3fdcea6c7856c4cf3bcd25ea3c163d0c097940da"
   },
-  "payload_digest": "d6e166c5f9b8204d4890a97995697f71ba60d1f8464e4077020c36fd92eb807a"
+  "payload_digest": "70e4045c6e11dbf2428bbf376a780a53716e9305d59c89182952ea8bf76828ee"
 }
