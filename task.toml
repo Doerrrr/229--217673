@@ -1,6 +1,6 @@
 schema_version = "1.3"
 [task]
-name = "mathematics/eb032-math-m-exact-certificate"
+name = "mathematics/eb032-math-r-exact-certificate"
 authors = [{name="scientific-computing-engineer",email="noreply@example.com"}]
 [agent]
 timeout_sec = 18000

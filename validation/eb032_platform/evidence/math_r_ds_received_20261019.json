@@ -1,0 +1,72 @@
+{
+  "status": "NORMAL_VALID_SCORE",
+  "task": "EB032-MATH-R-v01",
+  "reward": 0.55,
+  "execution_status": "NORMAL",
+  "groups": [
+    {
+      "name": "witness",
+      "weight": 0.3,
+      "passed": 19,
+      "total": 19,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.3
+    },
+    {
+      "name": "quadratic_proof",
+      "weight": 0.15,
+      "passed": 7,
+      "total": 7,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.15
+    },
+    {
+      "name": "quartic_proof",
+      "weight": 0.2,
+      "passed": 0,
+      "total": 6,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.0
+    },
+    {
+      "name": "singular_proof",
+      "weight": 0.25,
+      "passed": 0,
+      "total": 6,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.0
+    },
+    {
+      "name": "failure",
+      "weight": 0.1,
+      "passed": 28,
+      "total": 28,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.1
+    }
+  ],
+  "scored_checks": 66,
+  "measured_calls": 48,
+  "build_calls": 1,
+  "cli_calls": 47,
+  "wall_seconds": 124.92937080000411,
+  "measured_seconds": 104.6087,
+  "peak_rss_kib": 21688,
+  "timed_out_calls": 0,
+  "source_sha256": "c665621c11290d12e465c09c850680b7e31dac91e221c36d297bbbcc3132d6aa",
+  "payload_digest": "86438798de74108ddd1ce353f793445467cc30303f25ebadad66ab99981a87b5",
+  "source_unchanged": true,
+  "snapshot_unchanged": true,
+  "task_payload_unchanged": true,
+  "model": "DS_USER_REPORTED_VERSION_UNCONFIRMED",
+  "session": "UNCONFIRMED",
+  "public_package_seen": "UNCONFIRMED",
+  "formal_platform_t1": false,
+  "new_model_calls": 0,
+  "api_calls": 0,
+  "workbuddy_calls": 0,
+  "pushes": 0,
+  "platform_operations": 0,
+  "failed_checks": 12,
+  "strictly_suboptimal_checks": []
+}

@@ -1,3 +1,7 @@
+# 历史 MATH-M R2 答复
+
+以下内容对应旧版，不作为 MATH-R 新数学实例的验证或正式成绩。当前状态见 platform_fields.md 与 local_validation.json。
+
 # EB032 R2事实核对与最小修订对应
 
 本文件为作者侧修订说明，不给候选模型增加规则，不预设R2复评结论。

@@ -1,3 +1,17 @@
+# 当前发布：EB032-MATH-R v01（2026-10-20）
+
+当前数学载荷、证据范围与时限见 platform_fields.md、payload.json、local_validation.json。
+本版新增 11 个精确有理目标实例；作者 Oracle/NOP 分别 1/0，收到 DS 修改程序本地正常 0.550。
+没有新版正式平台 T1；没有新 CI。本次个人仓库提交使用 [skip ci]，平台检测由用户自行触发。
+原有 UID、读取隔离和运行保护代码未改；历史安全回归只在对应源摘要相同时复用，不转记为新数学成绩。
+
+同步：从批准的个人提交执行 sync_platform.sh；检查暂存内容后由用户在平台仓库 commit/push。
+回滚：对本次提交使用 git revert <提交号>，保留历史；不使用强制推送或全仓库重置。
+
+---
+
+以下为历史 MATH-M 记录，其“当前结果”措辞只适用于各自历史版本。
+
 # EB032 MATH-M 发布、验证与回滚
 
 本次修订保持README、instruction、agent_prompt、完整environment、task.toml、18个计分实例、algebra精确算法及五组权重；仍为66项断言／47次CLI调用。数学评分核心不变。grade032保留同一check并增加输出文件边界读取；common保护输入写入并避免历史job累计缓存日志字节；test.sh清理旧reward、标明失败阶段并输出有界诊断。日志超量只截断保存，不改变正常退出分类。运行保护变化不能据此称作整个grader逐字节不变。
@@ -48,3 +62,5 @@ platform.6虽在前面验证范围，平台仍拒绝setegid(gid)和setgroups(gro
 父进程边读管道边等待EOF，随后回收该子进程，避免大于管道缓冲区的答案死锁。子进程内部错误、降权失败或异常退出报告验证器异常，不冒充错误证书或有效低分。非root调用保留原身份直接读取；原环境ID范围检查保留，但不作为凭据修改参数的范围依据。
 
 27项非计分作者控制覆盖正常与失败路径、父进程身份不变、固定子进程身份、2MiB输出传输、fork失败描述符关闭和子进程全部回收。既有15项文件／入口控制与792项计分断言对照通过。全部Python身份修改参数均为范围内字面量；本地检查不是平台门禁复评。
+
+发布打包补充：新增 finite_witnesses.json 的 -text 规则，防止 Git 改写已验证字节。已校正新实例附带的旧因子和规模统计；所有 group/query/answer/optimum 计分字段与本地验证版本一致，判卷逻辑未改。原验证摘要保留为 validated_math_payload_digest，计分对象另由 graded_objects_sha256 绑定。

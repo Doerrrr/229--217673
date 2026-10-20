@@ -1,3 +1,4 @@
 * text=auto eol=lf
 *.csv -text
 tests/* -text
+solution/implementation/finite_witnesses.json -text

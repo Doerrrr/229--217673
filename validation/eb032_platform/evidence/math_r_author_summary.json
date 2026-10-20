@@ -1,0 +1,461 @@
+{
+  "summary": {
+    "status": "LOCAL_AUTHOR_VALIDATED_CANDIDATE_NOT_EXTERNALLY_TESTED",
+    "task": "EB032-MATH-R-v01",
+    "base_commit": "39d9e34da6d676e7093553444bf2b4955640a123",
+    "payload_digest": "86438798de74108ddd1ce353f793445467cc30303f25ebadad66ab99981a87b5",
+    "public_zip_sha256": "bacc04445e35b5503d4f2be6354f0f157409cade88964df8d134b275b893d490",
+    "modified_cases": 11,
+    "retained_cases": 7,
+    "exact_witnesses": 18,
+    "pilot_pairs": 3,
+    "incremental_exact_optimality_failures": 2,
+    "pilot_received_program_calls": 6,
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "normal_calls_per_complete_grade": 47,
+    "checks_per_complete_grade": 66,
+    "targeted_non_scoring_math_checks": 4,
+    "weights": [
+      0.3,
+      0.15,
+      0.2,
+      0.25,
+      0.1
+    ],
+    "cpus": 2,
+    "memory_mb": 2048,
+    "command_seconds": 300,
+    "agent_seconds": 18000,
+    "verifier_seconds": 18000,
+    "complete_received_answer_replay": "NOT_RUN_BOUNDED_VALIDATION",
+    "formal_platform_t1": false,
+    "fresh_independent_answers": 0,
+    "new_model_calls": 0,
+    "api_calls": 0,
+    "workbuddy_calls": 0,
+    "ci_runs": 0,
+    "pushes": 0,
+    "platform_operations": 0,
+    "published_checkout_unchanged": true,
+    "original_answer_unchanged": true,
+    "elapsed_wall_seconds": 511.766696,
+    "elapsed_wall_scope": "Successful pilot preparation to final receipt; excludes prior design, source inspection and failed preparation.",
+    "finished_at": "2026-10-19T11:06:59.138642+00:00",
+    "caveat": "One received implementation, one frozen three-pair experiment. No full candidate score or two-model difficulty conclusion."
+  },
+  "pilot": {
+    "status": "PILOT_GATE_PASS",
+    "paired": [
+      {
+        "case_id": "eb008",
+        "incremental_exact_optimality_failure": false
+      },
+      {
+        "case_id": "eb010",
+        "incremental_exact_optimality_failure": true
+      },
+      {
+        "case_id": "eb011",
+        "incremental_exact_optimality_failure": true
+      }
+    ],
+    "records": [
+      {
+        "case_id": "eb008",
+        "kind": "control",
+        "normal": true,
+        "point": true,
+        "proof": true,
+        "optimum": "-906019212/226472401",
+        "actual_value": "-906019212/226472401",
+        "exact_gap": "0",
+        "strictly_suboptimal": false,
+        "declared_matches_actual": true,
+        "state": "CERTIFIED",
+        "returncode": 0,
+        "timed_out": false,
+        "seconds": 3.2795,
+        "peak_rss_kib": 180132,
+        "input_sha256": "b4194b893abd2628192f47225147a4cd2532ebd66b2076a44684f0ecd727d4e2",
+        "checker_evidence": {
+          "actual": "-906019212/226472401",
+          "certified_optimum": "-906019212/226472401",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "case_id": "eb008",
+        "kind": "rational",
+        "normal": true,
+        "point": true,
+        "proof": true,
+        "optimum": "-313615008202320516800652/78403752049930120600081",
+        "actual_value": "-313615008202320516800652/78403752049930120600081",
+        "exact_gap": "0",
+        "strictly_suboptimal": false,
+        "declared_matches_actual": true,
+        "state": "CERTIFIED",
+        "returncode": 0,
+        "timed_out": false,
+        "seconds": 2.2362,
+        "peak_rss_kib": 180740,
+        "input_sha256": "e71790b49e56bf1aff33f0353eef3bbe6116845a88bbda0063bdd6552fe358ce",
+        "checker_evidence": {
+          "actual": "-313615008202320516800652/78403752049930120600081",
+          "certified_optimum": "-313615008202320516800652/78403752049930120600081",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "case_id": "eb010",
+        "kind": "control",
+        "normal": true,
+        "point": true,
+        "proof": true,
+        "optimum": "-906084016/226472401",
+        "actual_value": "-906084016/226472401",
+        "exact_gap": "0",
+        "strictly_suboptimal": false,
+        "declared_matches_actual": true,
+        "state": "CERTIFIED",
+        "returncode": 0,
+        "timed_out": false,
+        "seconds": 16.8808,
+        "peak_rss_kib": 203792,
+        "input_sha256": "85ebb67fcf6b5fd03ab99d6504d2a85df25761522fab7ddbbf246a3fc65ef1c5",
+        "checker_evidence": {
+          "actual": "-906084016/226472401",
+          "certified_optimum": "-906084016/226472401",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "case_id": "eb010",
+        "kind": "rational",
+        "normal": true,
+        "point": false,
+        "proof": false,
+        "optimum": "-313615008203620534000816/78403752049930120600081",
+        "actual_value": "-313615008203460573998316/78403752049930120600081",
+        "exact_gap": "159960002500/78403752049930120600081",
+        "strictly_suboptimal": true,
+        "declared_matches_actual": true,
+        "state": "INCUMBENT",
+        "returncode": 0,
+        "timed_out": false,
+        "seconds": 9.9433,
+        "peak_rss_kib": 198148,
+        "input_sha256": "655ea3e4d1e67835541f2363cdd48e8b8f0f251b61f477e98b261e5582858c3d",
+        "checker_evidence": {
+          "actual": "-313615008203460573998316/78403752049930120600081",
+          "certified_optimum": "-313615008203620534000816/78403752049930120600081",
+          "declared_matches_actual": true,
+          "proof": "not supplied"
+        }
+      },
+      {
+        "case_id": "eb011",
+        "kind": "control",
+        "normal": true,
+        "point": true,
+        "proof": false,
+        "optimum": "-906148820/226472401",
+        "actual_value": "-906148820/226472401",
+        "exact_gap": "0",
+        "strictly_suboptimal": false,
+        "declared_matches_actual": true,
+        "state": "INCUMBENT",
+        "returncode": 0,
+        "timed_out": false,
+        "seconds": 44.1807,
+        "peak_rss_kib": 236460,
+        "input_sha256": "6d08fa42768149828ab33e1b297fa251ab4e8986b1a09725ee47f5e72b8fbe2c",
+        "checker_evidence": {
+          "actual": "-906148820/226472401",
+          "certified_optimum": "-906148820/226472401",
+          "declared_matches_actual": true,
+          "proof": "not supplied"
+        }
+      },
+      {
+        "case_id": "eb011",
+        "kind": "rational",
+        "normal": true,
+        "point": false,
+        "proof": false,
+        "optimum": "-313615008204920551200980/78403752049930120600081",
+        "actual_value": "-313615008203920683196624/78403752049930120600081",
+        "exact_gap": "999868004356/78403752049930120600081",
+        "strictly_suboptimal": true,
+        "declared_matches_actual": true,
+        "state": "INCUMBENT",
+        "returncode": 0,
+        "timed_out": false,
+        "seconds": 16.9097,
+        "peak_rss_kib": 230116,
+        "input_sha256": "25b33dbc24f6851ba1ecddf81a8537e313bfa68b3bee7e338ee8f380cc50ef76",
+        "checker_evidence": {
+          "actual": "-313615008203920683196624/78403752049930120600081",
+          "certified_optimum": "-313615008204920551200980/78403752049930120600081",
+          "declared_matches_actual": true,
+          "proof": "not supplied"
+        }
+      }
+    ],
+    "received_program_calls": 6,
+    "seconds": 94.48346642,
+    "runtime_issues": [],
+    "new_model_calls": 0,
+    "formal_platform_t1": false,
+    "source_unchanged": true
+  },
+  "objective_analysis": {
+    "scope": "SAVED_OUTPUT_ANALYSIS_ONLY",
+    "records": [
+      {
+        "case_id": "eb008",
+        "kind": "control",
+        "objective_preprocessing": "EXACT_INTEGERIZATION",
+        "factor_values": {
+          "A": 0,
+          "S_A": 0,
+          "S_B": 0
+        },
+        "independently_recomputed_gap": "0",
+        "rounded_candidate_score": 936237604,
+        "rounded_exact_optimum_score": 936237604,
+        "rounded_score_advantage": 0,
+        "all_exact_optima_have_same_rounded_score": true,
+        "surrogate_strictly_prefers_suboptimal_output": false,
+        "zeroed_nonzero_coefficients": 0
+      },
+      {
+        "case_id": "eb008",
+        "kind": "rational",
+        "objective_preprocessing": "FLOAT_SCALE_AND_ROUND",
+        "factor_values": {
+          "A": 0,
+          "S_A": 0,
+          "S_B": 0
+        },
+        "independently_recomputed_gap": "0",
+        "rounded_candidate_score": 4000031428168,
+        "rounded_exact_optimum_score": 4000031428168,
+        "rounded_score_advantage": 0,
+        "all_exact_optima_have_same_rounded_score": true,
+        "surrogate_strictly_prefers_suboptimal_output": false,
+        "zeroed_nonzero_coefficients": 0
+      },
+      {
+        "case_id": "eb010",
+        "kind": "control",
+        "objective_preprocessing": "EXACT_INTEGERIZATION",
+        "factor_values": {
+          "A": 0,
+          "S_A": 0,
+          "S_B": 0
+        },
+        "independently_recomputed_gap": "0",
+        "rounded_candidate_score": 951599104,
+        "rounded_exact_optimum_score": 951599104,
+        "rounded_score_advantage": 0,
+        "all_exact_optima_have_same_rounded_score": true,
+        "surrogate_strictly_prefers_suboptimal_output": false,
+        "zeroed_nonzero_coefficients": 0
+      },
+      {
+        "case_id": "eb010",
+        "kind": "rational",
+        "objective_preprocessing": "FLOAT_SCALE_AND_ROUND",
+        "factor_values": {
+          "A": 0,
+          "S_A": -4,
+          "S_B": 6
+        },
+        "independently_recomputed_gap": "159960002500/78403752049930120600081",
+        "rounded_candidate_score": 4000047142306,
+        "rounded_exact_optimum_score": 4000047142300,
+        "rounded_score_advantage": 6,
+        "all_exact_optima_have_same_rounded_score": true,
+        "surrogate_strictly_prefers_suboptimal_output": true,
+        "zeroed_nonzero_coefficients": 0
+      },
+      {
+        "case_id": "eb011",
+        "kind": "control",
+        "objective_preprocessing": "EXACT_INTEGERIZATION",
+        "factor_values": {
+          "A": 0,
+          "S_A": 0,
+          "S_B": 0
+        },
+        "independently_recomputed_gap": "0",
+        "rounded_candidate_score": 967085604,
+        "rounded_exact_optimum_score": 967085604,
+        "rounded_score_advantage": 0,
+        "all_exact_optima_have_same_rounded_score": true,
+        "surrogate_strictly_prefers_suboptimal_output": false,
+        "zeroed_nonzero_coefficients": 0
+      },
+      {
+        "case_id": "eb011",
+        "kind": "rational",
+        "objective_preprocessing": "FLOAT_SCALE_AND_ROUND",
+        "factor_values": {
+          "A": 0,
+          "S_A": -6,
+          "S_B": 8
+        },
+        "independently_recomputed_gap": "999868004356/78403752049930120600081",
+        "rounded_candidate_score": 4000062856474,
+        "rounded_exact_optimum_score": 4000062856464,
+        "rounded_score_advantage": 10,
+        "all_exact_optima_have_same_rounded_score": true,
+        "surrogate_strictly_prefers_suboptimal_output": true,
+        "zeroed_nonzero_coefficients": 0
+      }
+    ],
+    "source_sha256": "f530ae05cf5ba63337ef5dde1393f77766bb8262c3f2ceb5ce06bbb967986a4c",
+    "received_program_calls_added": 0,
+    "new_model_calls": 0,
+    "formal_platform_t1": false
+  },
+  "author_controls": {
+    "oracle": {
+      "scope": "FINITE_WITNESS_STARTUP_CONTROL_ONLY",
+      "mode": "oracle",
+      "entry_exit": 0,
+      "actual_test_sh": true,
+      "seconds": 14.451499952000006,
+      "reward_file": "1.0\n",
+      "formal_platform_t1": false,
+      "new_model_calls": 0,
+      "execution_status": "NORMAL",
+      "reward": 1.0,
+      "checks": 66,
+      "groups": [
+        {
+          "name": "witness",
+          "weight": 0.3,
+          "passed": 19,
+          "total": 19,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.3
+        },
+        {
+          "name": "quadratic_proof",
+          "weight": 0.15,
+          "passed": 7,
+          "total": 7,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.15
+        },
+        {
+          "name": "quartic_proof",
+          "weight": 0.2,
+          "passed": 6,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.2
+        },
+        {
+          "name": "singular_proof",
+          "weight": 0.25,
+          "passed": 6,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.25
+        },
+        {
+          "name": "failure",
+          "weight": 0.1,
+          "passed": 28,
+          "total": 28,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.1
+        }
+      ],
+      "calls": 47
+    },
+    "nop": {
+      "scope": "NOP_CONTROL",
+      "mode": "nop",
+      "entry_exit": 0,
+      "actual_test_sh": true,
+      "seconds": 12.70408168299997,
+      "reward_file": "0.0\n",
+      "formal_platform_t1": false,
+      "new_model_calls": 0,
+      "execution_status": "NORMAL",
+      "reward": 0.0,
+      "checks": 66,
+      "groups": [
+        {
+          "name": "witness",
+          "weight": 0.3,
+          "passed": 0,
+          "total": 19,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "quadratic_proof",
+          "weight": 0.15,
+          "passed": 0,
+          "total": 7,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "quartic_proof",
+          "weight": 0.2,
+          "passed": 0,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "singular_proof",
+          "weight": 0.25,
+          "passed": 0,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "failure",
+          "weight": 0.1,
+          "passed": 0,
+          "total": 28,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        }
+      ],
+      "calls": 47
+    }
+  },
+  "math_boundaries": [
+    {
+      "name": "tiny_identity_error_rejected",
+      "point": true,
+      "proof": false
+    },
+    {
+      "name": "identity_preserving_tiny_negative_direction_rejected",
+      "point": true,
+      "proof": false
+    },
+    {
+      "name": "different_exact_optimal_assignment_accepted",
+      "passed": true
+    },
+    {
+      "name": "nonreduced_rational_certificate_accepted",
+      "passed": true
+    }
+  ]
+}
