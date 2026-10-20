@@ -1,5 +1,5 @@
 {
-  "version": "EB032-MATH-R-v01-candidate-20261019",
+  "version": "EB032-MATH-J-v01-candidate-20261020",
   "files": {
     "environment/Dockerfile": "138250ec086654082ea41fc5b930390f9412152f75889b965f31e08465d84b3f",
     "environment/app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
@@ -8,19 +8,19 @@
     "environment/packet/smoke.json": "e6f32e763955391e5068ac7b3fdcea6c7856c4cf3bcd25ea3c163d0c097940da",
     "solution/solve.sh": "a1e1338cbd86b3fb8e8484ba3af2b56f30f18c23a65c4a4cf12058ebd1460c26",
     "solution/implementation/algebra.py": "ed57766e3c92e1cbd8a7caf0b22c02d1ef362d55bd538f6a8f0ebb117ee2b3d1",
-    "solution/implementation/finite_witnesses.json": "6f73a4d97608ade0d5c48b52c81981c2b1764f1d3617b4a6854ae8cca79d94f9",
+    "solution/implementation/finite_witnesses.json": "4bda8d1e971e5fd2f776bd04ec789783ff58c48f4e5439c688482f070dc00d8c",
     "solution/implementation/interface.py": "aab7f0fdbab027982d6f89640dc0a9c1f963a29fdc281673c237951639f5c99a",
     "solution/implementation/main.py": "e1bf64571ac7a678320c8ee6c3068bb2b6216ae29bbc0f76fb87e17ff9fd7d2c",
     "tests/algebra.py": "ed57766e3c92e1cbd8a7caf0b22c02d1ef362d55bd538f6a8f0ebb117ee2b3d1",
-    "tests/cases032.json": "6f73a4d97608ade0d5c48b52c81981c2b1764f1d3617b4a6854ae8cca79d94f9",
+    "tests/cases032.json": "4bda8d1e971e5fd2f776bd04ec789783ff58c48f4e5439c688482f070dc00d8c",
     "tests/common.py": "99a215cf58d5a52317b5591569d36bcff905aa401957835a5404edac3d90fa44",
-    "tests/grade032.py": "bec83040b5c1a7b2c1722a4473eb163e924777b828f4c3ba1dd374eb5dc2230a",
+    "tests/grade032.py": "83330cfc8abc60a74018d9ff4c56f8d60b922dcf7de496ba87a348e81d68d317",
     "tests/measure.py": "91337e59296c5df6c386f42e0f6fac8a3ba85565a4a56c70f8ebff0eb6b9494f",
     "tests/test.sh": "5f4236cb9a676bd19af162ed55a15af8a59bb95b9f52c38ea7f58b83578abf8f",
     "README.md": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
     "instruction.md": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
     "agent_prompt.txt": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
-    "task.toml": "8dc503c4a30436f702ee9d4dd8b82d8149f771e3458f983256a0193011eddf25",
+    "task.toml": "a3837ac1109bf6b9b36d9de624b12305894093547686d58997387c8cf8dd9cc8",
     ".gitattributes": "e47a367ef6f3b8b9fed91f14bc624b3c36140bf8d09a2d682aa7555640373fda",
     "tests/guarded_check.py": "9205f7039a63509d5d119faf7e5e153df83b70fb269970d121aef698c6e3da09",
     "tests/provenance.py": "fd20bb7d5194c77a9559cc95a6d0f419ce48406b8c7f9c35057697ed22a5f22b",
@@ -33,5 +33,5 @@
     "packet/problem.md": "4abdfd9392c75ce570a504cd20e3c139b6050a4bd7a4850e1aabf39fb4539056",
     "packet/smoke.json": "e6f32e763955391e5068ac7b3fdcea6c7856c4cf3bcd25ea3c163d0c097940da"
   },
-  "payload_digest": "4a123f341e6bd43b63f2487d0d8418e21bf191dd02154d7de56dbfa7be59900f"
+  "payload_digest": "703016d017dd33bde7cddda9b52f7e259867e810bda5b6c82ae00b548a81648d"
 }

@@ -92,7 +92,7 @@ def evaluate(r,cases):
     for name,args in [('missing-input',['--output',str(r.home/'cli.jsonl')]),('missing-output',['--input',str(source)]),('no-args',[]),('missing-file',['--input',str(r.home/'missing.json'),'--output',str(r.home/'cli.jsonl')])]:
         old=r.file('cli.jsonl',b'CLI_SENTINEL');got=call(r,args)
         r.check('failure',name,got['returncode']!=0 and not got['stdout'] and bool(got['stderr'].strip()) and old.read_bytes()==b'CLI_SENTINEL')
-    return r.save('EB-032-MATH-R',WEIGHTS)
+    return r.save('EB-032-MATH-J',WEIGHTS)
 
 
 def run(r,cases):
@@ -115,7 +115,7 @@ def run(r,cases):
                     completed_check_count=len(completed),not_run_check_count=len(r.cases)-len(completed),
                     first_runtime_issue=r.infrastructure[0])
         # Saving failures deliberately propagate; never synthesize a reward.
-        return r.save('EB-032-MATH-R',WEIGHTS,aborted=detail)
+        return r.save('EB-032-MATH-J',WEIGHTS,aborted=detail)
 
 
 def main():

@@ -1,0 +1,90 @@
+{
+  "status": "RESEARCH_CANDIDATE_EXACT_VALID_WINDOWS_REPLAY_ONLY_CONTAINER_PENDING",
+  "task": "EB032-MATH-J-v01",
+  "payload_digest": "703016d017dd33bde7cddda9b52f7e259867e810bda5b6c82ae00b548a81648d",
+  "public_zip_sha256": "2de9f4f39dffbb4b0ef015173053f050cf3a692d98f5f0ef4ff326cbe68188ff",
+  "adapted_ds_score": 0.2274436090225564,
+  "adapted_ds_score_below_030": true,
+  "groups": [
+    {
+      "name": "witness",
+      "weight": 0.3,
+      "passed": 4,
+      "total": 19,
+      "earned": 0.06315789473684211
+    },
+    {
+      "name": "quadratic_proof",
+      "weight": 0.15,
+      "passed": 3,
+      "total": 7,
+      "earned": 0.06428571428571428
+    },
+    {
+      "name": "quartic_proof",
+      "weight": 0.2,
+      "passed": 0,
+      "total": 6,
+      "earned": 0.0
+    },
+    {
+      "name": "singular_proof",
+      "weight": 0.25,
+      "passed": 0,
+      "total": 6,
+      "earned": 0.0
+    },
+    {
+      "name": "failure",
+      "weight": 0.1,
+      "passed": 28,
+      "total": 28,
+      "earned": 0.1
+    }
+  ],
+  "all_witnesses_exact": true,
+  "finite_witness_direct_18_pass": true,
+  "unchanged_grader_components": [
+    "tests/algebra.py",
+    "tests/common.py",
+    "tests/guarded_check.py",
+    "tests/measure.py",
+    "tests/output_reader.py",
+    "tests/report_reward.py",
+    "tests/provenance.py",
+    "tests/test.sh"
+  ],
+  "source_unchanged": true,
+  "dimensions": {
+    "original_max_n": 28,
+    "new_max_n": 20,
+    "original_max_basis": 65,
+    "new_max_basis": 29,
+    "original_total_variables": 222,
+    "new_total_variables": 326,
+    "original_total_gram_entries": 20290,
+    "new_total_gram_entries": 11218,
+    "original_total_terms": 2300,
+    "new_total_terms": 3918,
+    "original_max_coefficient_length": 16,
+    "new_max_coefficient_length": 32
+  },
+  "local_optima_radius_two": 16,
+  "linux_oracle_reward": null,
+  "linux_nop_reward": null,
+  "linux_received_score": null,
+  "formal_t1_score": null,
+  "source_limits_unchanged": true,
+  "runtime_reduction_validated": false,
+  "candidate_seconds_with_reused": 321.48107460004394,
+  "linux_pending_reason": "Docker Desktop is unable to start; no service restart attempted",
+  "new_model_calls": 0,
+  "api_calls": 0,
+  "workbuddy_calls": 0,
+  "pushes": 0,
+  "ci_runs": 0,
+  "platform_operations": 0,
+  "strictly_suboptimal_new_cases": 15,
+  "strictly_suboptimal_radius_two_local_minima": 15,
+  "assignment_type_violations": 1
+}

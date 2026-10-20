@@ -1,3 +1,15 @@
+# 当前个人仓库发布：EB032-MATH-J v01（2026-10-20）
+
+用户授权直接推送；新版18项数学见证通过，Windows兼容入口已有DS源码回放0.227443609。
+Linux Oracle/NOP/收到程序生产入口验收未完成；0.22744不是正式T1，旧版正常成绩不转记为本版。
+当前范围见platform_fields.md、payload.json、local_validation.json。没有新增测试、模型调用、CI或平台检测。
+旧版恢复点：710b5fa289e2c35867a6390ca02734e07b032c05。需要回退时revert本次发布提交，保留历史，不强推。
+平台同步仍先暂存，再由用户commit/push。
+
+---
+
+以下为历史版本资料，不作为本版数学实例的验证。
+
 # 当前发布：EB032-MATH-R v01（2026-10-20）
 
 当前数学载荷、证据范围与时限见 platform_fields.md、payload.json、local_validation.json。

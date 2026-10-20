@@ -1,0 +1,178 @@
+{
+  "status": "EXACT_MATHEMATICAL_WITNESSES_PASS",
+  "records": [
+    {
+      "id": "g001",
+      "group": "quadratic_proof",
+      "n": 2,
+      "m": 3,
+      "terms": 4,
+      "coefficient_max_length": 10,
+      "exact_witness": true
+    },
+    {
+      "id": "eb002",
+      "group": "quadratic_proof",
+      "n": 4,
+      "m": 5,
+      "terms": 11,
+      "coefficient_max_length": 12,
+      "exact_witness": true
+    },
+    {
+      "id": "eb003",
+      "group": "quadratic_proof",
+      "n": 20,
+      "m": 21,
+      "terms": 146,
+      "coefficient_max_length": 10,
+      "exact_witness": true
+    },
+    {
+      "id": "eb004",
+      "group": "quadratic_proof",
+      "n": 20,
+      "m": 21,
+      "terms": 146,
+      "coefficient_max_length": 10,
+      "exact_witness": true
+    },
+    {
+      "id": "eb005",
+      "group": "quadratic_proof",
+      "n": 20,
+      "m": 21,
+      "terms": 146,
+      "coefficient_max_length": 10,
+      "exact_witness": true
+    },
+    {
+      "id": "eb006",
+      "group": "quadratic_proof",
+      "n": 20,
+      "m": 21,
+      "terms": 146,
+      "coefficient_max_length": 10,
+      "exact_witness": true
+    },
+    {
+      "id": "eb007",
+      "group": "quartic_proof",
+      "n": 20,
+      "m": 27,
+      "terms": 245,
+      "coefficient_max_length": 10,
+      "exact_witness": true
+    },
+    {
+      "id": "eb008",
+      "group": "quartic_proof",
+      "n": 20,
+      "m": 27,
+      "terms": 236,
+      "coefficient_max_length": 10,
+      "exact_witness": true
+    },
+    {
+      "id": "eb009",
+      "group": "quartic_proof",
+      "n": 20,
+      "m": 27,
+      "terms": 227,
+      "coefficient_max_length": 10,
+      "exact_witness": true
+    },
+    {
+      "id": "eb010",
+      "group": "quartic_proof",
+      "n": 20,
+      "m": 27,
+      "terms": 226,
+      "coefficient_max_length": 10,
+      "exact_witness": true
+    },
+    {
+      "id": "eb011",
+      "group": "quartic_proof",
+      "n": 20,
+      "m": 27,
+      "terms": 246,
+      "coefficient_max_length": 10,
+      "exact_witness": true
+    },
+    {
+      "id": "eb012",
+      "group": "quartic_proof",
+      "n": 20,
+      "m": 27,
+      "terms": 237,
+      "coefficient_max_length": 10,
+      "exact_witness": true
+    },
+    {
+      "id": "eb013",
+      "group": "singular_proof",
+      "n": 20,
+      "m": 29,
+      "terms": 315,
+      "coefficient_max_length": 32,
+      "exact_witness": true
+    },
+    {
+      "id": "eb014",
+      "group": "singular_proof",
+      "n": 20,
+      "m": 29,
+      "terms": 314,
+      "coefficient_max_length": 32,
+      "exact_witness": true
+    },
+    {
+      "id": "eb015",
+      "group": "singular_proof",
+      "n": 20,
+      "m": 29,
+      "terms": 321,
+      "coefficient_max_length": 32,
+      "exact_witness": true
+    },
+    {
+      "id": "eb016",
+      "group": "singular_proof",
+      "n": 20,
+      "m": 29,
+      "terms": 318,
+      "coefficient_max_length": 32,
+      "exact_witness": true
+    },
+    {
+      "id": "eb017",
+      "group": "singular_proof",
+      "n": 20,
+      "m": 29,
+      "terms": 321,
+      "coefficient_max_length": 32,
+      "exact_witness": true
+    },
+    {
+      "id": "eb018",
+      "group": "singular_proof",
+      "n": 20,
+      "m": 29,
+      "terms": 313,
+      "coefficient_max_length": 32,
+      "exact_witness": true
+    }
+  ],
+  "public_files": [
+    "README.md",
+    "instruction.md",
+    "agent_prompt.txt",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/app/main.py",
+    "environment/bin/certified-minimum",
+    "environment/packet/problem.md",
+    "environment/packet/smoke.json"
+  ]
+}

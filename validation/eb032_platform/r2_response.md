@@ -1,3 +1,7 @@
+# 历史R2资料
+
+以下对应此前版本，不证明MATH-J已通过R2。当前候选范围见platform_fields.md和local_validation.json。
+
 # 历史 MATH-M R2 答复
 
 以下内容对应旧版，不作为 MATH-R 新数学实例的验证或正式成绩。当前状态见 platform_fields.md 与 local_validation.json。

@@ -1,0 +1,58 @@
+{
+  "task": "EB-032-MATH-J",
+  "scope": "WINDOWS_ADAPTED_SOURCE_SEMANTICS_REPLAY_ONLY",
+  "reward": 0.2274436090225564,
+  "groups": [
+    {
+      "name": "witness",
+      "weight": 0.3,
+      "passed": 4,
+      "total": 19,
+      "earned": 0.06315789473684211
+    },
+    {
+      "name": "quadratic_proof",
+      "weight": 0.15,
+      "passed": 3,
+      "total": 7,
+      "earned": 0.06428571428571428
+    },
+    {
+      "name": "quartic_proof",
+      "weight": 0.2,
+      "passed": 0,
+      "total": 6,
+      "earned": 0.0
+    },
+    {
+      "name": "singular_proof",
+      "weight": 0.25,
+      "passed": 0,
+      "total": 6,
+      "earned": 0.0
+    },
+    {
+      "name": "failure",
+      "weight": 0.1,
+      "passed": 28,
+      "total": 28,
+      "earned": 0.1
+    }
+  ],
+  "execution_status": "NORMAL",
+  "scored_checks": 66,
+  "logical_calls": 47,
+  "new_source_calls": 44,
+  "reused_single_query_pilot_outputs": 3,
+  "measured_candidate_seconds_including_reused": 321.48107460004394,
+  "linux_launcher_tested": false,
+  "build_tested": false,
+  "uid_isolation_tested": false,
+  "container_resource_limits_enforced": false,
+  "formal_platform_t1": false,
+  "new_model_calls": 0,
+  "qualification": "Received DS source only; model version and session unconfirmed",
+  "caveat": "Three cached outputs reuse identical decoded queries; not fresh Linux CLI runs or a production test.sh receipt.",
+  "wall_seconds_excluding_reused": 263.74275860001217,
+  "source_unchanged": true
+}

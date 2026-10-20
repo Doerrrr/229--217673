@@ -1,0 +1,6 @@
+{
+  "exit": 0,
+  "stdout": "{\"status\": \"PASS\", \"payload_files\": 25, \"visible_files\": 4, \"hidden_files\": 15, \"exact_hidden_duplicates\": 0, \"registered_oracle\": true, \"oracle_scope\": \"FINITE_WITNESS_STARTUP_CONTROL_ONLY\"}\n",
+  "stderr": "",
+  "scope": "WINDOWS_STATIC_PREFLIGHT"
+}
