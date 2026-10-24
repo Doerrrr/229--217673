@@ -1,0 +1,149 @@
+{
+  "status": "EXACT_WITNESSES_PASS",
+  "records": [
+    {
+      "id": "g001",
+      "group": "quadratic_proof",
+      "n": 2,
+      "m": 3,
+      "terms": 4,
+      "exact_witness": true
+    },
+    {
+      "id": "eb002",
+      "group": "quadratic_proof",
+      "n": 4,
+      "m": 5,
+      "terms": 11,
+      "exact_witness": true
+    },
+    {
+      "id": "eb003",
+      "group": "quadratic_proof",
+      "n": 8,
+      "m": 9,
+      "terms": 32,
+      "exact_witness": true
+    },
+    {
+      "id": "eb004",
+      "group": "quadratic_proof",
+      "n": 10,
+      "m": 11,
+      "terms": 46,
+      "exact_witness": true
+    },
+    {
+      "id": "eb005",
+      "group": "quadratic_proof",
+      "n": 12,
+      "m": 13,
+      "terms": 62,
+      "exact_witness": true
+    },
+    {
+      "id": "eb006",
+      "group": "quadratic_proof",
+      "n": 12,
+      "m": 13,
+      "terms": 62,
+      "exact_witness": true
+    },
+    {
+      "id": "eb007",
+      "group": "quartic_proof",
+      "n": 8,
+      "m": 15,
+      "terms": 68,
+      "exact_witness": true
+    },
+    {
+      "id": "eb008",
+      "group": "quartic_proof",
+      "n": 10,
+      "m": 17,
+      "terms": 93,
+      "exact_witness": true
+    },
+    {
+      "id": "eb009",
+      "group": "quartic_proof",
+      "n": 12,
+      "m": 19,
+      "terms": 111,
+      "exact_witness": true
+    },
+    {
+      "id": "eb010",
+      "group": "quartic_proof",
+      "n": 8,
+      "m": 15,
+      "terms": 67,
+      "exact_witness": true
+    },
+    {
+      "id": "eb011",
+      "group": "quartic_proof",
+      "n": 10,
+      "m": 17,
+      "terms": 93,
+      "exact_witness": true
+    },
+    {
+      "id": "eb012",
+      "group": "quartic_proof",
+      "n": 12,
+      "m": 19,
+      "terms": 129,
+      "exact_witness": true
+    },
+    {
+      "id": "eb013",
+      "group": "singular_proof",
+      "n": 8,
+      "m": 17,
+      "terms": 94,
+      "exact_witness": true
+    },
+    {
+      "id": "eb014",
+      "group": "singular_proof",
+      "n": 10,
+      "m": 19,
+      "terms": 128,
+      "exact_witness": true
+    },
+    {
+      "id": "eb015",
+      "group": "singular_proof",
+      "n": 12,
+      "m": 21,
+      "terms": 160,
+      "exact_witness": true
+    },
+    {
+      "id": "eb016",
+      "group": "singular_proof",
+      "n": 8,
+      "m": 17,
+      "terms": 92,
+      "exact_witness": true
+    },
+    {
+      "id": "eb017",
+      "group": "singular_proof",
+      "n": 10,
+      "m": 19,
+      "terms": 127,
+      "exact_witness": true
+    },
+    {
+      "id": "eb018",
+      "group": "singular_proof",
+      "n": 12,
+      "m": 21,
+      "terms": 160,
+      "exact_witness": true
+    }
+  ]
+}

@@ -28,5 +28,5 @@ git diff --cached --exit-code -- environment/data/drug_list.csv environment/data
 git diff --exit-code "$APPROVED_COMMIT" -- "${paths[@]}"
 python3 validation/eb032_platform/preflight.py
 git status --short
-echo "STAGED_OK: EB032-MATH-J source=$APPROVED_COMMIT; 平台工作流和原始 CSV 未修改"
+echo "STAGED_OK: EB032-MATH-K source=$APPROVED_COMMIT; 平台工作流和原始 CSV 未修改"
 echo '请检查暂存差异后，自行 git commit 和 git push origin main。此脚本没有提交、推送或触发检测。'

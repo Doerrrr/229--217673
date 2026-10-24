@@ -1,3 +1,7 @@
+# 历史R2资料：不代表MATH-K通过平台检查
+
+当前验证范围见platform_fields.md。
+
 # 历史R2资料
 
 以下对应此前版本，不证明MATH-J已通过R2。当前候选范围见platform_fields.md和local_validation.json。

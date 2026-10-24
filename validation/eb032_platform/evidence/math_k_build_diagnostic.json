@@ -1,0 +1,8 @@
+{
+  "scope": "PUBLIC_SOURCE_BUILD_DIAGNOSTIC_ONLY",
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "chmod: cannot access 'bin/certified-minimum'$'\\r': No such file or directory\n",
+  "source_modified": false,
+  "reward": null
+}

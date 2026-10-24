@@ -1,103 +1,224 @@
 {
-  "status": "USER_AUTHORIZED_PUBLICATION_WINDOWS_REPLAY_ONLY_LINUX_PENDING",
-  "task": "EB032-MATH-J-v01",
-  "payload_digest": "703016d017dd33bde7cddda9b52f7e259867e810bda5b6c82ae00b548a81648d",
-  "public_zip_sha256": "2de9f4f39dffbb4b0ef015173053f050cf3a692d98f5f0ef4ff326cbe68188ff",
-  "adapted_ds_score": 0.2274436090225564,
-  "adapted_ds_score_below_030": true,
-  "groups": [
+  "task": "EB032-MATH-K-v01",
+  "payload_digest": "f9a6ae7f3f306b2e18cf431fcfb39251536cae5cf562184a83efc76af4debc3d",
+  "status": "LOCAL_DIFFICULTY_GATE_PASS",
+  "normal": true,
+  "reward": 0.310714,
+  "passed": true,
+  "threshold": 0.5,
+  "comparison": "strictly_less",
+  "records": [
     {
-      "name": "witness",
-      "weight": 0.3,
-      "passed": 4,
-      "total": 19,
-      "earned": 0.06315789473684211
+      "mode": "oracle",
+      "actual_test_sh": true,
+      "test_exit": 0,
+      "seconds": 15.522552448,
+      "packages": {
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "sympy": "1.13.3",
+        "cvxpy": "1.7.2",
+        "scs": "3.2.8",
+        "clarabel": "0.11.1",
+        "ortools": "9.14.6206"
+      },
+      "formal_platform_t1": false,
+      "new_model_calls": 0,
+      "execution_status": "NORMAL",
+      "reward": 1.0,
+      "checks": 66,
+      "groups": [
+        {
+          "name": "witness",
+          "weight": 0.3,
+          "passed": 19,
+          "total": 19,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.3
+        },
+        {
+          "name": "quadratic_proof",
+          "weight": 0.15,
+          "passed": 7,
+          "total": 7,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.15
+        },
+        {
+          "name": "quartic_proof",
+          "weight": 0.2,
+          "passed": 6,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.2
+        },
+        {
+          "name": "singular_proof",
+          "weight": 0.25,
+          "passed": 6,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.25
+        },
+        {
+          "name": "failure",
+          "weight": 0.1,
+          "passed": 28,
+          "total": 28,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.1
+        }
+      ],
+      "measured_calls": 47,
+      "candidate_seconds": 7.108200000000002,
+      "peak_rss_kib": 17508,
+      "label": "oracle",
+      "container_exit": 0,
+      "wall_seconds": 30.4898049000185
     },
     {
-      "name": "quadratic_proof",
-      "weight": 0.15,
-      "passed": 3,
-      "total": 7,
-      "earned": 0.06428571428571428
+      "mode": "nop",
+      "actual_test_sh": true,
+      "test_exit": 0,
+      "seconds": 14.525760799,
+      "packages": {
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "sympy": "1.13.3",
+        "cvxpy": "1.7.2",
+        "scs": "3.2.8",
+        "clarabel": "0.11.1",
+        "ortools": "9.14.6206"
+      },
+      "formal_platform_t1": false,
+      "new_model_calls": 0,
+      "execution_status": "NORMAL",
+      "reward": 0.0,
+      "checks": 66,
+      "groups": [
+        {
+          "name": "witness",
+          "weight": 0.3,
+          "passed": 0,
+          "total": 19,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "quadratic_proof",
+          "weight": 0.15,
+          "passed": 0,
+          "total": 7,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "quartic_proof",
+          "weight": 0.2,
+          "passed": 0,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "singular_proof",
+          "weight": 0.25,
+          "passed": 0,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "failure",
+          "weight": 0.1,
+          "passed": 0,
+          "total": 28,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        }
+      ],
+      "measured_calls": 47,
+      "candidate_seconds": 6.0635,
+      "peak_rss_kib": 15900,
+      "label": "nop",
+      "container_exit": 0,
+      "wall_seconds": 15.547217999992426
     },
     {
-      "name": "quartic_proof",
-      "weight": 0.2,
-      "passed": 0,
-      "total": 6,
-      "earned": 0.0
-    },
-    {
-      "name": "singular_proof",
-      "weight": 0.25,
-      "passed": 0,
-      "total": 6,
-      "earned": 0.0
-    },
-    {
-      "name": "failure",
-      "weight": 0.1,
-      "passed": 28,
-      "total": 28,
-      "earned": 0.1
+      "mode": "ds",
+      "actual_test_sh": true,
+      "test_exit": 0,
+      "seconds": 26.284895151,
+      "packages": {
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "sympy": "1.13.3",
+        "cvxpy": "1.7.2",
+        "scs": "3.2.8",
+        "clarabel": "0.11.1",
+        "ortools": "9.14.6206"
+      },
+      "formal_platform_t1": false,
+      "new_model_calls": 0,
+      "execution_status": "NORMAL",
+      "reward": 0.310714,
+      "checks": 66,
+      "groups": [
+        {
+          "name": "witness",
+          "weight": 0.3,
+          "passed": 19,
+          "total": 19,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.3
+        },
+        {
+          "name": "quadratic_proof",
+          "weight": 0.15,
+          "passed": 0,
+          "total": 7,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "quartic_proof",
+          "weight": 0.2,
+          "passed": 0,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "singular_proof",
+          "weight": 0.25,
+          "passed": 0,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "failure",
+          "weight": 0.1,
+          "passed": 3,
+          "total": 28,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.010714285714285714
+        }
+      ],
+      "measured_calls": 48,
+      "candidate_seconds": 18.062600000000007,
+      "peak_rss_kib": 98504,
+      "label": "luna_k02",
+      "container_exit": 0,
+      "wall_seconds": 27.450096099986695
     }
   ],
-  "all_witnesses_exact": true,
-  "finite_witness_direct_18_pass": true,
-  "unchanged_grader_components": [
-    "tests/algebra.py",
-    "tests/common.py",
-    "tests/guarded_check.py",
-    "tests/measure.py",
-    "tests/output_reader.py",
-    "tests/report_reward.py",
-    "tests/provenance.py",
-    "tests/test.sh"
-  ],
   "source_unchanged": true,
-  "dimensions": {
-    "original_max_n": 28,
-    "new_max_n": 20,
-    "original_max_basis": 65,
-    "new_max_basis": 29,
-    "original_total_variables": 222,
-    "new_total_variables": 326,
-    "original_total_gram_entries": 20290,
-    "new_total_gram_entries": 11218,
-    "original_total_terms": 2300,
-    "new_total_terms": 3918,
-    "original_max_coefficient_length": 16,
-    "new_max_coefficient_length": 32
-  },
-  "local_optima_radius_two": 16,
-  "linux_oracle_reward": null,
-  "linux_nop_reward": null,
-  "linux_received_score": null,
-  "formal_t1_score": null,
-  "source_limits_unchanged": true,
-  "runtime_reduction_validated": false,
-  "candidate_seconds_with_reused": 321.48107460004394,
-  "linux_pending_reason": "Docker Desktop is unable to start; no service restart attempted",
-  "new_model_calls": 0,
-  "api_calls": 0,
-  "workbuddy_calls": 0,
+  "actual_production_test_sh": true,
+  "formal_platform_t1": false,
+  "new_answer_agent_calls": 1,
+  "attempt": "k02",
   "pushes": 0,
-  "ci_runs": 0,
   "platform_operations": 0,
-  "strictly_suboptimal_new_cases": 15,
-  "strictly_suboptimal_radius_two_local_minima": 15,
-  "assignment_type_violations": 1,
-  "publication_target": "PERSONAL_GITHUB_MAIN",
-  "baseline_commit": "710b5fa289e2c35867a6390ca02734e07b032c05",
-  "github_ci": "SKIPPED_USER_REQUEST",
-  "platform_deployed": false,
-  "prior_math_r_controls_do_not_validate_math_j": true,
-  "received_replay_scope": "WINDOWS_ADAPTED_SOURCE_SEMANTICS_REPLAY_ONLY",
-  "received_replay_logical_calls": 47,
-  "received_replay_new_source_calls": 44,
-  "received_replay_reused_outputs": 3,
-  "linux_launcher_tested": false,
-  "build_tested": false,
-  "uid_isolation_tested": false,
-  "container_resource_limits_enforced": false
+  "public_repository_prior_version_exposed": true
 }

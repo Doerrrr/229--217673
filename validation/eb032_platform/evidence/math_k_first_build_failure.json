@@ -1,0 +1,175 @@
+{
+  "task": "EB032-MATH-K-v01",
+  "payload_digest": "f9a6ae7f3f306b2e18cf431fcfb39251536cae5cf562184a83efc76af4debc3d",
+  "status": "LOCAL_DIFFICULTY_GATE_NOT_MET",
+  "normal": false,
+  "reward": null,
+  "passed": false,
+  "threshold": 0.5,
+  "comparison": "strictly_less",
+  "records": [
+    {
+      "mode": "oracle",
+      "actual_test_sh": true,
+      "test_exit": 0,
+      "seconds": 15.522552448,
+      "packages": {
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "sympy": "1.13.3",
+        "cvxpy": "1.7.2",
+        "scs": "3.2.8",
+        "clarabel": "0.11.1",
+        "ortools": "9.14.6206"
+      },
+      "formal_platform_t1": false,
+      "new_model_calls": 0,
+      "execution_status": "NORMAL",
+      "reward": 1.0,
+      "checks": 66,
+      "groups": [
+        {
+          "name": "witness",
+          "weight": 0.3,
+          "passed": 19,
+          "total": 19,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.3
+        },
+        {
+          "name": "quadratic_proof",
+          "weight": 0.15,
+          "passed": 7,
+          "total": 7,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.15
+        },
+        {
+          "name": "quartic_proof",
+          "weight": 0.2,
+          "passed": 6,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.2
+        },
+        {
+          "name": "singular_proof",
+          "weight": 0.25,
+          "passed": 6,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.25
+        },
+        {
+          "name": "failure",
+          "weight": 0.1,
+          "passed": 28,
+          "total": 28,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.1
+        }
+      ],
+      "measured_calls": 47,
+      "candidate_seconds": 7.108200000000002,
+      "peak_rss_kib": 17508,
+      "label": "oracle",
+      "container_exit": 0,
+      "wall_seconds": 30.4898049000185
+    },
+    {
+      "mode": "nop",
+      "actual_test_sh": true,
+      "test_exit": 0,
+      "seconds": 14.525760799,
+      "packages": {
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "sympy": "1.13.3",
+        "cvxpy": "1.7.2",
+        "scs": "3.2.8",
+        "clarabel": "0.11.1",
+        "ortools": "9.14.6206"
+      },
+      "formal_platform_t1": false,
+      "new_model_calls": 0,
+      "execution_status": "NORMAL",
+      "reward": 0.0,
+      "checks": 66,
+      "groups": [
+        {
+          "name": "witness",
+          "weight": 0.3,
+          "passed": 0,
+          "total": 19,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "quadratic_proof",
+          "weight": 0.15,
+          "passed": 0,
+          "total": 7,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "quartic_proof",
+          "weight": 0.2,
+          "passed": 0,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "singular_proof",
+          "weight": 0.25,
+          "passed": 0,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        },
+        {
+          "name": "failure",
+          "weight": 0.1,
+          "passed": 0,
+          "total": 28,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.0
+        }
+      ],
+      "measured_calls": 47,
+      "candidate_seconds": 6.0635,
+      "peak_rss_kib": 15900,
+      "label": "nop",
+      "container_exit": 0,
+      "wall_seconds": 15.547217999992426
+    },
+    {
+      "mode": "ds",
+      "actual_test_sh": true,
+      "test_exit": 1,
+      "seconds": 0.7521573949999976,
+      "packages": {
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "sympy": "1.13.3",
+        "cvxpy": "1.7.2",
+        "scs": "3.2.8",
+        "clarabel": "0.11.1",
+        "ortools": "9.14.6206"
+      },
+      "formal_platform_t1": false,
+      "new_model_calls": 0,
+      "label": "luna",
+      "container_exit": 1,
+      "wall_seconds": 1.7074302000110038
+    }
+  ],
+  "source_unchanged": true,
+  "actual_production_test_sh": true,
+  "formal_platform_t1": false,
+  "new_answer_agent_calls": 1,
+  "pushes": 0,
+  "platform_operations": 0,
+  "public_repository_prior_version_exposed": true
+}

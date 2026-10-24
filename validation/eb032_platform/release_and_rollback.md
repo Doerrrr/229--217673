@@ -1,3 +1,9 @@
+# 当前版本：EB032-MATH-K v01（2026-10-24）
+
+本地Luna正常0.310714；Oracle=1/NOP=0。正式平台T1未验证。源摘要见payload.json，证据见local_validation.json。上一版恢复点为2b13bc3cf4029abcb6befa44fa1b5e48a51743f4；保留历史，必要时通过revert回退。
+
+以下为历史记录，不代表当前版本验收。
+
 # 当前个人仓库发布：EB032-MATH-J v01（2026-10-20）
 
 用户授权直接推送；新版18项数学见证通过，Windows兼容入口已有DS源码回放0.227443609。
