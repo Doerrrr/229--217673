@@ -1,0 +1,38 @@
+{
+  "task": "BINARY-CODE-v01",
+  "source_branch": "questions/binary-code-v01",
+  "public_zip_sha256": "42ab1049da5a15eec4747b3af26db9b53660b1a135d4a6ee4f2db1a9ddf90e8b",
+  "frozen_task_files": {
+    "agent_prompt.txt": "20058697f90435a75dca8fe81e2682181d2014d84d5ab3a4261d34b2c6c4585f",
+    "environment/app/main.py": "03c2242e9fd75f836feca30f35c9a13c426a95f6e3b05e935b5d31f05a743133",
+    "environment/bin/analyze": "0db2a39dff452808f0befb3addc72bcba2af8b44493cfbb98f22ef9b1483afea",
+    "environment/Dockerfile": "536a34fcd9887562a83f6c7d69d8ace4d2b1dc2dcbd77491e1674766b62edffc",
+    "environment/packet/problem.md": "7655f35cf25c6d9c99ed3d10025d751a04a45692d612439d60efa005c4135cf6",
+    "environment/packet/smoke.json": "fdf97e6a98687430e1747d9d0ca460fd7d7a5471ad9396692a810655f7ade4b9",
+    "instruction.md": "20058697f90435a75dca8fe81e2682181d2014d84d5ab3a4261d34b2c6c4585f",
+    "README.md": "20058697f90435a75dca8fe81e2682181d2014d84d5ab3a4261d34b2c6c4585f",
+    "solution/implementation/algorithm.py": "c00190b84d827ff23260f06ecd5d6a23ca355bfac24a51e94731ac1e8fdcd127",
+    "solution/implementation/binary_code_checker.py": "737c682cebf184d8c5ee4753aba8d54e699d1b74df92642d82e41f4d8d6fc8ec",
+    "solution/implementation/binary_code_witnesses.json": "cb7f9f7b36110d86cf47e4f451cb601d3b9955f10c1058272f18cf534dcf3be1",
+    "solution/implementation/contract.py": "2b07d46e576727a10fe5623319a311ebf0578931602f8bf0e928eeaab7d22fe0",
+    "solution/implementation/main.py": "c019d8eb6d913d5a1a8f407ffacf1df900df89d12b0d21e95f98f368bc752091",
+    "solution/solve.sh": "5645c251e7078cd492274fe9bd0666eacb1993e9e373787d226349788679c8b1",
+    "task.toml": "bab23f8987ebc5c09d31a7c066d25f289007ddc449ddeba84dde406216679d6a",
+    "tests/binary_code_checker.py": "737c682cebf184d8c5ee4753aba8d54e699d1b74df92642d82e41f4d8d6fc8ec",
+    "tests/common.py": "99a215cf58d5a52317b5591569d36bcff905aa401957835a5404edac3d90fa44",
+    "tests/fixtures.json": "d47f78acf6836ede17274ae5842bcaa1c1cbd535079f326c7546cd0282cfb37f",
+    "tests/grade.py": "a76fc3e792703eb73eb1f77b0ec620d6cf481afc7589a1a32f3ed218a6ec4136",
+    "tests/measure.py": "91337e59296c5df6c386f42e0f6fac8a3ba85565a4a56c70f8ebff0eb6b9494f",
+    "tests/output_reader.py": "40f6d5de78a70006cfb1589416311f48fe99863d604c6c6438801b012cea1c4a",
+    "tests/test.sh": "eeb3ddd06a4ea3cdb9030a93233188c1bf255039c467d8b5aa15ee80a0115fb3"
+  },
+  "local_gate": {
+    "normal": true,
+    "reward": 0.348846,
+    "threshold": 0.5,
+    "model": "gpt-6-luna",
+    "answer_zip_sha256": "624ef23a1665b6ffca129247561a8c1d7b8af29f85f801f8cdd4160eca88d6c0"
+  },
+  "formal_platform_t1": false,
+  "author_materials_present": true
+}
