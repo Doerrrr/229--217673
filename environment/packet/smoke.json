@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "queries": [
+    {
+      "id": "record-half-global-i",
+      "n": 1,
+      "gates": [
+        {
+          "gate": "H",
+          "q": 0
+        },
+        {
+          "gate": "POST",
+          "q": 0,
+          "outcome": 0
+        },
+        {
+          "gate": "Y",
+          "q": 0
+        }
+      ],
+      "targets": [
+        "0",
+        "1"
+      ]
+    }
+  ]
+}
