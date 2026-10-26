@@ -6,6 +6,7 @@ from pathlib import Path
 import re
 from common import Runner,success
 from output_reader import rows_from
+from secure_copy import UnsafeCandidateTree
 
 DECIMAL=re.compile(r'[0-9]{1,256}\Z',re.ASCII)
 
@@ -24,7 +25,17 @@ def solved(rows,q):
 
 def evaluate(project,output):
     fixture=json.loads(Path(__file__).with_name('fixtures.json').read_bytes())
-    r=Runner(project,'analyze',output)
+    try:
+        r=Runner(project,'analyze',output)
+    except UnsafeCandidateTree as error:
+        destination=Path(output);destination.mkdir(parents=True,exist_ok=True)
+        result=dict(task=fixture['task'],version='v01-r1fix1',execution_status='REJECTED_UNSAFE_PROJECT',
+                    reward=0.0,groups=[],cases=[],reason=str(error),candidate_executed=False,
+                    formal_platform_t1=False)
+        (destination/'result.json').write_text(json.dumps(result,indent=2)+'\n')
+        (destination.parent/'reward.txt').write_text('0\n')
+        print('REJECTED_UNSAFE_PROJECT: candidate was not executed',flush=True)
+        return
     for i,c in enumerate(fixture['cases']):
         src=r.file(f'q{i}.json',(b'\xef\xbb\xbf' if i%2==0 else b'')+json.dumps(dict(version=1,queries=[c['query']])).encode())
         dst=r.home/f'new{i}/nested/output.jsonl'
@@ -52,6 +63,14 @@ def evaluate(project,output):
     batch=success(call) and not call['stdout'] and len(rows)==2
     if batch:batch=all(same(solved([row],q),c['expected']) for row,q,c in zip(rows,qs,fixture['cases'][:2]))
     r.check('engineering','batch-order',batch)
+    qs16=[]
+    for index in range(16):
+        query=dict(fixture['cases'][-1]['query']);query['id']='batch16_'+str(index);qs16.append(query)
+    src16=r.file('batch16.json',json.dumps(dict(version=1,queries=qs16)).encode())
+    dst16=r.home/'batch16/result.jsonl';call16=r.call(['--input',src16,'--output',dst16]);rows16=rows_from(dst16)
+    batch16=success(call16) and not call16['stdout'] and len(rows16)==16
+    if batch16:batch16=all(same(solved([row],query),fixture['cases'][-1]['expected']) for row,query in zip(rows16,qs16))
+    r.check('engineering','batch-16-upper-bound',batch16)
     good=fixture['cases'][-1]
     src=r.file('replace-valid.json',json.dumps(dict(version=1,queries=[good['query']])).encode())
     dst=r.file('existing-output.jsonl',b'OLD OUTPUT MUST BE REPLACED\n')
@@ -68,6 +87,7 @@ def evaluate(project,output):
     call=r.call(['--input',src,'--output',str(block/'child.jsonl')])
     r.check('engineering','output-write-failure',call['returncode']!=0 and not call['stdout'] and bool(call['stderr'].strip()) and block.read_bytes()==b'UNCHANGED')
     result=r.save(fixture['task'],fixture['weights'])
+    result['version']='v01-r1fix1'
     result['verification_provenance']=dict(source_files_sha256={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in Path(__file__).parent.iterdir() if p.is_file()},reference_imported=False)
     (Path(output)/'result.json').write_text(json.dumps(result,indent=2)+'\n')
     if result['execution_status']=='NORMAL':(Path(output).parent/'reward.txt').write_text(str(result['reward'])+'\n')

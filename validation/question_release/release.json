@@ -1,7 +1,9 @@
 {
-  "task": "DNA-ORBIT-v01",
+  "task": "DNA-ORBIT-v01-r1fix1",
+  "revision_kind": "security-and-coverage-repair",
   "source_branch": "questions/dna-orbit-v01",
-  "public_zip_sha256": "84f6594b573755ca5442a336812582a6f6c528517f91ba974e8ff1a416ca8040",
+  "base_commit": "f0e34607b5c5142a893735a11b53cc5536c26a0b",
+  "platform_question": "228--244587",
   "frozen_task_files": {
     "agent_prompt.txt": "48aadbd32f8bdd922d1ce78e311bc5fc22301c899f0a2da5698092991be6c3c5",
     "environment/app/contract.py": "d03116f5c7413c10ec4b1fc139eb47c2f050123c172f7c0d1fadebf5fdda0a6f",
@@ -10,7 +12,7 @@
     "environment/app/validation.py": "faae79d233bafe9b8efd1120f2f17cfed2df3575fcf7f31a986c0cc6add64715",
     "environment/bin/analyze": "0db2a39dff452808f0befb3addc72bcba2af8b44493cfbb98f22ef9b1483afea",
     "environment/Dockerfile": "c75aca517e103c8b4828ae47a3de9ba0d2107d54e013c65eb0fe2d2a68106678",
-    "environment/packet/problem.md": "ab334b026df3cee773309c8965a9ec41edea33efda8ba9274d8f6fc69aa4a603",
+    "environment/packet/problem.md": "6867ac6e70eccd4b1039a24936aa40f79cda85a55a247d0d2f8053a12baf2d44",
     "environment/packet/smoke.json": "c2f8c88a7dfa99f980f1e5a49cac3533a0ed52a5e2b4a22ca47e95cb61900d22",
     "instruction.md": "48aadbd32f8bdd922d1ce78e311bc5fc22301c899f0a2da5698092991be6c3c5",
     "README.md": "48aadbd32f8bdd922d1ce78e311bc5fc22301c899f0a2da5698092991be6c3c5",
@@ -19,14 +21,18 @@
     "solution/implementation/main.py": "21abd7a98cedc8ee4d65fc872a07988a85105ab4e84056d80f7a90247f665d12",
     "solution/solve.sh": "47dbc9890a8252000d95c62600a09ccde6139c75f72d6bcee6d461a7ee94207e",
     "task.toml": "217a7a6b8e17185c21e14e1b770a2c0772bd97b46fb38dfd633011286fce194a",
-    "tests/common.py": "99a215cf58d5a52317b5591569d36bcff905aa401957835a5404edac3d90fa44",
-    "tests/fixtures.json": "0baa4d1e95b6b9d5630e8c0ed3454ea39c3b4676e2b04221568f1bbc2069b217",
-    "tests/grade.py": "52cc539a328afaf33d2d0e5bdd01859c3b51eb3b276afafbe6098e9e98a52ee5",
+    "tests/common.py": "e42dacb181c405955fb85c7a4142ea19f79818ca40585add9d7fe35b751f76fb",
+    "tests/fixtures.json": "34599c4379bde011adb90a7727d99e63fd339fb87a33b18c078f820ca2d73c60",
+    "tests/grade.py": "63e192e0fec4a7b01ed5991f11dcf6bd0a8728d8d21c4427b70f611798c74d07",
     "tests/measure.py": "91337e59296c5df6c386f42e0f6fac8a3ba85565a4a56c70f8ebff0eb6b9494f",
     "tests/output_reader.py": "40f6d5de78a70006cfb1589416311f48fe99863d604c6c6438801b012cea1c4a",
-    "tests/test.sh": "8df3599537016d572007d330c8c59b1e5a8f07830e437cd8dc39bd44fc46f63b"
+    "tests/test.sh": "8df3599537016d572007d330c8c59b1e5a8f07830e437cd8dc39bd44fc46f63b",
+    "tests/secure_copy.py": "d3a64aab0bcd055d24f130a2316ba252b83b4db31c49c7efa3ea1f27a616e0ab"
   },
-  "local_gate": {
+  "public_zip_sha256": "f8bd315f94c3c19fee7136ffc53306a2b94d24c41b836cda6d1ba2fe79e3e8e3",
+  "mathematical_cases_unchanged": true,
+  "weights_unchanged": true,
+  "historical_v01_local_gate": {
     "normal": true,
     "reward": 0.187667,
     "threshold": 0.5,
@@ -46,10 +52,17 @@
       }
     ]
   },
-  "oracle_reward": 1.0,
-  "nop_reward": 0.04,
-  "formal_platform_t1": false,
-  "author_materials_present": true,
-  "reference_type": "generic exact algorithm; no instance registry",
-  "physical_host_isolation": false
+  "historical_gate_public_zip_sha256": "84f6594b573755ca5442a336812582a6f6c528517f91ba974e8ff1a416ca8040",
+  "fresh_independent_model_probes_for_this_revision": false,
+  "current_local_controls": {
+    "oracle": 1.0,
+    "nop": 0.038889
+  },
+  "security_reproduction": {
+    "legacy_lookup_reward": 1.0,
+    "fixed_lookup_reward": 0.0,
+    "fixed_candidate_executed": false
+  },
+  "formal_platform_pass": false,
+  "author_materials_present": true
 }

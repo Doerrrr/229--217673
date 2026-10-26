@@ -10,6 +10,7 @@ import sys
 import tempfile
 import time
 import uuid
+from secure_copy import copy_candidate_tree
 
 class Runner:
     def __init__(self, project, command, result_dir):
@@ -18,7 +19,7 @@ class Runner:
         self.home = self.base / 'candidate'
         self.home.mkdir(mode=0o700)
         self.project = self.home / 'project'
-        shutil.copytree(project, self.project, ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
+        copy_candidate_tree(project, self.project)
         self.output = Path(result_dir)
         self.output.mkdir(parents=True, exist_ok=True)
         self.private = self.base / 'measurements'
@@ -38,10 +39,12 @@ class Runner:
                 raise RuntimeError('candidate build failure')
 
     def own(self, path):
-        os.chown(path, 10001, 10001, follow_symlinks=False)
+        # Keep the root-owned mode-700 home inaccessible until every child is
+        # ready; publishing the home first would allow a chown/traversal race.
         if path.is_dir() and not path.is_symlink():
             for child in path.rglob('*'):
                 os.chown(child, 10001, 10001, follow_symlinks=False)
+        os.chown(path, 10001, 10001, follow_symlinks=False)
 
     def directory(self, name):
         parts = Path(name).parts
