@@ -1,0 +1,2254 @@
+{
+  "task": "DNA-ORBIT-v01",
+  "cases": [
+    {
+      "query": {
+        "id": "background_0",
+        "counts": [
+          [
+            0,
+            0,
+            0,
+            4
+          ],
+          [
+            2,
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            4,
+            0,
+            0
+          ],
+          [
+            2,
+            0,
+            2,
+            0
+          ]
+        ]
+      },
+      "expected": {
+        "length": 16,
+        "linear_words": "72",
+        "rotation_classes": "5",
+        "strand_classes": "4",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "1",
+            "self_reverse_complement": "1",
+            "strand_classes": "1"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "4",
+            "self_reverse_complement": "2",
+            "strand_classes": "3"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_1",
+        "counts": [
+          [
+            6,
+            0,
+            0,
+            6
+          ],
+          [
+            0,
+            0,
+            3,
+            0
+          ],
+          [
+            3,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            0,
+            6
+          ]
+        ]
+      },
+      "expected": {
+        "length": 30,
+        "linear_words": "21344400",
+        "rotation_classes": "711486",
+        "strand_classes": "356205",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 3,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 5,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 6,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 10,
+            "rotation_classes": "9",
+            "self_reverse_complement": "3",
+            "strand_classes": "6"
+          },
+          {
+            "period": 15,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 30,
+            "rotation_classes": "711477",
+            "self_reverse_complement": "921",
+            "strand_classes": "356199"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_2",
+        "counts": [
+          [
+            0,
+            4,
+            8,
+            4
+          ],
+          [
+            0,
+            0,
+            0,
+            8
+          ],
+          [
+            0,
+            4,
+            0,
+            4
+          ],
+          [
+            16,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": {
+        "length": 48,
+        "linear_words": "189189000",
+        "rotation_classes": "3941598",
+        "strand_classes": "1973319",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 3,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 6,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 12,
+            "rotation_classes": "6",
+            "self_reverse_complement": "2",
+            "strand_classes": "4"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 24,
+            "rotation_classes": "312",
+            "self_reverse_complement": "34",
+            "strand_classes": "173"
+          },
+          {
+            "period": 48,
+            "rotation_classes": "3941280",
+            "self_reverse_complement": "5004",
+            "strand_classes": "1973142"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_3",
+        "counts": [
+          [
+            4,
+            0,
+            0,
+            10
+          ],
+          [
+            2,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            0
+          ],
+          [
+            6,
+            2,
+            2,
+            4
+          ]
+        ]
+      },
+      "expected": {
+        "length": 32,
+        "linear_words": "2061259200",
+        "rotation_classes": "64414800",
+        "strand_classes": "32218840",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "900",
+            "self_reverse_complement": "60",
+            "strand_classes": "480"
+          },
+          {
+            "period": 32,
+            "rotation_classes": "64413900",
+            "self_reverse_complement": "22820",
+            "strand_classes": "32218360"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_4",
+        "counts": [
+          [
+            3,
+            6,
+            3,
+            0
+          ],
+          [
+            6,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            6,
+            3,
+            6
+          ],
+          [
+            3,
+            0,
+            6,
+            3
+          ]
+        ]
+      },
+      "expected": {
+        "length": 54,
+        "linear_words": "1195186997496780288000",
+        "rotation_classes": "22133092546236681504",
+        "strand_classes": "11066546275587887832",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 3,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 6,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 9,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 18,
+            "rotation_classes": "14256",
+            "self_reverse_complement": "108",
+            "strand_classes": "7182"
+          },
+          {
+            "period": 27,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 54,
+            "rotation_classes": "22133092546236667248",
+            "self_reverse_complement": "4939094052",
+            "strand_classes": "11066546275587880650"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_5",
+        "counts": [
+          [
+            0,
+            8,
+            4,
+            8
+          ],
+          [
+            8,
+            4,
+            4,
+            4
+          ],
+          [
+            0,
+            8,
+            4,
+            8
+          ],
+          [
+            12,
+            0,
+            8,
+            0
+          ]
+        ]
+      },
+      "expected": {
+        "length": 80,
+        "linear_words": "3420598783230320534502660000000",
+        "rotation_classes": "42757484790379007468931321600",
+        "strand_classes": "21378742395189669937759230000",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 5,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 10,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 20,
+            "rotation_classes": "43200",
+            "self_reverse_complement": "168",
+            "strand_classes": "21684"
+          },
+          {
+            "period": 40,
+            "rotation_classes": "1575296078400",
+            "self_reverse_complement": "1892856",
+            "strand_classes": "787648985628"
+          },
+          {
+            "period": 80,
+            "rotation_classes": "42757484790379005893635200000",
+            "self_reverse_complement": "332406585245376",
+            "strand_classes": "21378742395189669150110222688"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_6",
+        "counts": [
+          [
+            0,
+            8,
+            8,
+            4
+          ],
+          [
+            12,
+            4,
+            4,
+            8
+          ],
+          [
+            8,
+            8,
+            4,
+            8
+          ],
+          [
+            0,
+            8,
+            12,
+            0
+          ]
+        ]
+      },
+      "expected": {
+        "length": 96,
+        "linear_words": "76837163804089773770532677916004920000000",
+        "rotation_classes": "800387122959268476776432529018640905600",
+        "strand_classes": "400193561479634238416380351083883320300",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 3,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 6,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 12,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 24,
+            "rotation_classes": "6091200",
+            "self_reverse_complement": "2268",
+            "strand_classes": "3046734"
+          },
+          {
+            "period": 32,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 48,
+            "rotation_classes": "100934787170174400",
+            "self_reverse_complement": "500032332",
+            "strand_classes": "50467393835103366"
+          },
+          {
+            "period": 96,
+            "rotation_classes": "800387122959268476776331594231464640000",
+            "self_reverse_complement": "56328173148625700400",
+            "strand_classes": "400193561479634238416329883690045170200"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_7",
+        "counts": [
+          [
+            3,
+            6,
+            0,
+            9
+          ],
+          [
+            9,
+            6,
+            12,
+            0
+          ],
+          [
+            6,
+            9,
+            6,
+            6
+          ],
+          [
+            0,
+            6,
+            9,
+            3
+          ]
+        ]
+      },
+      "expected": {
+        "length": 90,
+        "linear_words": "152439846763605838013804933946240000000",
+        "rotation_classes": "1693776075151175977931165933731680000",
+        "strand_classes": "846888037575587989917969509925792000",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 3,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 5,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 6,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 9,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 10,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 15,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 18,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 30,
+            "rotation_classes": "1493520000",
+            "self_reverse_complement": "44520",
+            "strand_classes": "746782260"
+          },
+          {
+            "period": 45,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 90,
+            "rotation_classes": "1693776075151175977931165932238160000",
+            "self_reverse_complement": "1904773086119859480",
+            "strand_classes": "846888037575587989917969509179009740"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_8",
+        "counts": [
+          [
+            8,
+            4,
+            2,
+            8
+          ],
+          [
+            4,
+            0,
+            4,
+            2
+          ],
+          [
+            2,
+            4,
+            0,
+            4
+          ],
+          [
+            8,
+            2,
+            4,
+            8
+          ]
+        ]
+      },
+      "expected": {
+        "length": 64,
+        "linear_words": "2482671019024509545232000000",
+        "rotation_classes": "38791734672257982005220000",
+        "strand_classes": "19395867336133826474433000",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 32,
+            "rotation_classes": "40721940000",
+            "self_reverse_complement": "287280",
+            "strand_classes": "20361113640"
+          },
+          {
+            "period": 64,
+            "rotation_classes": "38791734672257941283280000",
+            "self_reverse_complement": "9670943358720",
+            "strand_classes": "19395867336133806113319360"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_9",
+        "counts": [
+          [
+            4,
+            6,
+            4,
+            4
+          ],
+          [
+            2,
+            4,
+            8,
+            4
+          ],
+          [
+            8,
+            0,
+            4,
+            6
+          ],
+          [
+            4,
+            8,
+            2,
+            4
+          ]
+        ]
+      },
+      "expected": {
+        "length": 72,
+        "linear_words": "134331093313207487145408960000000",
+        "rotation_classes": "1865709629350103990391845760000",
+        "strand_classes": "932854814675053359722353896000",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 3,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 6,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 9,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 12,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 18,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 24,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 36,
+            "rotation_classes": "4522331520000",
+            "self_reverse_complement": "3368064",
+            "strand_classes": "2261167444032"
+          },
+          {
+            "period": 72,
+            "rotation_classes": "1865709629350103985869514240000",
+            "self_reverse_complement": "2729052858663936",
+            "strand_classes": "932854814675053357461186451968"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_10",
+        "counts": [
+          [
+            4,
+            10,
+            2,
+            0
+          ],
+          [
+            4,
+            2,
+            16,
+            2
+          ],
+          [
+            4,
+            8,
+            2,
+            10
+          ],
+          [
+            4,
+            4,
+            4,
+            4
+          ]
+        ]
+      },
+      "expected": {
+        "length": 80,
+        "linear_words": "281729836741497248574347377500000",
+        "rotation_classes": "3521622959268715610741949363000",
+        "strand_classes": "1760811479634360170576095960500",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 5,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 10,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 20,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 40,
+            "rotation_classes": "7125214288500",
+            "self_reverse_complement": "5433120",
+            "strand_classes": "3562609860810"
+          },
+          {
+            "period": 80,
+            "rotation_classes": "3521622959268715603616735074500",
+            "self_reverse_complement": "4730410237124880",
+            "strand_classes": "1760811479634360167013486099690"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_11",
+        "counts": [
+          [
+            12,
+            6,
+            6,
+            12
+          ],
+          [
+            4,
+            2,
+            0,
+            6
+          ],
+          [
+            4,
+            0,
+            2,
+            6
+          ],
+          [
+            16,
+            4,
+            4,
+            12
+          ]
+        ]
+      },
+      "expected": {
+        "length": 96,
+        "linear_words": "38236995909423074765843644718397081600000000",
+        "rotation_classes": "398302040723157028810871999697766348800000",
+        "strand_classes": "199151020361578514406615677789962792380000",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 3,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 6,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 12,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 24,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 32,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 48,
+            "rotation_classes": "1401095593497600000",
+            "self_reverse_complement": "3110088800",
+            "strand_classes": "700547798303844400"
+          },
+          {
+            "period": 96,
+            "rotation_classes": "398302040723157028810870598602172851200000",
+            "self_reverse_complement": "2359355882156125871200",
+            "strand_classes": "199151020361578514406614977242164488535600"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_12",
+        "counts": [
+          [
+            1,
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": {
+        "length": 16,
+        "linear_words": "331776",
+        "rotation_classes": "20736",
+        "strand_classes": "10368",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "20736",
+            "self_reverse_complement": "0",
+            "strand_classes": "10368"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_13",
+        "counts": [
+          [
+            2,
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2,
+            2
+          ]
+        ]
+      },
+      "expected": {
+        "length": 32,
+        "linear_words": "40327580160000",
+        "rotation_classes": "1260236890368",
+        "strand_classes": "630119168424",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "20736",
+            "self_reverse_complement": "0",
+            "strand_classes": "10368"
+          },
+          {
+            "period": 32,
+            "rotation_classes": "1260236869632",
+            "self_reverse_complement": "1446480",
+            "strand_classes": "630119158056"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_14",
+        "counts": [
+          [
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3
+          ]
+        ]
+      },
+      "expected": {
+        "length": 48,
+        "linear_words": "18660696529305600000000",
+        "rotation_classes": "388764511027200013824",
+        "strand_classes": "194382255513600006912",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 3,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 6,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 12,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "20736",
+            "self_reverse_complement": "0",
+            "strand_classes": "10368"
+          },
+          {
+            "period": 24,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 48,
+            "rotation_classes": "388764511027199993088",
+            "self_reverse_complement": "0",
+            "strand_classes": "194382255513599996544"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_15",
+        "counts": [
+          [
+            4,
+            4,
+            4,
+            4
+          ],
+          [
+            4,
+            4,
+            4,
+            4
+          ],
+          [
+            4,
+            4,
+            4,
+            4
+          ],
+          [
+            4,
+            4,
+            4,
+            4
+          ]
+        ]
+      },
+      "expected": {
+        "length": 64,
+        "linear_words": "15816067424793596961000000000000",
+        "rotation_classes": "247126053512399953145743450368",
+        "strand_classes": "123563026756200332297180210184",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "20736",
+            "self_reverse_complement": "0",
+            "strand_classes": "10368"
+          },
+          {
+            "period": 32,
+            "rotation_classes": "1260236869632",
+            "self_reverse_complement": "1446480",
+            "strand_classes": "630119158056"
+          },
+          {
+            "period": 64,
+            "rotation_classes": "247126053512399951885506560000",
+            "self_reverse_complement": "711448615523520",
+            "strand_classes": "123563026756200331667061041760"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_16",
+        "counts": [
+          [
+            5,
+            5,
+            5,
+            5
+          ],
+          [
+            5,
+            5,
+            5,
+            5
+          ],
+          [
+            5,
+            5,
+            5,
+            5
+          ],
+          [
+            5,
+            5,
+            5,
+            5
+          ]
+        ]
+      },
+      "expected": {
+        "length": 80,
+        "linear_words": "18949533839618255478362883954020267851776",
+        "rotation_classes": "236869172995228193479536049425253364736",
+        "strand_classes": "118434586497614096739768024712626682368",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 5,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 10,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "20736",
+            "self_reverse_complement": "0",
+            "strand_classes": "10368"
+          },
+          {
+            "period": 20,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 40,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 80,
+            "rotation_classes": "236869172995228193479536049425253344000",
+            "self_reverse_complement": "0",
+            "strand_classes": "118434586497614096739768024712626672000"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_17",
+        "counts": [
+          [
+            6,
+            6,
+            6,
+            6
+          ],
+          [
+            6,
+            6,
+            6,
+            6
+          ],
+          [
+            6,
+            6,
+            6,
+            6
+          ],
+          [
+            6,
+            6,
+            6,
+            6
+          ]
+        ]
+      },
+      "expected": {
+        "length": 96,
+        "linear_words": "28412060956247130846625926117568500630535060586496",
+        "rotation_classes": "295958968294240946319020063919054137921831474688",
+        "strand_classes": "147979484147120473159510435529958262575677885184",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 3,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 4,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 6,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 8,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 12,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 16,
+            "rotation_classes": "20736",
+            "self_reverse_complement": "0",
+            "strand_classes": "10368"
+          },
+          {
+            "period": 24,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 32,
+            "rotation_classes": "1260236869632",
+            "self_reverse_complement": "1446480",
+            "strand_classes": "630119158056"
+          },
+          {
+            "period": 48,
+            "rotation_classes": "388764511027199993088",
+            "self_reverse_complement": "0",
+            "strand_classes": "194382255513599996544"
+          },
+          {
+            "period": 96,
+            "rotation_classes": "295958968294240946319020063530289625634394591232",
+            "self_reverse_complement": "807140862387229522849200",
+            "strand_classes": "147979484147120473159510435335576006431958720216"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_18",
+        "counts": [
+          [
+            0,
+            0,
+            0,
+            2
+          ],
+          [
+            1,
+            1,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            2
+          ],
+          [
+            1,
+            2,
+            1,
+            2
+          ]
+        ]
+      },
+      "expected": {
+        "length": 13,
+        "linear_words": "3120",
+        "rotation_classes": "240",
+        "strand_classes": "120",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 13,
+            "rotation_classes": "240",
+            "self_reverse_complement": "0",
+            "strand_classes": "120"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_19",
+        "counts": [
+          [
+            1,
+            1,
+            1,
+            3
+          ],
+          [
+            1,
+            1,
+            1,
+            2
+          ],
+          [
+            1,
+            1,
+            0,
+            1
+          ],
+          [
+            3,
+            2,
+            1,
+            1
+          ]
+        ]
+      },
+      "expected": {
+        "length": 21,
+        "linear_words": "55641600",
+        "rotation_classes": "2649600",
+        "strand_classes": "1324800",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 3,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 7,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 21,
+            "rotation_classes": "2649600",
+            "self_reverse_complement": "0",
+            "strand_classes": "1324800"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_20",
+        "counts": [
+          [
+            4,
+            1,
+            4,
+            0
+          ],
+          [
+            3,
+            0,
+            0,
+            1
+          ],
+          [
+            2,
+            2,
+            4,
+            3
+          ],
+          [
+            0,
+            1,
+            3,
+            1
+          ]
+        ]
+      },
+      "expected": {
+        "length": 29,
+        "linear_words": "6445656000",
+        "rotation_classes": "222264000",
+        "strand_classes": "111132000",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 29,
+            "rotation_classes": "222264000",
+            "self_reverse_complement": "0",
+            "strand_classes": "111132000"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_21",
+        "counts": [
+          [
+            2,
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            4,
+            3,
+            3
+          ],
+          [
+            1,
+            3,
+            3,
+            1
+          ],
+          [
+            1,
+            4,
+            0,
+            2
+          ]
+        ]
+      },
+      "expected": {
+        "length": 37,
+        "linear_words": "1303398696600000",
+        "rotation_classes": "35226991800000",
+        "strand_classes": "17613495900000",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 37,
+            "rotation_classes": "35226991800000",
+            "self_reverse_complement": "0",
+            "strand_classes": "17613495900000"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_22",
+        "counts": [
+          [
+            7,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": {
+        "length": 7,
+        "linear_words": "2",
+        "rotation_classes": "2",
+        "strand_classes": "1",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "2",
+            "self_reverse_complement": "0",
+            "strand_classes": "1"
+          },
+          {
+            "period": 7,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "background_23",
+        "counts": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            9,
+            0
+          ],
+          [
+            0,
+            9,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": {
+        "length": 18,
+        "linear_words": "2",
+        "rotation_classes": "1",
+        "strand_classes": "1",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "1",
+            "self_reverse_complement": "1",
+            "strand_classes": "1"
+          },
+          {
+            "period": 3,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 6,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 9,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 18,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          }
+        ]
+      }
+    }
+  ],
+  "edge_cases": [
+    {
+      "query": {
+        "id": "disconnected",
+        "counts": [
+          [
+            2,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            3,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": {
+        "length": 5,
+        "linear_words": "0",
+        "rotation_classes": "0",
+        "strand_classes": "0",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 5,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "unbalanced",
+        "counts": [
+          [
+            0,
+            2,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": {
+        "length": 2,
+        "linear_words": "0",
+        "rotation_classes": "0",
+        "strand_classes": "0",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          },
+          {
+            "period": 2,
+            "rotation_classes": "0",
+            "self_reverse_complement": "0",
+            "strand_classes": "0"
+          }
+        ]
+      }
+    },
+    {
+      "query": {
+        "id": "one-base",
+        "counts": [
+          [
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "expected": {
+        "length": 1,
+        "linear_words": "2",
+        "rotation_classes": "2",
+        "strand_classes": "1",
+        "period_spectrum": [
+          {
+            "period": 1,
+            "rotation_classes": "2",
+            "self_reverse_complement": "0",
+            "strand_classes": "1"
+          }
+        ]
+      }
+    }
+  ],
+  "weights": {
+    "rooted": 0.1,
+    "rotations": 0.1,
+    "strands": 0.25,
+    "spectrum": 0.5,
+    "engineering": 0.05
+  },
+  "projections": {
+    "rooted": [
+      "length",
+      "linear_words"
+    ],
+    "rotations": [
+      "rotation_classes"
+    ],
+    "strands": [
+      "strand_classes"
+    ],
+    "spectrum": [
+      "period_spectrum"
+    ]
+  },
+  "invalids": [
+    {
+      "name": "truncated",
+      "wire": "{"
+    },
+    {
+      "name": "duplicate-key",
+      "wire": "{\"version\":1,\"version\":1,\"queries\":[]}"
+    },
+    {
+      "name": "nonfinite",
+      "wire": "{\"version\":NaN,\"queries\":[]}"
+    },
+    {
+      "name": "boolean-version",
+      "wire": "{\"version\": true, \"queries\": [{\"id\": \"background_0\", \"counts\": [[0, 0, 0, 4], [2, 0, 2, 0], [0, 4, 0, 0], [2, 0, 2, 0]]}]}"
+    },
+    {
+      "name": "unknown-top",
+      "wire": "{\"version\": 1, \"queries\": [{\"id\": \"background_0\", \"counts\": [[0, 0, 0, 4], [2, 0, 2, 0], [0, 4, 0, 0], [2, 0, 2, 0]]}], \"extra\": 0}"
+    },
+    {
+      "name": "duplicate-id",
+      "wire": "{\"version\": 1, \"queries\": [{\"id\": \"background_0\", \"counts\": [[0, 0, 0, 4], [2, 0, 2, 0], [0, 4, 0, 0], [2, 0, 2, 0]]}, {\"id\": \"background_0\", \"counts\": [[0, 0, 0, 4], [2, 0, 2, 0], [0, 4, 0, 0], [2, 0, 2, 0]]}]}"
+    },
+    {
+      "name": "empty-queries",
+      "wire": "{\"version\": 1, \"queries\": []}"
+    },
+    {
+      "name": "unknown-query",
+      "wire": "{\"version\": 1, \"queries\": [{\"id\": \"background_0\", \"counts\": [[0, 0, 0, 4], [2, 0, 2, 0], [0, 4, 0, 0], [2, 0, 2, 0]], \"extra\": 0}]}"
+    },
+    {
+      "name": "boolean-count",
+      "wire": "{\"version\": 1, \"queries\": [{\"id\": \"background_0\", \"counts\": [[true, 0, 0, 4], [2, 0, 2, 0], [0, 4, 0, 0], [2, 0, 2, 0]]}]}"
+    },
+    {
+      "name": "negative-count",
+      "wire": "{\"version\": 1, \"queries\": [{\"id\": \"background_0\", \"counts\": [[-1, 0, 0, 4], [2, 0, 2, 0], [0, 4, 0, 0], [2, 0, 2, 0]]}]}"
+    },
+    {
+      "name": "fraction-count",
+      "wire": "{\"version\": 1, \"queries\": [{\"id\": \"background_0\", \"counts\": [[1.5, 0, 0, 4], [2, 0, 2, 0], [0, 4, 0, 0], [2, 0, 2, 0]]}]}"
+    },
+    {
+      "name": "wrong-shape",
+      "wire": "{\"version\": 1, \"queries\": [{\"id\": \"background_0\", \"counts\": [[1]]}]}"
+    },
+    {
+      "name": "zero-length",
+      "wire": "{\"version\": 1, \"queries\": [{\"id\": \"background_0\", \"counts\": [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]}]}"
+    },
+    {
+      "name": "too-long",
+      "wire": "{\"version\": 1, \"queries\": [{\"id\": \"background_0\", \"counts\": [[7, 7, 7, 7], [7, 7, 7, 7], [7, 7, 7, 7], [7, 7, 7, 7]]}]}"
+    },
+    {
+      "name": "bad-id",
+      "wire": "{\"version\": 1, \"queries\": [{\"id\": \"bad id\", \"counts\": [[0, 0, 0, 4], [2, 0, 2, 0], [0, 4, 0, 0], [2, 0, 2, 0]]}]}"
+    }
+  ]
+}

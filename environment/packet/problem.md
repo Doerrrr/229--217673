@@ -1,0 +1,43 @@
+# 环状DNA背景库：保留双核苷酸计数的精确去重统计
+
+序列富集分析常构造保留双核苷酸计数的背景库。环状DNA没有特定起点；双链DNA的反向互补又代表同一分子。现有统计器把序列数直接除以长度和2，漏掉周期序列及自反向互补分子的稳定子。你需要修复/work/bench中的统计工程，给出精确去重总数及按最小周期分层的统计，供背景库审计使用。输入是完整计数约束，不提供生成序列或答案见证。
+
+## 计数对象
+
+字母顺序固定为A,C,G,T，对应整数0,1,2,3；互补为A↔T、C↔G。一个长度N的带起点字符串w=w0…w(N−1)的闭环双核苷酸矩阵满足M[a][b]=下标i中wi=a且w((i+1) mod N)=b的个数；末尾到开头的一对也必须计入。矩阵行是前一个碱基，列是后一个碱基。重复的同类型双核苷酸没有额外编号，不能把相同边的排列重复计数。
+
+令S(M)为恰有该闭环矩阵的所有长度N字符串。定义RC(w)=逐字符互补(reverse(w))。反向互补矩阵Mrc满足Mrc[a][b]=M[complement(b)][complement(a)]。本题统计池为集合U(M)=S(M)∪S(Mrc)，不是把两份列表相加：M=Mrc时两集合相同，不能翻倍；不相等时它们互不相交。这样反向互补总在同一统计池中，支持正反链计数不对称的输入。计数矩阵可无闭环实现，例如度不平衡或支持图断开；这种情况是合法输入，输出各类数量为0。
+
+rotation_k(w)将字符串左移k位。旋转等价指存在k使v=rotation_k(w)。双链等价指v等于某次旋转后的w或RC(w)。字符串的最小周期d是最小正整数，使d整除N且w等于其前d个字符重复N/d遍。每个旋转类内的最小周期相同，该旋转类包含d个不同的带起点字符串，未必是N个。
+
+一个旋转类是“自反向互补”的，指RC(w)与w旋转等价；不要求文字上RC(w)=w。任意旋转代表均给出同一判定。两个互为反向互补、但不相同的旋转类在双链去重时合并为一类；自反向互补旋转类只保留一类。
+
+## 输入与命令
+
+./bin/analyze --input input.json --output result.jsonl
+
+输入为可带UTF-8 BOM的JSON，顶层键恰为version和queries。version是整数1；queries含1—16个id不重复的对象。query键恰为id、counts，id为1—64个ASCII字母、数字、下划线或连字符。counts是4×4的JSON整数矩阵，每项0—96，全部元素之和N为1—96。bool不算整数。拒绝重复JSON键、NaN/Infinity、缺失或未知字段、非法矩阵形状及超界数值。度平衡、连通性、M=Mrc均不是格式限制，不得把合法空统计池当成输入格式错误。
+
+## 输出
+
+JSONL与queries同序，每行键恰为id、state、result。完整输出state必须为SOLVED；不能用PARTIAL代替。正常表达未解决查询时允许state=UNSOLVED且result=null，该查询不得数学分。任何其他state无效。
+
+SOLVED的result键恰为length、linear_words、rotation_classes、strand_classes、period_spectrum。
+
+- length是JSON整数N。
+- linear_words是U(M)中的不同带起点字符串总数。
+- rotation_classes是U(M)按旋转去重的类数。
+- strand_classes是U(M)按旋转和反向互补共同去重的类数。
+- period_spectrum必须对N的每个正约数d各列一行，按d数值升序，不能省略零行。每行键恰为period、rotation_classes、self_reverse_complement、strand_classes。period是JSON整数d，后三项分别为最小周期恰为d的旋转类数、其中自反向互补的旋转类数、同一层双链类数。
+
+除length和period外，所有计数都用非负十进制整数字符串表示，只含ASCII数字，允许前导零，长度1—256；不接受负号、加号、小数、指数或分数。全部计数精确，不允许取模、浮点舍入或随机估计。
+
+公开示例（只作说明，不用于加权计分）：N=4，矩阵为[[0,0,0,2],[0,0,0,0],[0,0,0,0],[2,0,0,0]]，池中只有ATAT和TATA。linear_words=2、rotation_classes=1、strand_classes=1；最小周期2的行是(rotation_classes=1,self_reverse_complement=1,strand_classes=1)，约数1、4的行全为0。该示例展示了直接除以N或2会出错。公开smoke.json另含这个例子。
+
+## 工程与资源
+
+必须先校验整份输入，再执行统计。缺少CLI参数、输入不可读或格式错误时非零退出、stderr非空、stdout为空，已有输出保持原字节。成功时退出0、stdout为空，自动创建多层输出父目录，并通过完整临时文件原子替换目标；已经存在的输出也要成功替换。写入失败时非零退出。输出只能由输入和通用算法计算，不得依赖测试文件、参考解或题外服务。
+
+修改app、bin，必要时新增build.sh。Python 3.11.17 Linux，2CPU、2048MiB，单次命令300秒。没有GPU或嵌套Docker需求；允许使用环境中现有科学计算库、编译工具和公开资料。直接枚举4^N个字符串不适用于整个输入域；应管理资源，正常返回未解决而不是超时或崩溃。整轮模型开发时间以task.toml为准。
+
+计分按公开责任分组：带起点数量与length 0.10，旋转类总数0.10，双链类总数0.25，完整周期谱0.50，输入/输出工程行为0.05。组内按实例通过比例计分，没有额外封顶。正常错误结果可得部分组分；超时、信号或验证器异常单独记为无有效分数，不能算低分达标。

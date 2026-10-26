@@ -1,0 +1,55 @@
+{
+  "task": "DNA-ORBIT-v01",
+  "source_branch": "questions/dna-orbit-v01",
+  "public_zip_sha256": "84f6594b573755ca5442a336812582a6f6c528517f91ba974e8ff1a416ca8040",
+  "frozen_task_files": {
+    "agent_prompt.txt": "48aadbd32f8bdd922d1ce78e311bc5fc22301c899f0a2da5698092991be6c3c5",
+    "environment/app/contract.py": "d03116f5c7413c10ec4b1fc139eb47c2f050123c172f7c0d1fadebf5fdda0a6f",
+    "environment/app/main.py": "01c574bbaeeb7a7329544c029f49ef9f69bbc2a38064e36baade9a7533bcc086",
+    "environment/app/orbits.py": "01eb84d91836d038f87bda27a9103ef81590b41ce2760cbf867712c638bb03d3",
+    "environment/app/validation.py": "faae79d233bafe9b8efd1120f2f17cfed2df3575fcf7f31a986c0cc6add64715",
+    "environment/bin/analyze": "0db2a39dff452808f0befb3addc72bcba2af8b44493cfbb98f22ef9b1483afea",
+    "environment/Dockerfile": "c75aca517e103c8b4828ae47a3de9ba0d2107d54e013c65eb0fe2d2a68106678",
+    "environment/packet/problem.md": "ab334b026df3cee773309c8965a9ec41edea33efda8ba9274d8f6fc69aa4a603",
+    "environment/packet/smoke.json": "c2f8c88a7dfa99f980f1e5a49cac3533a0ed52a5e2b4a22ca47e95cb61900d22",
+    "instruction.md": "48aadbd32f8bdd922d1ce78e311bc5fc22301c899f0a2da5698092991be6c3c5",
+    "README.md": "48aadbd32f8bdd922d1ce78e311bc5fc22301c899f0a2da5698092991be6c3c5",
+    "solution/implementation/algorithm.py": "0876cc3e8b0bdd5959766fc6ce5f3a0b68affff5f99dd4fb1682e74fca1ce6ca",
+    "solution/implementation/contract.py": "2b07d46e576727a10fe5623319a311ebf0578931602f8bf0e928eeaab7d22fe0",
+    "solution/implementation/main.py": "21abd7a98cedc8ee4d65fc872a07988a85105ab4e84056d80f7a90247f665d12",
+    "solution/solve.sh": "47dbc9890a8252000d95c62600a09ccde6139c75f72d6bcee6d461a7ee94207e",
+    "task.toml": "217a7a6b8e17185c21e14e1b770a2c0772bd97b46fb38dfd633011286fce194a",
+    "tests/common.py": "99a215cf58d5a52317b5591569d36bcff905aa401957835a5404edac3d90fa44",
+    "tests/fixtures.json": "0baa4d1e95b6b9d5630e8c0ed3454ea39c3b4676e2b04221568f1bbc2069b217",
+    "tests/grade.py": "52cc539a328afaf33d2d0e5bdd01859c3b51eb3b276afafbe6098e9e98a52ee5",
+    "tests/measure.py": "91337e59296c5df6c386f42e0f6fac8a3ba85565a4a56c70f8ebff0eb6b9494f",
+    "tests/output_reader.py": "40f6d5de78a70006cfb1589416311f48fe99863d604c6c6438801b012cea1c4a",
+    "tests/test.sh": "8df3599537016d572007d330c8c59b1e5a8f07830e437cd8dc39bd44fc46f63b"
+  },
+  "local_gate": {
+    "normal": true,
+    "reward": 0.187667,
+    "threshold": 0.5,
+    "model": "gpt-6-luna",
+    "preregistered_probes": [
+      {
+        "name": "dna261026_a",
+        "model": "gpt-6-luna",
+        "reward": 0.187667,
+        "answer_zip_sha256": "7526bdaf81052eb532d75bdc92ad477a1d0bc9f9c5c5d0f9fcf5cdf11dd6d2fd"
+      },
+      {
+        "name": "dna261026_b",
+        "model": "gpt-6-luna",
+        "reward": 0.085583,
+        "answer_zip_sha256": "d7e35c8f9b726e0516370995edd71736b7b4551b9e158689b270ae92dab4a58b"
+      }
+    ]
+  },
+  "oracle_reward": 1.0,
+  "nop_reward": 0.04,
+  "formal_platform_t1": false,
+  "author_materials_present": true,
+  "reference_type": "generic exact algorithm; no instance registry",
+  "physical_host_isolation": false
+}
