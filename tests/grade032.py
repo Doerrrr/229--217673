@@ -6,6 +6,7 @@ from pathlib import Path
 from common import Runner,success
 from guarded_check import check, configure_results, CheckerFailure
 from output_reader import rows_from
+from contract_cases import boundary_inputs, WRITE_FAILURES
 
 WEIGHTS={'witness':.30,'quadratic_proof':.15,'quartic_proof':.20,'singular_proof':.25,'failure':.10}
 
@@ -36,6 +37,8 @@ def planned_checks(cases):
     checks.extend([('witness','multi-point-order'),('quadratic_proof','multi-proof-order')])
     checks.extend(('failure',name) for name,_ in invalids(cases[0]['query']))
     checks.extend(('failure',name) for name in ('missing-input','missing-output','no-args','missing-file'))
+    checks.extend(('failure',name) for name,_ in boundary_inputs(cases[0]['query']))
+    checks.extend(('failure',name) for name in WRITE_FAILURES)
     assert len(checks)==len(set(checks))
     return checks
 
@@ -72,6 +75,23 @@ def exact(r,*args):
         raise AbortGrading('VERIFIER_CHECKER_ERROR','exact_checker',str(error)) from error
 
 
+def clean_failure(got):
+    return not got['timed_out'] and got['returncode'] > 0 and not got['stdout'] and bool(got['stderr'].strip())
+
+
+def valid_contract_row(r, query, row):
+    if not isinstance(row, dict) or set(row) != {'id', 'state', 'assignment', 'value', 'gram'} or row['id'] != query['id']:
+        return False
+    if row['state'] == 'UNSOLVED':
+        return all(row[name] is None for name in ('assignment', 'value', 'gram'))
+    if row['state'] not in ('INCUMBENT', 'CERTIFIED') or not isinstance(row['value'], str):
+        return False
+    point, proof, _ = exact(r, query, row, row['value'])
+    if row['state'] == 'INCUMBENT':
+        return point and row['gram'] is None
+    return point and proof
+
+
 def evaluate(r,cases):
     for i,c in enumerate(cases):
         wire=json.dumps(dict(version=1,queries=[c['query']])).encode();wire=(b'\xef\xbb\xbf'+wire) if i%2==0 else wire
@@ -81,17 +101,42 @@ def evaluate(r,cases):
         okay=success(got) and not got['stdout']
         r.check('witness',c['query']['id']+'-point',okay and point,why)
         r.check(c['group'],c['query']['id']+'-proof',okay and proof,why)
-    source=r.file('multi.json',json.dumps(dict(version=1,queries=[c['query'] for c in cases[:2]])).encode());out=r.home/'multi/result.jsonl'
+    source=r.file('multi.json',json.dumps(dict(version=1,queries=[c['query'] for c in cases[:4]])).encode());out=r.home/'multi/result.jsonl'
     got=call(r,['--input',source,'--output',out]);observed=rows(r,out)
-    results=[exact(r,c['query'],row,c['optimum']) for c,row in zip(cases[:2],observed)] if len(observed)==2 else []
-    r.check('witness','multi-point-order',success(got) and not got['stdout'] and len(results)==2 and all(z[0] for z in results))
-    r.check('quadratic_proof','multi-proof-order',success(got) and not got['stdout'] and len(results)==2 and all(z[1] for z in results))
+    results=[exact(r,c['query'],row,c['optimum']) for c,row in zip(cases[:4],observed)] if len(observed)==4 else []
+    r.check('witness','multi-point-order',success(got) and not got['stdout'] and len(results)==4 and all(z[0] for z in results))
+    r.check('quadratic_proof','multi-proof-order',success(got) and not got['stdout'] and len(results)==4 and all(z[1] for z in results))
     for name,wire in invalids(cases[0]['query']):
         source_bad=r.file('bad.json',wire);old=r.file('old.jsonl',b'OLD\x00SENTINEL\n');got=call(r,['--input',source_bad,'--output',old])
         r.check('failure',name,got['returncode']!=0 and not got['stdout'] and bool(got['stderr'].strip()) and old.read_bytes()==b'OLD\x00SENTINEL\n')
     for name,args in [('missing-input',['--output',str(r.home/'cli.jsonl')]),('missing-output',['--input',str(source)]),('no-args',[]),('missing-file',['--input',str(r.home/'missing.json'),'--output',str(r.home/'cli.jsonl')])]:
         old=r.file('cli.jsonl',b'CLI_SENTINEL');got=call(r,args)
         r.check('failure',name,got['returncode']!=0 and not got['stdout'] and bool(got['stderr'].strip()) and old.read_bytes()==b'CLI_SENTINEL')
+    for name, queries in boundary_inputs(cases[0]['query']):
+        source = r.file(name + '.json', json.dumps(dict(version=1, queries=queries)).encode())
+        output = r.home / (name + '.jsonl')
+        got = call(r, ['--input', source, '--output', output])
+        observed = rows(r, output)
+        okay = success(got) and not got['stdout'] and len(observed) == len(queries)
+        if okay:
+            okay = all(valid_contract_row(r, query, row) for query, row in zip(queries, observed))
+        r.check('failure', name, okay)
+    source = r.file('write-source.json', json.dumps(dict(version=1, queries=[cases[0]['query']])).encode())
+    directory = r.directory('output-directory')
+    sentinel = r.file('output-directory/keep.bin', b'OUTPUT_SENTINEL')
+    got = call(r, ['--input', source, '--output', directory])
+    r.check('failure', 'output-directory', clean_failure(got) and directory.is_dir() and sentinel.read_bytes() == b'OUTPUT_SENTINEL')
+    parent = r.directory('readonly-parent')
+    old = r.file('readonly-parent/old.jsonl', b'OUTPUT_SENTINEL')
+    parent.chmod(0o500)
+    try:
+        got = call(r, ['--input', source, '--output', old])
+        r.check('failure', 'output-readonly-parent', clean_failure(got) and old.read_bytes() == b'OUTPUT_SENTINEL')
+    finally:
+        parent.chmod(0o700)
+    blocked = r.file('blocked-parent', b'PARENT_SENTINEL')
+    got = call(r, ['--input', source, '--output', blocked / 'out.jsonl'])
+    r.check('failure', 'output-parent-file', clean_failure(got) and blocked.read_bytes() == b'PARENT_SENTINEL')
     return r.save('mathematics/eb032-math-k-exact-certificate',WEIGHTS)
 
 

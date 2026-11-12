@@ -32,7 +32,9 @@ def main():
     actual={p.relative_to(ROOT/'environment').as_posix():sha(p) for p in public}
     assert actual==expected,'candidate image file inventory changed'
     copies=[line.strip() for line in (ROOT/'environment/Dockerfile').read_text().splitlines() if line.startswith('COPY ')]
-    assert copies==['COPY app/ app/','COPY bin/ bin/','COPY packet/ packet/']
+    assert copies==['COPY packet/requirements.lock /tmp/requirements.lock','COPY app/ app/','COPY bin/ bin/','COPY packet/ packet/']
     assert not (ROOT/'reference_project').exists()
-    print(json.dumps(dict(status='PASS',payload_files=len(manifest['files']),visible_files=len(public),hidden_files=len(hidden),exact_hidden_duplicates=0,registered_oracle=True, oracle_scope="FINITE_WITNESS_STARTUP_CONTROL_ONLY")))
+    assert not (ROOT/'solution/implementation/finite_witnesses.json').exists(),'reference catalogue still published'
+    assert all('==' in line and ' @ ' not in line for line in (ROOT/'environment/packet/requirements.lock').read_text().splitlines() if line),'unlocked dependency'
+    print(json.dumps(dict(status='PASS',payload_files=len(manifest['files']),visible_files=len(public),hidden_files=len(hidden),exact_hidden_duplicates=0,registered_oracle=True, oracle_scope="GENERAL_SEARCH_WITH_EXACT_CERTIFICATE_VALIDATION")))
 if __name__=='__main__':main()

@@ -1,4 +1,4 @@
-"""Non-scoring author regressions: invariant scores, resource faults and CLI edges."""
+"""Author regressions for v02 scoring, runtime faults and public CLI boundaries."""
 import argparse,copy,hashlib,importlib.util,json,os,shutil,signal,subprocess,sys,tempfile,time
 from fractions import Fraction
 from pathlib import Path
@@ -12,75 +12,53 @@ def own(p):
     if p.is_dir():
         for item in p.rglob('*'):os.chown(item,10001,10001)
 
-CONTROL='''import argparse,copy,hashlib,json,sys
-from pathlib import Path
-def sig(q):return hashlib.sha256(json.dumps(q,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-def pairs(items):
-    out={}
-    for k,v in items:
-        if k in out:raise ValueError('duplicate JSON key')
-        out[k]=v
-    return out
-def main():
-    p=argparse.ArgumentParser();p.add_argument('--input',required=True);p.add_argument('--output',required=True);a=p.parse_args()
-    try:
-        obj=json.loads(Path(a.input).read_bytes().decode('utf-8-sig'),object_pairs_hook=pairs,parse_constant=lambda v:(_ for _ in ()).throw(ValueError(v)))
-        if set(obj)!={'version','queries'} or type(obj['version']) is not int or obj['version']!=1 or not 1<=len(obj['queries'])<=16:raise ValueError('document')
-        if len({q['id'] for q in obj['queries']})!=len(obj['queries']):raise ValueError('duplicate id')
-        registry=json.loads(Path(__file__).with_name('registry.json').read_bytes())
-        rows=[registry[sig(q)] for q in obj['queries']]
-        target=Path(a.output);target.parent.mkdir(parents=True,exist_ok=True)
-        target.write_text(''.join(json.dumps(r)+'\\n' for r in rows))
-    except Exception as e:print(str(e),file=sys.stderr);raise SystemExit(2)
-if __name__=='__main__':main()
-'''
+def score_controls(repo, results, workspace):
+    records = []
+    for profile in ('general', 'point', 'nop'):
+        project = workspace / ('project-' + profile)
+        shutil.copytree(repo / 'environment', project,
+                        ignore=shutil.ignore_patterns('data', 'Dockerfile'))
+        if profile != 'nop':
+            for source in (repo / 'solution/implementation').glob('*.py'):
+                shutil.copyfile(source, project / 'app' / source.name)
+        if profile == 'point':
+            main = project / 'app/main.py'
+            code = main.read_text()
+            wrapper = """original_solve = solve
 
-def score_equivalence(repo,results,workspace):
-    tests=repo/'tests';baseline=workspace/'baseline';baseline.mkdir()
-    for p in (repo/'validation/eb032_platform/author_baseline').glob('*.py'):shutil.copyfile(p,baseline/p.name)
-    shutil.copyfile(tests/'cases032.json',baseline/'cases032.json')
-    cases=json.loads((tests/'cases032.json').read_bytes());records=[]
-    expected={'nop':0.0,'point':.4,'quadratic':.55,'finite':1.0,'wrong_identity':.4,'indefinite':.4}
-    for profile in expected:
-        project=workspace/('project-'+profile);shutil.copytree(repo/'environment',project,ignore=shutil.ignore_patterns('data','Dockerfile'))
-        if profile!='nop':
-            (project/'app/main.py').write_text(CONTROL)
-            registry={}
-            for c in cases:
-                row=copy.deepcopy(c['answer'])
-                if profile=='point' or (profile=='quadratic' and c['group']!='quadratic_proof'):row.update(state='INCUMBENT',gram=None)
-                if profile=='wrong_identity':row['gram'][0][0]=str(Fraction(row['gram'][0][0])+Fraction(1,10**40))
-                if profile=='indefinite':
-                    move=abs(Fraction(row['gram'][0][0]))+1
-                    row['gram'][0][0]=str(Fraction(row['gram'][0][0])-move)
-                    row['gram'][1][1]=str(Fraction(row['gram'][1][1])+move)
-                key=sha(json.dumps(c['query'],sort_keys=True,separators=(',',':')).encode());registry[key]=row
-            dump(project/'app/registry.json',registry)
-        paired=[]
-        for label,grader in [('baseline',baseline),('revised',tests)]:
-            target=results/'equivalence'/profile/label
-            got=subprocess.run([sys.executable,str(grader/'grade032.py'),'--project',str(project),'--results',str(target)],capture_output=True,timeout=600)
-            target.mkdir(parents=True,exist_ok=True)
-            (target/'driver.stdout').write_bytes(got.stdout);(target/'driver.stderr').write_bytes(got.stderr)
-            require(got.returncode==0,got.stderr.decode(errors='replace')[-4000:])
-            r=json.loads((target/'result.json').read_bytes())
-            if label=='revised':
-                provenance=subprocess.run([sys.executable,str(tests/'provenance.py'),'--results',str(target)],capture_output=True,timeout=15)
-                require(provenance.returncode==0,provenance.stderr.decode(errors='replace'))
-                r=json.loads((target/'result.json').read_bytes())
-                observed=r['verification_provenance']
-                require(len(observed['inputs'])==47 and observed['source_files_sha256']['cases032.json']==sha((tests/'cases032.json').read_bytes()),'runtime provenance missing')
-                require(sum(v['input_sha256'] is not None for v in observed['inputs'])==44,'CLI input digests not captured')
-            require(r['execution_status']=='NORMAL' and r['reward']==expected[profile],profile+': '+str(r))
-            require(len(r['cases'])==66,'scored assertion count changed')
-            paired.append(r)
-        require(paired[0]['groups']==paired[1]['groups'] and paired[0]['cases']==paired[1]['cases'],'graded evidence changed: '+profile)
-        records.append(dict(profile=profile,baseline=paired[0]['reward'],revised=paired[1]['reward'],all_66_assertions_and_groups_equal=True))
-        dump(results/'score_equivalence.json',dict(status='IN_PROGRESS',records=records))
-        print(json.dumps(dict(event='SCORE_EQUIVALENCE',**records[-1])),flush=True)
-    report=dict(status='PASS',records=records,paired_grader_runs=12,total_scored_assertions=12*66,
-                scope='AUTHOR_CONTROLS_ONLY_NOT_REPLAYS_OF_PLATFORM_CANDIDATES',model_calls=0)
-    dump(results/'score_equivalence.json',report);return report
+def solve(query, budget):
+    answer = original_solve(query, budget)
+    if answer['state'] == 'CERTIFIED':
+        answer.update(state='INCUMBENT', gram=None)
+    return answer
+
+"""
+            main.write_text(code.replace("if __name__ == '__main__':", wrapper + "if __name__ == '__main__':"))
+        target = results / ('scoring-' + profile)
+        got = subprocess.run([sys.executable, str(repo / 'tests/grade032.py'),
+                              '--project', str(project), '--results', str(target)],
+                             capture_output=True, timeout=1800)
+        target.mkdir(parents=True, exist_ok=True)
+        (target / 'grader-stdout.txt').write_bytes(got.stdout)
+        (target / 'grader-stderr.txt').write_bytes(got.stderr)
+        require(got.returncode == 0, 'grader execution failed: ' + profile)
+        record = json.loads((target / 'result.json').read_bytes())
+        require(record['execution_status'] == 'NORMAL', 'abnormal control: ' + profile)
+        require(len(record['cases']) == 72, 'v02 assertion count changed')
+        groups = {g['name']: g for g in record['groups']}
+        if profile == 'general':
+            require(groups['witness']['passed'] == groups['witness']['total'], 'reference assignment regression')
+            require(groups['failure']['passed'] == groups['failure']['total'], 'reference contract regression')
+        elif profile == 'point':
+            require(record['reward'] == 0.4, 'partial-credit regression')
+        else:
+            require(record['reward'] == round(0.1 * 3 / 34, 6), 'empty scaffold control changed')
+        records.append(dict(profile=profile, reward=record['reward'], groups=record['groups']))
+    report = dict(status='PASS', records=records, scoring_version='v02',
+                  formal_platform_t1=False, new_model_calls=0)
+    dump(results / 'score_controls.json', report)
+    return report
+
 
 def runner_faults(repo,results,workspace):
     measure=repo/'tests/measure.py'
@@ -175,6 +153,17 @@ def reference_boundaries(repo,results,workspace):
     q=dict(id='n32',n=32,basis=[[]]+[[i] for i in range(32)]+[[0,i] for i in range(1,32)]+[[1,2]],terms=[dict(vars=[],coef='1')])
     require(len(q['basis'])==65,'fixture');parse('n32-basis65',[q],True)
     q['basis'].append([1,3]);parse('basis66',[q],False)
+    from itertools import combinations
+    monomials = [list(m) for degree in range(5) for m in combinations(range(32), degree)]
+    q = dict(id='terms_limit', n=32, basis=[[]]+[[i] for i in range(32)],
+             terms=[dict(vars=m, coef='1') for m in monomials[:32768]])
+    parse('terms32768', [q], True)
+    q['terms'].append(dict(vars=monomials[32768], coef='1'))
+    parse('terms32769', [q], False)
+    q=copy.deepcopy(base);q['terms'][0]['coef']='0'*79+'1';parse('coefficient80',[q],True)
+    q['terms'][0]['coef']='0'*80+'1';parse('coefficient81',[q],False)
+    q=copy.deepcopy(base);q['id']='i'*64;parse('id64',[q],True)
+    q['id']='i'*65;parse('id65',[q],False)
     many=[{**base,'id':'q'+str(i)} for i in range(16)];parse('queries16',many,True);parse('queries17',many+[{**base,'id':'last'}],False)
     # Use the real author reference under candidate UID, including denied writes.
     project=workspace/'reference';shutil.copytree(repo/'environment',project,ignore=shutil.ignore_patterns('data','Dockerfile'))
@@ -204,6 +193,59 @@ def reference_boundaries(repo,results,workspace):
     report=dict(status='PASS',checks=checks,scope='NON_SCORING_AUTHOR_REFERENCE_REGRESSIONS',candidate_scoring_cases_added=0)
     dump(results/'reference_boundaries.json',report);return report
 
+def generated_reference_checks(repo, results, workspace):
+    import random
+    from collections import defaultdict
+    sys.path.insert(0, str(repo / 'tests'))
+    from algebra import check
+    from common import Runner, success
+    project = workspace / 'generated-reference'
+    shutil.copytree(repo / 'environment', project, ignore=shutil.ignore_patterns('data', 'Dockerfile'))
+    for source in (repo / 'solution/implementation').glob('*.py'):
+        shutil.copyfile(source, project / 'app' / source.name)
+    runner = Runner(str(project), 'certified-minimum', str(results / 'generated-runtime'))
+    records = []
+    for seed, n, pair_count, rank in [(701, 4, 0, 4), (702, 4, 3, 7),
+                                       (703, 4, 3, 2), (704, 8, 4, 12),
+                                       (705, 8, 4, 3), (706, 6, 3, 9)]:
+        rng = random.Random(seed)
+        pairs = [(i, j) for i in range(n) for j in range(i + 1, n)]
+        rng.shuffle(pairs)
+        basis = [()] + [(i,) for i in range(n)] + pairs[:pair_count]
+        masks = [sum(1 << i for i in mono) for mono in basis]
+        dimension = len(basis) - 1
+        coefficients = defaultdict(Fraction)
+        coefficients[0] = Fraction(-3, 7)
+        for row in range(rank):
+            values = [rng.randint(-2, 2) for _ in range(dimension)]
+            if rank == dimension:
+                values = [0 if j > row else values[j] for j in range(dimension)]
+                values[row] = 3
+            vector = [-sum(values)] + values
+            for i, left in enumerate(vector):
+                for j, right in enumerate(vector):
+                    coefficients[masks[i] ^ masks[j]] += left * right
+        query = dict(id='generated_%d' % seed, n=n, basis=[list(v) for v in basis],
+                     terms=[dict(vars=[i for i in range(n) if mask >> i & 1], coef=str(value))
+                            for mask, value in sorted(coefficients.items()) if value])
+        source = runner.file(query['id'] + '.json', json.dumps(dict(version=1, queries=[query])).encode())
+        output = runner.home / (query['id'] + '.jsonl')
+        got = runner.call(['--input', source, '--output', output])
+        require(success(got) and not got['stdout'] and output.is_file(), 'generated CLI failure')
+        rows = [json.loads(line) for line in output.read_text().splitlines()]
+        require(len(rows) == 1, 'generated row count')
+        point, proof, evidence = check(query, rows[0], '-3/7')
+        require(point and (proof or rows[0]['state'] == 'INCUMBENT'), 'generated result invalid: ' + query['id'] + ' ' + str(evidence))
+        records.append(dict(id=query['id'], n=n, basis_size=len(basis), rank=rank,
+                            state=rows[0]['state'], input_sha256=sha(source.read_bytes())))
+    require(any(r['state'] == 'CERTIFIED' and r['basis_size'] > r['n'] + 1 for r in records), 'quartic certificate capability missing')
+    report = dict(status='PASS', records=records, source='GENERATED_FROM_EXACT_SUMS_OF_SQUARES',
+                  cases032_used_for_generation=False, formal_platform_t1=False)
+    dump(results / 'generated_reference.json', report)
+    shutil.copytree(runner.private, results / 'generated-calls')
+    return report
+
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--repo',type=Path,required=True);p.add_argument('--results',type=Path,required=True);a=p.parse_args()
     os.chmod('/root',0o700);a.results.mkdir(parents=True,exist_ok=True);os.chmod(a.results,0o700)
@@ -214,10 +256,11 @@ def main():
     require(all(sha((a.repo/'validation/eb032_platform/author_baseline'/n).read_bytes())==v for n,v in baseline['files'].items()),'baseline fixture changed')
     report=dict(status='IN_PROGRESS',scope='AUTHOR_REGRESSION_ONLY',formal_platform_t1=False,new_model_calls=0)
     dump(a.results/'summary.json',report)
-    report['score_equivalence']=score_equivalence(a.repo,a.results,workspace)
+    report['score_controls']=score_controls(a.repo,a.results,workspace)
     report['runner_faults']=runner_faults(a.repo,a.results,workspace)
     report['checker_faults']=checker_faults(a.repo,a.results)
     report['reference_boundaries']=reference_boundaries(a.repo,a.results,workspace)
+    report['generated_reference']=generated_reference_checks(a.repo,a.results,workspace)
     identity_result=a.results/'output_reader_identities.json'
     subprocess.run([sys.executable,str(a.repo/'validation/eb032_platform/identity_checks.py'),
                     '--tests',str(a.repo/'tests'),'--results',str(identity_result)],

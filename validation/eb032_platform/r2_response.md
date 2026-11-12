@@ -1,37 +1,21 @@
-# 历史R2资料：不代表MATH-K通过平台检查
+# EB032-MATH-K v02 quality revision
 
-当前验证范围见platform_fields.md。
+The registered task is mathematics/eb032-math-k-exact-certificate. Public ID is EB032-MATH-K. The original 18 mathematical cases and five group weights are preserved. Production scoring now has 72 checks and 53 CLI calls. Historical v01 model results require fresh platform evaluation for v02.
 
-# 历史R2资料
+## Review changes
 
-以下对应此前版本，不证明MATH-J已通过R2。当前候选范围见platform_fields.md和local_validation.json。
+- solution/ now runs a general CP-SAT assignment search and numerical SDP discovery followed by exact rational identity and PSD validation. It reads no answer catalogue. A numerical status alone never produces CERTIFIED.
+- The search may return INCUMBENT. The present reference solves all original assignments and the quadratic certificates. Fourth-degree and ill-conditioned certificates remain incomplete. Its measured partial score is reported honestly.
+- Production multi-query checks use four different problems. Additional checks exercise 16 queries, 32 variables, 65 basis entries, 64-character IDs, and 80-character rational syntax.
+- Three production output-write failures exercise a directory target, a read-only parent with old output, and a file used as a parent. Return status, stdout/stderr and preservation are checked.
+- Author parser regressions additionally cover 32768 terms, 32769 rejection, and neighboring ID, coefficient and basis bounds. A 32768-term formatting fixture is outside the guaranteed finite-basis certificate family, so it is used as an author parser fixture.
+- The complete observed dependency set is pinned in environment/packet/requirements.lock. Docker installs with --no-deps and runs pip check.
+- Current results and source hashes are refreshed. Prior receipts remain in older Git commits and local preservation archives. Current formal platform R1/R2/T1 remain pending user resubmission.
 
-# 历史 前序版本 R2 答复
+## Resource rationale
 
-以下内容对应旧版，不作为 MATH-R 新数学实例的验证或正式成绩。当前状态见 platform_fields.md 与 local_validation.json。
+Agent time remains five hours. Each CLI invocation retains the public 300-second protection. The verifier has an independent 18000-second total cap. Calls near every individual cap can exhaust the total budget. A total-time failure is an abnormal run with no valid difficulty reward. Actual control time and peak RSS are retained in receipts.
 
-# EB032 R2事实核对与最小修订对应
+## Validation boundary
 
-本文件为作者侧修订说明，不给候选模型增加规则，不预设R2复评结论。
-
-| 原反馈 | 已采取的处理／保留的限制 |
-| --- | --- |
-| 标准解是有限见证，不是通用优化器 | 承认并继续明确有限范围，不删除真实声明、不改名冒充通用算法；未扩大参考算法或改变候选难度 |
-| 接受负分母 | 原实现的全串正则已拒绝1/-2等；作者CLI实测拒绝并保留旧输出，证据见evidence。新增显式正分母检查，使零分母也有字段定位 |
-| 输出写失败缺覆盖 | 增加作者非计分UID10001回归：不可写目录、父路径为文件、替换目录失败均拒绝并保护既有内容；不把这些回归说成新增候选计分项 |
-| 正常退出留后台进程 | 无论正常、失败、超时均清理本次进程组；subreaper清理脱离会话后代，作者故障注入确认PID消失 |
-| stdout/stderr无上限 | 修正最初硬杀策略的兼容回归：每路保存前32MiB，超量继续排空且标记截断，不因日志量杀程序；保留stderr尾部，历史job仅缓存元数据 |
-| 精确checker没有独立上限 | 独立子进程、每次300秒、合计2400秒；超时／崩溃不算错误证书或0分，保存验证异常记录 |
-| CI仍写PENDING、缺少本题回执与版本绑定 | 历史CI与平台回执保留旧版本绑定；各轮CI按各轮实际代码提交及载荷摘要绑定，本轮UID范围修订的状态见local_validation.json，不能使用platform.5的CI证明本轮代码；平台复评待用户决定 |
-| DDI-019旧review及dual_platform遗留 | 修复平台同步删除列表；Git历史保留旧材料，本题活动材料不再引用旧模板 |
-| 缺回滚说明 | release_and_rollback.md提供暂存前后及已推送后的回滚步骤，保护其他工作区改动 |
-| 联网与五小时窗口 | 保持公开允许的工具和原时限，不用未经验证的禁网／缩时改变已通过T1的任务条件 |
-
-作者回归和CI运行链接是可核查证据，不是正式平台新T1或R2。任何新增代码保护都不能据此保证两份未来新答卷精确复现0.518和0.617。平台剩余次数以当前页面为准；本轮不自动触发，不原样重试赌评分波动，不虚构已通过R2。
-
-本地追加核对：原子输入替换防止跟随候选链接；输出以候选身份读取普通文件，拒绝FIFO阻塞；每次入口清除旧reward；收尾失败优先报错；stdout输出有界异常细节并标明阶段。均不追加计分实例。
-
-
-## 本轮脚本安全硬门禁
-
-第二次平台反馈仍不接受前置范围检查作为setegid(gid)和setgroups(groups)的静态证明。当前直接取消父进程身份切换和变量恢复：子进程只以字面量setgroups([])、setgid(10001)、setuid(10001)降权后读取，父进程身份保持原样。所有实际身份修改参数均为范围内字面量；不是隐藏调用或将同一变量换名。子进程错误仍保留验证器异常分类，数学评分与公开条件不变。27项子进程／身份控制、15项边界检查及792项作者对照通过，平台门禁仍待复评。
+Local containers use CPU, memory, UID separation, no-new-privileges and network isolation. The platform mount and permission configuration must be verified through platform receipts. Local controls do not establish platform acceptance.

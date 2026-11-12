@@ -25,7 +25,7 @@
     12
   ],
   "seed_rule": "20261024 + zero-based index, fixed before any new answer",
-  "payload_digest": "ea76d14ea9975c2fb5a6aea58f023916de894f674904c972880c8e9c9e8e25e8",
+  "payload_digest": "566379bd613bf238d258542412b6e3953536e23c910b10553305c7c6cd903ac8",
   "public_zip_sha256": "86d47df8f29d31f22b66eabf5f107205ac15c4a32c215ab7e012a07ff9b07d57",
   "weights": [
     0.3,
@@ -34,15 +34,15 @@
     0.25,
     0.1
   ],
-  "normal_cli_calls": 47,
-  "scored_checks": 66,
+  "normal_cli_calls": 53,
+  "scored_checks": 72,
   "command_seconds": 300,
   "cpus": 2,
   "memory_mb": 2048,
   "model_requested": "gpt-6-luna",
   "goal_threshold": 0.5,
   "comparison": "strictly_less",
-  "fresh_answer_status": "NORMAL_LOCAL_GATE_PASS",
+  "fresh_answer_status": "PENDING_V02_PLATFORM_EVALUATION",
   "formal_platform_t1": false,
   "unchanged_grader_components": [
     "tests/algebra.py",
@@ -56,12 +56,12 @@
   ],
   "pushes": 0,
   "platform_operations": 0,
-  "latest_local_reward": 0.310714,
-  "latest_evidence": "evidence/math_k_local_gate.json",
-  "version": "v01",
+  "version": "v02",
   "platform_question_id": 242247,
   "packaging_repair_date": "2026-11-12",
   "public_id": "EB032-MATH-K",
   "configuration_repair": "2026-11-12 task namespace schema",
-  "original_frozen_payload_digest": "f9a6ae7f3f306b2e18cf431fcfb39251536cae5cf562184a83efc76af4debc3d"
+  "original_frozen_payload_digest": "f9a6ae7f3f306b2e18cf431fcfb39251536cae5cf562184a83efc76af4debc3d",
+  "reference_kind": "GENERAL_SEARCH_WITH_EXACT_CERTIFICATE_VALIDATION",
+  "historical_v01_local_reward": 0.310714
 }

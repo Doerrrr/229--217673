@@ -1,5 +1,7 @@
 # EB032-MATH-K：布尔极值的精确下界证书
 
+v02 补充多查询和输出写失败检查，五组权重保持题面规定，历史测评分数保留原版本归属。
+
 平台登记标识为 `mathematics/eb032-math-k-exact-certificate`。
 
 你在维护布尔多项式优化与精确下界证书工具。工程位于 `/work/certificate`。
@@ -26,4 +28,4 @@ cd /work/certificate
 
 ## 发布校验
 
-当前任务公开标识为 EB032-MATH-K，与 task.toml、适配元数据和当前运行结果的 task 字段一致。根目录 .gitattributes 控制 Git 检出的 LF 行尾，包含没有扩展名的 bin 入口。当前检出与全入口验证记录位于 validation/eb032_platform/evidence/current。
+公开标识为 EB032-MATH-K。task.toml、适配元数据和当前结果的 task 字段使用 mathematics/eb032-math-k-exact-certificate。根目录 .gitattributes 控制 Git 检出的 LF 行尾，包含没有扩展名的 bin 入口。当前检出与全入口验证记录位于 validation/eb032_platform/evidence/current。
