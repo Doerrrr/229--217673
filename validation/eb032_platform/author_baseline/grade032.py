@@ -53,6 +53,6 @@ def main():
     for name,args in [('missing-input',['--output',str(r.home/'cli.jsonl')]),('missing-output',['--input',str(source)]),('no-args',[]),('missing-file',['--input',str(r.home/'missing.json'),'--output',str(r.home/'cli.jsonl')])]:
         old=r.file('cli.jsonl',b'CLI_SENTINEL');got=r.call(args)
         r.check('failure',name,got['returncode']!=0 and not got['stdout'] and bool(got['stderr'].strip()) and old.read_bytes()==b'CLI_SENTINEL')
-    r.save('EB-032-MATH-M',WEIGHTS)
+    r.save('EB032-MATH-K',WEIGHTS)
 
 if __name__=='__main__':main()

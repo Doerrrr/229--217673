@@ -1,4 +1,4 @@
-# EB032 MATH-M：布尔极值的精确下界证书
+# EB032-MATH-K：布尔极值的精确下界证书
 
 你在维护布尔多项式优化与精确下界证书工具。工程位于 `/work/certificate`。
 先完整阅读该工程中的 `packet/problem.md`，再修改 `app/`、`bin/`，必要时新增 `build.sh`。
@@ -19,5 +19,9 @@ cd /work/certificate
 可以查资料、编译、运行和自行测试；已经处于 Linux 容器内，不需要也不应启动嵌套 Docker。
 请直接完成工作目录中的工程修改。平台会运行该工程判分，不需要另交 `answer.zip`。
 
-这是 EB032 MATH-M 平台适配版：公开数学契约沿用 DDI-032，计分实例采用已冻结的 MATH-M 版本。
+这是 EB032-MATH-K 平台适配版：公开数学契约沿用 DDI-032，计分实例采用已冻结的 MATH-K 版本。
 直接修改容器内工程；无需另交压缩包。Agent 执行时限为五小时。
+
+## 发布校验
+
+当前任务公开标识为 EB032-MATH-K，与 task.toml、适配元数据和当前运行结果的 task 字段一致。根目录 .gitattributes 控制 Git 检出的 LF 行尾，包含没有扩展名的 bin 入口。当前检出与全入口验证记录位于 validation/eb032_platform/evidence/current。

@@ -1,4 +1,10 @@
 * text=auto eol=lf
 *.csv -text
-tests/* -text
 solution/implementation/finite_witnesses.json -text
+*.sh text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+.gitattributes text eol=lf
+Dockerfile text eol=lf
+**/bin/* text eol=lf

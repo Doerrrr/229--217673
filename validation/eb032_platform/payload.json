@@ -1,10 +1,10 @@
 {
-  "version": "EB032-MATH-K-v01-20261024",
+  "version": "EB032-MATH-K-v01-packaging-repair-20261112",
   "files": {
     "environment/Dockerfile": "138250ec086654082ea41fc5b930390f9412152f75889b965f31e08465d84b3f",
     "environment/app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
     "environment/bin/certified-minimum": "e438d6f5d3b23c382aa889395868e66cf43b416ac02231cab7b9d29509a70833",
-    "environment/packet/problem.md": "4abdfd9392c75ce570a504cd20e3c139b6050a4bd7a4850e1aabf39fb4539056",
+    "environment/packet/problem.md": "ade1b7cbc77376e843ff099b4a30e9ebe3c12cc81841c33d63413e181349d3d0",
     "environment/packet/smoke.json": "e6f32e763955391e5068ac7b3fdcea6c7856c4cf3bcd25ea3c163d0c097940da",
     "solution/solve.sh": "a1e1338cbd86b3fb8e8484ba3af2b56f30f18c23a65c4a4cf12058ebd1460c26",
     "solution/implementation/algebra.py": "ed57766e3c92e1cbd8a7caf0b22c02d1ef362d55bd538f6a8f0ebb117ee2b3d1",
@@ -14,14 +14,14 @@
     "tests/algebra.py": "ed57766e3c92e1cbd8a7caf0b22c02d1ef362d55bd538f6a8f0ebb117ee2b3d1",
     "tests/cases032.json": "9e94501dd0dcc84d9dbe3b32ccc3df6cfc437c7c0f8b033305280a1dbfaec6f8",
     "tests/common.py": "99a215cf58d5a52317b5591569d36bcff905aa401957835a5404edac3d90fa44",
-    "tests/grade032.py": "585bca2fca0cf718cf1b9e6d026c712e3bfeaa690cd2c37ad8e0bd3410772da9",
+    "tests/grade032.py": "220c0e344553ec5abba9e2a98ee56cf14b98276219f65b6981790964592619da",
     "tests/measure.py": "91337e59296c5df6c386f42e0f6fac8a3ba85565a4a56c70f8ebff0eb6b9494f",
-    "tests/test.sh": "5f4236cb9a676bd19af162ed55a15af8a59bb95b9f52c38ea7f58b83578abf8f",
-    "README.md": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
-    "instruction.md": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
-    "agent_prompt.txt": "e82188dc8d7c536c94a4316a5bfdeb398bf4eb1834d0836f82211c1336219e5f",
-    "task.toml": "c0e63d802a3da5a1364fc57761aaad4a9351bdc406cb792e0d087eecd0c81451",
-    ".gitattributes": "e47a367ef6f3b8b9fed91f14bc624b3c36140bf8d09a2d682aa7555640373fda",
+    "tests/test.sh": "06d57c94463dee59462558c2b5b70bafa1bcf814c99dae4af2b2b4d970e81752",
+    "README.md": "f4ff35249e974904cdb69029a57b039f79d68866163ad68f7141597b4732b26c",
+    "instruction.md": "062f01e6b1f5f38170eb3d3e64d74e7a735c98334e35d836303da2b39bae7a8b",
+    "agent_prompt.txt": "062f01e6b1f5f38170eb3d3e64d74e7a735c98334e35d836303da2b39bae7a8b",
+    "task.toml": "a76d65e0c951f9e08f76967bbb1b9f091fde89ce3737c1a19ff910083b51d2ce",
+    ".gitattributes": "16c0251afd90294cd24ebdfe11f544d77462121579ae2fa02c627be7f8f17451",
     "tests/guarded_check.py": "9205f7039a63509d5d119faf7e5e153df83b70fb269970d121aef698c6e3da09",
     "tests/provenance.py": "fd20bb7d5194c77a9559cc95a6d0f419ce48406b8c7f9c35057697ed22a5f22b",
     "tests/report_reward.py": "9f3479215a860022b6c766a6d9bf04be2a0e340cf65229f125bdd36aa5b29f7f",
@@ -30,8 +30,8 @@
   "candidate_image_files": {
     "app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
     "bin/certified-minimum": "e438d6f5d3b23c382aa889395868e66cf43b416ac02231cab7b9d29509a70833",
-    "packet/problem.md": "4abdfd9392c75ce570a504cd20e3c139b6050a4bd7a4850e1aabf39fb4539056",
+    "packet/problem.md": "ade1b7cbc77376e843ff099b4a30e9ebe3c12cc81841c33d63413e181349d3d0",
     "packet/smoke.json": "e6f32e763955391e5068ac7b3fdcea6c7856c4cf3bcd25ea3c163d0c097940da"
   },
-  "payload_digest": "f9a6ae7f3f306b2e18cf431fcfb39251536cae5cf562184a83efc76af4debc3d"
+  "payload_digest": "84c8b5f8cf4143a869bfea3bd8673c40acbb150262d9125f91c47920d8005298"
 }
