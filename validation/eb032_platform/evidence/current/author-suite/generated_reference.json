@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "records": [
+    {
+      "id": "generated_701",
+      "n": 4,
+      "basis_size": 5,
+      "rank": 4,
+      "state": "CERTIFIED",
+      "input_sha256": "0141bc5567841a72f2df4dfd7fcc051701be9caa81a9237f7f9e0c7485ada9fe"
+    },
+    {
+      "id": "generated_702",
+      "n": 4,
+      "basis_size": 8,
+      "rank": 7,
+      "state": "CERTIFIED",
+      "input_sha256": "906dfea2794a4b35abc4fd60d74733417c6f1334dc628baef01025b282901600"
+    },
+    {
+      "id": "generated_703",
+      "n": 4,
+      "basis_size": 8,
+      "rank": 2,
+      "state": "CERTIFIED",
+      "input_sha256": "f97cfaafe9229c7ebd55cdc58839f7a7a16b39af7e2cd0afebe5b51b215396b9"
+    },
+    {
+      "id": "generated_704",
+      "n": 8,
+      "basis_size": 13,
+      "rank": 12,
+      "state": "CERTIFIED",
+      "input_sha256": "28bcb90a59f87fde4a80bd2d92524871bda2950b854845efb76f3961616bcee2"
+    },
+    {
+      "id": "generated_705",
+      "n": 8,
+      "basis_size": 13,
+      "rank": 3,
+      "state": "INCUMBENT",
+      "input_sha256": "501ac6e106610623941008917694f44806f9a04b3461ac786aa0415be61a3273"
+    },
+    {
+      "id": "generated_706",
+      "n": 6,
+      "basis_size": 10,
+      "rank": 9,
+      "state": "CERTIFIED",
+      "input_sha256": "1481a3836a9a5c73ea058767769fd1ced2639b82ef2dbb8e923dc0e87c9fc145"
+    }
+  ],
+  "source": "GENERATED_FROM_EXACT_SUMS_OF_SQUARES",
+  "cases032_used_for_generation": false,
+  "formal_platform_t1": false
+}

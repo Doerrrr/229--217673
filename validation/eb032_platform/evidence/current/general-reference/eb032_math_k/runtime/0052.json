@@ -1,0 +1,22 @@
+{
+  "returncode": 3,
+  "timed_out": false,
+  "peak_rss_kib": 180440,
+  "elapsed_seconds": 1.1608,
+  "log_truncated": false,
+  "captured_bytes": 131,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "cannot write output: [Errno 13] Permission denied: '/tmp/ddi-night-wa09rlcm/candidate/readonly-parent/.certified-minimum-xet2dpib'\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-wa09rlcm/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-wa09rlcm/candidate/write-source.json",
+    "--output",
+    "/tmp/ddi-night-wa09rlcm/candidate/readonly-parent/old.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "0e52de15e3d1700b6e047c3b5b043a7898655fa035bec931813c539b81ea4bb0",
+  "input_read_error": null
+}

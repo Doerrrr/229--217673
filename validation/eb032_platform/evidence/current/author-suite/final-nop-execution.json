@@ -1,0 +1,32 @@
+{
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "2",
+    "--memory",
+    "2048m",
+    "--pids-limit",
+    "256",
+    "--security-opt",
+    "no-new-privileges",
+    "--mount",
+    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\repository,target=/root/repo,readonly",
+    "--mount",
+    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v3,target=/root/tools,readonly",
+    "--mount",
+    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v3\\final-nop-logs,target=/logs/verifier",
+    "--entrypoint",
+    "python3",
+    "sha256:faf40d0664aed0db681566f0fb9fe7f18a644cbf7f90022076822ea29860aee5",
+    "-B",
+    "/root/tools/worker.py",
+    "--mode",
+    "nop"
+  ],
+  "exit_code": 0,
+  "seconds": 16.393865700112656
+}

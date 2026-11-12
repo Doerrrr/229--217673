@@ -1,0 +1,32 @@
+{
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "2",
+    "--memory",
+    "2048m",
+    "--pids-limit",
+    "256",
+    "--security-opt",
+    "no-new-privileges",
+    "--mount",
+    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\repository,target=/root/author,readonly",
+    "--mount",
+    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v3\\author-suite,target=/root/results",
+    "--entrypoint",
+    "python3",
+    "sha256:faf40d0664aed0db681566f0fb9fe7f18a644cbf7f90022076822ea29860aee5",
+    "-B",
+    "/root/author/validation/eb032_platform/author_checks.py",
+    "--repo",
+    "/root/author",
+    "--results",
+    "/root/results"
+  ],
+  "exit_code": 0,
+  "seconds": 135.8256653000135
+}
