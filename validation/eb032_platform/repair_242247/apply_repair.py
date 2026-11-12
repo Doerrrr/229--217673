@@ -60,7 +60,7 @@ def main():
     if alias.exists():
         operations.append(('gitattributes.txt', alias.read_bytes(), None, False))
     if args.check:
-        print(json.dumps(dict(status='CHECK_PASS', task='EB032-MATH-K', changes=len(operations)), ensure_ascii=False))
+        print(json.dumps(dict(status='CHECK_PASS', task=manifest['task'], changes=len(operations)), ensure_ascii=False))
         return
     if not operations:
         print('ALREADY_APPLIED')
@@ -120,7 +120,7 @@ def main():
                         '--pathspec-from-file='+str(pathspec),'--pathspec-file-nul'], check=True)
     finally:
         pathspec.unlink()
-    print(json.dumps(dict(status='APPLIED_AND_STAGED', task='EB032-MATH-K',
+    print(json.dumps(dict(status='APPLIED_AND_STAGED', task=manifest['task'],
                          backup=str(backup), changed_files=len(operations)), ensure_ascii=False))
 
 

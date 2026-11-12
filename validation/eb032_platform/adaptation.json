@@ -25,7 +25,7 @@
     12
   ],
   "seed_rule": "20261024 + zero-based index, fixed before any new answer",
-  "payload_digest": "f9a6ae7f3f306b2e18cf431fcfb39251536cae5cf562184a83efc76af4debc3d",
+  "payload_digest": "ea76d14ea9975c2fb5a6aea58f023916de894f674904c972880c8e9c9e8e25e8",
   "public_zip_sha256": "86d47df8f29d31f22b66eabf5f107205ac15c4a32c215ab7e012a07ff9b07d57",
   "weights": [
     0.3,
@@ -62,5 +62,6 @@
   "platform_question_id": 242247,
   "packaging_repair_date": "2026-11-12",
   "public_id": "EB032-MATH-K",
-  "configuration_repair": "2026-11-12 task namespace schema"
+  "configuration_repair": "2026-11-12 task namespace schema",
+  "original_frozen_payload_digest": "f9a6ae7f3f306b2e18cf431fcfb39251536cae5cf562184a83efc76af4debc3d"
 }

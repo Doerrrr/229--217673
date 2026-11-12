@@ -1,5 +1,7 @@
 # EB032-MATH-K：布尔极值的精确下界证书
 
+平台登记标识为 `mathematics/eb032-math-k-exact-certificate`。
+
 你在维护布尔多项式优化与精确下界证书工具。工程位于 `/work/certificate`。
 先完整阅读该工程中的 `packet/problem.md`，再修改 `app/`、`bin/`，必要时新增 `build.sh`。
 输入格式、输出状态、精确证书条件、失败保护、规模和评分规则均以该文件为准。

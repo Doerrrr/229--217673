@@ -1,8 +1,8 @@
 {
   "returncode": 2,
   "timed_out": false,
-  "peak_rss_kib": 16192,
-  "elapsed_seconds": 0.1634,
+  "peak_rss_kib": 16144,
+  "elapsed_seconds": 0.1475,
   "log_truncated": false,
   "captured_bytes": 142,
   "capture_limit_bytes": 67108864,
@@ -10,7 +10,7 @@
   "descendants_signalled": 0,
   "descendants_remaining": 0,
   "command": [
-    "/tmp/ddi-night-b31xurov/candidate/project/bin/certified-minimum"
+    "/tmp/ddi-night-e72q6inu/candidate/project/bin/certified-minimum"
   ],
   "expected_kill": false,
   "input_sha256": null,

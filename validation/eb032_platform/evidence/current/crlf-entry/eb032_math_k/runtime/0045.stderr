@@ -1,2 +1,0 @@
-usage: certified-minimum [-h] --input INPUT --output OUTPUT
-certified-minimum: error: the following arguments are required: --output

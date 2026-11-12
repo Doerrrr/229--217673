@@ -1,5 +1,5 @@
 {
-  "task": "EB032-MATH-K",
+  "task": "mathematics/eb032-math-k-exact-certificate",
   "version": "v01",
   "execution_status": "NORMAL",
   "reward": 0.0,
@@ -449,7 +449,7 @@
   "verification_provenance": {
     "schema_version": 1,
     "source_files_sha256": {
-      "grade032.py": "220c0e344553ec5abba9e2a98ee56cf14b98276219f65b6981790964592619da",
+      "grade032.py": "6d245fd1e02508b175b4a4713b0df82b0688f8e20a4ca0c09eb8cb05d9efbdf3",
       "common.py": "99a215cf58d5a52317b5591569d36bcff905aa401957835a5404edac3d90fa44",
       "measure.py": "91337e59296c5df6c386f42e0f6fac8a3ba85565a4a56c70f8ebff0eb6b9494f",
       "algebra.py": "ed57766e3c92e1cbd8a7caf0b22c02d1ef362d55bd538f6a8f0ebb117ee2b3d1",
@@ -459,7 +459,7 @@
       "output_reader.py": "40f6d5de78a70006cfb1589416311f48fe99863d604c6c6438801b012cea1c4a",
       "cases032.json": "9e94501dd0dcc84d9dbe3b32ccc3df6cfc437c7c0f8b033305280a1dbfaec6f8"
     },
-    "source_digest": "a675dfe0cb86adf917747146528ec5cc2ed7496f86b601e65c14e00db31618a9",
+    "source_digest": "e6eee92ebf612912595fa96799b14fb035b83ad58f78bcf517461983f9f1c23d",
     "inputs": [
       {
         "call": "0001",

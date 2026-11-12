@@ -1,18 +1,14 @@
 {
-  "task": "EB032-MATH-K",
-  "payload_digest": "f9a6ae7f3f306b2e18cf431fcfb39251536cae5cf562184a83efc76af4debc3d",
-  "status": "LOCAL_DIFFICULTY_GATE_PASS",
-  "normal": true,
-  "reward": 0.310714,
-  "passed": true,
-  "threshold": 0.5,
-  "comparison": "strictly_less",
+  "task": "mathematics/eb032-math-k-exact-certificate",
+  "public_id": "EB032-MATH-K",
+  "status": "LOCAL_PACKAGING_RUNTIME_CONTROLS_PASS",
+  "payload_digest": "ea76d14ea9975c2fb5a6aea58f023916de894f674904c972880c8e9c9e8e25e8",
   "records": [
     {
       "mode": "oracle",
       "actual_test_sh": true,
       "test_exit": 0,
-      "seconds": 15.522552448,
+      "seconds": 15.657805893000003,
       "packages": {
         "numpy": "2.2.6",
         "scipy": "1.15.3",
@@ -70,17 +66,15 @@
         }
       ],
       "measured_calls": 47,
-      "candidate_seconds": 7.108200000000002,
-      "peak_rss_kib": 17508,
-      "label": "oracle",
-      "container_exit": 0,
-      "wall_seconds": 30.4898049000185
+      "candidate_seconds": 7.092899999999999,
+      "peak_rss_kib": 17564,
+      "task": "mathematics/eb032-math-k-exact-certificate"
     },
     {
       "mode": "nop",
       "actual_test_sh": true,
       "test_exit": 0,
-      "seconds": 14.525760799,
+      "seconds": 14.340209716999993,
       "packages": {
         "numpy": "2.2.6",
         "scipy": "1.15.3",
@@ -138,88 +132,16 @@
         }
       ],
       "measured_calls": 47,
-      "candidate_seconds": 6.0635,
-      "peak_rss_kib": 15900,
-      "label": "nop",
-      "container_exit": 0,
-      "wall_seconds": 15.547217999992426
-    },
-    {
-      "mode": "ds",
-      "actual_test_sh": true,
-      "test_exit": 0,
-      "seconds": 26.284895151,
-      "packages": {
-        "numpy": "2.2.6",
-        "scipy": "1.15.3",
-        "sympy": "1.13.3",
-        "cvxpy": "1.7.2",
-        "scs": "3.2.8",
-        "clarabel": "0.11.1",
-        "ortools": "9.14.6206"
-      },
-      "formal_platform_t1": false,
-      "new_model_calls": 0,
-      "execution_status": "NORMAL",
-      "reward": 0.310714,
-      "checks": 66,
-      "groups": [
-        {
-          "name": "witness",
-          "weight": 0.3,
-          "passed": 19,
-          "total": 19,
-          "aggregation": "PROPORTIONAL",
-          "earned": 0.3
-        },
-        {
-          "name": "quadratic_proof",
-          "weight": 0.15,
-          "passed": 0,
-          "total": 7,
-          "aggregation": "PROPORTIONAL",
-          "earned": 0.0
-        },
-        {
-          "name": "quartic_proof",
-          "weight": 0.2,
-          "passed": 0,
-          "total": 6,
-          "aggregation": "PROPORTIONAL",
-          "earned": 0.0
-        },
-        {
-          "name": "singular_proof",
-          "weight": 0.25,
-          "passed": 0,
-          "total": 6,
-          "aggregation": "PROPORTIONAL",
-          "earned": 0.0
-        },
-        {
-          "name": "failure",
-          "weight": 0.1,
-          "passed": 3,
-          "total": 28,
-          "aggregation": "PROPORTIONAL",
-          "earned": 0.010714285714285714
-        }
-      ],
-      "measured_calls": 48,
-      "candidate_seconds": 18.062600000000007,
-      "peak_rss_kib": 98504,
-      "label": "luna_k02",
-      "container_exit": 0,
-      "wall_seconds": 27.450096099986695
+      "candidate_seconds": 5.7153,
+      "peak_rss_kib": 15952,
+      "task": "mathematics/eb032-math-k-exact-certificate"
     }
   ],
-  "source_unchanged": true,
-  "actual_production_test_sh": true,
-  "formal_platform_t1": false,
-  "new_answer_agent_calls": 1,
-  "attempt": "k02",
-  "pushes": 0,
-  "platform_operations": 0,
-  "public_repository_prior_version_exposed": true,
-  "version": "v01"
+  "historical_difficulty_evidence": {
+    "source_commit": "057684214e55809daf4537724eab8203a18c3b41",
+    "reward": 0.310714,
+    "formal_platform_t1": false
+  },
+  "formal_platform_check": "PENDING_USER_RESUBMISSION",
+  "new_model_calls": 0
 }
