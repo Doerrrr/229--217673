@@ -1,20 +1,23 @@
 """Read-only fixed-payload and public/private boundary check."""
 from pathlib import Path
-import ast,hashlib,json,tomllib
+import ast,hashlib,json,tomllib,re
 ROOT=Path(__file__).resolve().parents[2]
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
     task=tomllib.loads((ROOT/'task.toml').read_text(encoding='utf-8'))['task']['name']
-    assert task=='EB032-MATH-K','unexpected public task identity'
+    assert re.fullmatch(r'[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*',task),'task.name must use organization/task format'
+    assert task=='mathematics/eb032-math-k-exact-certificate','unexpected registered task identity'
+    public_id='EB032-MATH-K'
     adaptation=json.loads((ROOT/'validation/eb032_platform/adaptation.json').read_bytes())
     assert adaptation['task']==task,'adaptation task differs from task.toml'
+    assert adaptation['public_id']==public_id,'unexpected public title identity'
     attributes=ROOT/'.gitattributes'
     assert attributes.is_file() and not (ROOT/'gitattributes.txt').exists(),'publish the real Git attributes filename'
     assert b'**/bin/* text eol=lf' in attributes.read_bytes(),'extensionless entrypoints need LF checkout rules'
     for name in ('tests/test.sh','solution/solve.sh','environment/bin/certified-minimum','environment/Dockerfile'):
         assert b'\r' not in (ROOT/name).read_bytes(),'non-LF release script: '+name
     for name in ('README.md','instruction.md','agent_prompt.txt'):
-        assert (ROOT/name).read_text(encoding='utf-8').splitlines()[0].startswith('# '+task),'public title differs: '+name
+        assert (ROOT/name).read_text(encoding='utf-8').splitlines()[0].startswith('# '+public_id),'public title differs: '+name
     for result in (ROOT/'validation/eb032_platform/evidence/current').rglob('result.json'):
         assert json.loads(result.read_bytes())['task']==task,'archived result task differs: '+str(result)
     manifest=json.loads((ROOT/'validation/eb032_platform/payload.json').read_bytes())

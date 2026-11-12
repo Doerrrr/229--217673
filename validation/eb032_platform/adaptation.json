@@ -1,5 +1,5 @@
 {
-  "task": "EB032-MATH-K",
+  "task": "mathematics/eb032-math-k-exact-certificate",
   "created_at": "2026-10-24T04:44:08.333698+00:00",
   "previous_version": "EB032-MATH-J-v01",
   "previous_fresh_luna_result": "CANDIDATE_TIMEOUT_300S_NO_SCORE",
@@ -60,5 +60,7 @@
   "latest_evidence": "evidence/math_k_local_gate.json",
   "version": "v01",
   "platform_question_id": 242247,
-  "packaging_repair_date": "2026-11-12"
+  "packaging_repair_date": "2026-11-12",
+  "public_id": "EB032-MATH-K",
+  "configuration_repair": "2026-11-12 task namespace schema"
 }
