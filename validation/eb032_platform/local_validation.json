@@ -1,5 +1,5 @@
 {
-  "task": "EB032-MATH-K-v01",
+  "task": "EB032-MATH-K",
   "payload_digest": "f9a6ae7f3f306b2e18cf431fcfb39251536cae5cf562184a83efc76af4debc3d",
   "status": "LOCAL_DIFFICULTY_GATE_PASS",
   "normal": true,
@@ -220,5 +220,6 @@
   "attempt": "k02",
   "pushes": 0,
   "platform_operations": 0,
-  "public_repository_prior_version_exposed": true
+  "public_repository_prior_version_exposed": true,
+  "version": "v01"
 }

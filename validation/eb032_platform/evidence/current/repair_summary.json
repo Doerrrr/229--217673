@@ -1,0 +1,41 @@
+{
+  "task": "EB032-MATH-K",
+  "question_id": 242247,
+  "verified_source_commit": "c01a527c360583e0a4fb478349acd7ebad909212",
+  "controls": {
+    "windows-cold": {
+      "reward": 1.0,
+      "execution_status": "NORMAL",
+      "checks": 66,
+      "result_sha256": "a6dd562911bedd717df4f04931f904304cc9a2057134a4ee20cee493c51a1524"
+    },
+    "linux-cold": {
+      "reward": 1.0,
+      "execution_status": "NORMAL",
+      "checks": 66,
+      "result_sha256": "a6dd562911bedd717df4f04931f904304cc9a2057134a4ee20cee493c51a1524"
+    },
+    "crlf-entry": {
+      "reward": 1.0,
+      "execution_status": "NORMAL",
+      "checks": 66,
+      "result_sha256": "a6dd562911bedd717df4f04931f904304cc9a2057134a4ee20cee493c51a1524"
+    },
+    "nop": {
+      "reward": 0.0,
+      "execution_status": "NORMAL",
+      "checks": 66,
+      "result_sha256": "ea8e33d41f2fe442db6fbee1e58555e65baf56943386067c7644092fc54c46bf"
+    }
+  },
+  "before_filename_failure_reproduced": true,
+  "before_identity_mismatch_detected": true,
+  "original_archive_preserved_as": "before_original_commit_0576842.zip",
+  "original_archive_sha256": "693b956bddbdcb731f3e47e8fb432f4822e8e605b9718092f3eb81c17b9ef54f",
+  "actual_platform_snapshot_available": false,
+  "filename_negative_scope": "reconstructed from reported platform defect and original local release",
+  "math_payload_changed": false,
+  "new_model_calls": 0,
+  "built_image_id": "sha256:7f106ea45a5e565a2910c2c1d911f573244034d71464046264624e9a2962b554",
+  "cold_docker_builds": "Windows and native Linux checkouts both built the identical image; default build network used for pinned dependencies, runtime network none"
+}

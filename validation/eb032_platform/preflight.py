@@ -15,7 +15,7 @@ def main():
         assert b'\r' not in (ROOT/name).read_bytes(),'non-LF release script: '+name
     for name in ('README.md','instruction.md','agent_prompt.txt'):
         assert (ROOT/name).read_text(encoding='utf-8').splitlines()[0].startswith('# '+task),'public title differs: '+name
-    for result in (ROOT/'validation/eb032_platform/evidence/current').glob('*/result.json'):
+    for result in (ROOT/'validation/eb032_platform/evidence/current').rglob('result.json'):
         assert json.loads(result.read_bytes())['task']==task,'archived result task differs: '+str(result)
     manifest=json.loads((ROOT/'validation/eb032_platform/payload.json').read_bytes())
     for relative,expected in manifest['files'].items():assert sha(ROOT/relative)==expected,relative
