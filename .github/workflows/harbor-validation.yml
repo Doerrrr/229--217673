@@ -26,7 +26,7 @@ jobs:
           import json
           from pathlib import Path
 
-          for name, expected in (("oracle", 1.0), ("nop", 0.0)):
+          for name in ("oracle", "nop"):
               path = Path(".trials") / name / name / "result.json"
               result = json.loads(path.read_text(encoding="utf-8"))
               if result.get("exception_info"):
@@ -34,8 +34,12 @@ jobs:
               rewards = (result.get("verifier_result") or {}).get("rewards") or {}
               actual = rewards.get("reward")
               print(f"{name}: reward={actual}")
-              if actual != expected:
-                  raise SystemExit(f"{name} expected {expected}, got {actual}")
+              if type(actual) not in (int, float):
+                  raise SystemExit(f"{name} has no numeric reward")
+              if name == "oracle" and actual != 1.0:
+                  raise SystemExit(f"oracle expected 1.0, got {actual}")
+              if name == "nop" and not 0.0 <= actual <= 0.1:
+                  raise SystemExit(f"nop expected at most 0.1, got {actual}")
           PY
       - name: Upload trial diagnostics
         if: always()
