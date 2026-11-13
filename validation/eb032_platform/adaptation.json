@@ -25,7 +25,7 @@
     12
   ],
   "seed_rule": "20261024 + zero-based index, fixed before any new answer",
-  "payload_digest": "566379bd613bf238d258542412b6e3953536e23c910b10553305c7c6cd903ac8",
+  "payload_digest": "7f7899457584bc047a29721913e1d7f84de2d10c2e081478e6bdf26cf61e35b4",
   "public_zip_sha256": "86d47df8f29d31f22b66eabf5f107205ac15c4a32c215ab7e012a07ff9b07d57",
   "weights": [
     0.3,
@@ -42,7 +42,7 @@
   "model_requested": "gpt-6-luna",
   "goal_threshold": 0.5,
   "comparison": "strictly_less",
-  "fresh_answer_status": "PENDING_V02_PLATFORM_EVALUATION",
+  "fresh_answer_status": "PENDING_V03_PLATFORM_EVALUATION",
   "formal_platform_t1": false,
   "unchanged_grader_components": [
     "tests/algebra.py",
@@ -56,12 +56,14 @@
   ],
   "pushes": 0,
   "platform_operations": 0,
-  "version": "v02",
+  "version": "v03",
   "platform_question_id": 242247,
-  "packaging_repair_date": "2026-11-12",
+  "packaging_repair_date": "2026-11-13",
   "public_id": "EB032-MATH-K",
   "configuration_repair": "2026-11-12 task namespace schema",
   "original_frozen_payload_digest": "f9a6ae7f3f306b2e18cf431fcfb39251536cae5cf562184a83efc76af4debc3d",
   "reference_kind": "GENERAL_SEARCH_WITH_EXACT_CERTIFICATE_VALIDATION",
-  "historical_v01_local_reward": 0.310714
+  "historical_v01_local_reward": 0.310714,
+  "agent_seconds": 14400,
+  "oracle_required_reward": 1.0
 }

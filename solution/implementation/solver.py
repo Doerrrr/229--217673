@@ -186,6 +186,7 @@ def exact_identity(basis, poly, assignment, gram):
     return all(actual.get(mask, 0) == target.get(mask, 0) for mask in set(actual) | set(target))
 
 def certificate(basis, poly, assignment, seconds, equal_assignments=()):
+    deadline = time.monotonic() + seconds
     data = equations(basis, poly, assignment, equal_assignments)
     if data is None: return None
     rows, columns, target, signs = data
@@ -218,7 +219,6 @@ def certificate(basis, poly, assignment, seconds, equal_assignments=()):
             except Exception: return None
     if H.value is None: return None
     numerical = np.asarray(H.value)*scale
-    deadline = time.monotonic()+seconds
     for digits in (5, 7, 9, 11, 13):
         if time.monotonic() >= deadline: break
         denominator = 10**digits
@@ -247,7 +247,10 @@ def certificate(basis, poly, assignment, seconds, equal_assignments=()):
                 for item in row: string_of(item)
         except OverflowError: continue
         return gram
-    return None
+    from recovery import recover_gram
+    import sys
+    return recover_gram(basis, poly, assignment, numerical, deadline,
+                        sys.modules[__name__])
 
 def equal_minima(n, poly, assignment, seconds, limit=96):
     """Find other exact ties; each supplies a necessary Gram-kernel vector."""

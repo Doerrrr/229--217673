@@ -1,4 +1,4 @@
-"""Author regressions for v02 scoring, runtime faults and public CLI boundaries."""
+"""Author regressions for v03 Oracle, runtime faults and public CLI boundaries."""
 import argparse,copy,hashlib,importlib.util,json,os,shutil,signal,subprocess,sys,tempfile,time
 from fractions import Fraction
 from pathlib import Path
@@ -44,9 +44,10 @@ def solve(query, budget):
         require(got.returncode == 0, 'grader execution failed: ' + profile)
         record = json.loads((target / 'result.json').read_bytes())
         require(record['execution_status'] == 'NORMAL', 'abnormal control: ' + profile)
-        require(len(record['cases']) == 72, 'v02 assertion count changed')
+        require(len(record['cases']) == 72, 'v03 assertion count changed')
         groups = {g['name']: g for g in record['groups']}
         if profile == 'general':
+            require(record['reward'] == 1.0, 'Oracle must score exactly 1.0')
             require(groups['witness']['passed'] == groups['witness']['total'], 'reference assignment regression')
             require(groups['failure']['passed'] == groups['failure']['total'], 'reference contract regression')
         elif profile == 'point':
@@ -54,7 +55,7 @@ def solve(query, budget):
         else:
             require(record['reward'] == round(0.1 * 3 / 34, 6), 'empty scaffold control changed')
         records.append(dict(profile=profile, reward=record['reward'], groups=record['groups']))
-    report = dict(status='PASS', records=records, scoring_version='v02',
+    report = dict(status='PASS', records=records, scoring_version='v03',
                   formal_platform_t1=False, new_model_calls=0)
     dump(results / 'score_controls.json', report)
     return report
@@ -207,24 +208,31 @@ def generated_reference_checks(repo, results, workspace):
     records = []
     for seed, n, pair_count, rank in [(701, 4, 0, 4), (702, 4, 3, 7),
                                        (703, 4, 3, 2), (704, 8, 4, 12),
-                                       (705, 8, 4, 3), (706, 6, 3, 9)]:
+                                       (705, 8, 4, 3), (706, 6, 3, 9),
+                                       (707, 8, 6, 3), (708, 8, 6, 2)]:
         rng = random.Random(seed)
         pairs = [(i, j) for i in range(n) for j in range(i + 1, n)]
         rng.shuffle(pairs)
         basis = [()] + [(i,) for i in range(n)] + pairs[:pair_count]
+        if seed >= 707:
+            reordered = basis[1:]
+            rng.shuffle(reordered)
+            basis = [()] + reordered
         masks = [sum(1 << i for i in mono) for mono in basis]
         dimension = len(basis) - 1
         coefficients = defaultdict(Fraction)
         coefficients[0] = Fraction(-3, 7)
         for row in range(rank):
-            values = [rng.randint(-2, 2) for _ in range(dimension)]
+            bound = 10000 if seed >= 707 else 2
+            values = [rng.randint(-bound, bound) for _ in range(dimension)]
             if rank == dimension:
                 values = [0 if j > row else values[j] for j in range(dimension)]
                 values[row] = 3
             vector = [-sum(values)] + values
+            weight = Fraction(1, (1, 17**2, 257**2)[row]) if seed == 707 else 1
             for i, left in enumerate(vector):
                 for j, right in enumerate(vector):
-                    coefficients[masks[i] ^ masks[j]] += left * right
+                    coefficients[masks[i] ^ masks[j]] += weight * left * right
         query = dict(id='generated_%d' % seed, n=n, basis=[list(v) for v in basis],
                      terms=[dict(vars=[i for i in range(n) if mask >> i & 1], coef=str(value))
                             for mask, value in sorted(coefficients.items()) if value])
@@ -235,7 +243,7 @@ def generated_reference_checks(repo, results, workspace):
         rows = [json.loads(line) for line in output.read_text().splitlines()]
         require(len(rows) == 1, 'generated row count')
         point, proof, evidence = check(query, rows[0], '-3/7')
-        require(point and (proof or rows[0]['state'] == 'INCUMBENT'), 'generated result invalid: ' + query['id'] + ' ' + str(evidence))
+        require(point and proof, 'generated exact certificate missing: ' + query['id'] + ' ' + str(evidence))
         records.append(dict(id=query['id'], n=n, basis_size=len(basis), rank=rank,
                             state=rows[0]['state'], input_sha256=sha(source.read_bytes())))
     require(any(r['state'] == 'CERTIFIED' and r['basis_size'] > r['n'] + 1 for r in records), 'quartic certificate capability missing')

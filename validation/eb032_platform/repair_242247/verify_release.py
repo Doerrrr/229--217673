@@ -50,6 +50,17 @@ def main():
         print('RELEASE_CHECK_FAIL', len(errors))
         print('\n'.join(errors[:30]))
         return 1
+    current = root / 'validation/eb032_platform/evidence/current'
+    for profile in ('general-reference', 'nop'):
+        result = json.loads((current / profile / 'eb032_math_k/result.json').read_bytes())
+        reward = result.get('reward')
+        valid_reward = isinstance(reward, (int, float))
+        if result['execution_status'] != 'NORMAL' or not valid_reward:
+            raise ValueError('abnormal control: ' + profile)
+        if profile == 'general-reference' and reward != 1.0:
+            raise ValueError('Oracle must score exactly 1.0')
+        if profile == 'nop' and reward > 0.1:
+            raise ValueError('NOP exceeds 0.1')
     subprocess.run([sys.executable, '-B', str(root / 'validation/eb032_platform/preflight.py')], check=True)
     print(json.dumps(dict(status='RELEASE_CHECK_PASS', task=manifest['task'],
                           version=manifest['version'], files_checked=checked)))

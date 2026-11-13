@@ -1,19 +1,15 @@
-# EB032-MATH-K v01 本地独立测试发布记录
+# EB032-MATH-K v03 platform record
 
-本版保留公开契约、接口、精确检查器和30%/15%/20%/25%/10%权重。保留2个接口锚点，将其余16个数学实例改为固定种子的8/10/12变量共享约束实例。payload.json绑定当前25个源文件；冻结设计见evidence/math_k_frozen_design.json。
+Registered task is mathematics/eb032-math-k-exact-certificate, question 242247. Version v03 preserves the frozen mathematical cases and the v02 scoring denominator. The current general reference must score exactly 1.000 under production test.sh before publication. NOP must complete normally at or below 0.100.
 
-## 已验证范围
+## Supplied historical platform report
 
-固定Linux镜像sha256:75eda9c61ba14a73d5b8eb651a967cdb748c45e48003cae1c3a1b03c0051c600，2CPU、2048MiB、单次300秒，真实test.sh判分。Oracle正常1.000，NOP正常0.000。GPT-6-Luna全新子代理仅按公开包作答，交卷后冻结，父代理未修改源码或反馈私有测试。边界依赖指令，未宣称宿主机文件系统物理隔离。
+The user-supplied first-revision report identifies platform source 394a6c9dde4ca4bf64a6cc3f7595c8b054b2a226. R1 scored 96, NOP 0.000, Oracle 1.000 and candidate 1 0.681 with normal completion. Candidate 2 reached runner_timeout after approximately four hours and produced no valid reward. T1 failed and R2 was unexecuted. Archive integrity fields describe stored artifacts. Candidate command contents were unavailable in the supplied index.
 
-第一次独立答卷在Linux build阶段因末行CRLF失败，reward=null。保留其失败证据后，进行了1次新的独立技术重试；新代理不继承前一答卷或私有反馈，只增加通用Linux build/smoke与LF要求。共2份独立答卷，只有1份有效完整成绩，没有多份有效分数择低。
+The previously published v02 general reference scored 0.55 locally and did not satisfy the Oracle gate. Its Git commit and ZIP remain recoverable history. Current v03 receipts and source binding appear in local_validation.json and evidence/current.
 
-技术重试正常完成66项检查，48次计量调用（含build），得分0.310714，低于本地目标0.500。最优赋值19/19，二次证书0/7、四次证书0/6、退化证书0/6，失败保护3/28。全部最优点正确，主要缺陷为没有精确Gram证书及错误输入/CLI处理；不能宣称最优搜索已被难住。原权重和精确判定均未改变。
+## Publication and evaluation
 
-## 资格和发布边界
+The GitHub author repository publishes the complete task, including private scoring and author sources. The candidate Docker image contains app, bin and packet plus locked dependencies. Public author-source availability is recorded separately from local execution and formal platform acceptance.
 
-这是本地子代理筛选，非正式平台T1，不证明两个正式模型均达标。旧MATH-J的作者材料已经出现在公开仓库，K仍沿用两个锚点和通用检查器；材料暴露与诊断分数分别记录。没有第三方使用旧材料的证据。本次仅个人GitHub源码同步，不等于平台检测或提交。
-
-完整作者发布范围包含tests/cases032.json、tests/grade032.py与solution/implementation/finite_witnesses.json；候选镜像仍只COPY app、bin、packet。公开仓库内的作者文件不能视为保密材料。
-
-同步脚本只暂存任务源文件，保留平台.github与原始CSV，不自动commit/push或触发检测。平台当前T1仍未验证，不复用历史R2结论。
+Use the pinned backup installer and verify_release.py to apply known release bytes. Review the compact staged summary and submit through the platform workflow. This release makes no automatic model calls or platform submissions. Both v03 candidate evaluations, R1 and R2 require new platform receipts.
