@@ -47,7 +47,7 @@ def main():
             assert sha(new) == item['after_sha256'], 'repair payload changed: ' + relative
         if old == new:
             continue
-        if item['status'] != 'D' and old is not None:
+        if old is not None:
             assert sha(old.replace(b'\r\n', b'\n')) in item['accepted_before_sha256'], 'review a conflicting edited file: ' + relative
         if item['status'] != 'D' and old is None and item['before_sha256'] is not None:
             if relative == '.gitattributes':

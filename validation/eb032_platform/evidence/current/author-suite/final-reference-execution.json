@@ -16,9 +16,9 @@
     "--mount",
     "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\repository,target=/root/repo,readonly",
     "--mount",
-    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v3,target=/root/tools,readonly",
+    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v03-20261113,target=/root/tools,readonly",
     "--mount",
-    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v3\\final-reference-logs,target=/logs/verifier",
+    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v03-20261113\\final-reference-logs,target=/logs/verifier",
     "--entrypoint",
     "python3",
     "sha256:faf40d0664aed0db681566f0fb9fe7f18a644cbf7f90022076822ea29860aee5",
@@ -28,5 +28,5 @@
     "oracle"
   ],
   "exit_code": 0,
-  "seconds": 48.324377599870786
+  "seconds": 87.66832550009713
 }

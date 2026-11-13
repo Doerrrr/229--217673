@@ -8,7 +8,7 @@
     "records": [
       {
         "profile": "general",
-        "reward": 0.55,
+        "reward": 1.0,
         "groups": [
           {
             "name": "witness",
@@ -29,18 +29,18 @@
           {
             "name": "quartic_proof",
             "weight": 0.2,
-            "passed": 0,
+            "passed": 6,
             "total": 6,
             "aggregation": "PROPORTIONAL",
-            "earned": 0.0
+            "earned": 0.2
           },
           {
             "name": "singular_proof",
             "weight": 0.25,
-            "passed": 0,
+            "passed": 6,
             "total": 6,
             "aggregation": "PROPORTIONAL",
-            "earned": 0.0
+            "earned": 0.25
           },
           {
             "name": "failure",
@@ -145,7 +145,7 @@
         ]
       }
     ],
-    "scoring_version": "v02",
+    "scoring_version": "v03",
     "formal_platform_t1": false,
     "new_model_calls": 0
   },
@@ -156,8 +156,8 @@
         "name": "successful-exit",
         "returncode": 0,
         "timed_out": false,
-        "peak_rss_kib": 11536,
-        "elapsed_seconds": 0.0133,
+        "peak_rss_kib": 11644,
+        "elapsed_seconds": 0.0135,
         "log_truncated": false,
         "captured_bytes": 0,
         "capture_limit_bytes": 67108864,
@@ -169,8 +169,8 @@
         "name": "failed-exit",
         "returncode": 7,
         "timed_out": false,
-        "peak_rss_kib": 11968,
-        "elapsed_seconds": 0.0132,
+        "peak_rss_kib": 11964,
+        "elapsed_seconds": 0.0115,
         "log_truncated": false,
         "captured_bytes": 0,
         "capture_limit_bytes": 67108864,
@@ -182,8 +182,8 @@
         "name": "command-timeout",
         "returncode": -9,
         "timed_out": true,
-        "peak_rss_kib": 11932,
-        "elapsed_seconds": 1.0048,
+        "peak_rss_kib": 11948,
+        "elapsed_seconds": 1.0078,
         "log_truncated": false,
         "captured_bytes": 0,
         "capture_limit_bytes": 67108864,
@@ -195,8 +195,8 @@
         "name": "same-group-background",
         "returncode": 0,
         "timed_out": false,
-        "peak_rss_kib": 14832,
-        "elapsed_seconds": 0.1015,
+        "peak_rss_kib": 14888,
+        "elapsed_seconds": 0.0923,
         "log_truncated": false,
         "captured_bytes": 0,
         "capture_limit_bytes": 67108864,
@@ -208,8 +208,8 @@
         "name": "detached-background",
         "returncode": 0,
         "timed_out": false,
-        "peak_rss_kib": 14884,
-        "elapsed_seconds": 0.1128,
+        "peak_rss_kib": 14784,
+        "elapsed_seconds": 0.1041,
         "log_truncated": false,
         "captured_bytes": 0,
         "capture_limit_bytes": 67108864,
@@ -221,8 +221,8 @@
         "name": "ordinary-stderr",
         "returncode": 0,
         "timed_out": false,
-        "peak_rss_kib": 12520,
-        "elapsed_seconds": 0.0428,
+        "peak_rss_kib": 12408,
+        "elapsed_seconds": 0.0429,
         "log_truncated": false,
         "captured_bytes": 2097152,
         "capture_limit_bytes": 67108864,
@@ -409,7 +409,7 @@
         "n": 8,
         "basis_size": 13,
         "rank": 3,
-        "state": "INCUMBENT",
+        "state": "CERTIFIED",
         "input_sha256": "501ac6e106610623941008917694f44806f9a04b3461ac786aa0415be61a3273"
       },
       {
@@ -419,6 +419,22 @@
         "rank": 9,
         "state": "CERTIFIED",
         "input_sha256": "1481a3836a9a5c73ea058767769fd1ced2639b82ef2dbb8e923dc0e87c9fc145"
+      },
+      {
+        "id": "generated_707",
+        "n": 8,
+        "basis_size": 15,
+        "rank": 3,
+        "state": "CERTIFIED",
+        "input_sha256": "07b965fd6a394d4d6ad5510ad6955eaabbbd12ddc126ad0ff014fb45b2230da1"
+      },
+      {
+        "id": "generated_708",
+        "n": 8,
+        "basis_size": 15,
+        "rank": 2,
+        "state": "CERTIFIED",
+        "input_sha256": "dcef5fb4dfd586b1d77fd77c608d5d504afbff1735eda0993a7372927a1db046"
       }
     ],
     "source": "GENERATED_FROM_EXACT_SUMS_OF_SQUARES",
@@ -543,8 +559,8 @@
     "platform_tests": 0,
     "platform_static_gate_reassessment": false
   },
-  "seconds": 134.90324695200002,
-  "payload_digest": "566379bd613bf238d258542412b6e3953536e23c910b10553305c7c6cd903ac8",
+  "seconds": 212.89088374200003,
+  "payload_digest": "7f7899457584bc047a29721913e1d7f84de2d10c2e081478e6bdf26cf61e35b4",
   "cases_sha256": "9e94501dd0dcc84d9dbe3b32ccc3df6cfc437c7c0f8b033305280a1dbfaec6f8",
   "old_t1_candidates_replayed": false
 }

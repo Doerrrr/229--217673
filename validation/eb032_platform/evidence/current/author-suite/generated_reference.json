@@ -38,7 +38,7 @@
       "n": 8,
       "basis_size": 13,
       "rank": 3,
-      "state": "INCUMBENT",
+      "state": "CERTIFIED",
       "input_sha256": "501ac6e106610623941008917694f44806f9a04b3461ac786aa0415be61a3273"
     },
     {
@@ -48,6 +48,22 @@
       "rank": 9,
       "state": "CERTIFIED",
       "input_sha256": "1481a3836a9a5c73ea058767769fd1ced2639b82ef2dbb8e923dc0e87c9fc145"
+    },
+    {
+      "id": "generated_707",
+      "n": 8,
+      "basis_size": 15,
+      "rank": 3,
+      "state": "CERTIFIED",
+      "input_sha256": "07b965fd6a394d4d6ad5510ad6955eaabbbd12ddc126ad0ff014fb45b2230da1"
+    },
+    {
+      "id": "generated_708",
+      "n": 8,
+      "basis_size": 15,
+      "rank": 2,
+      "state": "CERTIFIED",
+      "input_sha256": "dcef5fb4dfd586b1d77fd77c608d5d504afbff1735eda0993a7372927a1db046"
     }
   ],
   "source": "GENERATED_FROM_EXACT_SUMS_OF_SQUARES",

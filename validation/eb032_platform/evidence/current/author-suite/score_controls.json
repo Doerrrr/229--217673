@@ -3,7 +3,7 @@
   "records": [
     {
       "profile": "general",
-      "reward": 0.55,
+      "reward": 1.0,
       "groups": [
         {
           "name": "witness",
@@ -24,18 +24,18 @@
         {
           "name": "quartic_proof",
           "weight": 0.2,
-          "passed": 0,
+          "passed": 6,
           "total": 6,
           "aggregation": "PROPORTIONAL",
-          "earned": 0.0
+          "earned": 0.2
         },
         {
           "name": "singular_proof",
           "weight": 0.25,
-          "passed": 0,
+          "passed": 6,
           "total": 6,
           "aggregation": "PROPORTIONAL",
-          "earned": 0.0
+          "earned": 0.25
         },
         {
           "name": "failure",
@@ -140,7 +140,7 @@
       ]
     }
   ],
-  "scoring_version": "v02",
+  "scoring_version": "v03",
   "formal_platform_t1": false,
   "new_model_calls": 0
 }

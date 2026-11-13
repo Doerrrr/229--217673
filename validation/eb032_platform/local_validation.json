@@ -1,10 +1,10 @@
 {
   "task": "mathematics/eb032-math-k-exact-certificate",
   "public_id": "EB032-MATH-K",
-  "version": "v02",
-  "status": "LOCAL_QC_REGRESSIONS_PASS",
-  "source_commit": "f62f2c28f7f1f67d33e059f03f82e991e0c9850f",
-  "payload_digest": "566379bd613bf238d258542412b6e3953536e23c910b10553305c7c6cd903ac8",
+  "version": "v03",
+  "status": "LOCAL_ORACLE_AND_REGRESSIONS_PASS",
+  "source_commit": "20efc36d61da48a325936e4c57c0eb28ead8eac6",
+  "payload_digest": "7f7899457584bc047a29721913e1d7f84de2d10c2e081478e6bdf26cf61e35b4",
   "image_digest": "sha256:faf40d0664aed0db681566f0fb9fe7f18a644cbf7f90022076822ea29860aee5",
   "dependency_lock_sha256": "b86af930515c04a4fadba4601f203c0fc5497b767fa88a91d4cba72ed18a68c8",
   "scored_checks": 72,
@@ -14,7 +14,7 @@
       "mode": "oracle",
       "actual_test_sh": true,
       "test_exit": 0,
-      "seconds": 47.26250312100001,
+      "seconds": 86.37683045200004,
       "packages": {
         "numpy": "2.2.6",
         "scipy": "1.15.3",
@@ -27,7 +27,7 @@
       "formal_platform_t1": false,
       "new_model_calls": 0,
       "execution_status": "NORMAL",
-      "reward": 0.55,
+      "reward": 1.0,
       "checks": 72,
       "groups": [
         {
@@ -49,18 +49,18 @@
         {
           "name": "quartic_proof",
           "weight": 0.2,
-          "passed": 0,
+          "passed": 6,
           "total": 6,
           "aggregation": "PROPORTIONAL",
-          "earned": 0.0
+          "earned": 0.2
         },
         {
           "name": "singular_proof",
           "weight": 0.25,
-          "passed": 0,
+          "passed": 6,
           "total": 6,
           "aggregation": "PROPORTIONAL",
-          "earned": 0.0
+          "earned": 0.25
         },
         {
           "name": "failure",
@@ -72,15 +72,15 @@
         }
       ],
       "measured_calls": 53,
-      "candidate_seconds": 37.81180000000002,
-      "peak_rss_kib": 187060,
+      "candidate_seconds": 76.54860000000001,
+      "peak_rss_kib": 216300,
       "task": "mathematics/eb032-math-k-exact-certificate"
     },
     {
       "mode": "nop",
       "actual_test_sh": true,
       "test_exit": 0,
-      "seconds": 15.299741059000098,
+      "seconds": 15.986252997000065,
       "packages": {
         "numpy": "2.2.6",
         "scipy": "1.15.3",
@@ -138,18 +138,34 @@
         }
       ],
       "measured_calls": 53,
-      "candidate_seconds": 6.046800000000002,
-      "peak_rss_kib": 15876,
+      "candidate_seconds": 6.597,
+      "peak_rss_kib": 15904,
       "task": "mathematics/eb032-math-k-exact-certificate"
     }
   ],
+  "oracle_required_reward": 1.0,
   "author_suite_status": "PASS",
-  "reference_limitations": "12 of the 18 scored instances retain INCUMBENT without a proof; generated cases include one INCUMBENT among six cases",
-  "historical_v01_results": {
-    "local_reward": 0.310714,
-    "platform_r1": 93.67,
-    "platform_r2": 81.83
+  "generated_exact_certificates": 8,
+  "formal_platform_check": "PENDING_V03_RESUBMISSION",
+  "new_model_calls": 0,
+  "superseded_v02": {
+    "commit": "0443d0d0cc1c65b6aecfb4e27dd5b40492a288c8",
+    "local_oracle_reward": 0.55,
+    "oracle_gate_satisfied": false
   },
-  "formal_platform_check": "PENDING_V02_RESUBMISSION",
-  "new_model_calls": 0
+  "supplied_platform_report": {
+    "source_commit": "394a6c9dde4ca4bf64a6cc3f7595c8b054b2a226",
+    "r1": 96,
+    "oracle": 1.0,
+    "nop": 0.0,
+    "candidate1": 0.681,
+    "candidate2_reward": null,
+    "candidate2_status": "runner_timeout",
+    "candidate2_seconds": 14399.218714429,
+    "r2": "UNEXECUTED"
+  },
+  "remaining_platform_dependencies": [
+    "v03 normal candidate completions and scores <= 0.7",
+    "v03 R1/R2 review"
+  ]
 }
