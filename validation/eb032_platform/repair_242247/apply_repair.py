@@ -57,6 +57,14 @@ def main():
             else:
                 raise AssertionError('required original file absent: ' + relative)
         operations.append((relative, old, new, item['executable']))
+    manifest_relative = 'validation/eb032_platform/repair_242247/repair_manifest.json'
+    installed_manifest = target_path(root, manifest_relative)
+    prior_manifest = installed_manifest.read_bytes() if installed_manifest.exists() else None
+    release_manifest = (package / 'repair_manifest.json').read_bytes()
+    if prior_manifest != release_manifest:
+        if prior_manifest is not None:
+            assert sha(prior_manifest.replace(b'\r\n', b'\n')) in manifest['accepted_manifest_sha256'], 'review a conflicting edited file: ' + manifest_relative
+        operations.append((manifest_relative, prior_manifest, release_manifest, False))
     alias = target_path(root, 'gitattributes.txt')
     if alias.exists():
         operations.append(('gitattributes.txt', alias.read_bytes(), None, False))
