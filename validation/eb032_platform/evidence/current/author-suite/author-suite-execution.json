@@ -16,10 +16,10 @@
     "--mount",
     "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\repository,target=/root/author,readonly",
     "--mount",
-    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v03-20261113\\author-suite,target=/root/results",
+    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v04-20261114\\author-suite,target=/root/results",
     "--entrypoint",
     "python3",
-    "sha256:faf40d0664aed0db681566f0fb9fe7f18a644cbf7f90022076822ea29860aee5",
+    "sha256:81dc44f438caeb08a1d60c444b1ed34e2bceee6da2b522461e311e744d1539fe",
     "-B",
     "/root/author/validation/eb032_platform/author_checks.py",
     "--repo",
@@ -28,5 +28,5 @@
     "/root/results"
   ],
   "exit_code": 0,
-  "seconds": 213.8522528000176
+  "seconds": 293.752531
 }

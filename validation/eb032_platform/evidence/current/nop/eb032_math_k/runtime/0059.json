@@ -1,0 +1,22 @@
+{
+  "returncode": 0,
+  "timed_out": false,
+  "peak_rss_kib": 15764,
+  "elapsed_seconds": 0.1068,
+  "log_truncated": false,
+  "captured_bytes": 0,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-60h9456k/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-60h9456k/candidate/upper-rational-id.json",
+    "--output",
+    "/tmp/ddi-night-60h9456k/candidate/upper-rational-id.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "e0d55eb9ecc288f063033cf9496f3cfbc3047b402b37f9ec6ed7f9cf3f4d19f8",
+  "input_read_error": null
+}

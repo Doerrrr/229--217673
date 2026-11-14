@@ -1,2 +1,1 @@
-usage: certified-minimum [-h] --input INPUT --output OUTPUT
-certified-minimum: error: the following arguments are required: --input, --output
+invalid input: queries[0].terms[].coef is longer than 80 characters

@@ -1,20 +1,22 @@
 {
   "returncode": 2,
   "timed_out": false,
-  "peak_rss_kib": 16384,
-  "elapsed_seconds": 0.1344,
+  "peak_rss_kib": 16268,
+  "elapsed_seconds": 0.1368,
   "log_truncated": false,
-  "captured_bytes": 132,
+  "captured_bytes": 61,
   "capture_limit_bytes": 67108864,
-  "stderr_tail": "usage: certified-minimum [-h] --input INPUT --output OUTPUT\ncertified-minimum: error: the following arguments are required: --input\n",
+  "stderr_tail": "invalid input: queries[0].id must be a 1-64 character string\n",
   "descendants_signalled": 0,
   "descendants_remaining": 0,
   "command": [
-    "/tmp/ddi-night-0damuu12/candidate/project/bin/certified-minimum",
+    "/tmp/ddi-night-waxzn7yb/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-waxzn7yb/candidate/bad.json",
     "--output",
-    "/tmp/ddi-night-0damuu12/candidate/cli.jsonl"
+    "/tmp/ddi-night-waxzn7yb/candidate/old.jsonl"
   ],
   "expected_kill": false,
-  "input_sha256": null,
+  "input_sha256": "b498b80023eaffcce46de0a4c0691be6866b6ee696699a1e145275b8deb42390",
   "input_read_error": null
 }

@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "image_digest": "sha256:81dc44f438caeb08a1d60c444b1ed34e2bceee6da2b522461e311e744d1539fe",
+  "candidate_image_files": {
+    "app/main.py": "b13094f85bbab594bead59a4877793e253abb9afbd203fc1359ee646438e58f5",
+    "bin/certified-minimum": "e438d6f5d3b23c382aa889395868e66cf43b416ac02231cab7b9d29509a70833",
+    "packet/smoke.json": "e6f32e763955391e5068ac7b3fdcea6c7856c4cf3bcd25ea3c163d0c097940da",
+    "packet/requirements.lock": "b86af930515c04a4fadba4601f203c0fc5497b767fa88a91d4cba72ed18a68c8",
+    "packet/problem.md": "64827bdda42cc8a8e6fd50a36df1d4e3595dc725fc8b1e7c414cfef72b434db4"
+  },
+  "compileall_bytecode": {
+    "app/__pycache__/main.cpython-311.pyc": {
+      "source": "app/main.py",
+      "code_matches_source": true
+    }
+  },
+  "dependency_lock_sha256": "b86af930515c04a4fadba4601f203c0fc5497b767fa88a91d4cba72ed18a68c8"
+}

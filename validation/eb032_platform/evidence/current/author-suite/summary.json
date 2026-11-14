@@ -45,8 +45,8 @@
           {
             "name": "failure",
             "weight": 0.1,
-            "passed": 34,
-            "total": 34,
+            "passed": 44,
+            "total": 44,
             "aggregation": "PROPORTIONAL",
             "earned": 0.1
           }
@@ -91,8 +91,54 @@
           {
             "name": "failure",
             "weight": 0.1,
-            "passed": 34,
-            "total": 34,
+            "passed": 44,
+            "total": 44,
+            "aggregation": "PROPORTIONAL",
+            "earned": 0.1
+          }
+        ]
+      },
+      {
+        "profile": "rounding",
+        "reward": 0.55,
+        "groups": [
+          {
+            "name": "witness",
+            "weight": 0.3,
+            "passed": 19,
+            "total": 19,
+            "aggregation": "PROPORTIONAL",
+            "earned": 0.3
+          },
+          {
+            "name": "quadratic_proof",
+            "weight": 0.15,
+            "passed": 7,
+            "total": 7,
+            "aggregation": "PROPORTIONAL",
+            "earned": 0.15
+          },
+          {
+            "name": "quartic_proof",
+            "weight": 0.2,
+            "passed": 0,
+            "total": 6,
+            "aggregation": "PROPORTIONAL",
+            "earned": 0.0
+          },
+          {
+            "name": "singular_proof",
+            "weight": 0.25,
+            "passed": 0,
+            "total": 6,
+            "aggregation": "PROPORTIONAL",
+            "earned": 0.0
+          },
+          {
+            "name": "failure",
+            "weight": 0.1,
+            "passed": 44,
+            "total": 44,
             "aggregation": "PROPORTIONAL",
             "earned": 0.1
           }
@@ -100,7 +146,7 @@
       },
       {
         "profile": "nop",
-        "reward": 0.008824,
+        "reward": 0.006818,
         "groups": [
           {
             "name": "witness",
@@ -138,14 +184,14 @@
             "name": "failure",
             "weight": 0.1,
             "passed": 3,
-            "total": 34,
+            "total": 44,
             "aggregation": "PROPORTIONAL",
-            "earned": 0.008823529411764707
+            "earned": 0.006818181818181818
           }
         ]
       }
     ],
-    "scoring_version": "v03",
+    "scoring_version": "v04",
     "formal_platform_t1": false,
     "new_model_calls": 0
   },
@@ -156,8 +202,8 @@
         "name": "successful-exit",
         "returncode": 0,
         "timed_out": false,
-        "peak_rss_kib": 11644,
-        "elapsed_seconds": 0.0135,
+        "peak_rss_kib": 11392,
+        "elapsed_seconds": 0.0123,
         "log_truncated": false,
         "captured_bytes": 0,
         "capture_limit_bytes": 67108864,
@@ -169,8 +215,8 @@
         "name": "failed-exit",
         "returncode": 7,
         "timed_out": false,
-        "peak_rss_kib": 11964,
-        "elapsed_seconds": 0.0115,
+        "peak_rss_kib": 11836,
+        "elapsed_seconds": 0.013,
         "log_truncated": false,
         "captured_bytes": 0,
         "capture_limit_bytes": 67108864,
@@ -182,8 +228,8 @@
         "name": "command-timeout",
         "returncode": -9,
         "timed_out": true,
-        "peak_rss_kib": 11948,
-        "elapsed_seconds": 1.0078,
+        "peak_rss_kib": 11876,
+        "elapsed_seconds": 1.0087,
         "log_truncated": false,
         "captured_bytes": 0,
         "capture_limit_bytes": 67108864,
@@ -196,7 +242,7 @@
         "returncode": 0,
         "timed_out": false,
         "peak_rss_kib": 14888,
-        "elapsed_seconds": 0.0923,
+        "elapsed_seconds": 0.1043,
         "log_truncated": false,
         "captured_bytes": 0,
         "capture_limit_bytes": 67108864,
@@ -208,8 +254,8 @@
         "name": "detached-background",
         "returncode": 0,
         "timed_out": false,
-        "peak_rss_kib": 14784,
-        "elapsed_seconds": 0.1041,
+        "peak_rss_kib": 14876,
+        "elapsed_seconds": 0.1034,
         "log_truncated": false,
         "captured_bytes": 0,
         "capture_limit_bytes": 67108864,
@@ -221,8 +267,8 @@
         "name": "ordinary-stderr",
         "returncode": 0,
         "timed_out": false,
-        "peak_rss_kib": 12408,
-        "elapsed_seconds": 0.0429,
+        "peak_rss_kib": 12496,
+        "elapsed_seconds": 0.0395,
         "log_truncated": false,
         "captured_bytes": 2097152,
         "capture_limit_bytes": 67108864,
@@ -368,6 +414,40 @@
     ],
     "scope": "NON_SCORING_AUTHOR_REFERENCE_REGRESSIONS",
     "candidate_scoring_cases_added": 0
+  },
+  "exact_search": {
+    "status": "PASS",
+    "records": [
+      {
+        "n": 2,
+        "points_checked": 4
+      },
+      {
+        "n": 3,
+        "points_checked": 8
+      },
+      {
+        "n": 4,
+        "points_checked": 16
+      },
+      {
+        "n": 5,
+        "points_checked": 32
+      },
+      {
+        "n": 6,
+        "points_checked": 64
+      },
+      {
+        "n": 7,
+        "points_checked": 128
+      },
+      {
+        "n": 8,
+        "points_checked": 256
+      }
+    ],
+    "method": "exact transform versus direct rational sum"
   },
   "generated_reference": {
     "status": "PASS",
@@ -559,8 +639,8 @@
     "platform_tests": 0,
     "platform_static_gate_reassessment": false
   },
-  "seconds": 212.89088374200003,
-  "payload_digest": "7f7899457584bc047a29721913e1d7f84de2d10c2e081478e6bdf26cf61e35b4",
-  "cases_sha256": "9e94501dd0dcc84d9dbe3b32ccc3df6cfc437c7c0f8b033305280a1dbfaec6f8",
+  "seconds": 292.59420627400004,
+  "payload_digest": "8dbdf0b244b8498bf50a623a458aae7e327096d24c18f2c55eae38699774db8c",
+  "cases_sha256": "609716de971ebdd673db59339fd3e68dfc5bee6bb8f8f2ebe7cf7f5154cd8b64",
   "old_t1_candidates_replayed": false
 }

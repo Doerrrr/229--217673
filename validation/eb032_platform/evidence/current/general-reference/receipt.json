@@ -2,7 +2,7 @@
   "mode": "oracle",
   "actual_test_sh": true,
   "test_exit": 0,
-  "seconds": 86.37683045200004,
+  "seconds": 178.321563921,
   "packages": {
     "numpy": "2.2.6",
     "scipy": "1.15.3",
@@ -16,7 +16,7 @@
   "new_model_calls": 0,
   "execution_status": "NORMAL",
   "reward": 1.0,
-  "checks": 72,
+  "checks": 82,
   "groups": [
     {
       "name": "witness",
@@ -53,14 +53,14 @@
     {
       "name": "failure",
       "weight": 0.1,
-      "passed": 34,
-      "total": 34,
+      "passed": 44,
+      "total": 44,
       "aggregation": "PROPORTIONAL",
       "earned": 0.1
     }
   ],
-  "measured_calls": 53,
-  "candidate_seconds": 76.54860000000001,
-  "peak_rss_kib": 216300,
+  "measured_calls": 63,
+  "candidate_seconds": 167.86830000000006,
+  "peak_rss_kib": 169952,
   "task": "mathematics/eb032-math-k-exact-certificate"
 }

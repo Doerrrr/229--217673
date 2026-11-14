@@ -1,2 +1,1 @@
-usage: certified-minimum [-h] --input INPUT --output OUTPUT
-certified-minimum: error: the following arguments are required: --output
+invalid input: queries[0].id must be a 1-64 character string

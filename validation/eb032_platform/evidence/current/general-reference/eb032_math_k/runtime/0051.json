@@ -1,22 +1,22 @@
 {
-  "returncode": 3,
+  "returncode": 2,
   "timed_out": false,
-  "peak_rss_kib": 171300,
-  "elapsed_seconds": 1.2964,
+  "peak_rss_kib": 16368,
+  "elapsed_seconds": 0.1434,
   "log_truncated": false,
-  "captured_bytes": 168,
+  "captured_bytes": 58,
   "capture_limit_bytes": 67108864,
-  "stderr_tail": "cannot write output: [Errno 21] Is a directory: '/tmp/ddi-night-0damuu12/candidate/.certified-minimum-lkb0uyhc' -> '/tmp/ddi-night-0damuu12/candidate/output-directory'\n",
+  "stderr_tail": "invalid input: queries[0].basis must hold 1..65 monomials\n",
   "descendants_signalled": 0,
   "descendants_remaining": 0,
   "command": [
-    "/tmp/ddi-night-0damuu12/candidate/project/bin/certified-minimum",
+    "/tmp/ddi-night-waxzn7yb/candidate/project/bin/certified-minimum",
     "--input",
-    "/tmp/ddi-night-0damuu12/candidate/write-source.json",
+    "/tmp/ddi-night-waxzn7yb/candidate/bad.json",
     "--output",
-    "/tmp/ddi-night-0damuu12/candidate/output-directory"
+    "/tmp/ddi-night-waxzn7yb/candidate/old.jsonl"
   ],
   "expected_kill": false,
-  "input_sha256": "0e52de15e3d1700b6e047c3b5b043a7898655fa035bec931813c539b81ea4bb0",
+  "input_sha256": "d3965e8baab6e14ed324f8ca274609876a12ae8b68e01ae6c21fc58fce6b4be2",
   "input_read_error": null
 }

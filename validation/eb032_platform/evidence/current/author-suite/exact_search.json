@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "records": [
+    {
+      "n": 2,
+      "points_checked": 4
+    },
+    {
+      "n": 3,
+      "points_checked": 8
+    },
+    {
+      "n": 4,
+      "points_checked": 16
+    },
+    {
+      "n": 5,
+      "points_checked": 32
+    },
+    {
+      "n": 6,
+      "points_checked": 64
+    },
+    {
+      "n": 7,
+      "points_checked": 128
+    },
+    {
+      "n": 8,
+      "points_checked": 256
+    }
+  ],
+  "method": "exact transform versus direct rational sum"
+}

@@ -4,6 +4,6 @@
   "status": "COMPLETED",
   "timeout_seconds": 300,
   "total_budget_seconds": 2400,
-  "spent_seconds": 0.28226025699973434,
-  "elapsed_seconds": 0.0026011840000137454
+  "spent_seconds": 0.23063072599995849,
+  "elapsed_seconds": 0.0025774900000214984
 }

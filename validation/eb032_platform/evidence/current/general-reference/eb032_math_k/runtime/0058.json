@@ -1,0 +1,22 @@
+{
+  "returncode": 0,
+  "timed_out": false,
+  "peak_rss_kib": 16608,
+  "elapsed_seconds": 0.1384,
+  "log_truncated": false,
+  "captured_bytes": 0,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-waxzn7yb/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-waxzn7yb/candidate/upper-dimensions.json",
+    "--output",
+    "/tmp/ddi-night-waxzn7yb/candidate/upper-dimensions.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "01bdff36fbd95fcd82cdc884c2dd5b7bb83535386115709fc84f541a3453152f",
+  "input_read_error": null
+}

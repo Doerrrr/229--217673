@@ -1,1 +1,1 @@
-cannot write output: [Errno 21] Is a directory: '/tmp/ddi-night-0damuu12/candidate/.certified-minimum-lkb0uyhc' -> '/tmp/ddi-night-0damuu12/candidate/output-directory'
+invalid input: queries[0].basis must hold 1..65 monomials

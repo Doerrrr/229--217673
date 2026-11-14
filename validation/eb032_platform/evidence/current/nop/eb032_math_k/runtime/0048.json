@@ -1,8 +1,8 @@
 {
   "returncode": 0,
   "timed_out": false,
-  "peak_rss_kib": 15836,
-  "elapsed_seconds": 0.1278,
+  "peak_rss_kib": 15772,
+  "elapsed_seconds": 0.1083,
   "log_truncated": false,
   "captured_bytes": 0,
   "capture_limit_bytes": 67108864,
@@ -10,13 +10,13 @@
   "descendants_signalled": 0,
   "descendants_remaining": 0,
   "command": [
-    "/tmp/ddi-night-un7xsdl3/candidate/project/bin/certified-minimum",
+    "/tmp/ddi-night-60h9456k/candidate/project/bin/certified-minimum",
     "--input",
-    "/tmp/ddi-night-un7xsdl3/candidate/upper-dimensions.json",
+    "/tmp/ddi-night-60h9456k/candidate/bad.json",
     "--output",
-    "/tmp/ddi-night-un7xsdl3/candidate/upper-dimensions.jsonl"
+    "/tmp/ddi-night-60h9456k/candidate/old.jsonl"
   ],
   "expected_kill": false,
-  "input_sha256": "01bdff36fbd95fcd82cdc884c2dd5b7bb83535386115709fc84f541a3453152f",
+  "input_sha256": "eeeb70d47d9f50df9992b9b73149b0602c8884a748881be20440ec215fee7d31",
   "input_read_error": null
 }

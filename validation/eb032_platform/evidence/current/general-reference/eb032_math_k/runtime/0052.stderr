@@ -1,1 +1,1 @@
-cannot write output: [Errno 13] Permission denied: '/tmp/ddi-night-0damuu12/candidate/readonly-parent/.certified-minimum-x56ymkj3'
+invalid input: queries[0].terms[].vars is longer than 4

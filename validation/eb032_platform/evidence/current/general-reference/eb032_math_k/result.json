@@ -1,6 +1,6 @@
 {
   "task": "mathematics/eb032-math-k-exact-certificate",
-  "version": "v03",
+  "version": "v04",
   "execution_status": "NORMAL",
   "reward": 1.0,
   "groups": [
@@ -39,8 +39,8 @@
     {
       "name": "failure",
       "weight": 0.1,
-      "passed": 34,
-      "total": 34,
+      "passed": 44,
+      "total": 44,
       "aggregation": "PROPORTIONAL",
       "earned": 0.1
     }
@@ -180,132 +180,132 @@
     },
     {
       "group": "witness",
-      "name": "eb007-point",
+      "name": "v04_01-point",
       "passed": true,
       "evidence": {
-        "actual": "-1039243816",
-        "certified_optimum": "-1039243816",
+        "actual": "-31/37",
+        "certified_optimum": "-31/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
     },
     {
       "group": "quartic_proof",
-      "name": "eb007-proof",
+      "name": "v04_01-proof",
       "passed": true,
       "evidence": {
-        "actual": "-1039243816",
-        "certified_optimum": "-1039243816",
+        "actual": "-31/37",
+        "certified_optimum": "-31/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
     },
     {
       "group": "witness",
-      "name": "eb008-point",
+      "name": "v04_02-point",
       "passed": true,
       "evidence": {
-        "actual": "-1132725920",
-        "certified_optimum": "-1132725920",
+        "actual": "-62/37",
+        "certified_optimum": "-62/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
     },
     {
       "group": "quartic_proof",
-      "name": "eb008-proof",
+      "name": "v04_02-proof",
       "passed": true,
       "evidence": {
-        "actual": "-1132725920",
-        "certified_optimum": "-1132725920",
+        "actual": "-62/37",
+        "certified_optimum": "-62/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
     },
     {
       "group": "witness",
-      "name": "eb009-point",
+      "name": "v04_03-point",
       "passed": true,
       "evidence": {
-        "actual": "-1500995058",
-        "certified_optimum": "-1500995058",
+        "actual": "-93/37",
+        "certified_optimum": "-93/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
     },
     {
       "group": "quartic_proof",
-      "name": "eb009-proof",
+      "name": "v04_03-proof",
       "passed": true,
       "evidence": {
-        "actual": "-1500995058",
-        "certified_optimum": "-1500995058",
+        "actual": "-93/37",
+        "certified_optimum": "-93/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
     },
     {
       "group": "witness",
-      "name": "eb010-point",
+      "name": "v04_04-point",
       "passed": true,
       "evidence": {
-        "actual": "-2224828622",
-        "certified_optimum": "-2224828622",
+        "actual": "-124/37",
+        "certified_optimum": "-124/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
     },
     {
       "group": "quartic_proof",
-      "name": "eb010-proof",
+      "name": "v04_04-proof",
       "passed": true,
       "evidence": {
-        "actual": "-2224828622",
-        "certified_optimum": "-2224828622",
+        "actual": "-124/37",
+        "certified_optimum": "-124/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
     },
     {
       "group": "witness",
-      "name": "eb011-point",
+      "name": "v04_05-point",
       "passed": true,
       "evidence": {
-        "actual": "-2114593426",
-        "certified_optimum": "-2114593426",
+        "actual": "-155/37",
+        "certified_optimum": "-155/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
     },
     {
       "group": "quartic_proof",
-      "name": "eb011-proof",
+      "name": "v04_05-proof",
       "passed": true,
       "evidence": {
-        "actual": "-2114593426",
-        "certified_optimum": "-2114593426",
+        "actual": "-155/37",
+        "certified_optimum": "-155/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
     },
     {
       "group": "witness",
-      "name": "eb012-point",
+      "name": "v04_06-point",
       "passed": true,
       "evidence": {
-        "actual": "-3780568078",
-        "certified_optimum": "-3780568078",
+        "actual": "-186/37",
+        "certified_optimum": "-186/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
     },
     {
       "group": "quartic_proof",
-      "name": "eb012-proof",
+      "name": "v04_06-proof",
       "passed": true,
       "evidence": {
-        "actual": "-3780568078",
-        "certified_optimum": "-3780568078",
+        "actual": "-186/37",
+        "certified_optimum": "-186/37",
         "declared_matches_actual": true,
         "proof": "exact PSD"
       }
@@ -600,6 +600,66 @@
     },
     {
       "group": "failure",
+      "name": "id-below-lower",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "group": "failure",
+      "name": "id-above-upper",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "group": "failure",
+      "name": "coefficient-length-above-upper",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "group": "failure",
+      "name": "negative-coefficient-below-lower",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "group": "failure",
+      "name": "n-below-lower",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "group": "failure",
+      "name": "n-above-upper-isolated",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "group": "failure",
+      "name": "queries-above-upper",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "group": "failure",
+      "name": "basis-above-upper",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "group": "failure",
+      "name": "term-degree-above-upper",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "group": "failure",
+      "name": "term-count-above-upper",
+      "passed": true,
+      "evidence": null
+    },
+    {
+      "group": "failure",
       "name": "missing-input",
       "passed": true,
       "evidence": null
@@ -665,18 +725,18 @@
   "verification_provenance": {
     "schema_version": 1,
     "source_files_sha256": {
-      "grade032.py": "8aa0a799cefa7c27ee2151d5ac2898e741fd431da467c66230a6b15941a3d90b",
-      "common.py": "d8a3d17ddf92f9097764c142150e3ecbef49b1ec23f454fffb2f639a51b9c757",
+      "grade032.py": "1d3524095476127bb0607d2cc5bc2406496b08ee0566422d4f0d8590e41a671e",
+      "common.py": "5530ee0ec04259e931c0ad0efe52f08f98eca60296c47f81f3dc8b9a39d75bc3",
       "measure.py": "91337e59296c5df6c386f42e0f6fac8a3ba85565a4a56c70f8ebff0eb6b9494f",
       "algebra.py": "ed57766e3c92e1cbd8a7caf0b22c02d1ef362d55bd538f6a8f0ebb117ee2b3d1",
       "guarded_check.py": "9205f7039a63509d5d119faf7e5e153df83b70fb269970d121aef698c6e3da09",
-      "contract_cases.py": "4f24e6ce784476d2037874ef615e97ddda65a2eeddcfda351f7bc4b868db98f6",
+      "contract_cases.py": "5f867b33037cab5e3f720d8d37fc452c099b80293caf1da1795cacb32803d19d",
       "provenance.py": "fd20bb7d5194c77a9559cc95a6d0f419ce48406b8c7f9c35057697ed22a5f22b",
       "report_reward.py": "9f3479215a860022b6c766a6d9bf04be2a0e340cf65229f125bdd36aa5b29f7f",
       "output_reader.py": "40f6d5de78a70006cfb1589416311f48fe99863d604c6c6438801b012cea1c4a",
-      "cases032.json": "9e94501dd0dcc84d9dbe3b32ccc3df6cfc437c7c0f8b033305280a1dbfaec6f8"
+      "cases032.json": "609716de971ebdd673db59339fd3e68dfc5bee6bb8f8f2ebe7cf7f5154cd8b64"
     },
-    "source_digest": "e11f45afbe001e505d26401d023f9c2c35e1324f885d1e27291e1ddd8d6b734a",
+    "source_digest": "ea384168a6214e850d4617d8e2769e5307ab5c762dce12e246e2cda0ae06ccb5",
     "inputs": [
       {
         "call": "0001",
@@ -716,37 +776,37 @@
       },
       {
         "call": "0007",
-        "input_sha256": "cbb3538dbdae51027a1e74dab719e51d9d7faa1072dce4c64fb854c101cb7ec0",
+        "input_sha256": "1b5a1e47fcdd8cdcb042c8ab820b6cba63a1c064ec43284bf94f978a12592b2b",
         "returncode": 0,
         "timed_out": false
       },
       {
         "call": "0008",
-        "input_sha256": "d81c0d74cae228fb69a5b1d1d9e6fd7e44b5ba72a6ceaec8cc415d9e69703911",
+        "input_sha256": "3e7024fe8537da3e40d5c7bc3d61dfffd5846b3191bb1303f22cd71813761363",
         "returncode": 0,
         "timed_out": false
       },
       {
         "call": "0009",
-        "input_sha256": "c95e5d39288a9d9580ec778ebd8955276eef58bec4343581ac75afc444d6f573",
+        "input_sha256": "b68e0c729691292d4e973e32a3327f11d4fb303145a18f81457052283962e143",
         "returncode": 0,
         "timed_out": false
       },
       {
         "call": "0010",
-        "input_sha256": "6eed32a332a1d631f19586dee59d00c82f2ac0e0c379741fcfb08f9a8cfd7935",
+        "input_sha256": "93a51e119d1e71f58ae24923e0de37143058034bf930435ae6351064c9dca9f4",
         "returncode": 0,
         "timed_out": false
       },
       {
         "call": "0011",
-        "input_sha256": "23cb48bdb1a76081b9d9324d56fc370212d6a8b831cebe394d85bf8b46d1e96b",
+        "input_sha256": "779490b96ee91649276426aae8c1279cb0a7e2676039884257bfb69f4576284a",
         "returncode": 0,
         "timed_out": false
       },
       {
         "call": "0012",
-        "input_sha256": "fb8869e0a9d1a06ee66ea31aeeba92b10da66c4d667f25bd2cadead73327b9e9",
+        "input_sha256": "203cfb00a38fdef8335577786c34bbba9f365083e9e9d0615e6f86ea003f7546",
         "returncode": 0,
         "timed_out": false
       },
@@ -938,60 +998,120 @@
       },
       {
         "call": "0044",
-        "input_sha256": null,
+        "input_sha256": "b498b80023eaffcce46de0a4c0691be6866b6ee696699a1e145275b8deb42390",
         "returncode": 2,
         "timed_out": false
       },
       {
         "call": "0045",
-        "input_sha256": "f66389f2bb136f70da295f34230fd7abfc07536f801465d8e493d2fa8a91943e",
+        "input_sha256": "9426350cd6178128c97393fc44d93b96b571d8ac204f364a5fda923b52e66006",
         "returncode": 2,
         "timed_out": false
       },
       {
         "call": "0046",
-        "input_sha256": null,
+        "input_sha256": "6233e198d38fd324b662e3251705b1535eafd11b8ce6d3055f34ce1d0a809c54",
         "returncode": 2,
         "timed_out": false
       },
       {
         "call": "0047",
-        "input_sha256": null,
+        "input_sha256": "40e2cadad720468133c72940e396ec623b71cade0275d7fe6c131566aae013c0",
         "returncode": 2,
         "timed_out": false
       },
       {
         "call": "0048",
+        "input_sha256": "eeeb70d47d9f50df9992b9b73149b0602c8884a748881be20440ec215fee7d31",
+        "returncode": 2,
+        "timed_out": false
+      },
+      {
+        "call": "0049",
+        "input_sha256": "c1ea67785daa82e0563054ac6d8aa7d10868a03544374c94dec55cd9eddda160",
+        "returncode": 2,
+        "timed_out": false
+      },
+      {
+        "call": "0050",
+        "input_sha256": "6385abd9b4cd14eee906ca4af6ade618669a3285e4c66e9537b85d8acba6ef63",
+        "returncode": 2,
+        "timed_out": false
+      },
+      {
+        "call": "0051",
+        "input_sha256": "d3965e8baab6e14ed324f8ca274609876a12ae8b68e01ae6c21fc58fce6b4be2",
+        "returncode": 2,
+        "timed_out": false
+      },
+      {
+        "call": "0052",
+        "input_sha256": "9fffbd896c5cf4f6e318ee8d8959fa5c034d0103c637ed6a04034921d0316fb8",
+        "returncode": 2,
+        "timed_out": false
+      },
+      {
+        "call": "0053",
+        "input_sha256": "b0fb3ca17f9d3a7f2a6b5f214e81a3c39e107def429819ff88871aaffff24ba5",
+        "returncode": 2,
+        "timed_out": false
+      },
+      {
+        "call": "0054",
+        "input_sha256": null,
+        "returncode": 2,
+        "timed_out": false
+      },
+      {
+        "call": "0055",
+        "input_sha256": "f66389f2bb136f70da295f34230fd7abfc07536f801465d8e493d2fa8a91943e",
+        "returncode": 2,
+        "timed_out": false
+      },
+      {
+        "call": "0056",
+        "input_sha256": null,
+        "returncode": 2,
+        "timed_out": false
+      },
+      {
+        "call": "0057",
+        "input_sha256": null,
+        "returncode": 2,
+        "timed_out": false
+      },
+      {
+        "call": "0058",
         "input_sha256": "01bdff36fbd95fcd82cdc884c2dd5b7bb83535386115709fc84f541a3453152f",
         "returncode": 0,
         "timed_out": false
       },
       {
-        "call": "0049",
+        "call": "0059",
         "input_sha256": "e0d55eb9ecc288f063033cf9496f3cfbc3047b402b37f9ec6ed7f9cf3f4d19f8",
         "returncode": 0,
         "timed_out": false
       },
       {
-        "call": "0050",
+        "call": "0060",
         "input_sha256": "3064f6244cb1d3c13a401105a33afd8eaf93d7a120b8c533cd09b9d46ab05264",
         "returncode": 0,
         "timed_out": false
       },
       {
-        "call": "0051",
+        "call": "0061",
         "input_sha256": "0e52de15e3d1700b6e047c3b5b043a7898655fa035bec931813c539b81ea4bb0",
         "returncode": 3,
         "timed_out": false
       },
       {
-        "call": "0052",
+        "call": "0062",
         "input_sha256": "0e52de15e3d1700b6e047c3b5b043a7898655fa035bec931813c539b81ea4bb0",
         "returncode": 3,
         "timed_out": false
       },
       {
-        "call": "0053",
+        "call": "0063",
         "input_sha256": "0e52de15e3d1700b6e047c3b5b043a7898655fa035bec931813c539b81ea4bb0",
         "returncode": 3,
         "timed_out": false

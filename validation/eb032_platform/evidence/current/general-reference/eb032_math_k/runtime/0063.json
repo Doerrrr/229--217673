@@ -1,0 +1,22 @@
+{
+  "returncode": 3,
+  "timed_out": false,
+  "peak_rss_kib": 115324,
+  "elapsed_seconds": 0.8895,
+  "log_truncated": false,
+  "captured_bytes": 96,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "cannot write output: [Errno 17] File exists: '/tmp/ddi-night-waxzn7yb/candidate/blocked-parent'\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-waxzn7yb/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-waxzn7yb/candidate/write-source.json",
+    "--output",
+    "/tmp/ddi-night-waxzn7yb/candidate/blocked-parent/out.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "0e52de15e3d1700b6e047c3b5b043a7898655fa035bec931813c539b81ea4bb0",
+  "input_read_error": null
+}

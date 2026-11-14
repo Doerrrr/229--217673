@@ -1,9 +1,9 @@
 {
-  "query_id": "eb009",
+  "query_id": "v04_03",
   "phase": "exact_checker",
   "status": "COMPLETED",
   "timeout_seconds": 300,
   "total_budget_seconds": 2400,
-  "spent_seconds": 0.11977546899970548,
-  "elapsed_seconds": 0.007743507999975918
+  "spent_seconds": 0.11172270700000553,
+  "elapsed_seconds": 0.01150385700000811
 }
