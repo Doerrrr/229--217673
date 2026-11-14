@@ -6,7 +6,7 @@ from pathlib import Path
 from common import Runner,success
 from guarded_check import check, configure_results, CheckerFailure
 from output_reader import rows_from
-from contract_cases import boundary_inputs, WRITE_FAILURES
+from contract_cases import adjacent_invalid_inputs, boundary_inputs, WRITE_FAILURES
 
 WEIGHTS={'witness':.30,'quadratic_proof':.15,'quartic_proof':.20,'singular_proof':.25,'failure':.10}
 
@@ -22,6 +22,8 @@ def invalids(first):
     q=copy.deepcopy(first);q['id']='bad_second';q['extra']=1;add('extra-query',dict(version=1,queries=[first,q]))
     q=copy.deepcopy(first);del q['basis'];add('missing-field',dict(version=1,queries=[q]))
     result.extend([('truncated',b'{'),('duplicate-key',b'{"version":1,"version":1,"queries":[]}'),('nonfinite',b'{"version":NaN,"queries":[]}')])
+    for name, document in adjacent_invalid_inputs(first):
+        add(name, document)
     return result
 
 class AbortGrading(Exception):

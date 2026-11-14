@@ -34,7 +34,8 @@ def main():
     package = Path(__file__).resolve().parent
     manifest = json.loads((package / 'repair_manifest.json').read_bytes())
     assert (root / '.git').exists(), 'select the platform Git project directory'
-    assert sha((root / 'tests/cases032.json').read_bytes().replace(b'\r\n',b'\n')) == manifest['unchanged_cases_sha256'], 'different mathematical task data'
+    cases_sha = sha((root / 'tests/cases032.json').read_bytes().replace(b'\r\n', b'\n'))
+    assert cases_sha in manifest['accepted_cases_sha256'], 'unrecognized mathematical task data'
     operations = []
     for item in manifest['changes']:
         relative = item['path']

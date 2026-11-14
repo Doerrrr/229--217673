@@ -1,4 +1,4 @@
-"""Author regressions for v03 Oracle, runtime faults and public CLI boundaries."""
+"""Author regressions for v04 Oracle, runtime faults and public CLI boundaries."""
 import argparse,copy,hashlib,importlib.util,json,os,shutil,signal,subprocess,sys,tempfile,time
 from fractions import Fraction
 from pathlib import Path
@@ -14,7 +14,7 @@ def own(p):
 
 def score_controls(repo, results, workspace):
     records = []
-    for profile in ('general', 'point', 'nop'):
+    for profile in ('general', 'point', 'rounding', 'nop'):
         project = workspace / ('project-' + profile)
         shutil.copytree(repo / 'environment', project,
                         ignore=shutil.ignore_patterns('data', 'Dockerfile'))
@@ -24,16 +24,19 @@ def score_controls(repo, results, workspace):
         if profile == 'point':
             main = project / 'app/main.py'
             code = main.read_text()
-            wrapper = """original_solve = solve
+            wrapper = """from solver import optimize, string_of, value_at
 
 def solve(query, budget):
-    answer = original_solve(query, budget)
-    if answer['state'] == 'CERTIFIED':
-        answer.update(state='INCUMBENT', gram=None)
-    return answer
+    qid, n, basis, polynomial = query
+    assignment = optimize(n, polynomial, min(10, budget))
+    return dict(id=qid, state='INCUMBENT', assignment=assignment,
+                value=string_of(value_at(polynomial, assignment)), gram=None)
 
 """
             main.write_text(code.replace("if __name__ == '__main__':", wrapper + "if __name__ == '__main__':"))
+        if profile == 'rounding':
+            recovery = project / 'app/recovery.py'
+            recovery.write_text(recovery.read_text() + "\n\ndef recover_gram(basis, poly, assignment, approximate, deadline, solver):\n    return None\n")
         target = results / ('scoring-' + profile)
         got = subprocess.run([sys.executable, str(repo / 'tests/grade032.py'),
                               '--project', str(project), '--results', str(target)],
@@ -44,7 +47,7 @@ def solve(query, budget):
         require(got.returncode == 0, 'grader execution failed: ' + profile)
         record = json.loads((target / 'result.json').read_bytes())
         require(record['execution_status'] == 'NORMAL', 'abnormal control: ' + profile)
-        require(len(record['cases']) == 72, 'v03 assertion count changed')
+        require(len(record['cases']) == 82, 'v04 assertion count changed')
         groups = {g['name']: g for g in record['groups']}
         if profile == 'general':
             require(record['reward'] == 1.0, 'Oracle must score exactly 1.0')
@@ -52,10 +55,12 @@ def solve(query, budget):
             require(groups['failure']['passed'] == groups['failure']['total'], 'reference contract regression')
         elif profile == 'point':
             require(record['reward'] == 0.4, 'partial-credit regression')
+        elif profile == 'rounding':
+            require(record['reward'] < 0.7, 'direct-rounding control exceeds design threshold')
         else:
-            require(record['reward'] == round(0.1 * 3 / 34, 6), 'empty scaffold control changed')
+            require(record['reward'] == round(0.1 * 3 / 44, 6), 'empty scaffold control changed')
         records.append(dict(profile=profile, reward=record['reward'], groups=record['groups']))
-    report = dict(status='PASS', records=records, scoring_version='v03',
+    report = dict(status='PASS', records=records, scoring_version='v04',
                   formal_platform_t1=False, new_model_calls=0)
     dump(results / 'score_controls.json', report)
     return report
@@ -254,6 +259,30 @@ def generated_reference_checks(repo, results, workspace):
     return report
 
 
+def exact_search_checks(repo, results):
+    import random
+    sys.path.insert(0, str(repo / 'solution/implementation'))
+    import solver
+    rng = random.Random(20261114)
+    records = []
+    for n in range(2, 9):
+        polynomial = {mask: Fraction(rng.randint(-20, 20), rng.randint(1, 23))
+                      for mask in range(1 << n) if mask.bit_count() <= 4}
+        values, common = solver.boolean_values(n, polynomial)
+        for bits, value in enumerate(values):
+            assignment = [1 - 2 * (bits >> i & 1) for i in range(n)]
+            require(Fraction(value, common) == solver.value_at(polynomial, assignment),
+                    'exact Boolean transform differs from direct evaluation')
+        assignment = solver.optimize(n, polynomial, 1)
+        require(solver.value_at(polynomial, assignment) == Fraction(min(values), common),
+                'exact assignment search lost the minimum')
+        records.append(dict(n=n, points_checked=len(values)))
+    require(solver.boolean_values(15, {0: Fraction(1)}) is None, 'enumeration bound changed')
+    report = dict(status='PASS', records=records, method='exact transform versus direct rational sum')
+    dump(results / 'exact_search.json', report)
+    return report
+
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--repo',type=Path,required=True);p.add_argument('--results',type=Path,required=True);a=p.parse_args()
     os.chmod('/root',0o700);a.results.mkdir(parents=True,exist_ok=True);os.chmod(a.results,0o700)
@@ -268,6 +297,7 @@ def main():
     report['runner_faults']=runner_faults(a.repo,a.results,workspace)
     report['checker_faults']=checker_faults(a.repo,a.results)
     report['reference_boundaries']=reference_boundaries(a.repo,a.results,workspace)
+    report['exact_search']=exact_search_checks(a.repo,a.results)
     report['generated_reference']=generated_reference_checks(a.repo,a.results,workspace)
     identity_result=a.results/'output_reader_identities.json'
     subprocess.run([sys.executable,str(a.repo/'validation/eb032_platform/identity_checks.py'),

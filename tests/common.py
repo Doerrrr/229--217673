@@ -182,7 +182,7 @@ class Runner:
                     'VERIFIER_OUTPUT_READER_ERROR', 'VERIFIER_CHECKER_ERROR'):
                 raise ValueError('invalid abnormal finalization')
             status = aborted['execution_status']
-        result = {'task': task, 'version': 'v03', 'execution_status': status,
+        result = {'task': task, 'version': 'v04', 'execution_status': status,
                   'reward': None if self.infrastructure else round(sum(g['earned'] for g in groups), 6),
                   'groups': groups, 'cases': self.cases, 'runtime_issues': self.infrastructure,
                   'formal_platform_t1': False, 'model_calls': 0}

@@ -10,6 +10,29 @@ def value_at(poly, assignment):
     return sum((c if (mask & negative).bit_count() % 2 == 0 else -c)
                for mask, c in poly.items())
 
+def boolean_values(n, poly):
+    """Exact Walsh-Hadamard evaluation on bounded Boolean cubes."""
+    if n > 14:
+        return None
+    common = 1
+    for coefficient in poly.values():
+        common = math.lcm(common, coefficient.denominator)
+        if common.bit_length() > 4096:
+            return None
+    values = [0] * (1 << n)
+    for mask, coefficient in poly.items():
+        values[mask] = int(coefficient * common)
+    width = 1
+    while width < len(values):
+        for start in range(0, len(values), 2 * width):
+            for offset in range(width):
+                left = values[start + offset]
+                right = values[start + offset + width]
+                values[start + offset] = left + right
+                values[start + offset + width] = left - right
+        width *= 2
+    return values, common
+
 def string_of(value):
     value = Fraction(value)
     result = str(value.numerator) if value.denominator == 1 else f'{value.numerator}/{value.denominator}'
@@ -41,6 +64,11 @@ def local_assignment(n, poly, seconds):
     return best or [1] * n
 
 def optimize(n, poly, seconds):
+    evaluated = boolean_values(n, poly)
+    if evaluated is not None:
+        values, _ = evaluated
+        bits = min(range(len(values)), key=values.__getitem__)
+        return [1 - 2 * (bits >> i & 1) for i in range(n)]
     try:
         from ortools.sat.python import cp_model
     except ImportError:
@@ -255,6 +283,19 @@ def certificate(basis, poly, assignment, seconds, equal_assignments=()):
 def equal_minima(n, poly, assignment, seconds, limit=96):
     """Find other exact ties; each supplies a necessary Gram-kernel vector."""
     optimum = value_at(poly, assignment)
+    evaluated = boolean_values(n, poly)
+    if evaluated is not None:
+        values, common = evaluated
+        wanted = optimum * common
+        found = []
+        for bits, value in enumerate(values):
+            if value == wanted:
+                other = [1 - 2 * (bits >> i & 1) for i in range(n)]
+                if other != assignment:
+                    found.append(other)
+                    if len(found) >= limit:
+                        break
+        return found
     if n <= 14 and len(poly)*(1 << n) <= 3_000_000:
         found = []
         stop = time.monotonic()+seconds

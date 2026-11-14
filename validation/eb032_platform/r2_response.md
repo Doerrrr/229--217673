@@ -1,19 +1,21 @@
-# EB032-MATH-K v03 quality revision
+# EB032-MATH-K v04 revision
 
-The registered task is mathematics/eb032-math-k-exact-certificate. Public ID is EB032-MATH-K. All 18 mathematical inputs, five group weights, 72 checks and 53 CLI calls are preserved from v02. A fresh platform evaluation is required for this version.
+Registered task is mathematics/eb032-math-k-exact-certificate, question 242247. The supplied v03 platform receipt records R1 95, Oracle 1.000, NOP approximately 0.009 and candidate 1 normal completion at 0.750. Candidate 2 was skipped. The formal difficulty gate failed. The artifact index contains source-object references, but no candidate source or group-result contents, so no specific group failure is inferred from the total.
 
-## Oracle repair
+## Mathematical revision
 
-The v02 general reference scored 0.55 and failed the required Oracle 1.000 gate. That release is superseded. The reference now supplements numerical SDP discovery with low-rank coefficient fitting and integer-lattice recovery of rational kernel relations. It solves the reduced coefficient equations with exact fractions and accepts only exact positive-semidefinite Gram certificates satisfying the complete Boolean polynomial identity. Numerical convergence alone cannot produce CERTIFIED.
+Six quartic instances now use densely coupled rational SOS factors on several Boolean parity constraints. Their common-zero sets have nonlinear parity structure. Six quadratic anchors and six existing singular instances remain in the 18-instance suite. The new quartic cases use three or four coupled factor directions, rationally separated scales and reordered bases. The fixed author generator constructs exact PSD witnesses and attained lower bounds before candidate evaluation. Every reference result is independently checked with exact fractions.
 
-Reference runtime reads the public query and installed dependencies. It has no answer catalogue, test-case access or generation metadata. Independent author fixtures exercise reordered bases, large coefficients and mixed scales. Existing contract and verifier-fault controls remain active. Complete production test.sh results are stored in evidence/current and bound by local_validation.json.
+The general reference evaluates bounded Boolean cubes with an exact integer Walsh-Hadamard transform. Larger inputs retain general CP-SAT/local search paths. Gram recovery uses the public polynomial and basis with numerical discovery, exact rational affine equations and integer-lattice relations. Only exact polynomial identities and rational PSD matrices produce CERTIFIED. Runtime reads no author cases, factors, expected answers or generation metadata.
 
-## Completion budget
+Additional singular prototypes exposed unresolved general-reference certificate recovery. Those prototypes remain outside the release. The selected six quartic changes preserve the twelve existing anchor and singular cases. Selection occurred during author feasibility work before any new answer-model run.
 
-The supplied first-revision platform receipt reports candidate 1 normal completion at 0.681 and candidate 2 runner_timeout after approximately 14400 seconds. Candidate 2 has no valid score. The previous five-hour instruction exceeded that observed runner window. Agent timeout_sec and the public instruction now use 14400 seconds and advise saving a working implementation early, bounded self-tests, and time for final build/smoke/foreground exit. Exact candidate command history was unavailable in the supplied artifact index, so the command causing the timeout remains unverified.
+## Contract and coverage
 
-Each CLI invocation retains the public 300-second protection. The verifier retains its independent 18000-second total cap. Ordinary output errors remain scored according to the public contract. Verifier infrastructure failures retain a null reward.
+The public contract explicitly requires nonzero exit, empty stdout and a nonempty stderr diagnostic for output-write failures. Ten adjacent-boundary failures cover the variable range, ID range, query count, basis count, coefficient length, negative coefficient bound, term degree and term count. Other fields remain valid in each isolated boundary fixture. Production scoring has 82 assertions and 63 CLI calls. The five weights are 0.30, 0.15, 0.20, 0.25 and 0.10.
 
-## Coverage and evidence
+Agent budget is 14400 seconds. Each CLI call retains 300 seconds and the verifier retains 18000 seconds. Actual production controls must complete normally with Oracle exactly 1.000 and NOP at most 0.100. Verifier infrastructure errors retain null reward.
 
-The v02 boundary additions remain in production, including four-query order, sixteen-query input, maximum variable/basis/ID/coefficient syntax and three output-write failures. The unchanged exact checker accepts any valid assignment and certificate. Author controls require Oracle exactly 1.0 and NOP at most 0.1. Local controls establish executable correctness for the recorded source and inputs. Formal platform T1, R1 and R2 for v03 remain pending user submission.
+## Evidence and evaluation
+
+Author controls include a general reference, point-only output, direct numerical rounding without lattice recovery, and an empty scaffold. These describe executable mathematical capabilities and cannot establish candidate-model difficulty. Local validation is recorded in local_validation.json and evidence/current, with payload, case and image hashes. No automatic answer-model calls or platform detections are made. Formal v04 T1 and R1/R2 require fresh platform receipts.
