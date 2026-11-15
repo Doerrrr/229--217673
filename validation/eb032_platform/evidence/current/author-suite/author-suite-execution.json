@@ -16,7 +16,7 @@
     "--mount",
     "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\repository,target=/root/author,readonly",
     "--mount",
-    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v04-20261114\\author-suite,target=/root/results",
+    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v05-20261115\\author-suite,target=/root/results",
     "--entrypoint",
     "python3",
     "sha256:81dc44f438caeb08a1d60c444b1ed34e2bceee6da2b522461e311e744d1539fe",
@@ -28,5 +28,5 @@
     "/root/results"
   ],
   "exit_code": 0,
-  "seconds": 293.752531
+  "seconds": 547.3346501999986
 }

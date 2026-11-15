@@ -1,0 +1,22 @@
+{
+  "returncode": 0,
+  "timed_out": false,
+  "peak_rss_kib": 156540,
+  "elapsed_seconds": 6.2376,
+  "log_truncated": false,
+  "captured_bytes": 778,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.\n  warnings.warn(\n{\"event\":\"certificate_attempt_failed\",\"id\":\"eb017\",\"attempt\":1,\"method\":\"CLARABEL\",\"budget_sec\":3.0867461020499376,\"ties\":0,\"reason\":\"exact_certificate_not_recovered\",\"elapsed_sec\":5.958791584999744,\"remaining_sec\":0.0}\n{\"event\":\"certificate_incomplete\",\"id\":\"eb017\",\"state\":\"INCUMBENT\",\"reason\":\"budget_exhausted\",\"budget_sec\":5.0,\"elapsed_sec\":5.960035431000051,\"remaining_sec\":0.0,\"attempts\":[{\"attempt\":1,\"method\":\"CLARABEL\",\"budget_sec\":3.0867461020499376,\"ties\":0,\"reason\":\"exact_certificate_not_recovered\",\"elapsed_sec\":5.958791584999744}]}\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-3d2nrk4s/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-3d2nrk4s/candidate/eb017.json",
+    "--output",
+    "/tmp/ddi-night-3d2nrk4s/candidate/eb017.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "66f16cb7d8e23b7ea8574b4684322bede271a97feedd0d7f35047b7c314d8d4b",
+  "input_read_error": null
+}

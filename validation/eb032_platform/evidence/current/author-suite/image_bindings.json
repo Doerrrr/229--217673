@@ -13,6 +13,5 @@
       "source": "app/main.py",
       "code_matches_source": true
     }
-  },
-  "dependency_lock_sha256": "b86af930515c04a4fadba4601f203c0fc5497b767fa88a91d4cba72ed18a68c8"
+  }
 }

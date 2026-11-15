@@ -1,0 +1,22 @@
+{
+  "returncode": 0,
+  "timed_out": false,
+  "peak_rss_kib": 158912,
+  "elapsed_seconds": 14.832,
+  "log_truncated": false,
+  "captured_bytes": 230,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.\n  warnings.warn(\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-wg2ofshb/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-wg2ofshb/candidate/q13.json",
+    "--output",
+    "/tmp/ddi-night-wg2ofshb/candidate/not-existing13/nested/result.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "66bbd916e5fa5b35feb2fade342c9d19300d428c839b8ba961c8642fca8cff78",
+  "input_read_error": null
+}

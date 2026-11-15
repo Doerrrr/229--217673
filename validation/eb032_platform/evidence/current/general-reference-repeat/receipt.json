@@ -1,0 +1,146 @@
+{
+  "mode": "oracle",
+  "actual_test_sh": true,
+  "test_exit": 0,
+  "seconds": 322.7930538859998,
+  "packages": {
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "sympy": "1.13.3",
+    "cvxpy": "1.7.2",
+    "scs": "3.2.8",
+    "clarabel": "0.11.1",
+    "ortools": "9.14.6206"
+  },
+  "formal_platform_t1": false,
+  "new_model_calls": 0,
+  "execution_status": "NORMAL",
+  "reward": 1.0,
+  "checks": 82,
+  "groups": [
+    {
+      "name": "witness",
+      "weight": 0.3,
+      "passed": 19,
+      "total": 19,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.3
+    },
+    {
+      "name": "quadratic_proof",
+      "weight": 0.15,
+      "passed": 7,
+      "total": 7,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.15
+    },
+    {
+      "name": "quartic_proof",
+      "weight": 0.2,
+      "passed": 6,
+      "total": 6,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.2
+    },
+    {
+      "name": "singular_proof",
+      "weight": 0.25,
+      "passed": 6,
+      "total": 6,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.25
+    },
+    {
+      "name": "failure",
+      "weight": 0.1,
+      "passed": 44,
+      "total": 44,
+      "aggregation": "PROPORTIONAL",
+      "earned": 0.1
+    }
+  ],
+  "measured_calls": 63,
+  "candidate_seconds": 312.84909999999996,
+  "peak_rss_kib": 174660,
+  "singular": [
+    {
+      "id": "eb013",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 3.1167,
+      "evidence": {
+        "actual": "-3575796440936146050/10385444281",
+        "certified_optimum": "-3575796440936146050/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    },
+    {
+      "id": "eb014",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 14.832,
+      "evidence": {
+        "actual": "-19418533148395121312/10385444281",
+        "certified_optimum": "-19418533148395121312/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    },
+    {
+      "id": "eb015",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 20.8016,
+      "evidence": {
+        "actual": "-8672066709851055120/10385444281",
+        "certified_optimum": "-8672066709851055120/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    },
+    {
+      "id": "eb016",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 1.6722,
+      "evidence": {
+        "actual": "-3749112123434324216/10385444281",
+        "certified_optimum": "-3749112123434324216/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    },
+    {
+      "id": "eb017",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 11.7598,
+      "evidence": {
+        "actual": "-9084959781661906194/10385444281",
+        "certified_optimum": "-9084959781661906194/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    },
+    {
+      "id": "eb018",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 19.4551,
+      "evidence": {
+        "actual": "-3532807709268511350/10385444281",
+        "certified_optimum": "-3532807709268511350/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    }
+  ],
+  "task": "mathematics/eb032-math-k-exact-certificate"
+}

@@ -1,0 +1,22 @@
+{
+  "returncode": 0,
+  "timed_out": false,
+  "peak_rss_kib": 156136,
+  "elapsed_seconds": 5.149,
+  "log_truncated": false,
+  "captured_bytes": 412,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "{\"event\": \"author_fault_injection\", \"attempt\": 1, \"method\": \"CLARABEL\"}\n{\"event\":\"certificate_attempt_failed\",\"id\":\"eb014\",\"attempt\":1,\"method\":\"CLARABEL\",\"budget_sec\":167.6992846477002,\"ties\":0,\"reason\":\"TimeoutError\",\"message\":\"author-injected first-attempt exhaustion\",\"elapsed_sec\":4.9301999979434186e-05,\"remaining_sec\":257.99884775600026}\n{\"event\": \"author_fault_injection\", \"attempt\": 2, \"method\": \"SCS\"}\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-blbob3ub/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-blbob3ub/candidate/eb014.json",
+    "--output",
+    "/tmp/ddi-night-blbob3ub/candidate/eb014.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "66bbd916e5fa5b35feb2fade342c9d19300d428c839b8ba961c8642fca8cff78",
+  "input_read_error": null
+}

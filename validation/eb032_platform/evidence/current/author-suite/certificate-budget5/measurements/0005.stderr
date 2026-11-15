@@ -1,0 +1,4 @@
+/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+  warnings.warn(
+{"event":"certificate_attempt_failed","id":"eb017","attempt":1,"method":"CLARABEL","budget_sec":3.0867461020499376,"ties":0,"reason":"exact_certificate_not_recovered","elapsed_sec":5.958791584999744,"remaining_sec":0.0}
+{"event":"certificate_incomplete","id":"eb017","state":"INCUMBENT","reason":"budget_exhausted","budget_sec":5.0,"elapsed_sec":5.960035431000051,"remaining_sec":0.0,"attempts":[{"attempt":1,"method":"CLARABEL","budget_sec":3.0867461020499376,"ties":0,"reason":"exact_certificate_not_recovered","elapsed_sec":5.958791584999744}]}

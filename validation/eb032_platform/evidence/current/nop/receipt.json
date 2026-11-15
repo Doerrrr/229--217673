@@ -2,7 +2,7 @@
   "mode": "nop",
   "actual_test_sh": true,
   "test_exit": 0,
-  "seconds": 16.47301419699997,
+  "seconds": 15.899944207999852,
   "packages": {
     "numpy": "2.2.6",
     "scipy": "1.15.3",
@@ -60,7 +60,7 @@
     }
   ],
   "measured_calls": 63,
-  "candidate_seconds": 6.939299999999999,
-  "peak_rss_kib": 25416,
+  "candidate_seconds": 6.6037,
+  "peak_rss_kib": 25440,
   "task": "mathematics/eb032-math-k-exact-certificate"
 }

@@ -1,10 +1,10 @@
 {
   "task": "mathematics/eb032-math-k-exact-certificate",
   "public_id": "EB032-MATH-K",
-  "version": "v04",
+  "version": "v05",
   "status": "LOCAL_ORACLE_AND_REGRESSIONS_PASS",
-  "source_commit": "ef7e542044e6b51ddf596e3ed970d49de641f8df",
-  "payload_digest": "8dbdf0b244b8498bf50a623a458aae7e327096d24c18f2c55eae38699774db8c",
+  "source_commit": "7dcda8131a527e35db26752e75b649fa67043e6a",
+  "payload_digest": "39790f3979cfcb5727023b7a722f17a6f5dd20c9bf1a7f9be2f7979bd809dbd7",
   "image_digest": "sha256:81dc44f438caeb08a1d60c444b1ed34e2bceee6da2b522461e311e744d1539fe",
   "dependency_lock_sha256": "b86af930515c04a4fadba4601f203c0fc5497b767fa88a91d4cba72ed18a68c8",
   "scored_checks": 82,
@@ -14,7 +14,7 @@
       "mode": "oracle",
       "actual_test_sh": true,
       "test_exit": 0,
-      "seconds": 178.321563921,
+      "seconds": 326.83176439099987,
       "packages": {
         "numpy": "2.2.6",
         "scipy": "1.15.3",
@@ -72,15 +72,241 @@
         }
       ],
       "measured_calls": 63,
-      "candidate_seconds": 167.86830000000006,
-      "peak_rss_kib": 169952,
+      "candidate_seconds": 316.5487999999999,
+      "peak_rss_kib": 174404,
+      "singular": [
+        {
+          "id": "eb013",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 3.2443,
+          "evidence": {
+            "actual": "-3575796440936146050/10385444281",
+            "certified_optimum": "-3575796440936146050/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        },
+        {
+          "id": "eb014",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 15.3725,
+          "evidence": {
+            "actual": "-19418533148395121312/10385444281",
+            "certified_optimum": "-19418533148395121312/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        },
+        {
+          "id": "eb015",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 21.5084,
+          "evidence": {
+            "actual": "-8672066709851055120/10385444281",
+            "certified_optimum": "-8672066709851055120/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        },
+        {
+          "id": "eb016",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 1.7459,
+          "evidence": {
+            "actual": "-3749112123434324216/10385444281",
+            "certified_optimum": "-3749112123434324216/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        },
+        {
+          "id": "eb017",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 12.3215,
+          "evidence": {
+            "actual": "-9084959781661906194/10385444281",
+            "certified_optimum": "-9084959781661906194/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        },
+        {
+          "id": "eb018",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 20.0903,
+          "evidence": {
+            "actual": "-3532807709268511350/10385444281",
+            "certified_optimum": "-3532807709268511350/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        }
+      ],
+      "task": "mathematics/eb032-math-k-exact-certificate"
+    },
+    {
+      "mode": "oracle",
+      "actual_test_sh": true,
+      "test_exit": 0,
+      "seconds": 322.7930538859998,
+      "packages": {
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "sympy": "1.13.3",
+        "cvxpy": "1.7.2",
+        "scs": "3.2.8",
+        "clarabel": "0.11.1",
+        "ortools": "9.14.6206"
+      },
+      "formal_platform_t1": false,
+      "new_model_calls": 0,
+      "execution_status": "NORMAL",
+      "reward": 1.0,
+      "checks": 82,
+      "groups": [
+        {
+          "name": "witness",
+          "weight": 0.3,
+          "passed": 19,
+          "total": 19,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.3
+        },
+        {
+          "name": "quadratic_proof",
+          "weight": 0.15,
+          "passed": 7,
+          "total": 7,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.15
+        },
+        {
+          "name": "quartic_proof",
+          "weight": 0.2,
+          "passed": 6,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.2
+        },
+        {
+          "name": "singular_proof",
+          "weight": 0.25,
+          "passed": 6,
+          "total": 6,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.25
+        },
+        {
+          "name": "failure",
+          "weight": 0.1,
+          "passed": 44,
+          "total": 44,
+          "aggregation": "PROPORTIONAL",
+          "earned": 0.1
+        }
+      ],
+      "measured_calls": 63,
+      "candidate_seconds": 312.84909999999996,
+      "peak_rss_kib": 174660,
+      "singular": [
+        {
+          "id": "eb013",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 3.1167,
+          "evidence": {
+            "actual": "-3575796440936146050/10385444281",
+            "certified_optimum": "-3575796440936146050/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        },
+        {
+          "id": "eb014",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 14.832,
+          "evidence": {
+            "actual": "-19418533148395121312/10385444281",
+            "certified_optimum": "-19418533148395121312/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        },
+        {
+          "id": "eb015",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 20.8016,
+          "evidence": {
+            "actual": "-8672066709851055120/10385444281",
+            "certified_optimum": "-8672066709851055120/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        },
+        {
+          "id": "eb016",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 1.6722,
+          "evidence": {
+            "actual": "-3749112123434324216/10385444281",
+            "certified_optimum": "-3749112123434324216/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        },
+        {
+          "id": "eb017",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 11.7598,
+          "evidence": {
+            "actual": "-9084959781661906194/10385444281",
+            "certified_optimum": "-9084959781661906194/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        },
+        {
+          "id": "eb018",
+          "state": "CERTIFIED",
+          "point": true,
+          "proof": true,
+          "seconds": 19.4551,
+          "evidence": {
+            "actual": "-3532807709268511350/10385444281",
+            "certified_optimum": "-3532807709268511350/10385444281",
+            "declared_matches_actual": true,
+            "proof": "exact PSD"
+          }
+        }
+      ],
       "task": "mathematics/eb032-math-k-exact-certificate"
     },
     {
       "mode": "nop",
       "actual_test_sh": true,
       "test_exit": 0,
-      "seconds": 16.47301419699997,
+      "seconds": 15.899944207999852,
       "packages": {
         "numpy": "2.2.6",
         "scipy": "1.15.3",
@@ -138,15 +364,15 @@
         }
       ],
       "measured_calls": 63,
-      "candidate_seconds": 6.939299999999999,
-      "peak_rss_kib": 25416,
+      "candidate_seconds": 6.6037,
+      "peak_rss_kib": 25440,
       "task": "mathematics/eb032-math-k-exact-certificate"
     }
   ],
   "oracle_required_reward": 1.0,
   "author_suite_status": "PASS",
   "generated_exact_certificates": 8,
-  "formal_platform_check": "PENDING_V04_RESUBMISSION",
+  "formal_platform_check": "PENDING_V05_RESUBMISSION",
   "new_model_calls": 0,
   "superseded_v02": {
     "commit": "0443d0d0cc1c65b6aecfb4e27dd5b40492a288c8",
@@ -165,13 +391,870 @@
     "r2": "UNEXECUTED"
   },
   "selected_case_changes": {
-    "quartic": 6,
-    "retained_quadratic": 6,
-    "retained_singular": 6
+    "quartic": 0,
+    "retained_cases": 18
+  },
+  "oracle_required_clean_runs": 2,
+  "reviewer_reported_v04_rewards": [
+    0.8119,
+    0.8333
+  ],
+  "target_hardware": {
+    "host_cpu": "AMD Ryzen 7 5800H with Radeon Graphics",
+    "host_physical_cores": 8,
+    "host_logical_processors": 16,
+    "container_cpu_quota": 2,
+    "container_memory_bytes": 2147483648,
+    "pids_limit": 256,
+    "network": "none",
+    "image_digest": "sha256:81dc44f438caeb08a1d60c444b1ed34e2bceee6da2b522461e311e744d1539fe",
+    "reviewer_host": "UNKNOWN",
+    "scope": "Declared task resource limits on the available local hardware"
+  },
+  "certificate_regressions": {
+    "status": "PASS",
+    "scope": "NON_SCORING_AUTHOR_REGRESSION",
+    "records": [
+      {
+        "profile": "standard",
+        "id": "eb013",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 3.1305,
+        "events": [],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-3575796440936146050/10385444281",
+          "certified_optimum": "-3575796440936146050/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "profile": "standard",
+        "id": "eb014",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 14.9227,
+        "events": [],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-19418533148395121312/10385444281",
+          "certified_optimum": "-19418533148395121312/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "profile": "standard",
+        "id": "eb015",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 20.5936,
+        "events": [],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-8672066709851055120/10385444281",
+          "certified_optimum": "-8672066709851055120/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "profile": "standard",
+        "id": "eb016",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 1.6906,
+        "events": [],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-3749112123434324216/10385444281",
+          "certified_optimum": "-3749112123434324216/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "profile": "standard",
+        "id": "eb017",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 11.8266,
+        "events": [],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-9084959781661906194/10385444281",
+          "certified_optimum": "-9084959781661906194/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "profile": "standard",
+        "id": "eb018",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 19.4705,
+        "events": [],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-3532807709268511350/10385444281",
+          "certified_optimum": "-3532807709268511350/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "profile": "short-budget",
+        "id": "eb013",
+        "state": "INCUMBENT",
+        "point": true,
+        "proof": false,
+        "ties": 0,
+        "budget_sec": 1.0,
+        "elapsed_sec": 1.2286,
+        "events": [
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb013",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 0.617199493950011,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.8399809720001485,
+            "remaining_sec": 0.10955201100000522
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb013",
+            "attempt": 2,
+            "method": "SCS",
+            "budget_sec": 0.10949060899997676,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.12107880600001408,
+            "remaining_sec": 0.0
+          },
+          {
+            "event": "certificate_incomplete",
+            "id": "eb013",
+            "state": "INCUMBENT",
+            "reason": "budget_exhausted",
+            "budget_sec": 1.0,
+            "elapsed_sec": 0.9616772020001463,
+            "remaining_sec": 0.0,
+            "attempts": [
+              {
+                "attempt": 1,
+                "method": "CLARABEL",
+                "budget_sec": 0.617199493950011,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.8399809720001485
+              },
+              {
+                "attempt": 2,
+                "method": "SCS",
+                "budget_sec": 0.10949060899997676,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.12107880600001408
+              }
+            ]
+          }
+        ],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-3575796440936146050/10385444281",
+          "certified_optimum": "-3575796440936146050/10385444281",
+          "declared_matches_actual": true,
+          "proof": "not supplied"
+        }
+      },
+      {
+        "profile": "short-budget",
+        "id": "eb014",
+        "state": "INCUMBENT",
+        "point": true,
+        "proof": false,
+        "ties": 0,
+        "budget_sec": 1.0,
+        "elapsed_sec": 1.2517,
+        "events": [
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb014",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 0.6167407070499735,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.8556651339999917,
+            "remaining_sec": 0.09316122300015195
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb014",
+            "attempt": 2,
+            "method": "SCS",
+            "budget_sec": 0.09309142100005374,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.10182546800001546,
+            "remaining_sec": 0.0
+          },
+          {
+            "event": "certificate_incomplete",
+            "id": "eb014",
+            "state": "INCUMBENT",
+            "reason": "budget_exhausted",
+            "budget_sec": 1.0,
+            "elapsed_sec": 0.9588198500000544,
+            "remaining_sec": 0.0,
+            "attempts": [
+              {
+                "attempt": 1,
+                "method": "CLARABEL",
+                "budget_sec": 0.6167407070499735,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.8556651339999917
+              },
+              {
+                "attempt": 2,
+                "method": "SCS",
+                "budget_sec": 0.09309142100005374,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.10182546800001546
+              }
+            ]
+          }
+        ],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-19418533148395121312/10385444281",
+          "certified_optimum": "-19418533148395121312/10385444281",
+          "declared_matches_actual": true,
+          "proof": "not supplied"
+        }
+      },
+      {
+        "profile": "short-budget",
+        "id": "eb015",
+        "state": "INCUMBENT",
+        "point": true,
+        "proof": false,
+        "ties": 0,
+        "budget_sec": 1.0,
+        "elapsed_sec": 1.2153,
+        "events": [
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb015",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 0.6149183020500004,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.8529225199999928,
+            "remaining_sec": 0.09310073699998611
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb015",
+            "attempt": 2,
+            "method": "SCS",
+            "budget_sec": 0.09303703499995208,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.0943277979999948,
+            "remaining_sec": 0.0
+          },
+          {
+            "event": "certificate_incomplete",
+            "id": "eb015",
+            "state": "INCUMBENT",
+            "reason": "budget_exhausted",
+            "budget_sec": 1.0,
+            "elapsed_sec": 0.9513556650001647,
+            "remaining_sec": 0.0,
+            "attempts": [
+              {
+                "attempt": 1,
+                "method": "CLARABEL",
+                "budget_sec": 0.6149183020500004,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.8529225199999928
+              },
+              {
+                "attempt": 2,
+                "method": "SCS",
+                "budget_sec": 0.09303703499995208,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.0943277979999948
+              }
+            ]
+          }
+        ],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-8672066709851055120/10385444281",
+          "certified_optimum": "-8672066709851055120/10385444281",
+          "declared_matches_actual": true,
+          "proof": "not supplied"
+        }
+      },
+      {
+        "profile": "short-budget",
+        "id": "eb016",
+        "state": "INCUMBENT",
+        "point": true,
+        "proof": false,
+        "ties": 0,
+        "budget_sec": 1.0,
+        "elapsed_sec": 1.2276,
+        "events": [
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb016",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 0.6172139896001226,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.8475605270000415,
+            "remaining_sec": 0.1019945570001255
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb016",
+            "attempt": 2,
+            "method": "SCS",
+            "budget_sec": 0.10193235500014453,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.10272469999995337,
+            "remaining_sec": 0.0
+          },
+          {
+            "event": "certificate_incomplete",
+            "id": "eb016",
+            "state": "INCUMBENT",
+            "reason": "budget_exhausted",
+            "budget_sec": 1.0,
+            "elapsed_sec": 0.9508628480000425,
+            "remaining_sec": 0.0,
+            "attempts": [
+              {
+                "attempt": 1,
+                "method": "CLARABEL",
+                "budget_sec": 0.6172139896001226,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.8475605270000415
+              },
+              {
+                "attempt": 2,
+                "method": "SCS",
+                "budget_sec": 0.10193235500014453,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.10272469999995337
+              }
+            ]
+          }
+        ],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-3749112123434324216/10385444281",
+          "certified_optimum": "-3749112123434324216/10385444281",
+          "declared_matches_actual": true,
+          "proof": "not supplied"
+        }
+      },
+      {
+        "profile": "short-budget",
+        "id": "eb017",
+        "state": "INCUMBENT",
+        "point": true,
+        "proof": false,
+        "ties": 0,
+        "budget_sec": 1.0,
+        "elapsed_sec": 1.2271,
+        "events": [
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb017",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 0.6167523433500265,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.8443031100000553,
+            "remaining_sec": 0.10454104900009042
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb017",
+            "attempt": 2,
+            "method": "SCS",
+            "budget_sec": 0.10447574700015139,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.10595071600005213,
+            "remaining_sec": 0.0
+          },
+          {
+            "event": "certificate_incomplete",
+            "id": "eb017",
+            "state": "INCUMBENT",
+            "reason": "budget_exhausted",
+            "budget_sec": 1.0,
+            "elapsed_sec": 0.9515407720000439,
+            "remaining_sec": 0.0,
+            "attempts": [
+              {
+                "attempt": 1,
+                "method": "CLARABEL",
+                "budget_sec": 0.6167523433500265,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.8443031100000553
+              },
+              {
+                "attempt": 2,
+                "method": "SCS",
+                "budget_sec": 0.10447574700015139,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.10595071600005213
+              }
+            ]
+          }
+        ],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-9084959781661906194/10385444281",
+          "certified_optimum": "-9084959781661906194/10385444281",
+          "declared_matches_actual": true,
+          "proof": "not supplied"
+        }
+      },
+      {
+        "profile": "short-budget",
+        "id": "eb018",
+        "state": "INCUMBENT",
+        "point": true,
+        "proof": false,
+        "ties": 0,
+        "budget_sec": 1.0,
+        "elapsed_sec": 1.2308,
+        "events": [
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb018",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 0.614994484649958,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.8591145430000324,
+            "remaining_sec": 0.08702581800002918
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb018",
+            "attempt": 2,
+            "method": "SCS",
+            "budget_sec": 0.08694461499999306,
+            "ties": 0,
+            "reason": "exact_certificate_not_recovered",
+            "elapsed_sec": 0.09517342799995276,
+            "remaining_sec": 0.0
+          },
+          {
+            "event": "certificate_incomplete",
+            "id": "eb018",
+            "state": "INCUMBENT",
+            "reason": "budget_exhausted",
+            "budget_sec": 1.0,
+            "elapsed_sec": 0.9582973149999816,
+            "remaining_sec": 0.0,
+            "attempts": [
+              {
+                "attempt": 1,
+                "method": "CLARABEL",
+                "budget_sec": 0.614994484649958,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.8591145430000324
+              },
+              {
+                "attempt": 2,
+                "method": "SCS",
+                "budget_sec": 0.08694461499999306,
+                "ties": 0,
+                "reason": "exact_certificate_not_recovered",
+                "elapsed_sec": 0.09517342799995276
+              }
+            ]
+          }
+        ],
+        "fault_injection": false,
+        "evidence": {
+          "actual": "-3532807709268511350/10385444281",
+          "certified_optimum": "-3532807709268511350/10385444281",
+          "declared_matches_actual": true,
+          "proof": "not supplied"
+        }
+      },
+      {
+        "profile": "empty-ties-retry",
+        "id": "eb013",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 7.0687,
+        "events": [
+          {
+            "event": "author_fault_injection",
+            "attempt": 1,
+            "method": "CLARABEL"
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb013",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 167.69970345894987,
+            "ties": 0,
+            "reason": "TimeoutError",
+            "message": "author-injected first-attempt exhaustion",
+            "elapsed_sec": 5.92019998748583e-05,
+            "remaining_sec": 257.9994822809997
+          },
+          {
+            "event": "author_fault_injection",
+            "attempt": 2,
+            "method": "SCS"
+          }
+        ],
+        "fault_injection": true,
+        "evidence": {
+          "actual": "-3575796440936146050/10385444281",
+          "certified_optimum": "-3575796440936146050/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "profile": "empty-ties-retry",
+        "id": "eb014",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 5.149,
+        "events": [
+          {
+            "event": "author_fault_injection",
+            "attempt": 1,
+            "method": "CLARABEL"
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb014",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 167.6992846477002,
+            "ties": 0,
+            "reason": "TimeoutError",
+            "message": "author-injected first-attempt exhaustion",
+            "elapsed_sec": 4.9301999979434186e-05,
+            "remaining_sec": 257.99884775600026
+          },
+          {
+            "event": "author_fault_injection",
+            "attempt": 2,
+            "method": "SCS"
+          }
+        ],
+        "fault_injection": true,
+        "evidence": {
+          "actual": "-19418533148395121312/10385444281",
+          "certified_optimum": "-19418533148395121312/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "profile": "empty-ties-retry",
+        "id": "eb015",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 4.7306,
+        "events": [
+          {
+            "event": "author_fault_injection",
+            "attempt": 1,
+            "method": "CLARABEL"
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb015",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 167.69739066990002,
+            "ties": 0,
+            "reason": "TimeoutError",
+            "message": "author-injected first-attempt exhaustion",
+            "elapsed_sec": 6.370300002345175e-05,
+            "remaining_sec": 257.9959194429998
+          },
+          {
+            "event": "author_fault_injection",
+            "attempt": 2,
+            "method": "SCS"
+          }
+        ],
+        "fault_injection": true,
+        "evidence": {
+          "actual": "-8672066709851055120/10385444281",
+          "certified_optimum": "-8672066709851055120/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "profile": "empty-ties-retry",
+        "id": "eb016",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 5.0527,
+        "events": [
+          {
+            "event": "author_fault_injection",
+            "attempt": 1,
+            "method": "CLARABEL"
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb016",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 167.6996690082999,
+            "ties": 0,
+            "reason": "TimeoutError",
+            "message": "author-injected first-attempt exhaustion",
+            "elapsed_sec": 5.4501000022355583e-05,
+            "remaining_sec": 257.99943378099965
+          },
+          {
+            "event": "author_fault_injection",
+            "attempt": 2,
+            "method": "SCS"
+          }
+        ],
+        "fault_injection": true,
+        "evidence": {
+          "actual": "-3749112123434324216/10385444281",
+          "certified_optimum": "-3749112123434324216/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "profile": "empty-ties-retry",
+        "id": "eb017",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 10.4263,
+        "events": [
+          {
+            "event": "author_fault_injection",
+            "attempt": 1,
+            "method": "CLARABEL"
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb017",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 167.6992264083501,
+            "ties": 0,
+            "reason": "TimeoutError",
+            "message": "author-injected first-attempt exhaustion",
+            "elapsed_sec": 5.450199978440651e-05,
+            "remaining_sec": 257.9987526570003
+          },
+          {
+            "event": "author_fault_injection",
+            "attempt": 2,
+            "method": "SCS"
+          }
+        ],
+        "fault_injection": true,
+        "evidence": {
+          "actual": "-9084959781661906194/10385444281",
+          "certified_optimum": "-9084959781661906194/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      },
+      {
+        "profile": "empty-ties-retry",
+        "id": "eb018",
+        "state": "CERTIFIED",
+        "point": true,
+        "proof": true,
+        "ties": 0,
+        "budget_sec": 260.0,
+        "elapsed_sec": 2.3672,
+        "events": [
+          {
+            "event": "author_fault_injection",
+            "attempt": 1,
+            "method": "CLARABEL"
+          },
+          {
+            "event": "certificate_attempt_failed",
+            "id": "eb018",
+            "attempt": 1,
+            "method": "CLARABEL",
+            "budget_sec": 167.6974470079998,
+            "ties": 0,
+            "reason": "TimeoutError",
+            "message": "author-injected first-attempt exhaustion",
+            "elapsed_sec": 6.090299984862213e-05,
+            "remaining_sec": 257.9960089169999
+          },
+          {
+            "event": "author_fault_injection",
+            "attempt": 2,
+            "method": "SCS"
+          }
+        ],
+        "fault_injection": true,
+        "evidence": {
+          "actual": "-3532807709268511350/10385444281",
+          "certified_optimum": "-3532807709268511350/10385444281",
+          "declared_matches_actual": true,
+          "proof": "exact PSD"
+        }
+      }
+    ],
+    "short_budget_counterexamples": 6,
+    "formal_platform_t1": false
+  },
+  "five_second_counterexamples": {
+    "status": "PASS",
+    "records": [
+      {
+        "id": "eb013",
+        "budget_sec": 5.0,
+        "ties": 0,
+        "state": "CERTIFIED",
+        "elapsed_sec": 3.1274,
+        "point": true,
+        "proof": true,
+        "diagnostics_present": false,
+        "fault_injection": false
+      },
+      {
+        "id": "eb014",
+        "budget_sec": 5.0,
+        "ties": 0,
+        "state": "INCUMBENT",
+        "elapsed_sec": 6.0329,
+        "point": true,
+        "proof": false,
+        "diagnostics_present": true,
+        "fault_injection": false
+      },
+      {
+        "id": "eb015",
+        "budget_sec": 5.0,
+        "ties": 0,
+        "state": "INCUMBENT",
+        "elapsed_sec": 5.2265,
+        "point": true,
+        "proof": false,
+        "diagnostics_present": true,
+        "fault_injection": false
+      },
+      {
+        "id": "eb016",
+        "budget_sec": 5.0,
+        "ties": 0,
+        "state": "CERTIFIED",
+        "elapsed_sec": 1.671,
+        "point": true,
+        "proof": true,
+        "diagnostics_present": false,
+        "fault_injection": false
+      },
+      {
+        "id": "eb017",
+        "budget_sec": 5.0,
+        "ties": 0,
+        "state": "INCUMBENT",
+        "elapsed_sec": 6.2376,
+        "point": true,
+        "proof": false,
+        "diagnostics_present": true,
+        "fault_injection": false
+      },
+      {
+        "id": "eb018",
+        "budget_sec": 5.0,
+        "ties": 0,
+        "state": "INCUMBENT",
+        "elapsed_sec": 5.0399,
+        "point": true,
+        "proof": false,
+        "diagnostics_present": true,
+        "fault_injection": false
+      }
+    ]
   },
   "candidate_group_contents_available": false,
   "remaining_platform_dependencies": [
-    "v04 normal candidate completions and scores <= 0.7",
-    "v04 R1/R2 review"
+    "v05 normal candidate completions and scores <= 0.7",
+    "v05 R1/R2 review"
   ]
 }

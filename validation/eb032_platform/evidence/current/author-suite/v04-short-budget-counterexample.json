@@ -1,0 +1,98 @@
+[
+  {
+    "id": "eb013",
+    "budget": 1.0,
+    "ties": 0,
+    "state": "INCUMBENT",
+    "point": true,
+    "proof": false,
+    "seconds": 1.338324211000014,
+    "stderr": "/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.\n  warnings.warn(\n",
+    "evidence": {
+      "actual": "-3575796440936146050/10385444281",
+      "certified_optimum": "-3575796440936146050/10385444281",
+      "declared_matches_actual": true,
+      "proof": "not supplied"
+    }
+  },
+  {
+    "id": "eb014",
+    "budget": 1.0,
+    "ties": 0,
+    "state": "INCUMBENT",
+    "point": true,
+    "proof": false,
+    "seconds": 2.9396082719999868,
+    "stderr": "/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.\n  warnings.warn(\n",
+    "evidence": {
+      "actual": "-19418533148395121312/10385444281",
+      "certified_optimum": "-19418533148395121312/10385444281",
+      "declared_matches_actual": true,
+      "proof": "not supplied"
+    }
+  },
+  {
+    "id": "eb015",
+    "budget": 1.0,
+    "ties": 0,
+    "state": "INCUMBENT",
+    "point": true,
+    "proof": false,
+    "seconds": 4.258297283000019,
+    "stderr": "/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.\n  warnings.warn(\n",
+    "evidence": {
+      "actual": "-8672066709851055120/10385444281",
+      "certified_optimum": "-8672066709851055120/10385444281",
+      "declared_matches_actual": true,
+      "proof": "not supplied"
+    }
+  },
+  {
+    "id": "eb016",
+    "budget": 1.0,
+    "ties": 0,
+    "state": "CERTIFIED",
+    "point": true,
+    "proof": true,
+    "seconds": 0.5002936980000072,
+    "stderr": "/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.\n  warnings.warn(\n",
+    "evidence": {
+      "actual": "-3749112123434324216/10385444281",
+      "certified_optimum": "-3749112123434324216/10385444281",
+      "declared_matches_actual": true,
+      "proof": "exact PSD"
+    }
+  },
+  {
+    "id": "eb017",
+    "budget": 1.0,
+    "ties": 0,
+    "state": "INCUMBENT",
+    "point": true,
+    "proof": false,
+    "seconds": 2.3913941710000017,
+    "stderr": "/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.\n  warnings.warn(\n",
+    "evidence": {
+      "actual": "-9084959781661906194/10385444281",
+      "certified_optimum": "-9084959781661906194/10385444281",
+      "declared_matches_actual": true,
+      "proof": "not supplied"
+    }
+  },
+  {
+    "id": "eb018",
+    "budget": 1.0,
+    "ties": 0,
+    "state": "INCUMBENT",
+    "point": true,
+    "proof": false,
+    "seconds": 4.104605147000001,
+    "stderr": "/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.\n  warnings.warn(\n",
+    "evidence": {
+      "actual": "-3532807709268511350/10385444281",
+      "certified_optimum": "-3532807709268511350/10385444281",
+      "declared_matches_actual": true,
+      "proof": "not supplied"
+    }
+  }
+]

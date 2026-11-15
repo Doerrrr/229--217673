@@ -2,7 +2,7 @@
   "mode": "oracle",
   "actual_test_sh": true,
   "test_exit": 0,
-  "seconds": 178.321563921,
+  "seconds": 326.83176439099987,
   "packages": {
     "numpy": "2.2.6",
     "scipy": "1.15.3",
@@ -60,7 +60,87 @@
     }
   ],
   "measured_calls": 63,
-  "candidate_seconds": 167.86830000000006,
-  "peak_rss_kib": 169952,
+  "candidate_seconds": 316.5487999999999,
+  "peak_rss_kib": 174404,
+  "singular": [
+    {
+      "id": "eb013",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 3.2443,
+      "evidence": {
+        "actual": "-3575796440936146050/10385444281",
+        "certified_optimum": "-3575796440936146050/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    },
+    {
+      "id": "eb014",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 15.3725,
+      "evidence": {
+        "actual": "-19418533148395121312/10385444281",
+        "certified_optimum": "-19418533148395121312/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    },
+    {
+      "id": "eb015",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 21.5084,
+      "evidence": {
+        "actual": "-8672066709851055120/10385444281",
+        "certified_optimum": "-8672066709851055120/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    },
+    {
+      "id": "eb016",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 1.7459,
+      "evidence": {
+        "actual": "-3749112123434324216/10385444281",
+        "certified_optimum": "-3749112123434324216/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    },
+    {
+      "id": "eb017",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 12.3215,
+      "evidence": {
+        "actual": "-9084959781661906194/10385444281",
+        "certified_optimum": "-9084959781661906194/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    },
+    {
+      "id": "eb018",
+      "state": "CERTIFIED",
+      "point": true,
+      "proof": true,
+      "seconds": 20.0903,
+      "evidence": {
+        "actual": "-3532807709268511350/10385444281",
+        "certified_optimum": "-3532807709268511350/10385444281",
+        "declared_matches_actual": true,
+        "proof": "exact PSD"
+      }
+    }
+  ],
   "task": "mathematics/eb032-math-k-exact-certificate"
 }

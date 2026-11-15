@@ -186,7 +186,7 @@
       ]
     }
   ],
-  "scoring_version": "v04",
+  "scoring_version": "v05",
   "formal_platform_t1": false,
   "new_model_calls": 0
 }

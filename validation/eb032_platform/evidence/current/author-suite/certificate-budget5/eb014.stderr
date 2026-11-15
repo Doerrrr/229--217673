@@ -1,0 +1,5 @@
+/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+  warnings.warn(
+{"event":"certificate_attempt_failed","id":"eb014","attempt":1,"method":"CLARABEL","budget_sec":3.086500587950218,"ties":0,"reason":"exact_certificate_not_recovered","elapsed_sec":3.5491791449999255,"remaining_sec":1.1992773980000493}
+{"event":"certificate_attempt_failed","id":"eb014","attempt":2,"method":"SCS","budget_sec":1.1978616450001027,"ties":0,"reason":"exact_certificate_not_recovered","elapsed_sec":2.186522506000074,"remaining_sec":0.0}
+{"event":"certificate_incomplete","id":"eb014","state":"INCUMBENT","reason":"budget_exhausted","budget_sec":5.0,"elapsed_sec":5.738746563999939,"remaining_sec":0.0,"attempts":[{"attempt":1,"method":"CLARABEL","budget_sec":3.086500587950218,"ties":0,"reason":"exact_certificate_not_recovered","elapsed_sec":3.5491791449999255},{"attempt":2,"method":"SCS","budget_sec":1.1978616450001027,"ties":0,"reason":"exact_certificate_not_recovered","elapsed_sec":2.186522506000074}]}

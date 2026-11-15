@@ -1,0 +1,9 @@
+{
+  "query_id": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "phase": "exact_checker",
+  "status": "COMPLETED",
+  "timeout_seconds": 300,
+  "total_budget_seconds": 2400,
+  "spent_seconds": 0.3321258480009419,
+  "elapsed_seconds": 0.060499392999872725
+}

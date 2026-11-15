@@ -1,8 +1,8 @@
 {
   "returncode": 0,
   "timed_out": false,
-  "peak_rss_kib": 115372,
-  "elapsed_seconds": 0.8848,
+  "peak_rss_kib": 115628,
+  "elapsed_seconds": 0.868,
   "log_truncated": false,
   "captured_bytes": 0,
   "capture_limit_bytes": 67108864,
@@ -10,11 +10,11 @@
   "descendants_signalled": 0,
   "descendants_remaining": 0,
   "command": [
-    "/tmp/ddi-night-waxzn7yb/candidate/project/bin/certified-minimum",
+    "/tmp/ddi-night-3dq89fhz/candidate/project/bin/certified-minimum",
     "--input",
-    "/tmp/ddi-night-waxzn7yb/candidate/upper-query-count.json",
+    "/tmp/ddi-night-3dq89fhz/candidate/upper-query-count.json",
     "--output",
-    "/tmp/ddi-night-waxzn7yb/candidate/upper-query-count.jsonl"
+    "/tmp/ddi-night-3dq89fhz/candidate/upper-query-count.jsonl"
   ],
   "expected_kill": false,
   "input_sha256": "3064f6244cb1d3c13a401105a33afd8eaf93d7a120b8c533cd09b9d46ab05264",

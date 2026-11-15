@@ -16,9 +16,9 @@
     "--mount",
     "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\repository,target=/root/repo,readonly",
     "--mount",
-    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v04-20261114,target=/root/tools,readonly",
+    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v05-20261115,target=/root/tools,readonly",
     "--mount",
-    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v04-20261114\\final-nop-logs,target=/logs/verifier",
+    "type=bind,source=E:\\coding\\passby\\talentsAi\\general_coding\\deliverables\\eb032_242247_repair_20261112\\qc-v05-20261115\\final-nop-logs,target=/logs/verifier",
     "--entrypoint",
     "python3",
     "sha256:81dc44f438caeb08a1d60c444b1ed34e2bceee6da2b522461e311e744d1539fe",
@@ -28,5 +28,5 @@
     "nop"
   ],
   "exit_code": 0,
-  "seconds": 17.621054499999957
+  "seconds": 17.027560399998038
 }

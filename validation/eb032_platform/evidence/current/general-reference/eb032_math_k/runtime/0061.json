@@ -1,20 +1,20 @@
 {
   "returncode": 3,
   "timed_out": false,
-  "peak_rss_kib": 115212,
-  "elapsed_seconds": 0.9039,
+  "peak_rss_kib": 114768,
+  "elapsed_seconds": 0.8571,
   "log_truncated": false,
   "captured_bytes": 168,
   "capture_limit_bytes": 67108864,
-  "stderr_tail": "cannot write output: [Errno 21] Is a directory: '/tmp/ddi-night-waxzn7yb/candidate/.certified-minimum-9an876wv' -> '/tmp/ddi-night-waxzn7yb/candidate/output-directory'\n",
+  "stderr_tail": "cannot write output: [Errno 21] Is a directory: '/tmp/ddi-night-3dq89fhz/candidate/.certified-minimum-yu_azk39' -> '/tmp/ddi-night-3dq89fhz/candidate/output-directory'\n",
   "descendants_signalled": 0,
   "descendants_remaining": 0,
   "command": [
-    "/tmp/ddi-night-waxzn7yb/candidate/project/bin/certified-minimum",
+    "/tmp/ddi-night-3dq89fhz/candidate/project/bin/certified-minimum",
     "--input",
-    "/tmp/ddi-night-waxzn7yb/candidate/write-source.json",
+    "/tmp/ddi-night-3dq89fhz/candidate/write-source.json",
     "--output",
-    "/tmp/ddi-night-waxzn7yb/candidate/output-directory"
+    "/tmp/ddi-night-3dq89fhz/candidate/output-directory"
   ],
   "expected_kill": false,
   "input_sha256": "0e52de15e3d1700b6e047c3b5b043a7898655fa035bec931813c539b81ea4bb0",

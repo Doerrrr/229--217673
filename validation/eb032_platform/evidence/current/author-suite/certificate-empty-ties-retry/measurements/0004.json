@@ -1,0 +1,22 @@
+{
+  "returncode": 0,
+  "timed_out": false,
+  "peak_rss_kib": 155068,
+  "elapsed_seconds": 5.0527,
+  "log_truncated": false,
+  "captured_bytes": 642,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "{\"event\": \"author_fault_injection\", \"attempt\": 1, \"method\": \"CLARABEL\"}\n{\"event\":\"certificate_attempt_failed\",\"id\":\"eb016\",\"attempt\":1,\"method\":\"CLARABEL\",\"budget_sec\":167.6996690082999,\"ties\":0,\"reason\":\"TimeoutError\",\"message\":\"author-injected first-attempt exhaustion\",\"elapsed_sec\":5.4501000022355583e-05,\"remaining_sec\":257.99943378099965}\n{\"event\": \"author_fault_injection\", \"attempt\": 2, \"method\": \"SCS\"}\n/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.\n  warnings.warn(\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-blbob3ub/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-blbob3ub/candidate/eb016.json",
+    "--output",
+    "/tmp/ddi-night-blbob3ub/candidate/eb016.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "c98015005778e4bdc0e8a0869d014606ac8ce765edaa3c2700c48919398d101b",
+  "input_read_error": null
+}

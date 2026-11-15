@@ -1,0 +1,3 @@
+{"event": "author_fault_injection", "attempt": 1, "method": "CLARABEL"}
+{"event":"certificate_attempt_failed","id":"eb014","attempt":1,"method":"CLARABEL","budget_sec":167.6992846477002,"ties":0,"reason":"TimeoutError","message":"author-injected first-attempt exhaustion","elapsed_sec":4.9301999979434186e-05,"remaining_sec":257.99884775600026}
+{"event": "author_fault_injection", "attempt": 2, "method": "SCS"}

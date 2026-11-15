@@ -1,0 +1,5 @@
+{"event": "author_fault_injection", "attempt": 1, "method": "CLARABEL"}
+{"event":"certificate_attempt_failed","id":"eb016","attempt":1,"method":"CLARABEL","budget_sec":167.6996690082999,"ties":0,"reason":"TimeoutError","message":"author-injected first-attempt exhaustion","elapsed_sec":5.4501000022355583e-05,"remaining_sec":257.99943378099965}
+{"event": "author_fault_injection", "attempt": 2, "method": "SCS"}
+/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+  warnings.warn(

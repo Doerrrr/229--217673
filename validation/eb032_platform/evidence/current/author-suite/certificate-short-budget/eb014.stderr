@@ -1,0 +1,7 @@
+/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+  warnings.warn(
+{"event":"certificate_attempt_failed","id":"eb014","attempt":1,"method":"CLARABEL","budget_sec":0.6167407070499735,"ties":0,"reason":"exact_certificate_not_recovered","elapsed_sec":0.8556651339999917,"remaining_sec":0.09316122300015195}
+/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+  warnings.warn(
+{"event":"certificate_attempt_failed","id":"eb014","attempt":2,"method":"SCS","budget_sec":0.09309142100005374,"ties":0,"reason":"exact_certificate_not_recovered","elapsed_sec":0.10182546800001546,"remaining_sec":0.0}
+{"event":"certificate_incomplete","id":"eb014","state":"INCUMBENT","reason":"budget_exhausted","budget_sec":1.0,"elapsed_sec":0.9588198500000544,"remaining_sec":0.0,"attempts":[{"attempt":1,"method":"CLARABEL","budget_sec":0.6167407070499735,"ties":0,"reason":"exact_certificate_not_recovered","elapsed_sec":0.8556651339999917},{"attempt":2,"method":"SCS","budget_sec":0.09309142100005374,"ties":0,"reason":"exact_certificate_not_recovered","elapsed_sec":0.10182546800001546}]}

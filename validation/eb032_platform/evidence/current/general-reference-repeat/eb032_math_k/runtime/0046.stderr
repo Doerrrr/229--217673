@@ -1,0 +1,1 @@
+invalid input: queries[0].terms[].coef is longer than 80 characters

@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "records": [
+    {
+      "id": "eb013",
+      "budget_sec": 5.0,
+      "ties": 0,
+      "state": "CERTIFIED",
+      "elapsed_sec": 3.1274,
+      "point": true,
+      "proof": true,
+      "diagnostics_present": false,
+      "fault_injection": false
+    },
+    {
+      "id": "eb014",
+      "budget_sec": 5.0,
+      "ties": 0,
+      "state": "INCUMBENT",
+      "elapsed_sec": 6.0329,
+      "point": true,
+      "proof": false,
+      "diagnostics_present": true,
+      "fault_injection": false
+    },
+    {
+      "id": "eb015",
+      "budget_sec": 5.0,
+      "ties": 0,
+      "state": "INCUMBENT",
+      "elapsed_sec": 5.2265,
+      "point": true,
+      "proof": false,
+      "diagnostics_present": true,
+      "fault_injection": false
+    },
+    {
+      "id": "eb016",
+      "budget_sec": 5.0,
+      "ties": 0,
+      "state": "CERTIFIED",
+      "elapsed_sec": 1.671,
+      "point": true,
+      "proof": true,
+      "diagnostics_present": false,
+      "fault_injection": false
+    },
+    {
+      "id": "eb017",
+      "budget_sec": 5.0,
+      "ties": 0,
+      "state": "INCUMBENT",
+      "elapsed_sec": 6.2376,
+      "point": true,
+      "proof": false,
+      "diagnostics_present": true,
+      "fault_injection": false
+    },
+    {
+      "id": "eb018",
+      "budget_sec": 5.0,
+      "ties": 0,
+      "state": "INCUMBENT",
+      "elapsed_sec": 5.0399,
+      "point": true,
+      "proof": false,
+      "diagnostics_present": true,
+      "fault_injection": false
+    }
+  ]
+}

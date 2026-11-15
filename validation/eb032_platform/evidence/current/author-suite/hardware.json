@@ -1,0 +1,12 @@
+{
+  "host_cpu": "AMD Ryzen 7 5800H with Radeon Graphics",
+  "host_physical_cores": 8,
+  "host_logical_processors": 16,
+  "container_cpu_quota": 2,
+  "container_memory_bytes": 2147483648,
+  "pids_limit": 256,
+  "network": "none",
+  "image_digest": "sha256:81dc44f438caeb08a1d60c444b1ed34e2bceee6da2b522461e311e744d1539fe",
+  "reviewer_host": "UNKNOWN",
+  "scope": "Declared task resource limits on the available local hardware"
+}

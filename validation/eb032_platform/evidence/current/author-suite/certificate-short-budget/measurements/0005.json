@@ -1,0 +1,22 @@
+{
+  "returncode": 0,
+  "timed_out": false,
+  "peak_rss_kib": 154556,
+  "elapsed_seconds": 1.2271,
+  "log_truncated": false,
+  "captured_bytes": 1393,
+  "capture_limit_bytes": 67108864,
+  "stderr_tail": "/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.\n  warnings.warn(\n{\"event\":\"certificate_attempt_failed\",\"id\":\"eb017\",\"attempt\":1,\"method\":\"CLARABEL\",\"budget_sec\":0.6167523433500265,\"ties\":0,\"reason\":\"exact_certificate_not_recovered\",\"elapsed_sec\":0.8443031100000553,\"remaining_sec\":0.10454104900009042}\n/usr/local/lib/python3.11/site-packages/cvxpy/problems/problem.py:1539: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.\n  warnings.warn(\n{\"event\":\"certificate_attempt_failed\",\"id\":\"eb017\",\"attempt\":2,\"method\":\"SCS\",\"budget_sec\":0.10447574700015139,\"ties\":0,\"reason\":\"exact_certificate_not_recovered\",\"elapsed_sec\":0.10595071600005213,\"remaining_sec\":0.0}\n{\"event\":\"certificate_incomplete\",\"id\":\"eb017\",\"state\":\"INCUMBENT\",\"reason\":\"budget_exhausted\",\"budget_sec\":1.0,\"elapsed_sec\":0.9515407720000439,\"remaining_sec\":0.0,\"attempts\":[{\"attempt\":1,\"method\":\"CLARABEL\",\"budget_sec\":0.6167523433500265,\"ties\":0,\"reason\":\"exact_certificate_not_recovered\",\"elapsed_sec\":0.8443031100000553},{\"attempt\":2,\"method\":\"SCS\",\"budget_sec\":0.10447574700015139,\"ties\":0,\"reason\":\"exact_certificate_not_recovered\",\"elapsed_sec\":0.10595071600005213}]}\n",
+  "descendants_signalled": 0,
+  "descendants_remaining": 0,
+  "command": [
+    "/tmp/ddi-night-vt_146vt/candidate/project/bin/certified-minimum",
+    "--input",
+    "/tmp/ddi-night-vt_146vt/candidate/eb017.json",
+    "--output",
+    "/tmp/ddi-night-vt_146vt/candidate/eb017.jsonl"
+  ],
+  "expected_kill": false,
+  "input_sha256": "66f16cb7d8e23b7ea8574b4684322bede271a97feedd0d7f35047b7c314d8d4b",
+  "input_read_error": null
+}
