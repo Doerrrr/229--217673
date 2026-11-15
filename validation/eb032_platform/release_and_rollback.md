@@ -1,11 +1,7 @@
-# EB032-MATH-K v04 release and rollback
+# EB032-MATH-K v05 release and rollback
 
-Registered task is mathematics/eb032-math-k-exact-certificate. Current version is v04. Publication requires complete normal production controls with Oracle 1.000 and NOP at most 0.100. payload.json binds the source and evidence/current records actual executions. Candidate-model qualification remains pending formal evaluation.
+Question 242247 uses mathematics/eb032-math-k-exact-certificate. This revision retains v04 mathematical data and scoring and changes reference recovery, diagnostics and non-scoring author controls. Both isolated production Oracles must score exactly 1.000 before publication.
 
-## Applying
+Apply the pinned release with the backup installer, inspect its compact staged summary and run verify_release.py. It verifies release file hashes, the result version, both production Oracles and all six singular certificates. Backup ZIPs are retained next to the target platform project. Known old task files are accepted and conflicting edits require review.
 
-Use the pinned-commit installer supplied with this release. It verifies a known prior case hash, backs up affected task paths beside the platform project, applies known release bytes, runs preflight and stages the affected paths. verify_release.py checks the installed manifest hashes, versioned results and Oracle/NOP acceptance.
-
-## Recovery
-
-The prior v03 release is 1a0656adf933a754c14290c2ecd7a0e2515c8820. It has a valid general Oracle and a formal T1 score of 0.750. Per-application backup ZIPs preserve prior file bytes. Inspect the actual platform application commit before creating a Git revert. All previous receipts and task versions remain recoverable in Git and local archives.
+v04 source 44b02e8103bca7fc29ca6fbea9a4f0f901017707 and all earlier evidence remain recoverable in Git and archives. v04 has independently reported Oracle instability. Use the actual application commit and backup manifest when planning a rollback. Formal v05 platform qualification requires new receipts.

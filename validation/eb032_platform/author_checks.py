@@ -1,4 +1,4 @@
-"""Author regressions for v04 Oracle, runtime faults and public CLI boundaries."""
+"""Author regressions for v05 Oracle, runtime faults and public CLI boundaries."""
 import argparse,copy,hashlib,importlib.util,json,os,shutil,signal,subprocess,sys,tempfile,time
 from fractions import Fraction
 from pathlib import Path
@@ -47,7 +47,7 @@ def solve(query, budget):
         require(got.returncode == 0, 'grader execution failed: ' + profile)
         record = json.loads((target / 'result.json').read_bytes())
         require(record['execution_status'] == 'NORMAL', 'abnormal control: ' + profile)
-        require(len(record['cases']) == 82, 'v04 assertion count changed')
+        require(len(record['cases']) == 82, 'v05 assertion count changed')
         groups = {g['name']: g for g in record['groups']}
         if profile == 'general':
             require(record['reward'] == 1.0, 'Oracle must score exactly 1.0')
@@ -60,7 +60,7 @@ def solve(query, budget):
         else:
             require(record['reward'] == round(0.1 * 3 / 44, 6), 'empty scaffold control changed')
         records.append(dict(profile=profile, reward=record['reward'], groups=record['groups']))
-    report = dict(status='PASS', records=records, scoring_version='v04',
+    report = dict(status='PASS', records=records, scoring_version='v05',
                   formal_platform_t1=False, new_model_calls=0)
     dump(results / 'score_controls.json', report)
     return report
@@ -298,6 +298,8 @@ def main():
     report['checker_faults']=checker_faults(a.repo,a.results)
     report['reference_boundaries']=reference_boundaries(a.repo,a.results,workspace)
     report['exact_search']=exact_search_checks(a.repo,a.results)
+    from certificate_regressions import run as certificate_regressions
+    report['certificate_regressions']=certificate_regressions(a.repo,a.results,workspace)
     report['generated_reference']=generated_reference_checks(a.repo,a.results,workspace)
     identity_result=a.results/'output_reader_identities.json'
     subprocess.run([sys.executable,str(a.repo/'validation/eb032_platform/identity_checks.py'),

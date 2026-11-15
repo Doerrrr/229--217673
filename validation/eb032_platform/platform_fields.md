@@ -1,9 +1,9 @@
-# EB032-MATH-K v04 platform record
+# EB032-MATH-K v05 platform record
 
-Question 242247 uses mathematics/eb032-math-k-exact-certificate. Version v04 replaces six quartic mathematical cases within the Boolean rational Gram contract and adds 10 production adjacent-boundary checks. It has 82 assertions and 63 CLI calls. Oracle must complete at exactly 1.000 and NOP at most 0.100 before publication.
+Registered task is mathematics/eb032-math-k-exact-certificate, question 242247. v05 repairs reference-certificate stability and diagnostics. Its mathematical cases, five scoring weights, 82 assertions and 63 normal CLI calls retain v04 behavior.
 
-The supplied v03 report identifies platform snapshot e54a1bf42f4b964b01f8553d186e1d7071b38418. It records R1 95, Oracle 1.000, NOP 0.009 and candidate 1 normal completion at 0.750. Candidate 2 was skipped because candidate 1 exceeded 0.700. R2 was unexecuted. The report supplies an artifact index without candidate command or group-result contents.
+The reviewer reported v04 clean-run rewards 0.8119 and 0.8333. v04 local receipts cannot certify v05. Current receipts belong to their frozen v05 source and record two fresh production Oracle runs, individual singular outputs, NOP and author fault regressions. Publication requires both Oracles to complete normally at exactly 1.000. The declared resource target is 2 vCPU and 2048 MiB with the pinned candidate image and locked dependencies. Reviewer CPU details are unavailable.
 
-Current author receipts are bound to v04 in local_validation.json and evidence/current. Historical scores apply to their source versions. A fresh platform run must establish both normal candidate scores at or below 0.700 and the applicable R1/R2 gates.
+The candidate image contains app, bin and packet. Reference and verifier files remain author-side. The reversible installer accepts known old bytes, preserves a backup and stages task paths. The supplied sync command scopes strict Bash options to a subshell and disables the Git pager.
 
-The author repository contains complete task and validation sources. The candidate image copies app, bin and packet plus locked dependencies. Apply the pinned backup installer, inspect the compact staged summary and use the platform submission workflow. The installer accepts known prior case hashes and rejects conflicting edited task files.
+Formal platform T1/R1/R2 for v05 remain pending user-operated evaluation.

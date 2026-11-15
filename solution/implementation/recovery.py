@@ -136,10 +136,20 @@ def recover_gram(basis, poly, assignment, approximate, deadline, solver):
             if gram is not None:
                 return gram
     rows, pairs, target, signs = solver.equations(basis, poly, assignment)
-    for rank in range(1, min(dimension, 7)):
+    # Refine the observed numerical ranks first. Smaller incompatible ranks can
+    # otherwise spend the entire recovery budget before the viable rank is tried.
+    refinement_ranks = [rank for rank in ranks if 0 < rank < dimension]
+    refinement_ranks.extend(rank for rank in range(1, min(dimension, 7))
+                            if rank not in refinement_ranks)
+    for rank in refinement_ranks:
         if time.monotonic() >= deadline:
             break
-        refined = refined_matrix(rows, pairs, target, approximate, rank, deadline)
+        remaining = deadline - time.monotonic()
+        rank_deadline = min(deadline, time.monotonic() + max(0.05, remaining * 0.5))
+        try:
+            refined = refined_matrix(rows, pairs, target, approximate, rank, rank_deadline)
+        except TimeoutError:
+            continue
         if refined is None:
             continue
         _, vectors = np.linalg.eigh(refined)

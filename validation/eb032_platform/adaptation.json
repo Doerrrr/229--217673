@@ -3,7 +3,7 @@
   "created_at": "2026-10-24T04:44:08.333698+00:00",
   "previous_version": "EB032-MATH-J-v01",
   "previous_fresh_luna_result": "CANDIDATE_TIMEOUT_300S_NO_SCORE",
-  "change": "Replace six quartic cases with fixed coupled parity-face SOS instances; preserve six quadratic anchors and six singular cases",
+  "change": "Stabilize reference certificate deadlines, retries with empty ties and diagnostics; retain v04 mathematical cases and scoring",
   "variable_sizes": [
     2,
     4,
@@ -25,7 +25,7 @@
     12
   ],
   "seed_rule": "Quartic cases 20261114000 + one-based index; retained cases preserve original seeds",
-  "payload_digest": "8dbdf0b244b8498bf50a623a458aae7e327096d24c18f2c55eae38699774db8c",
+  "payload_digest": "39790f3979cfcb5727023b7a722f17a6f5dd20c9bf1a7f9be2f7979bd809dbd7",
   "weights": [
     0.3,
     0.15,
@@ -41,7 +41,7 @@
   "model_requested": "FORMAL_PLATFORM_CANDIDATES",
   "goal_threshold": 0.7,
   "comparison": "less_than_or_equal",
-  "fresh_answer_status": "PENDING_V04_PLATFORM_EVALUATION",
+  "fresh_answer_status": "PENDING_V05_PLATFORM_REVIEW",
   "formal_platform_t1": false,
   "unchanged_grader_components": [
     "tests/algebra.py",
@@ -54,9 +54,9 @@
   ],
   "pushes": 0,
   "platform_operations": 0,
-  "version": "v04",
+  "version": "v05",
   "platform_question_id": 242247,
-  "packaging_repair_date": "2026-11-14",
+  "packaging_repair_date": "2026-11-15",
   "public_id": "EB032-MATH-K",
   "configuration_repair": "2026-11-12 task namespace schema",
   "original_frozen_payload_digest": "f9a6ae7f3f306b2e18cf431fcfb39251536cae5cf562184a83efc76af4debc3d",
@@ -68,5 +68,11 @@
   "mathematical_revision": "COUPLED_PARITY_FACE_SOS",
   "previous_formal_candidate1_reward": 0.75,
   "previous_formal_candidate2_status": "SKIPPED_AFTER_CANDIDATE1_HIGH_SCORE",
-  "historical_public_zip_sha256": "86d47df8f29d31f22b66eabf5f107205ac15c4a32c215ab7e012a07ff9b07d57"
+  "historical_public_zip_sha256": "86d47df8f29d31f22b66eabf5f107205ac15c4a32c215ab7e012a07ff9b07d57",
+  "previous_release_commit": "44b02e8103bca7fc29ca6fbea9a4f0f901017707",
+  "reviewer_reported_v04_rewards": [
+    0.8119,
+    0.8333
+  ],
+  "oracle_required_clean_runs": 2
 }

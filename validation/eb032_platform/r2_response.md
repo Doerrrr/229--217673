@@ -1,21 +1,21 @@
-# EB032-MATH-K v04 revision
+# EB032-MATH-K v05 reference stabilization
 
-Registered task is mathematics/eb032-math-k-exact-certificate, question 242247. The supplied v03 platform receipt records R1 95, Oracle 1.000, NOP approximately 0.009 and candidate 1 normal completion at 0.750. Candidate 2 was skipped. The formal difficulty gate failed. The artifact index contains source-object references, but no candidate source or group-result contents, so no specific group failure is inferred from the total.
+Question 242247 uses mathematics/eb032-math-k-exact-certificate. The reviewer independently reran v04 in two clean environments and reported rewards 0.8119 and 0.8333, with eb014, eb015, eb017 and eb018 returning INCUMBENT. These are reviewer-reported results. The earlier local v04 1.000 receipt remains historical and does not establish cross-hardware stability.
 
-## Mathematical revision
+## Diagnosis
 
-Six quartic instances now use densely coupled rational SOS factors on several Boolean parity constraints. Their common-zero sets have nonlinear parity structure. Six quadratic anchors and six existing singular instances remain in the 18-instance suite. The new quartic cases use three or four coupled factor directions, rationally separated scales and reordered bases. The fixed author generator constructs exact PSD witnesses and attained lower bounds before candidate evaluation. Every reference result is independently checked with exact fractions.
+All six singular fixtures have one exact global minimizer, so the list of other equal minimizers is naturally empty. The v04 reference limited the first certificate attempt to 30 seconds and conditioned the next attempt on a nonempty tie list. A numerical or exact-recovery failure therefore ended the search even when substantial query time remained. The outer exception handler discarded recovery errors. A one-second author counterexample reproduced INCUMBENT on the four reported fixtures with zero ties. Existing numerical-library warnings do not identify the failed recovery stage.
 
-The general reference evaluates bounded Boolean cubes with an exact integer Walsh-Hadamard transform. Larger inputs retain general CP-SAT/local search paths. Gram recovery uses the public polynomial and basis with numerical discovery, exact rational affine equations and integer-lattice relations. Only exact polynomial identities and rational PSD matrices produce CERTIFIED. Runtime reads no author cases, factors, expected answers or generation metadata.
+## Stabilization
 
-Additional singular prototypes exposed unresolved general-reference certificate recovery. Those prototypes remain outside the release. The selected six quartic changes preserve the twelve existing anchor and singular cases. Selection occurred during author feasibility work before any new answer-model run.
+The reference now uses one absolute query deadline, reserves output time, and shares the available time across independent CLARABEL and SCS certificate attempts. The first attempt receives 65 percent of the remaining time, without the fixed 30-second ceiling. A failed attempt always permits the second attempt while time remains, including an empty or unsuccessful tie search. Solver time limits leave budget for exact rational recovery. Numerical rank estimates are refined first; every incompatible low-rank refinement has a bounded subdeadline. A subdeadline exhaustion permits another rank while the shared deadline remains.
 
-## Contract and coverage
+Every accepted matrix still passes the exact Boolean polynomial identity, rational PSD and rational-output length checks. INCUMBENT emits structured stderr diagnostics containing query ID, method, attempt, budget, elapsed and remaining time, and exception or recovery-failure reason. Individual failed attempts are also diagnosed when a later attempt succeeds.
 
-The public contract explicitly requires nonzero exit, empty stdout and a nonempty stderr diagnostic for output-write failures. Ten adjacent-boundary failures cover the variable range, ID range, query count, basis count, coefficient length, negative coefficient bound, term degree and term count. Other fields remain valid in each isolated boundary fixture. Production scoring has 82 assertions and 63 CLI calls. The five weights are 0.30, 0.15, 0.20, 0.25 and 0.10.
+## Verification
 
-Agent budget is 14400 seconds. Each CLI call retains 300 seconds and the verifier retains 18000 seconds. Actual production controls must complete normally with Oracle exactly 1.000 and NOP at most 0.100. Verifier infrastructure errors retain null reward.
+Release requires two fresh isolated runs of the production tests/test.sh with 2-vCPU and 2048-MiB limits, normal exit, Oracle 1.000 and 82/82 checks in each run. Both runs retain the six actual singular JSONL outputs and independent exact-check results. The host CPU, image digest, dependency versions and source digest accompany the receipts. The reviewer host CPU is unknown.
 
-## Evidence and evaluation
+Non-scoring CLI controls run every singular fixture at its normal budget, at a deliberately shortened one-second budget with natural zero ties, and with an explicitly identified first-attempt timeout injection plus forced empty ties. The short-budget controls must retain INCUMBENT counterexamples for eb014, eb015, eb017 and eb018 with useful diagnostics. The injected controls require all six second attempts to return CERTIFIED. Fault injection is separate from genuine elapsed-budget counterexamples.
 
-Author controls include a general reference, point-only output, direct numerical rounding without lattice recovery, and an empty scaffold. These describe executable mathematical capabilities and cannot establish candidate-model difficulty. Local validation is recorded in local_validation.json and evidence/current, with payload, case and image hashes. No automatic answer-model calls or platform detections are made. Formal v04 T1 and R1/R2 require fresh platform receipts.
+The 18 mathematical case objects, scoring responsibilities, five weights, 300-second CLI limit, 14400-second agent limit and 18000-second verifier limit are preserved from v04. common.py only changes the result version tag to v05. Formal candidate-model T1 and R1/R2 require new platform receipts.

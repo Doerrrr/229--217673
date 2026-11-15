@@ -1,7 +1,9 @@
 """Search numerically; accept a certificate only after exact algebraic checks."""
 from fractions import Fraction
+import json
 import math
 import random
+import sys
 import time
 import warnings
 
@@ -213,8 +215,10 @@ def exact_identity(basis, poly, assignment, gram):
             actual[mask] = actual.get(mask, Fraction(0)) + (1 if i == j else 2)*gram[i][j]
     return all(actual.get(mask, 0) == target.get(mask, 0) for mask in set(actual) | set(target))
 
-def certificate(basis, poly, assignment, seconds, equal_assignments=()):
+def certificate(basis, poly, assignment, seconds, equal_assignments=(), method='CLARABEL'):
     deadline = time.monotonic() + seconds
+    if seconds <= 0:
+        raise TimeoutError('certificate budget exhausted before setup')
     data = equations(basis, poly, assignment, equal_assignments)
     if data is None: return None
     rows, columns, target, signs = data
@@ -222,6 +226,8 @@ def certificate(basis, poly, assignment, seconds, equal_assignments=()):
     import numpy as np
     import scipy.sparse as sp
     import cvxpy as cp
+    if time.monotonic() >= deadline:
+        raise TimeoutError('certificate budget exhausted during imports')
     masks = list(rows)
     triples = [(r, col, float(weight)) for r, mask in enumerate(masks)
                for col, weight in rows[mask].items()]
@@ -239,12 +245,15 @@ def certificate(basis, poly, assignment, seconds, equal_assignments=()):
                          [A@vector == rhs, H-floor*np.eye(d) >> 0])
     with warnings.catch_warnings():
         warnings.filterwarnings('ignore', message='Constraint #0 contains too many subexpressions')
-        try:
-            problem.solve(solver='CLARABEL', max_iter=150, tol_gap_abs=1e-10,
-                          tol_feas=1e-10, verbose=False)
-        except Exception:
-            try: problem.solve(solver='SCS', eps=1e-8, max_iters=30000, verbose=False)
-            except Exception: return None
+        numerical_seconds = (deadline - time.monotonic()) * 0.3
+        if numerical_seconds <= 0:
+            raise TimeoutError('certificate budget exhausted during model construction')
+        if method == 'CLARABEL':
+            problem.solve(solver=method, max_iter=150, tol_gap_abs=1e-10,
+                          tol_feas=1e-10, time_limit=numerical_seconds, verbose=False)
+        else:
+            problem.solve(solver=method, eps=1e-8, max_iters=30000,
+                          time_limit_secs=numerical_seconds, verbose=False)
     if H.value is None: return None
     numerical = np.asarray(H.value)*scale
     for digits in (5, 7, 9, 11, 13):
@@ -375,6 +384,7 @@ def solve(query, budget):
             return {'id': qid, 'state': 'UNSOLVED', 'assignment': None,
                     'value': None, 'gram': None}
     start = time.monotonic()
+    deadline = start + max(0.0, budget) - min(2.0, max(0.0, budget) * 0.05)
     try: assignment = optimize(n, poly, min(100.0, budget*0.4))
     except Exception: assignment = local_assignment(n, poly, min(5.0, budget*0.1))
     value = value_at(poly, assignment)
@@ -384,16 +394,41 @@ def solve(query, budget):
                 'value': None, 'gram': None}
     result = {'id': qid, 'state': 'INCUMBENT', 'assignment': assignment,
               'value': value_string, 'gram': None}
-    try:
-        gram = certificate(basis, poly, assignment, min(30.0,max(1.0,budget-(time.monotonic()-start))))
-        if gram is None and budget-(time.monotonic()-start) > 10:
-            ties = equal_minima(n, poly, assignment, min(10.0,budget*0.1))
-            if ties:
-                gram = certificate(basis, poly, assignment,
-                                   max(1.0,budget-(time.monotonic()-start)),ties)
-        if gram is not None:
-            result['state'] = 'CERTIFIED'
-            result['gram'] = [[string_of(item) for item in row] for row in gram]
-    except Exception:
-        pass
+    attempts = []
+    ties = []
+    for attempt, method in enumerate(('CLARABEL', 'SCS'), 1):
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            break
+        if attempt == 2 and remaining > 1:
+            try:
+                ties = equal_minima(n, poly, assignment, min(5.0, remaining * 0.1))
+            except Exception as error:
+                attempts.append(dict(phase='equal_minima', reason=type(error).__name__,
+                                     message=str(error)[:300]))
+            remaining = deadline - time.monotonic()
+        seconds = remaining * 0.65 if attempt == 1 else remaining
+        if seconds <= 0:
+            break
+        began = time.monotonic()
+        detail = dict(attempt=attempt, method=method, budget_sec=seconds, ties=len(ties))
+        try:
+            gram = certificate(basis, poly, assignment, seconds, ties, method=method)
+            if gram is not None:
+                result['gram'] = [[string_of(item) for item in row] for row in gram]
+                result['state'] = 'CERTIFIED'
+                return result
+            detail['reason'] = 'exact_certificate_not_recovered'
+        except Exception as error:
+            detail.update(reason=type(error).__name__, message=str(error)[:300])
+        detail['elapsed_sec'] = time.monotonic() - began
+        attempts.append(detail)
+        print(json.dumps(dict(event='certificate_attempt_failed', id=qid, **detail,
+                              remaining_sec=max(0.0, deadline-time.monotonic())),
+                         separators=(',', ':')), file=sys.stderr, flush=True)
+    diagnostic = dict(event='certificate_incomplete', id=qid, state=result['state'],
+                      reason='budget_exhausted' if time.monotonic() >= deadline else 'recovery_failed',
+                      budget_sec=budget, elapsed_sec=time.monotonic()-start,
+                      remaining_sec=max(0.0, deadline-time.monotonic()), attempts=attempts)
+    print(json.dumps(diagnostic, separators=(',', ':')), file=sys.stderr, flush=True)
     return result

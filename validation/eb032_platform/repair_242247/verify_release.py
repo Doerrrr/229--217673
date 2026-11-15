@@ -51,16 +51,29 @@ def main():
         print('\n'.join(errors[:30]))
         return 1
     current = root / 'validation/eb032_platform/evidence/current'
-    for profile in ('general-reference', 'nop'):
+    for profile in ('general-reference', 'general-reference-repeat', 'nop'):
         result = json.loads((current / profile / 'eb032_math_k/result.json').read_bytes())
         reward = result.get('reward')
         valid_reward = isinstance(reward, (int, float))
         if result['execution_status'] != 'NORMAL' or not valid_reward:
             raise ValueError('abnormal control: ' + profile)
-        if profile == 'general-reference' and reward != 1.0:
+        if profile.startswith('general-reference') and reward != 1.0:
             raise ValueError('Oracle must score exactly 1.0')
         if profile == 'nop' and reward > 0.1:
             raise ValueError('NOP exceeds 0.1')
+    sys.path.insert(0, str(root / 'tests'))
+    from algebra import check
+    cases = json.loads((root / 'tests/cases032.json').read_bytes())
+    singular = [case for case in cases if case['group'] == 'singular_proof']
+    if len(singular) != 6:
+        raise ValueError('six singular fixtures required')
+    for profile in ('general-reference', 'general-reference-repeat'):
+        for case in singular:
+            path = current / profile / 'singular-answers' / (case['query']['id'] + '.jsonl')
+            answer = json.loads(path.read_bytes())
+            point, proof, _ = check(case['query'], answer, case['optimum'])
+            if answer['state'] != 'CERTIFIED' or not point or not proof:
+                raise ValueError('singular certificate failed: ' + profile + ' ' + case['query']['id'])
     subprocess.run([sys.executable, '-B', str(root / 'validation/eb032_platform/preflight.py')], check=True)
     print(json.dumps(dict(status='RELEASE_CHECK_PASS', task=manifest['task'],
                           version=manifest['version'], files_checked=checked)))
